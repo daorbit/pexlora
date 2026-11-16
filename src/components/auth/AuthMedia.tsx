@@ -1,11 +1,11 @@
 import Image from "next/image";
 import { authMedia } from "@/content/auth";
 import { Logo } from "@/components/layout/Logo";
-import { AuthMetadataChips } from "@/components/auth/AuthMetadataChips";
+import { AuthMetadataCard } from "@/components/auth/AuthMetadataCard";
 
 export function AuthMedia() {
   return (
-    <section className="theme-dark relative isolate hidden min-h-[640px] overflow-hidden rounded-3xl bg-brand-surface text-foreground lg:block">
+    <section className="theme-dark relative isolate hidden min-h-[640px] flex-col justify-between overflow-hidden rounded-3xl bg-brand-surface p-8 text-foreground lg:flex xl:p-10">
       <Image
         src={authMedia.src}
         alt={authMedia.alt}
@@ -14,15 +14,13 @@ export function AuthMedia() {
         sizes="45vw"
         className="-z-10 object-cover"
       />
-      <div className="absolute inset-x-8 top-7 flex items-center justify-between">
-        <Logo size="lg" />
-        <span className="text-xs text-white/70">{authMedia.caption}</span>
-      </div>
-      <div className="absolute inset-x-8 bottom-8 flex flex-wrap items-end justify-between gap-6">
-        <h2 className="max-w-[11ch] text-[44px] font-semibold leading-[1.02] tracking-[-0.035em] text-white xl:text-[52px]">
+      <div aria-hidden className="absolute inset-x-0 bottom-0 -z-10 h-2/3 bg-black/35" />
+      <Logo size="lg" />
+      <div className="flex flex-col gap-6">
+        <h2 className="max-w-[14ch] text-[36px] leading-[1.05] font-semibold tracking-[-0.035em] text-white motion-safe:animate-fade-up xl:text-[46px]">
           {authMedia.headline} <span className="text-primary">{authMedia.highlight}</span>
         </h2>
-        <AuthMetadataChips />
+        <AuthMetadataCard />
       </div>
     </section>
   );
