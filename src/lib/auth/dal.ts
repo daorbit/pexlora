@@ -3,7 +3,7 @@ import { cache } from "react";
 import { redirect } from "next/navigation";
 import { routes } from "@/config/site";
 import { getSession } from "@/lib/auth/session";
-import { findUserById } from "@/services/user.service";
+import { findUserByIdWithPassword } from "@/services/user.service";
 
 export type CurrentUser = {
   id: string;
@@ -11,6 +11,7 @@ export type CurrentUser = {
   email: string;
   avatarUrl?: string;
   hasGoogle: boolean;
+  hasPassword: boolean;
   memberSince: string;
 };
 
@@ -18,7 +19,7 @@ export const getCurrentUser = cache(async (): Promise<CurrentUser | null> => {
   const session = await getSession();
   if (!session) return null;
 
-  const user = await findUserById(session.userId);
+  const user = await findUserByIdWithPassword(session.userId);
   if (!user) return null;
 
   return {
@@ -27,6 +28,7 @@ export const getCurrentUser = cache(async (): Promise<CurrentUser | null> => {
     email: user.email,
     avatarUrl: user.avatarUrl ?? undefined,
     hasGoogle: Boolean(user.googleId),
+    hasPassword: Boolean(user.passwordHash),
     memberSince: new Date(user.createdAt).toISOString(),
   };
 });

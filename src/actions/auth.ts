@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { after } from "next/server";
 import { z } from "zod";
 import { routes } from "@/config/site";
+import { accountCopy } from "@/content/account";
 import { hashPassword, verifyPassword } from "@/lib/auth/password";
 import { createSession, deleteSession } from "@/lib/auth/session";
 import {
@@ -18,8 +19,7 @@ import {
 } from "@/services/user.service";
 import { sendWelcomeEmail } from "@/services/mail.service";
 
-const UNAVAILABLE_MESSAGE =
-  "We couldn't reach the database. Please try again in a moment.";
+const UNAVAILABLE_MESSAGE = accountCopy.unavailable;
 
 function readForm(formData: FormData) {
   return {

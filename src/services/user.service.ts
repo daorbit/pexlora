@@ -3,10 +3,20 @@ import { isValidObjectId } from "mongoose";
 import { connectToDatabase } from "@/lib/db/mongoose";
 import { User } from "@/models/User";
 
-export async function findUserById(id: string) {
+export async function findUserByIdWithPassword(id: string) {
   if (!isValidObjectId(id)) return null;
   await connectToDatabase();
-  return User.findById(id).lean();
+  return User.findById(id).select("+passwordHash").lean();
+}
+
+export async function updateUserName(id: string, name: string) {
+  await connectToDatabase();
+  await User.updateOne({ _id: id }, { $set: { name } });
+}
+
+export async function updateUserPassword(id: string, passwordHash: string) {
+  await connectToDatabase();
+  await User.updateOne({ _id: id }, { $set: { passwordHash } });
 }
 
 export async function findUserByEmailWithPassword(email: string) {
@@ -36,6 +46,20 @@ export type GoogleProfile = {
   name: string;
   avatarUrl?: string;
 };
+
+export async function linkGoogleAccount(userId: string, profile: GoogleProfile) {
+  await connectToDatabase();
+  const owner = await User.findOne({ googleId: profile.googleId }).select("_id").lean();
+  if (owner && owner._id.toString() !== userId) return false;
+
+  const user = await User.findById(userId);
+  if (!user) return false;
+
+  user.googleId = profile.googleId;
+  if (!user.avatarUrl && profile.avatarUrl) user.avatarUrl = profile.avatarUrl;
+  await user.save();
+  return true;
+}
 
 export async function findOrCreateGoogleUser(profile: GoogleProfile) {
   await connectToDatabase();

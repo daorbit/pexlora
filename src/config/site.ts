@@ -27,6 +27,7 @@ export const routes = {
   faq: "/#faq",
   contact: "/contact",
   googleAuth: "/api/auth/google",
+  googleLink: "/api/auth/google?link=1",
   googleCallback: "/api/auth/google/callback",
   googleOneTap: "/api/auth/google/one-tap",
   usageApi: "/api/usage",

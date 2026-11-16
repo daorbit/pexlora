@@ -1,12 +1,21 @@
 import { cookies } from "next/headers";
 import { NextResponse, type NextRequest } from "next/server";
 import { routes } from "@/config/site";
+import type { GoogleLinkResult } from "@/content/account";
 import { getGoogleProfile, OAUTH_COOKIE, type OAuthState } from "@/lib/auth/google";
-import { signInWithGoogle } from "@/lib/auth/google-sign-in";
+import { linkGoogleToCurrentUser, signInWithGoogle } from "@/lib/auth/google-sign-in";
 import { env } from "@/lib/env";
 
 function redirectTo(path: string) {
   return NextResponse.redirect(`${env.appUrl}${path}`);
+}
+
+function failureRedirect(link: boolean) {
+  return redirectTo(link ? linkRedirectPath("error") : `${routes.signIn}?error=google`);
+}
+
+function linkRedirectPath(result: GoogleLinkResult) {
+  return `${routes.dashboardSettings}?google=${result}`;
 }
 
 function readOAuthState(raw: string | undefined): OAuthState | null {
@@ -24,12 +33,13 @@ export async function GET(request: NextRequest) {
   const saved = readOAuthState(cookieStore.get(OAUTH_COOKIE)?.value);
   cookieStore.delete(OAUTH_COOKIE);
 
+  const link = Boolean(saved?.link);
   const code = searchParams.get("code");
   const state = searchParams.get("state");
 
   const googleError = searchParams.get("error");
   if (googleError === "access_denied") {
-    return redirectTo(routes.signIn);
+    return redirectTo(link ? routes.dashboardSettings : routes.signIn);
   }
 
   if (googleError || !code || !state || !saved || saved.state !== state) {
@@ -41,14 +51,16 @@ export async function GET(request: NextRequest) {
       stateMatches: saved?.state === state,
       host: request.nextUrl.host,
     });
-    return redirectTo(`${routes.signIn}?error=google`);
+    return failureRedirect(link);
   }
 
   try {
-    await signInWithGoogle(await getGoogleProfile(code, saved.verifier));
+    const profile = await getGoogleProfile(code, saved.verifier);
+    if (link) return redirectTo(linkRedirectPath(await linkGoogleToCurrentUser(profile)));
+    await signInWithGoogle(profile);
   } catch (error) {
     console.error("Google sign-in failed", error);
-    return redirectTo(`${routes.signIn}?error=google`);
+    return failureRedirect(link);
   }
 
   return redirectTo(routes.dashboard);
