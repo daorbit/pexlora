@@ -4,6 +4,7 @@ import { Check, LoaderCircle } from "lucide-react";
 import { queueCopy } from "@/content/workspace";
 import { cn } from "@/lib/utils/cn";
 import { Button } from "@/components/ui/Button";
+import { useDownloadGate } from "@/components/workspace/DownloadGate";
 
 type ActionBarProps = {
   label: string;
@@ -34,6 +35,7 @@ export function ActionBar({
   onDownloadAll,
   className,
 }: ActionBarProps) {
+  const guardDownload = useDownloadGate();
   return (
     <div className={cn("flex flex-col gap-2.5", className)}>
       <Button
@@ -49,7 +51,7 @@ export function ActionBar({
         {readyCount > 1 && ` (${readyCount})`}
       </Button>
       {doneCount > 1 && (
-        <Button variant="secondary" size="xl" onClick={onDownloadAll} className="h-13 w-full rounded-2xl">
+        <Button variant="secondary" size="xl" onClick={() => guardDownload(onDownloadAll, doneCount)} className="h-13 w-full rounded-2xl">
           {downloadAllLabel}
         </Button>
       )}

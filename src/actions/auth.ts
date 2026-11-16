@@ -92,5 +92,4 @@ export async function signIn(_state: AuthFormState, formData: FormData): Promise
 export async function signOut() {
   await deleteSession();
   await setFlash("signed-out");
-  redirect(routes.home);
 }

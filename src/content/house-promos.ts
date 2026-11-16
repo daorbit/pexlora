@@ -7,6 +7,12 @@ export const housePromoCopy = {
     body: "Quantalog runs a free SEO audit on your pages: speed, images, meta tags and search visibility, with fixes you can act on.",
     cta: "Run a Free SEO Audit",
   },
+  download: {
+    eyebrow: "From DA Orbit",
+    title: "Quantalog",
+    body: "Cookieless analytics and SEO audits for your website.",
+    cta: "Try Free",
+  },
   footer: {
     eyebrow: "More from DA Orbit",
     title: "Quantalog",

@@ -1,4 +1,4 @@
-import { idbDelete, idbGet, idbSet } from "@/lib/storage/idb";
+import { idbClear, idbDelete, idbGet, idbSet } from "@/lib/storage/idb";
 
 const MAX_AGE_MS = 24 * 60 * 60 * 1000;
 
@@ -20,4 +20,8 @@ export function saveSession<T>(key: string, value: T) {
 
 export function clearSession(key: string) {
   return idbDelete(key);
+}
+
+export function clearAllSessions() {
+  return idbClear();
 }

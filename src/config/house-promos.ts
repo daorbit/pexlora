@@ -1,7 +1,7 @@
 import type { WorkspaceToolSlug } from "@/config/tools";
 import { housePromoCopy } from "@/content/house-promos";
 
-export type PromoPlacement = "results" | "footer";
+export type PromoPlacement = "results" | "download" | "footer";
 
 export type HousePromo = {
   id: string;
@@ -22,6 +22,7 @@ const quantalog = {
 
 export const housePromos: Record<PromoPlacement, HousePromo> = {
   results: { id: "quantalog-seo", ...quantalog, ...housePromoCopy.results },
+  download: { id: "quantalog-workspace", ...quantalog, ...housePromoCopy.download },
   footer: { id: "quantalog-workspace", ...quantalog, ...housePromoCopy.footer },
 };
 

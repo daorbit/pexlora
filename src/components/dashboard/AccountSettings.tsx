@@ -1,15 +1,13 @@
-import { LogOut } from "lucide-react";
-import { signOut } from "@/actions/auth";
 import { accountCopy } from "@/content/account";
 import { requireUser } from "@/lib/auth/dal";
 import { Badge } from "@/components/ui/Badge";
-import { Button } from "@/components/ui/Button";
 import { UserAvatar } from "@/components/ui/UserAvatar";
 import { ThemeSwitcher } from "@/components/theme/ThemeSwitcher";
 import { GoogleLinkNotice } from "@/components/dashboard/account/GoogleLinkNotice";
 import { GoogleSettings } from "@/components/dashboard/account/GoogleSettings";
 import { PasswordSettings } from "@/components/dashboard/account/PasswordSettings";
 import { ProfileForm } from "@/components/dashboard/account/ProfileForm";
+import { SignOutButton } from "@/components/dashboard/account/SignOutButton";
 import { SettingsPanel } from "@/components/dashboard/SettingsPanel";
 import { SettingsRow } from "@/components/dashboard/SettingsRow";
 
@@ -61,12 +59,7 @@ export async function AccountSettings() {
 
       <SettingsPanel title="Session">
         <SettingsRow label="Sign out" description="End your session on this device.">
-          <form action={signOut}>
-            <Button type="submit" variant="secondary" size="sm">
-              <LogOut className="size-3.5" aria-hidden />
-              Sign Out
-            </Button>
-          </form>
+          <SignOutButton />
         </SettingsRow>
       </SettingsPanel>
     </div>

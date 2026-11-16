@@ -1,6 +1,6 @@
 import { jwtVerify, SignJWT } from "jose";
 
-export const SESSION_COOKIE = "pexlora_session";
+export { SESSION_COOKIE, SIGNED_IN_COOKIE } from "@/lib/auth/cookie-names";
 export const SESSION_TTL_SECONDS = 60 * 60 * 24 * 7;
 
 export type SessionPayload = {

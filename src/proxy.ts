@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { authRoutes, protectedRoutes, routes } from "@/config/site";
-import { SESSION_COOKIE, verifySessionToken } from "@/lib/auth/token";
+import { SESSION_COOKIE, SIGNED_IN_COOKIE, verifySessionToken } from "@/lib/auth/token";
 import { NEXT_PARAM, safeNextPath, withNextParam } from "@/lib/url/next-path";
 
 function matches(pathname: string, list: readonly string[]) {
@@ -23,7 +23,18 @@ export async function proxy(request: NextRequest) {
     return NextResponse.redirect(new URL(next, request.url));
   }
 
-  return NextResponse.next();
+  const response = NextResponse.next();
+  if (session && !request.cookies.has(SIGNED_IN_COOKIE)) {
+    response.cookies.set(SIGNED_IN_COOKIE, "1", {
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      path: "/",
+      expires: new Date(session.expiresAt),
+    });
+  } else if (!session && request.cookies.has(SIGNED_IN_COOKIE)) {
+    response.cookies.delete(SIGNED_IN_COOKIE);
+  }
+  return response;
 }
 
 export const config = {

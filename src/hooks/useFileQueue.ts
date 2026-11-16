@@ -103,8 +103,8 @@ export function useFileQueue({ inspectOnAdd, accepts, localCapable }: QueueOptio
   );
 
   const addFiles = useCallback(
-    (files: File[]) => {
-      const slots = MAX_FILES_PER_BATCH - itemsRef.current.length;
+    (files: File[], { replace = false }: { replace?: boolean } = {}) => {
+      const slots = MAX_FILES_PER_BATCH - (replace ? 0 : itemsRef.current.length);
       const problems: string[] = [];
       const accepted: QueueItem[] = [];
 
@@ -126,7 +126,11 @@ export function useFileQueue({ inspectOnAdd, accepts, localCapable }: QueueOptio
 
       setNotice(problems.length ? { message: problems[0], upsell: false } : null);
       if (!accepted.length) return;
-      setItems((current) => [...current, ...accepted]);
+      setItems((current) => {
+        if (!replace) return [...current, ...accepted];
+        current.forEach(revoke);
+        return accepted;
+      });
       if (inspectOnAdd) accepted.forEach(inspect);
     },
     [accepts, inspect, inspectOnAdd, localCapable],

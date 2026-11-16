@@ -1,6 +1,7 @@
 export const accountCopy = {
   unavailable: "We couldn't reach the database. Please try again in a moment.",
   signedOut: "Your session has ended. Sign in again.",
+  signOut: "Sign Out",
   profile: {
     title: "Profile",
     description: "Your account details.",

@@ -8,10 +8,11 @@ import { withNextParam } from "@/lib/url/next-path";
 import { ButtonContent, buttonClasses, type ButtonStyleProps } from "@/components/ui/Button";
 import { GoogleIcon } from "@/components/auth/GoogleIcon";
 
-type GoogleButtonProps = ButtonStyleProps & { label: ReactNode; className?: string };
+type GoogleButtonProps = ButtonStyleProps & { label: ReactNode; className?: string; next?: string };
 
-export function GoogleButton({ label, className, variant = "secondary", size = "xl", arrow }: GoogleButtonProps) {
-  const next = useNextPath();
+export function GoogleButton({ label, className, variant = "secondary", size = "xl", arrow, next: nextOverride }: GoogleButtonProps) {
+  const nextFromUrl = useNextPath();
+  const next = nextOverride ?? nextFromUrl;
 
   return (
     <a

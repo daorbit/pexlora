@@ -41,3 +41,7 @@ export async function idbSet(key: string, value: unknown) {
 export async function idbDelete(key: string) {
   await withStore("readwrite", (store) => store.delete(key));
 }
+
+export async function idbClear() {
+  await withStore("readwrite", (store) => store.clear());
+}

@@ -1,3 +1,5 @@
+import { AI_NAME } from "@/config/brand";
+import { AI_DAILY_LIMITS, DAILY_LIMITS } from "@/config/limits";
 import type { FileKind } from "@/config/file-formats";
 import type { WorkspaceToolSlug } from "@/config/tools";
 import type { OutputFormat } from "@/lib/image/formats";
@@ -13,6 +15,22 @@ export const dropzoneCopy = {
   button: (kinds: FileKind[]) => (onlyImages(kinds) ? "Choose Images" : "Choose Files"),
   onDevice: "JPG, PNG, WebP and HEIC photos, documents, audio and video are read and cleaned on your device. They aren't uploaded.",
   samples: "No file handy? Try a sample:",
+};
+
+export const signupPromptCopy = {
+  ready: (count: number) => (count > 1 ? `Your ${count} files are ready` : "Your file is ready"),
+  highlight: `${DAILY_LIMITS.user} files a day`,
+  title: "with a free account",
+  body: "One click with Google. Your files stay right here.",
+  perks: [
+    `Up from ${DAILY_LIMITS.anonymous} without an account`,
+    `${AI_DAILY_LIMITS.user} ${AI_NAME} requests a day`,
+    "Free, no card needed",
+  ],
+  google: "Google",
+  email: "Email",
+  skip: "Skip and Download",
+  close: "Close",
 };
 
 export const saveCopy = {

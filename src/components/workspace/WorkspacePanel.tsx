@@ -22,6 +22,7 @@ import { toast } from "@/lib/toast/store";
 import { UpsellAlert } from "@/components/ui/UpsellAlert";
 import { ActionBar } from "@/components/workspace/ActionBar";
 import { ConversionSummary } from "@/components/workspace/ConversionSummary";
+import { DownloadGateProvider } from "@/components/workspace/DownloadGate";
 import { Dropzone } from "@/components/workspace/Dropzone";
 import { FileRow } from "@/components/workspace/FileRow";
 import { FilesCard } from "@/components/workspace/FilesCard";
@@ -41,17 +42,31 @@ export type WorkspacePanelProps = {
   panelFooter?: ReactNode;
 };
 
-export function WorkspacePanel({ tool, accepts: acceptsOverride, initialOptions, conversion, panelFooter }: WorkspacePanelProps) {
+export function WorkspacePanel({
+  tool,
+  accepts: acceptsOverride,
+  initialOptions,
+  conversion,
+  panelFooter,
+}: WorkspacePanelProps) {
   const behavior = toolBehaviors[tool];
   const action = behavior.action;
   const accepts = acceptsOverride ?? behavior.accepts;
   const { localCapable } = behavior;
-  const queue = useFileQueue({ inspectOnAdd: behavior.inspectOnAdd, accepts, localCapable });
+  const queue = useFileQueue({
+    inspectOnAdd: behavior.inspectOnAdd,
+    accepts,
+    localCapable,
+  });
   const { addFiles, resetResults, process } = queue;
   const [options, setOptions, patchOptions] = useToolOptions(tool, initialOptions);
   const optionsError = action?.validate?.(options) ?? null;
   const restoreMetadata = useCallback((metadata: MetadataFields) => patchOptions({ metadata }), [patchOptions]);
-  useWorkspaceSession(tool, queue, { metadata: options.metadata, restoreMetadata, scope: conversion?.slug });
+  useWorkspaceSession(tool, queue, {
+    metadata: options.metadata,
+    restoreMetadata,
+    scope: conversion?.slug,
+  });
 
   const accept = useMemo(() => acceptAttribute(accepts, localCapable), [accepts, localCapable]);
   const picker = useFilePicker(addFiles, accept);
@@ -109,75 +124,77 @@ export function WorkspacePanel({ tool, accepts: acceptsOverride, initialOptions,
     );
 
   return (
-    <div {...dropProps} className={cn("grid items-start gap-4", hasPanel && "lg:grid-cols-[minmax(0,1fr)_340px]")}>
-      <input {...picker.inputProps} />
+    <DownloadGateProvider>
+      <div {...dropProps} className={cn("grid items-start gap-4", hasPanel && "lg:grid-cols-[minmax(0,1fr)_340px]")}>
+        <input {...picker.inputProps} />
 
-      <div className="flex min-w-0 flex-col gap-3">
-        <UpsellAlert message={queue.notice?.message ?? null} upsell={Boolean(queue.notice?.upsell)} />
-        {hasItems ? (
-          <FilesCard
-            fileCount={queue.items.length}
-            totalBytes={totalBytes}
-            isDragging={isDragging}
-            canAddMore={queue.canAddMore}
-            disabled={queue.isProcessing}
-            onAdd={picker.open}
-            onClear={queue.reset}
-          >
-            {queue.items.map((item, index) => (
-              <FileRow
-                key={item.id}
-                item={item}
-                comparable={action?.compare}
-                compareOpen={index === 0}
-                onRemove={queue.remove}
-                disabled={queue.isProcessing}
-              />
-            ))}
-          </FilesCard>
-        ) : (
-          <div className="rounded-[22px] bg-surface p-2.5 shadow-card">
-            <Dropzone
-              accepts={accepts}
-              localCapable={localCapable}
+        <div className="flex min-w-0 flex-col gap-3">
+          <UpsellAlert message={queue.notice?.message ?? null} upsell={Boolean(queue.notice?.upsell)} />
+          {hasItems ? (
+            <FilesCard
+              fileCount={queue.items.length}
+              totalBytes={totalBytes}
               isDragging={isDragging}
-              onBrowse={picker.open}
-              onSample={addSample}
-            />
-          </div>
-        )}
-      </div>
-
-      {hasPanel && (
-        <SettingsPanel>
-          {conversion ? (
-            <ConversionSummary conversion={conversion} />
-          ) : (
-            <ToolOptionsBar
-              tool={tool}
-              options={options}
-              onChange={changeOptions}
+              canAddMore={queue.canAddMore}
               disabled={queue.isProcessing}
-              sourceFile={queue.items.find((item) => item.format.kind === "image")?.file}
-            />
+              onAdd={picker.open}
+              onClear={queue.reset}
+            >
+              {queue.items.map((item, index) => (
+                <FileRow
+                  key={item.id}
+                  item={item}
+                  comparable={action?.compare}
+                  compareOpen={index === 0}
+                  onRemove={queue.remove}
+                  disabled={queue.isProcessing}
+                />
+              ))}
+            </FilesCard>
+          ) : (
+            <div className="rounded-[22px] bg-surface p-2.5 shadow-card">
+              <Dropzone
+                accepts={accepts}
+                localCapable={localCapable}
+                isDragging={isDragging}
+                onBrowse={picker.open}
+                onSample={addSample}
+              />
+            </div>
           )}
-          {note && <PanelChecklist title={note.title} items={note.items} />}
-          {action && !queue.isProcessing && queue.doneItems.length > 0 && (
-            <ResultSummary items={queue.doneItems} doneLabel={action.doneLabel} />
-          )}
-          {actionBar(cn(hasItems && "max-lg:hidden"))}
-          {!queue.isProcessing && results.length > 0 && <NextSteps current={tool} results={results} />}
-          {!queue.isProcessing && results.length > 0 && resultsPromoTools.includes(tool) && (
-            <HousePromoCard promo={housePromos.results} placement="results" dismissible />
-          )}
-          {panelFooter}
-        </SettingsPanel>
-      )}
+        </div>
 
-      {hasItems &&
-        actionBar(
-          "sticky bottom-0 z-10 -mx-1 rounded-t-3xl bg-background/90 px-1 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur-md lg:hidden",
+        {hasPanel && (
+          <SettingsPanel>
+            {conversion ? (
+              <ConversionSummary conversion={conversion} />
+            ) : (
+              <ToolOptionsBar
+                tool={tool}
+                options={options}
+                onChange={changeOptions}
+                disabled={queue.isProcessing}
+                sourceFile={queue.items.find((item) => item.format.kind === "image")?.file}
+              />
+            )}
+            {note && <PanelChecklist title={note.title} items={note.items} />}
+            {action && !queue.isProcessing && queue.doneItems.length > 0 && (
+              <ResultSummary items={queue.doneItems} doneLabel={action.doneLabel} />
+            )}
+            {actionBar(cn(hasItems && "max-lg:hidden"))}
+            {!queue.isProcessing && results.length > 0 && <NextSteps current={tool} results={results} />}
+            {!queue.isProcessing && results.length > 0 && resultsPromoTools.includes(tool) && (
+              <HousePromoCard promo={housePromos.results} placement="results" dismissible />
+            )}
+            {panelFooter}
+          </SettingsPanel>
         )}
-    </div>
+
+        {hasItems &&
+          actionBar(
+            "sticky bottom-0 z-10 -mx-1 rounded-t-3xl bg-background/90 px-1 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur-md lg:hidden",
+          )}
+      </div>
+    </DownloadGateProvider>
   );
 }

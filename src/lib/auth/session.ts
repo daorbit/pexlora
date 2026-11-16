@@ -5,6 +5,7 @@ import { env } from "@/lib/env";
 import {
   SESSION_COOKIE,
   SESSION_TTL_SECONDS,
+  SIGNED_IN_COOKIE,
   signSessionToken,
   verifySessionToken,
 } from "@/lib/auth/token";
@@ -21,6 +22,7 @@ export async function createSession(userId: string, version = 0) {
     path: "/",
     expires: new Date(expiresAt),
   });
+  cookieStore.set(SIGNED_IN_COOKIE, "1", { secure: env.isProduction, sameSite: "lax", path: "/", expires: new Date(expiresAt) });
 }
 
 export async function getSession() {
@@ -35,4 +37,5 @@ export async function getSession() {
 export async function deleteSession() {
   const cookieStore = await cookies();
   cookieStore.delete(SESSION_COOKIE);
+  cookieStore.delete(SIGNED_IN_COOKIE);
 }
