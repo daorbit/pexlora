@@ -1,4 +1,4 @@
-import { BadgeCheck, Bot, Images, Palette } from "lucide-react";
+import { BadgeCheck, Bot, Brush, Images, LayoutTemplate, Palette, Tags } from "lucide-react";
 import { AiTagIcon } from "@/components/icons/AiTagIcon";
 import { extensions, faqs, removedList } from "@/content/seo-pages/shared";
 import type { SeoPage } from "@/content/seo-pages/types";
@@ -60,7 +60,8 @@ export const aiPages: SeoPage[] = [
     related: [
       "remove-midjourney-metadata",
       "remove-chatgpt-image-metadata",
-      "remove-stable-diffusion-metadata",
+      "remove-adobe-firefly-metadata",
+      "remove-ai-info-label-instagram",
       "remove-c2pa-content-credentials",
       "ai-metadata-checker",
     ],
@@ -297,6 +298,193 @@ export const aiPages: SeoPage[] = [
         answer: `Images (${extensions(["image"])}), PDF, and video (${extensions(["video"])}).`,
       },
     ],
-    related: ["remove-chatgpt-image-metadata", "ai-metadata-checker", "remove-video-metadata", "remove-pdf-metadata"],
+    related: ["remove-adobe-firefly-metadata", "remove-microsoft-designer-metadata", "remove-chatgpt-image-metadata", "ai-metadata-checker"],
+  },
+  {
+    slug: "remove-adobe-firefly-metadata",
+    category: "ai",
+    tool: "remove-metadata",
+    kinds: ["image"],
+    icon: Brush,
+    name: "Adobe Firefly Metadata Remover",
+    title: "Remove Adobe Firefly & Generative Fill Metadata Free",
+    headline: "Remove Adobe Firefly metadata.",
+    description:
+      "Strip the Content Credentials and XMP AI tags that Adobe Firefly and Photoshop Generative Fill add to images, before you post or send them.",
+    keywords: [
+      "remove adobe firefly metadata",
+      "firefly metadata remover",
+      "remove content credentials photoshop",
+      "generative fill made with ai",
+      "remove ai metadata photoshop",
+      "adobe firefly c2pa",
+      "remove firefly content credentials",
+    ],
+    intro: {
+      heading: "What Adobe writes into Firefly images",
+      paragraphs: [
+        "Adobe attaches Content Credentials, a signed C2PA manifest, to images made with Firefly and to Photoshop files edited with Generative Fill or Generative Expand. The manifest names the app and lists the AI actions used, and XMP fields such as DigitalSourceType mark the file as AI-generated or AI-edited.",
+        "That is why a real photo touched up with Generative Fill can show up as AI on social platforms. Drop the file below to see exactly what Adobe recorded, then download a clean copy with none of it.",
+        "If Content Credentials were also published to Adobe's cloud, that online copy isn't affected by cleaning the file.",
+      ],
+    },
+    list: removedList([
+      "C2PA Content Credentials manifest",
+      "Generative Fill and Expand action records",
+      "XMP CreatorTool naming Firefly or Photoshop",
+      "IPTC DigitalSourceType values for AI content",
+      "Editing history and document IDs",
+    ]),
+    faqs: [
+      {
+        question: "Why does my Photoshop edit show as made with AI?",
+        answer:
+          "Generative Fill and Generative Expand add Content Credentials that say AI was used. Platforms that read C2PA show an AI label from that data, even for small edits.",
+      },
+      {
+        question: "Does Firefly add metadata to every image?",
+        answer:
+          "Adobe adds Content Credentials to Firefly output and to Generative Fill edits. Drop a file above to see what yours contains.",
+      },
+      faqs.watermarks,
+    ],
+    related: ["remove-c2pa-content-credentials", "remove-ai-info-label-instagram", "ai-image-cleaner", "ai-metadata-checker"],
+  },
+  {
+    slug: "remove-grok-image-metadata",
+    category: "ai",
+    tool: "remove-metadata",
+    kinds: ["image"],
+    icon: Bot,
+    name: "Grok Image Metadata Remover",
+    title: "Remove Grok AI Image Metadata Free",
+    headline: "Remove Grok image metadata.",
+    description:
+      "Check images made with Grok for EXIF and XMP fields that name the generator, then download a clean copy without them.",
+    keywords: [
+      "remove grok image metadata",
+      "grok metadata remover",
+      "grok ai image exif",
+      "xai aurora image metadata",
+      "remove ai tag grok image",
+    ],
+    intro: {
+      heading: "What Grok images can carry",
+      paragraphs: [
+        "Images generated with Grok can include EXIF or XMP fields that identify the generator, along with creation dates and software names. What's written can change between versions, so the only reliable way to know is to look at the file.",
+        "Drop a Grok image below. The report shows every field it finds, AI-related ones in orange, and the cleaned copy keeps the picture but none of the metadata.",
+      ],
+    },
+    list: removedList([
+      "EXIF and XMP fields naming the generator",
+      "Software and creator tool tags",
+      "Creation and modification dates",
+      "IPTC fields describing AI generation",
+      "Any C2PA manifest, if present",
+    ]),
+    faqs: [
+      {
+        question: "Does Grok add metadata to images?",
+        answer: "Grok images can carry generator fields in EXIF or XMP. Drop a file above to see exactly what yours contains.",
+      },
+      faqs.watermarks,
+    ],
+    related: ["ai-image-cleaner", "remove-chatgpt-image-metadata", "remove-gemini-image-metadata", "ai-metadata-checker"],
+  },
+  {
+    slug: "remove-microsoft-designer-metadata",
+    category: "ai",
+    tool: "remove-metadata",
+    kinds: ["image"],
+    icon: LayoutTemplate,
+    name: "Microsoft Designer & Copilot Metadata Remover",
+    title: "Remove Copilot, Designer & Bing Image Creator Metadata",
+    headline: "Remove Microsoft AI image metadata.",
+    description:
+      "Strip the Content Credentials that Microsoft Copilot, Designer and Bing Image Creator attach to generated images.",
+    keywords: [
+      "remove copilot image metadata",
+      "microsoft designer metadata remover",
+      "bing image creator metadata",
+      "remove content credentials bing",
+      "copilot image c2pa",
+    ],
+    intro: {
+      heading: "Microsoft signs its AI images",
+      paragraphs: [
+        "Microsoft adds Content Credentials, a signed C2PA manifest, to images created with Bing Image Creator, Microsoft Designer and Copilot. The manifest records that the image was generated with AI and which service made it.",
+        "Drop an image below to see the manifest and any other tags, then download a clean copy at the same size and resolution.",
+      ],
+    },
+    list: removedList([
+      "C2PA Content Credentials manifest",
+      "Generator and service names",
+      "AI generation actions and signatures",
+      "XMP and IPTC fields describing AI content",
+      "Creation dates and software tags",
+    ]),
+    faqs: [
+      {
+        question: "Do Copilot and Designer images have Content Credentials?",
+        answer:
+          "Microsoft attaches Content Credentials to images from Bing Image Creator, Designer and Copilot. Drop a file above to see the manifest.",
+      },
+      faqs.watermarks,
+    ],
+    related: ["remove-c2pa-content-credentials", "remove-chatgpt-image-metadata", "ai-image-cleaner", "ai-metadata-checker"],
+  },
+  {
+    slug: "remove-ai-info-label-instagram",
+    category: "ai",
+    tool: "remove-metadata",
+    kinds: ["image", "video"],
+    icon: Tags,
+    name: "Instagram AI Info Label Guide",
+    title: "Instagram “AI Info” Label: Why It Appears & Metadata Fix",
+    headline: "Why Instagram says “AI info”.",
+    description:
+      "See which hidden fields make Instagram, Facebook and Threads add an AI info label, and remove them from photos that were only edited.",
+    keywords: [
+      "remove ai info instagram",
+      "instagram made with ai label",
+      "remove made with ai label",
+      "instagram ai info remove",
+      "facebook ai info label",
+      "why does instagram say ai info",
+      "remove ai label from photo",
+    ],
+    intro: {
+      heading: "What triggers the label",
+      paragraphs: [
+        "Meta reads industry metadata standards such as C2PA Content Credentials and the IPTC DigitalSourceType field when you upload. If a file says AI was used, Instagram, Facebook and Threads add an AI info label. That includes real photos where a single object was removed with Photoshop Generative Fill.",
+        "Drop your photo or video below to see whether it carries those fields. If the file was only edited, you can remove the metadata and upload the clean copy. Meta may also use other signals, so cleaning a file doesn't guarantee the label won't appear.",
+        "If a post really is AI-generated, label it. Meta asks people to disclose photorealistic AI content, and hiding it can break platform rules.",
+      ],
+    },
+    list: removedList([
+      "C2PA Content Credentials that say AI was used",
+      "IPTC DigitalSourceType: trainedAlgorithmicMedia",
+      "XMP CreatorTool naming an AI app",
+      "Generative Fill and Expand records",
+      "Software tags from AI editors",
+    ]),
+    faqs: [
+      {
+        question: "Why is my real photo labelled AI info?",
+        answer:
+          "Usually because an editing tool wrote AI metadata into the file, for example Photoshop Generative Fill. Instagram reads that data on upload and adds the label.",
+      },
+      {
+        question: "Will removing metadata remove the label?",
+        answer:
+          "It removes the signals stored in the file. Meta may use other signals, and cleaning doesn't change posts that are already published, so clean the file before uploading.",
+      },
+      {
+        question: "Should I hide that a post is AI-generated?",
+        answer:
+          "No. If the content is AI-generated, use Instagram's AI label. Cleaning is for photos that were only edited and are labelled wrongly.",
+      },
+    ],
+    related: ["remove-adobe-firefly-metadata", "remove-c2pa-content-credentials", "ai-metadata-checker", "ai-image-cleaner"],
   },
 ];

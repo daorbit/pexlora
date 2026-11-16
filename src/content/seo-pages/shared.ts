@@ -1,4 +1,4 @@
-import { formatsOfKinds, type FileKind } from "@/config/file-formats";
+import { fileKinds, formatsOfKinds, type FileKind } from "@/config/file-formats";
 import { DAILY_LIMITS, FILE_SIZE_LIMITS_MB, MAX_FILES_PER_BATCH } from "@/config/limits";
 import { formatMegabytes } from "@/lib/utils/format-bytes";
 import type { SeoFaq } from "@/content/seo-pages/types";
@@ -50,4 +50,49 @@ export const faqs = {
     answer:
       "No. Invisible watermarks are mixed into the pixels, not stored as metadata. Pexlora removes metadata only and doesn't claim to beat AI detectors.",
   },
+  verify: {
+    question: "How do I know the metadata is gone?",
+    answer:
+      "After cleaning, Pexlora reads the clean copy again and shows how many tags are left, normally zero. You can also drop the clean file into the EXIF Viewer to check it yourself.",
+  },
+  imageQuality: {
+    question: "Will removing metadata lower the quality?",
+    answer:
+      "There's no visible change. Images keep their dimensions and are re-encoded at high quality, and PNGs stay lossless.",
+  },
+  inPlaceQuality: {
+    question: "Will removing metadata lower the quality?",
+    answer: "No. Documents, audio and video are edited in place without re-encoding, so the content stays exactly the same.",
+  },
+  mixedPrivacy: {
+    question: "Are my files uploaded or stored?",
+    answer:
+      "PDF, Office, audio and video files are cleaned in your browser and never uploaded. Images are sent over HTTPS, processed in memory and discarded straight away. Nothing is stored.",
+  },
+  desktopAlternative: {
+    question: "Can I remove metadata without a website?",
+    answer:
+      "Yes. On a computer, the free command-line tool ExifTool removes everything with exiftool -all= file.jpg. Pexlora does the same with nothing to install, and shows you what was in the file first.",
+  },
 } satisfies Record<string, SeoFaq>;
+
+export const supportedFormatsFaq = (kinds: FileKind[]): SeoFaq => ({
+  question: "Which files are supported?",
+  answer: `${extensions(kinds)}. Size limits: ${kinds.map((kind) => `${fileKinds[kind].label} up to ${sizeLimit(kind)}`).join(", ")}.`,
+});
+
+export const trustLine = (kinds: FileKind[]) =>
+  kinds.includes("image") ? "Free, no sign-up, nothing stored." : "Free, no sign-up, never uploaded.";
+
+export const howToSteps = {
+  "remove-metadata": [
+    { title: "Drop your files", body: `Add up to ${MAX_FILES_PER_BATCH} files at once, or tap to choose them.` },
+    { title: "See what's inside", body: "Every field is read first. AI tags show in orange and location in red." },
+    { title: "Download the clean copy", body: "The copy is checked again, so you can see nothing is left." },
+  ],
+  "view-metadata": [
+    { title: "Drop a file", body: "Photos, PDFs, Office files, audio and video all work." },
+    { title: "Read the report", body: "Fields are grouped by EXIF, XMP, IPTC, GPS and C2PA, with AI tags first." },
+    { title: "Clean it if you want", body: "Open Remove Metadata to strip everything you found." },
+  ],
+};

@@ -1,4 +1,4 @@
-import { Camera, MapPinOff } from "lucide-react";
+import { Camera, MapPinOff, Smartphone } from "lucide-react";
 import { extensions, faqs, removedList } from "@/content/seo-pages/shared";
 import type { SeoPage } from "@/content/seo-pages/types";
 
@@ -104,6 +104,58 @@ export const privacyPages: SeoPage[] = [
         answer: "That stops new photos being tagged. Cleaning removes location from photos and videos you've already taken.",
       },
     ],
-    related: ["remove-exif-data", "remove-video-metadata", "exif-viewer", "ai-metadata-checker"],
+    related: ["remove-location-from-iphone-photos", "photo-location-finder", "remove-exif-data", "remove-video-metadata"],
+  },
+  {
+    slug: "remove-location-from-iphone-photos",
+    category: "privacy",
+    tool: "remove-metadata",
+    kinds: ["image", "video"],
+    icon: Smartphone,
+    name: "iPhone Photo Location Remover",
+    title: "Remove Location from iPhone Photos & Videos Before Sharing",
+    headline: "Remove location from iPhone photos.",
+    description:
+      "Your iPhone saves where every photo and video was taken. Remove the location before you send, post or sell, right from Safari.",
+    keywords: [
+      "remove location from iphone photo",
+      "remove metadata from photo iphone",
+      "iphone photo location remove",
+      "turn off location on iphone photos",
+      "remove gps from iphone photo",
+      "how to remove location from photo before sending",
+    ],
+    intro: {
+      heading: "Three ways to keep your location private",
+      paragraphs: [
+        "When you share from the Photos app, tap Share, then Options at the top, and turn Location off. To strip location from a photo in your library, open it, tap the info button, tap Adjust next to the map and choose No Location. To stop new photos being tagged, go to Settings, Privacy & Security, Location Services, Camera, and choose Never.",
+        "To clean a file completely, including camera details and timestamps, open this page in Safari and drop the photo or video below. Images are saved back to Photos through the share sheet.",
+        "Pexlora reads JPG and PNG photos and MOV and MP4 videos. If your iPhone shoots HEIC, share the photo with Most Compatible turned on in Options, or set Settings, Camera, Formats to Most Compatible.",
+      ],
+    },
+    list: removedList([
+      "GPS latitude, longitude and altitude",
+      "Camera direction and speed",
+      "iPhone model, lens and software version",
+      "Date and time taken",
+      "Location tags in iPhone videos",
+    ]),
+    faqs: [
+      {
+        question: "Does iMessage or AirDrop remove location?",
+        answer:
+          "Not always. AirDrop and Messages can send the original file with location unless you turn Location off in the share sheet Options.",
+      },
+      {
+        question: "Can I clean HEIC photos?",
+        answer:
+          "Not yet. Share the photo as JPEG by turning on Most Compatible in Options, or switch Camera, Formats to Most Compatible for new photos.",
+      },
+      {
+        question: "Where do cleaned photos go on iPhone?",
+        answer: "Tap Save and choose Save Image in the share sheet. The clean copy lands in your Photos library.",
+      },
+    ],
+    related: ["remove-gps-from-photo", "photo-location-finder", "remove-exif-data", "remove-video-metadata"],
   },
 ];

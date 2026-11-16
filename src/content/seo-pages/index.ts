@@ -1,4 +1,5 @@
 import { aiPages } from "@/content/seo-pages/ai";
+import { enrichSeoPage } from "@/content/seo-pages/enrich";
 import { formatPages } from "@/content/seo-pages/formats";
 import { privacyPages } from "@/content/seo-pages/privacy";
 import type { SeoCategory, SeoPage } from "@/content/seo-pages/types";
@@ -6,7 +7,7 @@ import { viewerPages } from "@/content/seo-pages/viewers";
 
 export type { SeoCategory, SeoPage } from "@/content/seo-pages/types";
 
-export const seoPages: SeoPage[] = [...aiPages, ...privacyPages, ...viewerPages, ...formatPages];
+export const seoPages: SeoPage[] = [...aiPages, ...privacyPages, ...viewerPages, ...formatPages].map(enrichSeoPage);
 
 export const seoCategories: { id: SeoCategory; title: string }[] = [
   { id: "ai", title: "AI cleaners" },

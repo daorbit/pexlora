@@ -1,4 +1,4 @@
-import { FileSearch, ScanSearch } from "lucide-react";
+import { FileSearch, MapPinned, ScanSearch } from "lucide-react";
 import { ALL_KINDS } from "@/config/file-formats";
 import { faqs, shownList } from "@/content/seo-pages/shared";
 import type { SeoPage } from "@/content/seo-pages/types";
@@ -47,7 +47,7 @@ export const viewerPages: SeoPage[] = [
       },
       faqs.imagePrivacy,
     ],
-    related: ["ai-metadata-checker", "remove-exif-data", "remove-gps-from-photo", "ai-image-cleaner"],
+    related: ["photo-location-finder", "ai-metadata-checker", "remove-exif-data", "remove-gps-from-photo"],
   },
   {
     slug: "ai-metadata-checker",
@@ -96,5 +96,52 @@ export const viewerPages: SeoPage[] = [
       faqs.inspectFree,
     ],
     related: ["ai-image-cleaner", "remove-c2pa-content-credentials", "exif-viewer", "remove-audio-metadata"],
+  },
+  {
+    slug: "photo-location-finder",
+    category: "viewers",
+    tool: "view-metadata",
+    kinds: ["image"],
+    icon: MapPinned,
+    name: "Photo Location Finder",
+    title: "Where Was This Photo Taken? Find Photo Location from GPS",
+    headline: "Find where a photo was taken.",
+    description:
+      "Read the GPS coordinates saved in a photo and open the spot on a map, if the file still has its location data.",
+    keywords: [
+      "where was this photo taken",
+      "photo location finder",
+      "find location of photo",
+      "image location finder",
+      "gps coordinates from photo",
+      "check photo location",
+    ],
+    intro: {
+      heading: "How a photo knows its location",
+      paragraphs: [
+        "With location services on, phones write latitude, longitude and altitude into every photo. Drop a photo below and, if those fields are there, the report shows the coordinates with a link that opens the spot on a map.",
+        "This works only when the file still has GPS data. Most social networks strip it on upload, and screenshots never have it. Pexlora reads metadata only and doesn't guess a location from what's in the picture.",
+        "The map opens only when you click it, so your coordinates aren't sent to a map service just by viewing the report.",
+      ],
+    },
+    list: shownList([
+      "GPS latitude and longitude",
+      "Altitude and camera direction",
+      "Date and time the photo was taken",
+      "Phone or camera model",
+      "Lens and camera settings",
+    ]),
+    faqs: [
+      {
+        question: "Why doesn't my photo show a location?",
+        answer:
+          "Location was off when it was taken, or the file was re-saved by an app or social network that removed GPS data. Screenshots never contain it.",
+      },
+      {
+        question: "Can I remove the location afterwards?",
+        answer: "Yes. Open Remove Metadata to download a copy with no GPS data or other metadata.",
+      },
+    ],
+    related: ["remove-gps-from-photo", "remove-location-from-iphone-photos", "exif-viewer", "remove-exif-data"],
   },
 ];

@@ -6,6 +6,7 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { ChecklistSection } from "@/components/tools/ChecklistSection";
 import { RelatedToolsSection } from "@/components/tools/RelatedToolsSection";
 import { SeoIntroSection } from "@/components/tools/SeoIntroSection";
+import { SeoStepsSection } from "@/components/tools/SeoStepsSection";
 import { ToolHero } from "@/components/tools/ToolHero";
 
 export function SeoToolPage({ page }: { page: SeoPage }) {
@@ -21,6 +22,7 @@ export function SeoToolPage({ page }: { page: SeoPage }) {
         accepts={page.kinds}
       />
       <SeoIntroSection heading={page.intro.heading} paragraphs={page.intro.paragraphs} />
+      <SeoStepsSection page={page} />
       <ChecklistSection eyebrow={page.list.eyebrow} title={page.list.title} items={page.list.items} />
       <FaqSection items={page.faqs} />
       <RelatedToolsSection pages={relatedSeoPages(page)} />
