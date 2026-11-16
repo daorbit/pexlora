@@ -127,9 +127,9 @@ src/
 ## Brand assets
 
 - Source logo: `public/Pexlora.png` (white background, drop shadow).
-- `public/brand/` holds the transparent mark, light/dark icon tiles at 64 and 512 and the apple-touch-icon, plus `public/favicon.ico`. They are committed files; there is no generator script.
-- Paths live in `src/config/brand.ts`. The header uses the transparent mark; favicons switch light/dark via `metadata.icons` media queries in `src/app/layout.tsx`.
-- Don't add `src/app/favicon.ico` back; it conflicts with `public/favicon.ico`.
+- `public/brand/` holds the transparent mark, light/dark icon tiles at 64 and 512 and the apple-touch-icon. They are committed files; there is no generator script.
+- Paths live in `src/config/brand.ts`. The header uses the transparent mark.
+- Favicons use Next's file conventions only: `src/app/favicon.ico` (16/32/48, Google needs a multiple of 48px), `src/app/icon.png` (192) and `src/app/apple-icon.png` (180). Don't add `metadata.icons`, media-query icons or `public/favicon.ico` back; Google ignores media-query icons and the public file conflicts with the app one.
 - `public/samples/` holds an AI render with Midjourney/XMP tags and a phone photo with GPS (committed files). They power the "Try a sample" chips and the landing visuals; `src/content/landing.ts` mirrors their real tag values.
 
 ## Landing page

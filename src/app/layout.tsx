@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Geist_Mono, Inter } from "next/font/google";
 import Script from "next/script";
 import { AnalyticsScript } from "@/components/layout/AnalyticsScript";
-import { brandAssets, brandColors } from "@/config/brand";
+import { brandColors } from "@/config/brand";
 import { seo } from "@/config/seo";
 import { siteConfig } from "@/config/site";
 import { env } from "@/lib/env";
@@ -59,14 +59,6 @@ export const metadata: Metadata = {
   },
   verification: {
     google: siteConfig.googleSiteVerification,
-  },
-  icons: {
-    icon: [
-      { url: brandAssets.faviconLight, type: "image/png", media: "(prefers-color-scheme: light)" },
-      { url: brandAssets.faviconDark, type: "image/png", media: "(prefers-color-scheme: dark)" },
-      { url: brandAssets.iconLight, type: "image/png", sizes: "512x512" },
-    ],
-    apple: brandAssets.appleTouchIcon,
   },
 };
 

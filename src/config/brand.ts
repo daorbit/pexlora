@@ -2,8 +2,6 @@ export const brandAssets = {
   mark: "/brand/pexlora-mark.png",
   iconLight: "/brand/icon-light-512.png",
   iconDark: "/brand/icon-dark-512.png",
-  faviconLight: "/brand/icon-light-64.png",
-  faviconDark: "/brand/icon-dark-64.png",
   appleTouchIcon: "/brand/apple-touch-icon.png",
   emailIcon: "/brand/icon-light-64.png",
 } as const;
