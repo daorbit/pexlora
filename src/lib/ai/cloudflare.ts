@@ -54,8 +54,17 @@ function parseJson<T>(value: unknown): T {
   }
 }
 
-export async function generateText(messages: ChatMessage[], maxTokens = 600) {
-  const output = outputOf(await runModel(AI_MODELS.text, { messages, max_tokens: maxTokens }));
+type SamplingOptions = { temperature?: number; topP?: number };
+
+export async function generateText(messages: ChatMessage[], maxTokens = 600, { temperature, topP }: SamplingOptions = {}) {
+  const output = outputOf(
+    await runModel(AI_MODELS.text, {
+      messages,
+      max_tokens: maxTokens,
+      ...(temperature !== undefined && { temperature }),
+      ...(topP !== undefined && { top_p: topP }),
+    }),
+  );
   return String(output).trim();
 }
 

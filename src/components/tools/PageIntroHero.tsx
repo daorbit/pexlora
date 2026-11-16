@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { cn } from "@/lib/utils/cn";
 import type { IconComponent } from "@/components/icons/types";
 import { Container } from "@/components/ui/Container";
 import { HubItemIcon } from "@/components/tools/HubItemIcon";
@@ -8,13 +9,14 @@ type PageIntroHeroProps = {
   iconSrc?: string;
   headline: string;
   description: string;
+  wide?: boolean;
   children: ReactNode;
 };
 
-export function PageIntroHero({ icon: Icon, iconSrc, headline, description, children }: PageIntroHeroProps) {
+export function PageIntroHero({ icon: Icon, iconSrc, headline, description, wide, children }: PageIntroHeroProps) {
   return (
     <section className="py-12 sm:py-16">
-      <Container size="narrow" className="flex flex-col items-center gap-10">
+      <Container size={wide ? "wide" : "narrow"} className={cn("flex flex-col items-center gap-10", wide && "max-w-7xl")}>
         <div className="flex flex-col items-center gap-4 text-center">
           {iconSrc ? (
             <HubItemIcon src={iconSrc} size="xl" className="motion-safe:animate-pop" />

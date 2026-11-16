@@ -7,7 +7,7 @@ const statKeys: (keyof Omit<TextStats, "words">)[] = ["sentences", "averageSente
 
 export function DetectorResult({ report, text }: { report: AiTextReport; text: string }) {
   return (
-    <div className="flex flex-col gap-6 rounded-[20px] border border-separator bg-surface p-5 motion-safe:animate-fade-up sm:p-6">
+    <div className="flex flex-col gap-6 p-5 motion-safe:animate-fade-up">
       <ScoreMeter score={report.score} verdict={report.verdict} />
       {report.summary && <p className="text-[15px] leading-relaxed text-secondary">{report.summary}</p>}
 

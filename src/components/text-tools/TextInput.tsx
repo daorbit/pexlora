@@ -1,48 +1,76 @@
 "use client";
 
+import { useState, type KeyboardEvent } from "react";
+import { ClipboardPaste, X } from "lucide-react";
 import { textToolCopy } from "@/content/ai";
 import { countWords } from "@/lib/ai/text-stats";
+import { readClipboardText } from "@/lib/utils/text-actions";
 import { Button } from "@/components/ui/Button";
+import { TextPane } from "@/components/text-tools/TextPane";
 
 type TextInputProps = {
   value: string;
   onChange: (value: string) => void;
+  onSubmit: () => void;
   disabled?: boolean;
-  label: string;
 };
 
-export function TextInput({ value, onChange, disabled, label }: TextInputProps) {
-  const words = countWords(value);
+export function TextInput({ value, onChange, onSubmit, disabled }: TextInputProps) {
+  const [pasteFailed, setPasteFailed] = useState(false);
+
+  const paste = async () => {
+    const text = await readClipboardText();
+    setPasteFailed(!text);
+    if (text) onChange(text.slice(0, textToolCopy.maxCharacters));
+  };
+
+  const onKeyDown = (event: KeyboardEvent<HTMLTextAreaElement>) => {
+    if (event.key === "Enter" && (event.ctrlKey || event.metaKey)) {
+      event.preventDefault();
+      onSubmit();
+    }
+  };
 
   return (
-    <div className="flex flex-col overflow-hidden rounded-[20px] border border-separator bg-subtle transition-colors focus-within:border-foreground">
+    <TextPane
+      title={textToolCopy.inputLabel}
+      meta={
+        value && (
+          <>
+            <span className="tabular-nums">{textToolCopy.words(countWords(value))}</span>
+            <Button variant="icon" size="sm" aria-label={textToolCopy.clear} onClick={() => onChange("")} disabled={disabled}>
+              <X className="size-4" aria-hidden />
+            </Button>
+          </>
+        )
+      }
+    >
       <textarea
-        aria-label={label}
+        aria-label={textToolCopy.inputLabel}
         value={value}
         onChange={(event) => onChange(event.target.value)}
-        placeholder={textToolCopy.placeholder}
+        onKeyDown={onKeyDown}
+        placeholder={value ? undefined : " "}
         maxLength={textToolCopy.maxCharacters}
         disabled={disabled}
-        rows={10}
-        className="min-h-60 w-full resize-y bg-transparent px-5 py-4 text-[15.5px] leading-relaxed outline-none placeholder:text-tertiary disabled:opacity-60"
+        className="min-h-[340px] w-full flex-1 resize-none bg-transparent px-5 py-4 text-[15.5px] leading-relaxed outline-none disabled:opacity-60"
       />
-      <div className="flex flex-wrap items-center gap-2 border-t border-separator px-4 py-2.5">
-        <span className="text-[13px] text-secondary tabular-nums">
-          {textToolCopy.words(words)} · {value.length}/{textToolCopy.maxCharacters}
-        </span>
-        <span className="ml-auto flex gap-1">
-          {!value && (
-            <Button type="button" variant="plain" className="text-[13px]" onClick={() => onChange(textToolCopy.sampleText)}>
-              {textToolCopy.sample}
-            </Button>
-          )}
-          {value && (
-            <Button type="button" variant="plain" className="text-[13px]" onClick={() => onChange("")} disabled={disabled}>
-              {textToolCopy.clear}
-            </Button>
-          )}
-        </span>
-      </div>
-    </div>
+      {!value && (
+        <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-3 p-6 text-center">
+          <Button size="lg" onClick={paste} className="pointer-events-auto">
+            <ClipboardPaste className="size-4" aria-hidden />
+            {textToolCopy.paste}
+          </Button>
+          <button
+            type="button"
+            onClick={() => onChange(textToolCopy.sampleText)}
+            className="pointer-events-auto text-sm font-semibold text-secondary underline-offset-4 hover:text-foreground hover:underline"
+          >
+            {textToolCopy.sample}
+          </button>
+          <p className="text-[13px] text-tertiary">{pasteFailed ? textToolCopy.pasteFailed : textToolCopy.orType}</p>
+        </div>
+      )}
+    </TextPane>
   );
 }

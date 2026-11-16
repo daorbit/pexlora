@@ -1,3 +1,6 @@
+"use client";
+
+import type { MouseEvent } from "react";
 import { Upload } from "lucide-react";
 import { fileKinds, type FileKind } from "@/config/file-formats";
 import { MAX_FILES_PER_BATCH } from "@/config/limits";
@@ -15,14 +18,23 @@ type DropzoneProps = {
   onSample: (sample: SampleImage) => void;
 };
 
+function isOwnControl(target: EventTarget) {
+  return target instanceof Element && target.closest("button, a, input") !== null;
+}
+
 export function Dropzone({ accepts, isDragging, onBrowse, onSample }: DropzoneProps) {
   const acceptsLocal = accepts.some((kind) => kind !== "image");
 
+  const onClick = (event: MouseEvent<HTMLDivElement>) => {
+    if (!isOwnControl(event.target)) onBrowse();
+  };
+
   return (
     <div
+      onClick={onClick}
       className={cn(
-        "flex min-h-72 flex-col items-center justify-center gap-5 rounded-[20px] border-[1.5px] border-dashed px-5 py-10 text-center transition-colors sm:min-h-80 sm:gap-6 sm:px-6 sm:py-14",
-        isDragging ? "border-foreground bg-fill" : "border-border-strong bg-subtle",
+        "flex min-h-72 cursor-pointer flex-col items-center justify-center gap-5 rounded-[20px] border-[1.5px] border-dashed px-5 py-10 text-center transition-colors sm:min-h-80 sm:gap-6 sm:px-6 sm:py-14",
+        isDragging ? "border-foreground bg-fill" : "border-border-strong bg-subtle hover:border-foreground/40 hover:bg-fill/60",
       )}
     >
       <span className="inline-flex size-14 items-center justify-center rounded-[18px] bg-primary text-primary-foreground">

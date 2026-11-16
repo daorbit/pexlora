@@ -6,7 +6,7 @@ export function TextToolModule({ slug }: { slug: TextToolSlug }) {
   const tool = getTextTool(slug);
 
   return (
-    <div className="flex max-w-4xl flex-col gap-8">
+    <div className="flex flex-col gap-8">
       <PageHeader title={tool.name} description={tool.description} />
       <TextToolWorkspace slug={slug} context="dashboard" />
     </div>

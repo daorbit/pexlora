@@ -13,7 +13,13 @@ export function TextToolPage({ slug }: { slug: TextToolSlug }) {
 
   return (
     <>
-      <PageIntroHero icon={tool.icon} iconSrc={textToolIconSrc(slug)} headline={tool.headline} description={tool.description}>
+      <PageIntroHero
+        icon={tool.icon}
+        iconSrc={textToolIconSrc(slug)}
+        headline={tool.headline}
+        description={tool.description}
+        wide
+      >
         <TextToolWorkspace slug={slug} context="site" />
       </PageIntroHero>
       <FaqSection items={aiToolFaqs[slug]} />

@@ -21,7 +21,20 @@ export const aiCopy = {
 };
 
 export const textToolCopy = {
-  placeholder: "Paste your text here…",
+  placeholder: "Paste or type your text here…",
+  inputLabel: "Your text",
+  paste: "Paste Text",
+  pasteFailed: "Couldn't read your clipboard. Press Ctrl+V in the box instead.",
+  orType: "or start typing",
+  shortcut: "Ctrl + Enter",
+  download: "Download",
+  share: "Share",
+  shared: "Copied to share",
+  tryAgain: "Try Again",
+  outputEmpty: "Your humanized text will appear here.",
+  resultEmpty: "Your AI score will appear here.",
+  resultLabel: "Result",
+  shareResult: (score: number) => `This text scored ${score}% AI likelihood on Pexlora's AI Text Detector.`,
   sample: "Try a Sample",
   clear: "Clear",
   words: (count: number) => `${count} ${count === 1 ? "word" : "words"}`,
@@ -39,6 +52,8 @@ export const textToolCopy = {
     simple: "Simple",
   } satisfies Record<HumanizeTone, string>,
   output: "Rewritten text",
+  personalTip:
+    "Make it yours: add a real example, a number or your own opinion. Detectors and readers both notice generic writing, and only you can add what you actually know.",
   verdicts: {
     "likely-ai": "Likely AI-written",
     mixed: "Mixed or edited",
