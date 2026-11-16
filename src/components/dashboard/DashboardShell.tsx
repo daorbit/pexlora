@@ -2,6 +2,7 @@ import { Suspense, type ReactNode } from "react";
 import { AppSidebar } from "@/components/dashboard/AppSidebar";
 import { DashboardTopBar } from "@/components/dashboard/DashboardTopBar";
 import { MobileNav } from "@/components/dashboard/MobileNav";
+import { ShellScrollArea } from "@/components/dashboard/ShellScrollArea";
 import { SidebarUsage, SidebarUsageFallback } from "@/components/dashboard/SidebarUsage";
 import { SidebarUser, SidebarUserFallback } from "@/components/dashboard/SidebarUser";
 export function DashboardShell({ children }: { children: ReactNode }) {
@@ -22,7 +23,7 @@ export function DashboardShell({ children }: { children: ReactNode }) {
         <AppSidebar usage={usage} account={account} />
       </div>
       <div className="flex min-h-0 min-w-0 flex-1 flex-col bg-background lg:overflow-hidden lg:rounded-[24px]">
-        <div className="flex min-h-0 flex-1 flex-col lg:overflow-y-auto lg:my-2 lg:mr-1 lg:overscroll-contain">
+        <ShellScrollArea className="flex min-h-0 flex-1 flex-col lg:my-2 lg:mr-1 lg:overflow-y-auto lg:overscroll-contain">
           <DashboardTopBar
             mobileNav={
               <MobileNav>
@@ -31,7 +32,7 @@ export function DashboardShell({ children }: { children: ReactNode }) {
             }
           />
           <main className="w-full flex-1 px-4 pt-6 pb-10 sm:px-8 sm:pt-[26px]">{children}</main>
-        </div>
+        </ShellScrollArea>
       </div>
     </div>
   );

@@ -156,6 +156,8 @@ See `.env.example`: `MONGODB_URI`, `MONGODB_DB_NAME` (default `pexlora`), `SESSI
 
 ## Gotchas
 
+- `<html>` must keep `data-scroll-behavior="smooth"`: `globals.css` sets `scroll-behavior: smooth`, and since Next 16 the router only disables it during navigation when that attribute is present. Without it, route changes smooth-scroll and stop part-way instead of jumping to the top. The dashboard sheet scrolls itself, so `ShellScrollArea` resets it on every pathname change.
+
 - Vercel caps request bodies at 4.5 MB, so `MAX_FILE_SIZE_MB` is 4 (`config/limits.ts`). Raising it needs a different upload path.
 - Atlas must allow Vercel's IPs (Network Access).
 - We remove metadata only. Never claim to remove pixel watermarks (SynthID) or beat AI detectors.
