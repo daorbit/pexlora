@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo } from "react";
 import { acceptAttribute, type FileKind } from "@/config/file-formats";
 import type { SampleImage } from "@/config/samples";
 import type { WorkspaceToolSlug } from "@/config/tools";
@@ -8,7 +8,8 @@ import { useFileDrop } from "@/hooks/useFileDrop";
 import { useFileQueue } from "@/hooks/useFileQueue";
 import { useFilePicker } from "@/hooks/useFilePicker";
 import { useHandedOffFiles } from "@/hooks/useHandedOffFiles";
-import { DEFAULT_TOOL_OPTIONS, type ToolOptions } from "@/lib/image/options";
+import { useToolOptions } from "@/hooks/useToolOptions";
+import type { ToolOptions } from "@/lib/image/options";
 import { saveCopy } from "@/content/workspace";
 import { useCanSaveToPhotos } from "@/hooks/useCanSaveToPhotos";
 import { cn } from "@/lib/utils/cn";
@@ -33,7 +34,7 @@ export function WorkspacePanel({ tool, accepts: acceptsOverride, initialOptions 
   const accepts = acceptsOverride ?? behavior.accepts;
   const queue = useFileQueue({ inspectOnAdd: behavior.inspectOnAdd, accepts });
   const { addFiles, resetResults, process } = queue;
-  const [options, setOptions] = useState<ToolOptions>(() => ({ ...DEFAULT_TOOL_OPTIONS, ...initialOptions }));
+  const [options, setOptions] = useToolOptions(tool, initialOptions);
   const optionsError = behavior.action?.validate?.(options) ?? null;
   useHandedOffFiles(tool, addFiles);
 
@@ -47,7 +48,7 @@ export function WorkspacePanel({ tool, accepts: acceptsOverride, initialOptions 
       setOptions(next);
       resetResults();
     },
-    [resetResults],
+    [resetResults, setOptions],
   );
 
   const run = useCallback(() => {

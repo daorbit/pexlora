@@ -7,6 +7,7 @@ import { textHandoffKey } from "@/config/text-tools";
 import { aiCopy, textToolCopy } from "@/content/ai";
 import { useAiAction } from "@/hooks/useAiAction";
 import { useHandOff } from "@/hooks/useHandOff";
+import { useSearchParamState } from "@/hooks/useSearchParamState";
 import { countWords } from "@/lib/ai/text-stats";
 import { HUMANIZE_TONES, type HumanizeTone } from "@/lib/ai/types";
 import { handOff } from "@/lib/utils/file-handoff";
@@ -25,7 +26,7 @@ const toneOptions = HUMANIZE_TONES.map((tone) => ({ value: tone, label: textTool
 export function HumanizerWorkspace({ peerHref }: { peerHref: string }) {
   const router = useRouter();
   const [text, setText] = useState("");
-  const [tone, setTone] = useState<HumanizeTone>("natural");
+  const [tone, setTone] = useSearchParamState<HumanizeTone>("tone", HUMANIZE_TONES, "natural");
   const humanizer = useAiAction(humanizeText);
 
   const changeText = useCallback((value: string) => setText(value), []);

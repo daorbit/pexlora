@@ -14,7 +14,7 @@ export const OAUTH_COOKIE = "pexlora_oauth";
 export const OAUTH_COOKIE_TTL_SECONDS = 600;
 export const ONE_TAP_COOKIE = "pexlora_one_tap";
 
-export type OAuthState = { state: string; verifier: string; link?: boolean };
+export type OAuthState = { state: string; verifier: string; link?: boolean; next?: string | null };
 
 function base64Url(buffer: Buffer) {
   return buffer.toString("base64url");
@@ -24,7 +24,7 @@ function redirectUri() {
   return env.google.redirectUri ?? `${env.appUrl}${routes.googleCallback}`;
 }
 
-export function createGoogleAuthRequest(link = false) {
+export function createGoogleAuthRequest({ link = false, next = null }: { link?: boolean; next?: string | null } = {}) {
   const state = base64Url(randomBytes(24));
   const verifier = base64Url(randomBytes(32));
   const challenge = base64Url(createHash("sha256").update(verifier).digest());
@@ -41,7 +41,7 @@ export function createGoogleAuthRequest(link = false) {
     prompt: "select_account",
   }).toString();
 
-  return { url: url.toString(), cookie: { state, verifier, link } satisfies OAuthState };
+  return { url: url.toString(), cookie: { state, verifier, link, next } satisfies OAuthState };
 }
 
 async function exchangeCode(code: string, verifier: string) {

@@ -2,6 +2,8 @@
 
 import { useActionState } from "react";
 import { ArrowRight, LoaderCircle } from "lucide-react";
+import { useNextPath } from "@/hooks/useNextPath";
+import { NEXT_PARAM } from "@/lib/url/next-path";
 import type { AuthFormState } from "@/lib/validations/auth";
 import { Alert } from "@/components/ui/Alert";
 import { Button } from "@/components/ui/Button";
@@ -22,9 +24,11 @@ type AuthFormProps = {
 
 export function AuthForm({ action, fields, submitLabel }: AuthFormProps) {
   const [state, formAction, pending] = useActionState(action, undefined);
+  const next = useNextPath();
 
   return (
     <form action={formAction} className="flex flex-col gap-3" noValidate>
+      {next && <input type="hidden" name={NEXT_PARAM} value={next} />}
       {state?.message && <Alert message={state.message} />}
       {fields.map((field) => (
         <FormField

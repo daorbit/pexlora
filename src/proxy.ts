@@ -1,24 +1,26 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { authRoutes, protectedRoutes, routes } from "@/config/site";
 import { SESSION_COOKIE, verifySessionToken } from "@/lib/auth/token";
+import { NEXT_PARAM, safeNextPath, withNextParam } from "@/lib/url/next-path";
 
 function matches(pathname: string, list: readonly string[]) {
   return list.some((route) => pathname === route || pathname.startsWith(`${route}/`));
 }
 
 export async function proxy(request: NextRequest) {
-  const { pathname } = request.nextUrl;
+  const { pathname, search, searchParams } = request.nextUrl;
   const session = await verifySessionToken(
     request.cookies.get(SESSION_COOKIE)?.value,
     process.env.SESSION_SECRET,
   );
 
   if (!session && matches(pathname, protectedRoutes)) {
-    return NextResponse.redirect(new URL(routes.signIn, request.url));
+    return NextResponse.redirect(new URL(withNextParam(routes.signIn, `${pathname}${search}`), request.url));
   }
 
   if (session && matches(pathname, authRoutes)) {
-    return NextResponse.redirect(new URL(routes.dashboard, request.url));
+    const next = safeNextPath(searchParams.get(NEXT_PARAM)) ?? routes.dashboard;
+    return NextResponse.redirect(new URL(next, request.url));
   }
 
   return NextResponse.next();

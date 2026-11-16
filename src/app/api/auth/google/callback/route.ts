@@ -5,6 +5,7 @@ import type { GoogleLinkResult } from "@/content/account";
 import { getGoogleProfile, OAUTH_COOKIE, type OAuthState } from "@/lib/auth/google";
 import { linkGoogleToCurrentUser, signInWithGoogle } from "@/lib/auth/google-sign-in";
 import { env } from "@/lib/env";
+import { safeNextPath } from "@/lib/url/next-path";
 
 function redirectTo(path: string) {
   return NextResponse.redirect(`${env.appUrl}${path}`);
@@ -63,5 +64,5 @@ export async function GET(request: NextRequest) {
     return failureRedirect(link);
   }
 
-  return redirectTo(routes.dashboard);
+  return redirectTo(safeNextPath(saved.next) ?? routes.dashboard);
 }

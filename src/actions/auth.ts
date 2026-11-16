@@ -6,6 +6,7 @@ import { z } from "zod";
 import { routes } from "@/config/site";
 import { accountCopy } from "@/content/account";
 import { hashPassword, verifyPassword } from "@/lib/auth/password";
+import { NEXT_PARAM, safeNextPath } from "@/lib/url/next-path";
 import { createSession, deleteSession } from "@/lib/auth/session";
 import {
   signInSchema,
@@ -20,6 +21,10 @@ import {
 import { sendWelcomeEmail } from "@/services/mail.service";
 
 const UNAVAILABLE_MESSAGE = accountCopy.unavailable;
+
+function destination(formData: FormData) {
+  return safeNextPath(formData.get(NEXT_PARAM)) ?? routes.dashboard;
+}
 
 function readForm(formData: FormData) {
   return {
@@ -61,7 +66,7 @@ export async function signUp(
     return { message: UNAVAILABLE_MESSAGE, values };
   }
 
-  redirect(routes.dashboard);
+  redirect(destination(formData));
 }
 
 export async function signIn(
@@ -96,7 +101,7 @@ export async function signIn(
     return { message: UNAVAILABLE_MESSAGE, values };
   }
 
-  redirect(routes.dashboard);
+  redirect(destination(formData));
 }
 
 export async function signOut() {
