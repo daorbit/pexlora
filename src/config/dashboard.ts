@@ -36,6 +36,8 @@ const dashboardHrefs: Record<WorkspaceToolSlug, string> = {
   "image-alt-text": routes.dashboardAltText,
 };
 
+export const dashboardToolHref = (slug: WorkspaceToolSlug) => dashboardHrefs[slug];
+
 const newToolSlugs: string[] = ["compress-image"];
 
 const toolCategoryOrder: ToolCategory[] = ["metadata", "image", "ai"];

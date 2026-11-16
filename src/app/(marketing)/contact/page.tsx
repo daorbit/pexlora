@@ -5,6 +5,7 @@ import { contactPage } from "@/content/contact";
 import { Container } from "@/components/ui/Container";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Highlight } from "@/components/ui/Highlight";
+import { ContactDetails } from "@/components/forms/ContactDetails";
 import { EmbeddedForm } from "@/components/forms/EmbeddedForm";
 
 export const metadata: Metadata = {
@@ -27,6 +28,7 @@ export default function ContactPage() {
           <p className="max-w-lg text-[17px] leading-relaxed text-secondary">{contactPage.description}</p>
         </div>
         <EmbeddedForm form={embeddedForms.teamsEarlyAccess} />
+        <ContactDetails />
         </div>
       </Container>
     </section>

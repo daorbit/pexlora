@@ -15,6 +15,7 @@ type ToolBehavior = {
     label: string;
     doneLabel: string;
     note?: string;
+    compare?: boolean;
     run: (file: File, options: ToolOptions) => Promise<ProcessedFile>;
     validate?: (options: ToolOptions) => string | null;
     zipName: string;
@@ -41,6 +42,7 @@ export const toolBehaviors: Record<WorkspaceToolSlug, ToolBehavior> = {
       label: "Convert Images",
       doneLabel: "Converted",
       note: optionsCopy.fullQuality,
+      compare: true,
       run: (file, { convert }) => convertImage(file, convert.format),
       zipName: "converted-images.zip",
     },
@@ -52,6 +54,7 @@ export const toolBehaviors: Record<WorkspaceToolSlug, ToolBehavior> = {
     action: {
       label: "Compress Images",
       doneLabel: "Compressed",
+      compare: true,
       run: (file, { compress }) => compressImage(file, compress),
       validate: ({ compress }) => getCompressError(compress),
       zipName: "compressed-images.zip",
@@ -64,6 +67,7 @@ export const toolBehaviors: Record<WorkspaceToolSlug, ToolBehavior> = {
     action: {
       label: "Resize Images",
       doneLabel: "Resized",
+      compare: true,
       run: (file, { resize }) => resizeImage(file, resize),
       validate: ({ resize }) => getResizeError(resize),
       zipName: "resized-images.zip",

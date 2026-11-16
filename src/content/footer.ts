@@ -1,4 +1,6 @@
+import { company } from "@/config/company";
 import { compressTargetPath, compressTargets } from "@/config/compress-targets";
+import { legalDocuments } from "@/content/legal";
 import { conversionPath, popularConversions } from "@/config/conversions";
 import { toolPageCopy } from "@/content/tool-pages";
 import { routes } from "@/config/site";
@@ -12,7 +14,10 @@ export const footerCopy = {
   title: "Your files. Your privacy.",
   description: "Remove hidden metadata, then compress, resize and convert your images. Nothing is ever stored.",
   legal: "We remove metadata only, not pixel watermarks.",
+  productOf: `A product of ${company.legalName}`,
 };
+
+export const footerLegalLinks = legalDocuments.map((doc) => ({ label: doc.title, href: doc.path }));
 
 export const footerColumns = [
   {

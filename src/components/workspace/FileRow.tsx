@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronDown, X } from "lucide-react";
+import { ChevronDown, ChevronsLeftRight, X } from "lucide-react";
+import { compareCopy } from "@/content/workspace";
 import type { QueueItem } from "@/hooks/useFileQueue";
 import { cn } from "@/lib/utils/cn";
 import { formatBytes } from "@/lib/utils/format-bytes";
@@ -9,7 +10,9 @@ import { formatDuration } from "@/lib/utils/format-duration";
 import { Button } from "@/components/ui/Button";
 import { AiExplainPanel } from "@/components/ai/AiExplainPanel";
 import { InsightsPanel } from "@/components/ai/InsightsPanel";
+import { CompareSlider } from "@/components/workspace/CompareSlider";
 import { FileStatus } from "@/components/workspace/FileStatus";
+import { LocationCard } from "@/components/workspace/LocationCard";
 import { FileThumb } from "@/components/workspace/FileThumb";
 import { ProgressBar } from "@/components/workspace/ProgressBar";
 import { SaveFileButton } from "@/components/workspace/SaveFileButton";
@@ -19,6 +22,7 @@ type FileRowProps = {
   item: QueueItem;
   defaultExpanded: boolean;
   doneLabel?: string;
+  comparable?: boolean;
   onRemove: (id: string) => void;
   disabled: boolean;
 };
@@ -34,9 +38,11 @@ function fileDetails({ file, format, report }: QueueItem) {
     .join(" · ");
 }
 
-export function FileRow({ item, defaultExpanded, doneLabel, onRemove, disabled }: FileRowProps) {
+export function FileRow({ item, defaultExpanded, doneLabel, comparable = false, onRemove, disabled }: FileRowProps) {
   const [expanded, setExpanded] = useState(defaultExpanded);
+  const [comparing, setComparing] = useState(false);
   const { file, report, result } = item;
+  const canCompare = comparable && Boolean(result && item.previewUrl && result.blob.type.startsWith("image/"));
 
   return (
     <li className="relative flex flex-col overflow-clip rounded-2xl bg-subtle motion-safe:animate-fade-up motion-safe:[animation-duration:0.35s]">
@@ -51,6 +57,17 @@ export function FileRow({ item, defaultExpanded, doneLabel, onRemove, disabled }
           <FileStatus item={item} doneLabel={doneLabel} />
         </div>
         <div className="ml-auto flex items-center gap-1">
+          {canCompare && (
+            <Button
+              variant="plain"
+              className="mr-2 text-[13px]"
+              onClick={() => setComparing((value) => !value)}
+              aria-expanded={comparing}
+            >
+              <ChevronsLeftRight className="size-3.5" aria-hidden />
+              {compareCopy.toggle}
+            </Button>
+          )}
           {report && (
             <Button
               variant="plain"
@@ -77,6 +94,21 @@ export function FileRow({ item, defaultExpanded, doneLabel, onRemove, disabled }
           </Button>
         </div>
       </div>
+      {report?.location && (
+        <div className="px-2.5 pb-2.5">
+          <LocationCard location={report.location} removed={Boolean(result)} />
+        </div>
+      )}
+      {canCompare && comparing && result && item.previewUrl && (
+        <div className="px-2.5 pb-2.5">
+          <CompareSlider
+            beforeSrc={item.previewUrl}
+            afterSrc={result.url}
+            beforeBytes={file.size}
+            afterBytes={result.blob.size}
+          />
+        </div>
+      )}
       {result?.insights && (
         <div className="px-3 pb-4 sm:px-5 sm:pb-5">
           <InsightsPanel insights={result.insights} fileName={result.name} />

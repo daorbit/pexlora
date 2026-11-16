@@ -29,11 +29,14 @@ export type MetadataGroup = {
   entries: MetadataEntry[];
 };
 
+export type GeoLocation = { latitude: number; longitude: number };
+
 export type ReportDetails = {
   format: string;
   width?: number;
   height?: number;
   duration?: number;
+  location?: GeoLocation;
 };
 
 export type MetadataReport = ReportDetails & {

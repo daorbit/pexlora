@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
-import { authLegal, type AuthMode } from "@/content/auth";
+import type { AuthMode } from "@/content/auth";
+import { AuthLegalNote } from "@/components/auth/AuthLegalNote";
 import { AuthModeSwitch } from "@/components/auth/AuthModeSwitch";
 
 type AuthCardProps = {
@@ -18,7 +19,7 @@ export function AuthCard({ mode, title, description, children }: AuthCardProps) 
       </div>
       <AuthModeSwitch active={mode} />
       {children}
-      <p className="text-center text-xs leading-relaxed text-secondary">{authLegal}</p>
+      <AuthLegalNote />
     </div>
   );
 }

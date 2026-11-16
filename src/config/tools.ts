@@ -116,7 +116,9 @@ export const workspaceTools: WorkspaceTool[] = [
   },
 ];
 
-export const toolIconSrc = (slug: WorkspaceToolSlug) => `/icons/tools/${slug}.svg`;
+export const nextStepTools: WorkspaceToolSlug[] = ["remove-metadata", "compress-image", "resize-image", "convert-format"];
+
+export const toolIconSrc =(slug: WorkspaceToolSlug) => `/icons/tools/${slug}.svg`;
 
 export function getWorkspaceTool(slug: WorkspaceToolSlug) {
   return workspaceTools.find((tool) => tool.slug === slug)!;

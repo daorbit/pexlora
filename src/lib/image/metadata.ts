@@ -3,7 +3,7 @@ import exifr from "exifr";
 import sharp from "sharp";
 import { decodeEntities } from "@/lib/files/xml";
 import { createReport, toEntry } from "@/lib/metadata/report";
-import type { MetadataEntry, MetadataGroupId, MetadataReport } from "@/lib/metadata/types";
+import type { GeoLocation, MetadataEntry, MetadataGroupId, MetadataReport } from "@/lib/metadata/types";
 
 const EXIF_SEGMENTS = new Set(["ifd0", "exif", "interop", "makerNote", "userComment"]);
 const IGNORED_SEGMENTS = new Set(["ifd1", "thumbnail", "jfif", "ihdr", "icc"]);
@@ -62,12 +62,26 @@ async function readExifr(buffer: Buffer) {
   }
 }
 
+async function readLocation(buffer: Buffer): Promise<GeoLocation | undefined> {
+  try {
+    const gps = await exifr.gps(buffer);
+    const valid = gps && Number.isFinite(gps.latitude) && Number.isFinite(gps.longitude);
+    return valid ? { latitude: gps.latitude, longitude: gps.longitude } : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
 function hasC2pa(buffer: Buffer) {
   return C2PA_MARKERS.some((marker) => buffer.includes(marker));
 }
 
 export async function inspectImage(buffer: Buffer): Promise<MetadataReport> {
-  const [info, segments] = await Promise.all([sharp(buffer).metadata(), readExifr(buffer)]);
+  const [info, segments, location] = await Promise.all([
+    sharp(buffer).metadata(),
+    readExifr(buffer),
+    readLocation(buffer),
+  ]);
   const report = createReport();
 
   for (const [segment, values] of Object.entries(segments)) {
@@ -88,5 +102,6 @@ export async function inspectImage(buffer: Buffer): Promise<MetadataReport> {
     format: info.format ?? "unknown",
     width: info.width,
     height: info.height,
+    location,
   });
 }

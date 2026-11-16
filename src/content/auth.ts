@@ -16,4 +16,10 @@ export const authMedia = {
   removeAll: (count: number) => `Remove All ${count}`,
 };
 
-export const authLegal = "By continuing you agree to the Terms and Privacy Policy. Files you process are never stored.";
+export const authLegal = {
+  before: "By continuing you agree to the",
+  terms: "Terms",
+  and: "and",
+  privacy: "Privacy Policy",
+  after: ". Files you process are never stored.",
+};

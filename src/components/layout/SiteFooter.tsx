@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { siteConfig } from "@/config/site";
-import { footerColumns, footerCopy } from "@/content/footer";
+import { footerColumns, footerCopy, footerLegalLinks } from "@/content/footer";
 import { Container } from "@/components/ui/Container";
 import { ThemeSwitcher } from "@/components/theme/ThemeSwitcher";
 import { CurrentYear } from "@/components/layout/CurrentYear";
@@ -50,9 +50,18 @@ export function SiteFooter() {
       </Container>
 
       <Container className="flex flex-col-reverse items-start justify-between gap-4 border-t border-separator py-7 sm:flex-row sm:items-center">
-        <p className="text-[13px] text-secondary">
-          © <CurrentYear /> {siteConfig.name}. {footerCopy.legal}
-        </p>
+        <div className="flex flex-col gap-3">
+          <nav aria-label="Legal" className="flex flex-wrap gap-x-5 gap-y-2">
+            {footerLegalLinks.map((link) => (
+              <Link key={link.href} href={link.href} className="text-[13px] font-medium text-secondary transition-colors hover:text-foreground">
+                {link.label}
+              </Link>
+            ))}
+          </nav>
+          <p className="text-[13px] text-secondary">
+            © <CurrentYear /> {siteConfig.name} · {footerCopy.productOf}. {footerCopy.legal}
+          </p>
+        </div>
         <ThemeSwitcher />
       </Container>
 

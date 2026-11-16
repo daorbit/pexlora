@@ -4,6 +4,7 @@ import { conversionPath, type Conversion } from "@/config/conversions";
 import { getTextTool, type TextToolSlug } from "@/config/text-tools";
 import { getWorkspaceTool, type WorkspaceToolSlug } from "@/config/tools";
 import { toolPageCopy } from "@/content/tool-pages";
+import { pageMetadata } from "@/lib/seo/page-metadata";
 import { seoPagePath, type SeoPage } from "@/content/seo-pages";
 
 const toolTitles: Record<WorkspaceToolSlug, string> = {
@@ -24,17 +25,6 @@ const textToolTitles: Record<TextToolSlug, string> = {
 export function textToolMetadata(slug: TextToolSlug): Metadata {
   const tool = getTextTool(slug);
   return pageMetadata(textToolTitles[slug], tool.description, tool.href);
-}
-
-function pageMetadata(title: string, description: string, path: string, keywords?: string[]): Metadata {
-  return {
-    title,
-    description,
-    keywords,
-    alternates: { canonical: path },
-    openGraph: { title, description, url: path },
-    twitter: { title, description },
-  };
 }
 
 export function seoPageMetadata(page: SeoPage): Metadata {

@@ -98,6 +98,25 @@ export const queueCopy = {
   addToStart: "Add files to start",
 };
 
+export const locationCopy = {
+  found: "This photo reveals where it was taken",
+  removed: "Location removed from the clean copy",
+  viewOnMap: "View on Map",
+  mapNote: "Opens OpenStreetMap in a new tab",
+};
+
+export const compareCopy = {
+  toggle: "Compare",
+  label: "Drag to compare the original and the result",
+  before: "Original",
+  after: "Result",
+};
+
+export const nextStepsCopy = {
+  title: "Continue with",
+  files: (count: number) => `Send ${count} ${count === 1 ? "file" : "files"} to another tool`,
+};
+
 export const panelNotes: Partial<Record<WorkspaceToolSlug, { title: string; items: string[] }>> = {
   "remove-metadata": {
     title: "What's removed",

@@ -22,6 +22,7 @@ import { ConversionSummary } from "@/components/workspace/ConversionSummary";
 import { Dropzone } from "@/components/workspace/Dropzone";
 import { FileRow } from "@/components/workspace/FileRow";
 import { FilesCard } from "@/components/workspace/FilesCard";
+import { NextSteps } from "@/components/workspace/NextSteps";
 import { ToolOptionsBar } from "@/components/workspace/options/ToolOptionsBar";
 import { PanelChecklist } from "@/components/workspace/PanelChecklist";
 import { ResultSummary } from "@/components/workspace/ResultSummary";
@@ -121,6 +122,7 @@ export function WorkspacePanel({ tool, accepts: acceptsOverride, initialOptions,
                 item={item}
                 defaultExpanded={behavior.expandReports}
                 doneLabel={action?.doneLabel}
+                comparable={action?.compare}
                 onRemove={queue.remove}
                 disabled={queue.isProcessing}
               />
@@ -151,6 +153,7 @@ export function WorkspacePanel({ tool, accepts: acceptsOverride, initialOptions,
             <ResultSummary items={queue.doneItems} doneLabel={action.doneLabel} />
           )}
           {actionBar(cn(hasItems && "max-lg:hidden"))}
+          {!queue.isProcessing && results.length > 0 && <NextSteps current={tool} results={results} />}
           {panelFooter}
         </SettingsPanel>
       )}
