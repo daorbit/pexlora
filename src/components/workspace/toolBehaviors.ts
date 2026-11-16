@@ -2,6 +2,7 @@ import { ALL_KINDS, type FileKind } from "@/config/file-formats";
 import type { WorkspaceToolSlug } from "@/config/tools";
 import { getMetadataFieldsError, getResizeError, type ToolOptions } from "@/lib/image/options";
 import type { ProcessedFile } from "@/lib/metadata/types";
+import { generateAltText } from "@/services/ai-api";
 import { cleanFile } from "@/services/file-service";
 import { compressImage, convertImage, editImageMetadata, resizeImage } from "@/services/image-api";
 
@@ -74,6 +75,17 @@ export const toolBehaviors: Record<WorkspaceToolSlug, ToolBehavior> = {
       run: (file, { metadata }) => editImageMetadata(file, metadata),
       validate: ({ metadata }) => getMetadataFieldsError(metadata),
       zipName: "edited-images.zip",
+    },
+  },
+  "image-alt-text": {
+    accepts: ["image"],
+    inspectOnAdd: false,
+    expandReports: false,
+    action: {
+      label: "Generate Alt Text",
+      doneLabel: "Generated",
+      run: (file) => generateAltText(file),
+      zipName: "renamed-images.zip",
     },
   },
   "view-metadata": {

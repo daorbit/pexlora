@@ -1,4 +1,5 @@
 import { routes } from "@/config/site";
+import { AltTextIcon } from "@/components/icons/AltTextIcon";
 import { CompressImageIcon } from "@/components/icons/CompressImageIcon";
 import { ConvertImageIcon } from "@/components/icons/ConvertImageIcon";
 import { EditMetadataIcon } from "@/components/icons/EditMetadataIcon";
@@ -13,9 +14,10 @@ export type WorkspaceToolSlug =
   | "compress-image"
   | "resize-image"
   | "view-metadata"
-  | "edit-metadata";
+  | "edit-metadata"
+  | "image-alt-text";
 
-export type ToolCategory = "metadata" | "image";
+export type ToolCategory = "metadata" | "image" | "ai";
 
 export type WorkspaceTool = {
   slug: WorkspaceToolSlug;
@@ -31,6 +33,7 @@ export type WorkspaceTool = {
 export const toolCategories: Record<ToolCategory, string> = {
   metadata: "Metadata tools",
   image: "Image tools",
+  ai: "AI tools",
 };
 
 export const workspaceTools: WorkspaceTool[] = [
@@ -99,6 +102,17 @@ export const workspaceTools: WorkspaceTool[] = [
     headline: "Convert images to JPG, PNG, WebP or AVIF.",
     description:
       "Convert JPG to WebP, PNG to JPG, WebP to PNG and more, with quality control. Metadata is removed from every file.",
+  },
+  {
+    slug: "image-alt-text",
+    category: "ai",
+    href: routes.altText,
+    icon: AltTextIcon,
+    name: "AI Alt Text Generator",
+    shortName: "AI Alt Text",
+    headline: "Generate alt text and SEO file names with AI.",
+    description:
+      "AI looks at each image and writes accessible alt text, a short description, keywords and an SEO-friendly file name you can download.",
   },
 ];
 

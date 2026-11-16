@@ -1,4 +1,5 @@
 import { conversionIconSrc, conversionPath, popularConversions, type Conversion } from "@/config/conversions";
+import { textToolIconSrc, textTools } from "@/config/text-tools";
 import { toolIconSrc, workspaceTools, type ToolCategory } from "@/config/tools";
 
 export type HubCategory = ToolCategory | "convert";
@@ -16,17 +17,30 @@ export const hubCategories: { id: HubCategory | "all"; label: string }[] = [
   { id: "all", label: "All Tools" },
   { id: "metadata", label: "Metadata" },
   { id: "image", label: "Edit Images" },
+  { id: "ai", label: "AI Tools" },
   { id: "convert", label: "Convert" },
 ];
 
-const toolItems: HubItem[] = workspaceTools.map((tool) => ({
+const textToolItems: HubItem[] = textTools.map((tool) => ({
   key: tool.slug,
   name: tool.name,
   description: tool.description,
   href: tool.href,
-  iconSrc: toolIconSrc(tool.slug),
-  category: tool.category,
+  iconSrc: textToolIconSrc(tool.slug),
+  category: "ai",
 }));
+
+const toolItems: HubItem[] = [
+  ...workspaceTools.map((tool) => ({
+    key: tool.slug,
+    name: tool.name,
+    description: tool.description,
+    href: tool.href,
+    iconSrc: toolIconSrc(tool.slug),
+    category: tool.category,
+  })),
+  ...textToolItems,
+];
 
 export function conversionItem(conversion: Conversion): HubItem {
   return {

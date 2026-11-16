@@ -5,6 +5,13 @@ export const DAILY_LIMITS = {
   user: 100,
 } as const;
 
+export const AI_DAILY_LIMITS = {
+  anonymous: 5,
+  user: 30,
+} as const;
+
+export const AI_TEXT_LIMITS = { minWords: 40, maxCharacters: 6000 } as const;
+
 export const MAX_FILES_PER_BATCH = 10;
 
 export const MAX_RESIZE_DIMENSION = 8000;

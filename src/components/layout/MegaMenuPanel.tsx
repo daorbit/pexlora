@@ -21,7 +21,7 @@ export function MegaMenuPanel({ id, onNavigate }: MegaMenuPanelProps) {
       id={id}
       className="fixed inset-x-0 top-14 z-50 border-b border-separator bg-surface shadow-card motion-safe:animate-menu-in"
     >
-      <div className="mx-auto grid max-w-[1200px] grid-cols-[1.35fr_1fr_1.7fr] gap-10 px-10 pt-10 pb-12">
+      <div className="mx-auto grid max-w-[1320px] grid-cols-[1.4fr_1fr_1fr_1.8fr] gap-8 px-10 pt-10 pb-12">
         <div className="flex flex-col gap-2">
           <MenuGroupLabel>{primary.label}</MenuGroupLabel>
           <ul className="flex flex-col gap-1.5">

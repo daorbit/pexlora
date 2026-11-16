@@ -7,6 +7,8 @@ import { cn } from "@/lib/utils/cn";
 import { formatBytes } from "@/lib/utils/format-bytes";
 import { formatDuration } from "@/lib/utils/format-duration";
 import { Button } from "@/components/ui/Button";
+import { AiExplainPanel } from "@/components/ai/AiExplainPanel";
+import { InsightsPanel } from "@/components/ai/InsightsPanel";
 import { FileStatus } from "@/components/workspace/FileStatus";
 import { FileThumb } from "@/components/workspace/FileThumb";
 import { ProgressBar } from "@/components/workspace/ProgressBar";
@@ -75,8 +77,14 @@ export function FileRow({ item, defaultExpanded, doneLabel, onRemove, disabled }
           </Button>
         </div>
       </div>
-      {expanded && report && (
+      {result?.insights && (
         <div className="px-3 pb-4 sm:px-5 sm:pb-5">
+          <InsightsPanel insights={result.insights} fileName={result.name} />
+        </div>
+      )}
+      {expanded && report && (
+        <div className="flex flex-col gap-3 px-3 pb-4 sm:px-5 sm:pb-5">
+          {report.totalTags > 0 && <AiExplainPanel report={report} />}
           <MetadataReport report={report} />
         </div>
       )}

@@ -3,7 +3,6 @@
 import { useCallback, useMemo, useState } from "react";
 import { acceptAttribute, type FileKind } from "@/config/file-formats";
 import type { SampleImage } from "@/config/samples";
-import { routes } from "@/config/site";
 import type { WorkspaceToolSlug } from "@/config/tools";
 import { useFileDrop } from "@/hooks/useFileDrop";
 import { useFileQueue } from "@/hooks/useFileQueue";
@@ -15,8 +14,7 @@ import { useCanSaveToPhotos } from "@/hooks/useCanSaveToPhotos";
 import { cn } from "@/lib/utils/cn";
 import { fetchAsFile } from "@/lib/utils/fetch-file";
 import { isGalleryMedia, saveFiles } from "@/lib/utils/save-file";
-import { Alert } from "@/components/ui/Alert";
-import { ButtonLink } from "@/components/ui/Button";
+import { UpsellAlert } from "@/components/ui/UpsellAlert";
 import { Dropzone } from "@/components/workspace/Dropzone";
 import { FileRow } from "@/components/workspace/FileRow";
 import { ToolOptionsBar } from "@/components/workspace/options/ToolOptionsBar";
@@ -74,20 +72,15 @@ export function WorkspacePanel({ tool, accepts: acceptsOverride, initialOptions 
     <div {...dropProps} className="relative flex flex-col gap-2.5">
       <input {...picker.inputProps} />
 
-      <ToolOptionsBar tool={tool} options={options} onChange={changeOptions} disabled={queue.isProcessing} />
+      <ToolOptionsBar
+        tool={tool}
+        options={options}
+        onChange={changeOptions}
+        disabled={queue.isProcessing}
+        sourceFile={queue.items.find((item) => item.format.kind === "image")?.file}
+      />
 
-      {queue.notice && (
-        <Alert
-          message={queue.notice.message}
-          action={
-            queue.notice.upsell && (
-              <ButtonLink href={routes.signUp} size="sm">
-                Create Free Account
-              </ButtonLink>
-            )
-          }
-        />
-      )}
+      <UpsellAlert message={queue.notice?.message ?? null} upsell={Boolean(queue.notice?.upsell)} />
 
       {behavior.action && !queue.isProcessing && queue.doneItems.length > 0 && (
         <ResultSummary items={queue.doneItems} doneLabel={behavior.action.doneLabel} />

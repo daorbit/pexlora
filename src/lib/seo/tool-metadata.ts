@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { conversionPath, type Conversion } from "@/config/conversions";
+import { getTextTool, type TextToolSlug } from "@/config/text-tools";
 import { getWorkspaceTool, type WorkspaceToolSlug } from "@/config/tools";
 import { toolPageCopy } from "@/content/tool-pages";
 import { seoPagePath, type SeoPage } from "@/content/seo-pages";
@@ -11,7 +12,18 @@ const toolTitles: Record<WorkspaceToolSlug, string> = {
   "compress-image": "Compress Image Online: Reduce JPG, PNG & WebP Size Free",
   "resize-image": "Resize Image Online in Pixels or Percentage Free",
   "convert-format": "Image Converter: JPG to WebP, PNG to JPG & AVIF Online Free",
+  "image-alt-text": "AI Alt Text Generator: Image Descriptions & SEO File Names Free",
 };
+
+const textToolTitles: Record<TextToolSlug, string> = {
+  "ai-text-detector": "AI Text Detector: Check if Text Was Written by AI Free",
+  "ai-humanizer": "AI Humanizer: Make AI Text Sound Natural and Human Free",
+};
+
+export function textToolMetadata(slug: TextToolSlug): Metadata {
+  const tool = getTextTool(slug);
+  return pageMetadata(textToolTitles[slug], tool.description, tool.href);
+}
 
 function pageMetadata(title: string, description: string, path: string, keywords?: string[]): Metadata {
   return {

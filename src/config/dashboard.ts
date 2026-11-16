@@ -1,6 +1,7 @@
 import { LayoutGrid, Settings } from "lucide-react";
 import type { IconComponent } from "@/components/icons/types";
 import { routes } from "@/config/site";
+import { textTools } from "@/config/text-tools";
 import {
   toolCategories,
   toolsInCategory,
@@ -29,20 +30,31 @@ const dashboardHrefs: Record<WorkspaceToolSlug, string> = {
   "compress-image": routes.dashboardCompressor,
   "resize-image": routes.dashboardResizer,
   "convert-format": routes.dashboardConverter,
+  "image-alt-text": routes.dashboardAltText,
 };
 
 export const dashboardModules = workspaceTools.map((tool) => ({ slug: tool.slug, href: dashboardHrefs[tool.slug] }));
 
 function toolSection(category: ToolCategory): DashboardNavSection {
-  return {
-    title: toolCategories[category],
-    items: toolsInCategory(category).map((tool) => ({
-      label: tool.shortName,
-      description: tool.name,
-      icon: tool.icon,
-      href: dashboardHrefs[tool.slug],
-    })),
-  };
+  const items: DashboardNavItem[] = toolsInCategory(category).map((tool) => ({
+    label: tool.shortName,
+    description: tool.name,
+    icon: tool.icon,
+    href: dashboardHrefs[tool.slug],
+  }));
+
+  if (category === "ai") {
+    items.push(
+      ...textTools.map((tool) => ({
+        label: tool.shortName,
+        description: tool.name,
+        icon: tool.icon,
+        href: tool.dashboardHref,
+      })),
+    );
+  }
+
+  return { title: toolCategories[category], items };
 }
 
 export const dashboardNav: DashboardNavSection[] = [
@@ -59,6 +71,7 @@ export const dashboardNav: DashboardNavSection[] = [
   },
   toolSection("metadata"),
   toolSection("image"),
+  toolSection("ai"),
   {
     title: "Account",
     items: [

@@ -41,5 +41,11 @@ export const env = {
       redirectUri: process.env.GCP_REDIRECT_URI || null,
     };
   },
+  get cloudflareAi() {
+    return {
+      accountId: required("NO_REPLY_MAIL_CLOUDFLARE_ACCOUNT_ID"),
+      apiToken: required("NO_REPLY_MAIL_CLOUDFLARE_API_TOKEN"),
+    };
+  },
   isProduction: process.env.NODE_ENV === "production",
 };

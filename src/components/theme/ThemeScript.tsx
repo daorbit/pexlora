@@ -1,5 +1,10 @@
+import Script from "next/script";
 import { themeInitScript } from "@/lib/theme";
 
 export function ThemeScript() {
-  return <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />;
+  return (
+    <Script id="theme-init" strategy="beforeInteractive">
+      {themeInitScript}
+    </Script>
+  );
 }

@@ -12,9 +12,10 @@ type ToolOptionsBarProps = {
   options: ToolOptions;
   onChange: (options: ToolOptions) => void;
   disabled: boolean;
+  sourceFile?: File;
 };
 
-export function ToolOptionsBar({ tool, options, onChange, disabled }: ToolOptionsBarProps) {
+export function ToolOptionsBar({ tool, options, onChange, disabled, sourceFile }: ToolOptionsBarProps) {
   switch (tool) {
     case "convert-format":
       return (
@@ -46,6 +47,7 @@ export function ToolOptionsBar({ tool, options, onChange, disabled }: ToolOption
           options={options.metadata}
           onChange={(metadata) => onChange({ ...options, metadata })}
           disabled={disabled}
+          sourceFile={sourceFile}
         />
       );
     default:

@@ -52,14 +52,16 @@ function DoneSummary({ item, doneLabel }: { item: QueueItem; doneLabel: string }
           {result.dimensions.width} × {result.dimensions.height}
         </span>
       )}
-      <span className="tabular-nums text-secondary">
-        {formatBytes(item.file.size)} → {formatBytes(result.blob.size)}
-        <span className={change < 0 ? "text-success" : undefined}>
-          {" "}
-          ({change > 0 ? "+" : ""}
-          {change}%)
+      {result.blob.size !== item.file.size && (
+        <span className="tabular-nums text-secondary">
+          {formatBytes(item.file.size)} → {formatBytes(result.blob.size)}
+          <span className={change < 0 ? "text-success" : undefined}>
+            {" "}
+            ({change > 0 ? "+" : ""}
+            {change}%)
+          </span>
         </span>
-      </span>
+      )}
     </span>
   );
 }

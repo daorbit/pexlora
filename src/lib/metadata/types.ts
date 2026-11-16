@@ -1,3 +1,5 @@
+import type { ImageInsights } from "@/lib/ai/types";
+
 export type MetadataGroupId =
   | "c2pa"
   | "png-text"
@@ -48,4 +50,5 @@ export type ProcessedFile = {
   leftoverTags: number | null;
   quotaRemaining: number | null;
   dimensions?: ImageDimensions | null;
+  insights?: ImageInsights;
 };

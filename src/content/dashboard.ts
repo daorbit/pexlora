@@ -42,6 +42,16 @@ export const moduleTips: Record<WorkspaceToolSlug, { title: string; tips: string
       "Metadata is removed from every resized file",
     ],
   },
+  "image-alt-text": {
+    title: "How it works",
+    tips: [
+      "AI looks at each image and writes alt text",
+      "Copy alt text, description or keywords in one click",
+      "Downloads are renamed with an SEO file name",
+      "Each image uses one AI request from your daily limit",
+      "Real people are never named",
+    ],
+  },
   "edit-metadata": {
     title: "How it works",
     tips: [

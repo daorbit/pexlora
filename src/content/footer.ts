@@ -1,5 +1,6 @@
 import { conversionPath, popularConversions } from "@/config/conversions";
 import { routes } from "@/config/site";
+import { textTools } from "@/config/text-tools";
 import { workspaceTools } from "@/config/tools";
 import { seoPagePath, seoPagesIn, type SeoPage } from "@/content/seo-pages";
 
@@ -14,7 +15,7 @@ export const footerCopy = {
 export const footerColumns = [
   {
     title: "Tools",
-    links: workspaceTools.map((tool) => ({ label: tool.name, href: tool.href })),
+    links: [...workspaceTools, ...textTools].map((tool) => ({ label: tool.name, href: tool.href })),
   },
   {
     title: "Convert images",

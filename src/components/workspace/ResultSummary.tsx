@@ -25,11 +25,13 @@ export function ResultSummary({ items, doneLabel }: ResultSummaryProps) {
         <span className="font-semibold">
           {doneLabel} · {resultCopy.files(items.length)}
         </span>
-        <span className="tabular-nums">
-          {after <= before
-            ? resultCopy.saved(formatBytes(before - after), change)
-            : resultCopy.grew(formatBytes(after - before))}
-        </span>
+        {before !== after && (
+          <span className="tabular-nums">
+            {after < before
+              ? resultCopy.saved(formatBytes(before - after), change)
+              : resultCopy.grew(formatBytes(after - before))}
+          </span>
+        )}
       </p>
     </div>
   );

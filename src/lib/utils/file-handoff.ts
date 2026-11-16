@@ -1,14 +1,19 @@
-import type { WorkspaceToolSlug } from "@/config/tools";
+const pending = new Map<string, unknown>();
 
-let pending: { tool: WorkspaceToolSlug; files: File[] } | null = null;
-
-export function handOffFiles(tool: WorkspaceToolSlug, files: File[]) {
-  pending = { tool, files };
+export function handOff<T>(target: string, value: T) {
+  pending.set(target, value);
 }
 
-export function takeHandedOffFiles(tool: WorkspaceToolSlug) {
-  if (pending?.tool !== tool) return [];
-  const { files } = pending;
-  pending = null;
-  return files;
+export function takeHandOff<T>(target: string): T | undefined {
+  const value = pending.get(target) as T | undefined;
+  pending.delete(target);
+  return value;
+}
+
+export function handOffFiles(tool: string, files: File[]) {
+  handOff(`files:${tool}`, files);
+}
+
+export function takeHandedOffFiles(tool: string) {
+  return takeHandOff<File[]>(`files:${tool}`) ?? [];
 }

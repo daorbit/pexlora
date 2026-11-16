@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { conversionPath, conversions } from "@/config/conversions";
 import { routes } from "@/config/site";
+import { textTools } from "@/config/text-tools";
 import { workspaceTools } from "@/config/tools";
 import { seoPagePath, seoPages } from "@/content/seo-pages";
 import { env } from "@/lib/env";
@@ -13,6 +14,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}${routes.home}`, lastModified, changeFrequency: "weekly", priority: 1 },
     ...[
       ...workspaceTools.map((tool) => tool.href),
+      ...textTools.map((tool) => tool.href),
       ...seoPages.map(seoPagePath),
       ...conversions.map((conversion) => conversionPath(conversion.slug)),
     ].map((path) => ({

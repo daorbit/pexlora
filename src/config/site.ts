@@ -17,6 +17,9 @@ export const routes = {
   dashboardCompressor: "/dashboard/compressor",
   dashboardResizer: "/dashboard/resizer",
   dashboardEditor: "/dashboard/editor",
+  dashboardAltText: "/dashboard/alt-text",
+  dashboardAiDetector: "/dashboard/ai-detector",
+  dashboardHumanizer: "/dashboard/humanizer",
   dashboardSettings: "/dashboard/settings",
   removeMetadata: "/remove-ai-metadata",
   convert: "/convert-image",
@@ -24,6 +27,9 @@ export const routes = {
   compress: "/compress-image",
   resize: "/resize-image",
   editMetadata: "/edit-image-metadata",
+  altText: "/ai-alt-text-generator",
+  aiDetector: "/ai-text-detector",
+  humanizer: "/humanize-ai-text",
   faq: "/#faq",
   contact: "/contact",
   googleAuth: "/api/auth/google",
@@ -40,7 +46,7 @@ export const navLinks: NavLink[] = [
   { label: "Compress", href: routes.compress },
   { label: "Resize", href: routes.resize, wideOnly: true },
   { label: "Convert", href: routes.convert },
-  { label: "FAQ", href: routes.faq, wideOnly: true },
+  { label: "Contact", href: routes.contact, wideOnly: true },
 ];
 
 export const infoLinks: NavLink[] = [
