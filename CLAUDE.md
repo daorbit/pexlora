@@ -6,7 +6,7 @@ Free image utilities in one Next.js app: remove AI metadata, convert formats, in
 
 ## Commands
 
-- `npm run dev` — dev server on http://localhost:3000
+- `npm run dev` — dev server on http://localhost:5778
 - `npm run build` — production build
 - `npm run lint` — ESLint
 - `npx tsc --noEmit` — type-check

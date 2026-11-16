@@ -19,7 +19,7 @@ export const env = {
     return required("SESSION_SECRET");
   },
   get appUrl() {
-    return (process.env.APP_URL ?? "http://localhost:3000").replace(/\/$/, "");
+    return (process.env.APP_URL ?? "http://localhost:5778").replace(/\/$/, "");
   },
   get smtp() {
     return {
