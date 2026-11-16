@@ -23,9 +23,19 @@ export const signUpSchema = z.object({
   password: passwordSchema,
 });
 
+export const forgotPasswordSchema = z.object({
+  email: z.email("Enter a valid email address").trim(),
+});
+
+export const resetPasswordSchema = z.object({
+  token: z.string().min(20, "This reset link is invalid"),
+  password: passwordSchema,
+});
+
 export type AuthFormState =
   | {
       message?: string;
+      success?: string;
       errors?: Partial<Record<"name" | "email" | "password", string[]>>;
       values?: { name?: string; email?: string };
     }

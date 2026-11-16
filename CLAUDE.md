@@ -19,7 +19,7 @@ Free image utilities in one Next.js app: remove AI metadata, convert formats, in
 - sharp (encode/convert) + exifr (read EXIF/XMP/IPTC/GPS)
 - Auth: email + password (bcryptjs) or Google OAuth (code flow + PKCE, ID token verified with jose against Google's JWKS, `src/lib/auth/google.ts`, routes `/api/auth/google` and `/api/auth/google/callback`). Both end in the same JWT session cookie. A Google sign-in with an existing email links `googleId` to that user; Google-only users have no `passwordHash`.
 - Mail: nodemailer over Gmail SMTP (Google App Password), sent from goswamiajay526@gmail.com
-- Icons: lucide-react only
+- Icons: lucide-react only. Never type arrow or symbol characters (→ ← › ↵ etc.) in UI text; use the Lucide icon (`ArrowRight`, `ArrowLeft`, …)
 - Deployed on Vercel (`vercel.json`, region `bom1`)
 
 ## Project structure
@@ -87,12 +87,17 @@ src/
 - **Never use sparkle icons** (lucide `Sparkles` etc.). For AI tags use the custom `AiTagIcon` in `src/components/icons/`; add new custom icons there when lucide has no fitting one.
 - Fonts: Apple's system stack (`-apple-system`, SF Pro) with Inter as the fallback on Windows/Android, Geist Mono for metadata values.
 - Every clickable element gets `cursor: pointer` (base layer in `globals.css`). Don't remove it.
-- Theme: **Light / Dark only** (no System option). a `beforeInteractive` `<Script id="theme-init">` in the root layout sets `data-theme` before paint (stored choice, else the device setting on first visit); `useTheme` (useSyncExternalStore). Marketing pages have one theme control: `HeaderThemeSwitch` in the header (a small switch whose lime knob slides across and morphs sun → crescent via `SunMoonIcon`); none in the footer or mobile menu. Every toggle goes through `useThemeReveal` → `runThemeTransition` (`lib/theme-transition.ts`): a View Transition whose new snapshot is revealed as a circle growing from the button (falls back to an instant switch without the API or with reduced motion). `ThemeToggle` (dashboard top bar, auth pages) and `ThemeSwitcher` (settings) remain.
+- Theme: **Light / Dark only** (no System option). a `beforeInteractive` `<Script id="theme-init">` in the root layout sets `data-theme` before paint (stored choice, else **light**; the device setting is ignored); `useTheme` (useSyncExternalStore). Marketing pages have one theme control: `HeaderThemeSwitch` in the header (a small switch whose lime knob slides across and morphs sun → crescent via `SunMoonIcon`); none in the footer or mobile menu. Every toggle goes through `useThemeReveal` → `runThemeTransition` (`lib/theme-transition.ts`): a View Transition whose new snapshot is revealed as a circle growing from the button (falls back to an instant switch without the API or with reduced motion). `ThemeToggle` (dashboard top bar, auth pages) and `ThemeSwitcher` (settings) remain.
 - URL state: tool settings live in search params (`?format=webp`, `?level=strong`, `?target=100&fallback=jpg`, `?mode=size&width=1200`, `?tone=casual`, homepage `?tools=ai`), read with `useLocationSearch` (useSyncExternalStore) and written with `replaceSearchParams` once the user changes a setting (initial URLs stay clean). On `/convert/[pair]` the format is the route, so the options bar is hidden (`conversion` prop) and the session is scoped per pair. Conversion always encodes at `CONVERT_QUALITY` (100); lowering quality is the Compressor's job. `/compress-image-to/[size]` (`config/compress-targets.ts`) preselects a target size. Dynamic routes read `params` inside `<Suspense>` (instant navigation). Never put user text or files in the URL. Protected pages redirect to `/signin?next=…`; validate with `safeNextPath`.
 - Session state: queued files, results, reports and AI text outputs persist per tool in IndexedDB (`lib/storage`, `useWorkspaceSession`, `useTextToolSession`) for 24 hours on the device; "Clear All" removes them.
 - Every tool has its own page (`ToolPage` → `ToolHero` + `ToolWorkspace`). Header, footer and menus link to those routes, never to `/#tool` hashes.
 - Scrollbar: thin, themed via `--scrollbar-thumb` / `--scrollbar-thumb-hover` in `globals.css`.
 - Button and title labels use title case ("Choose Images"); headlines are sentence case.
+
+## Auth pages
+
+- Approved mockup: https://claude.ai/artifact/3Tmhy2xgSWAEdWTN2vni4z (direction A, "Stage split"). Desktop: `AuthStage` on the left, always `theme-dark` (logo, "Location" eyebrow, `StrikeText` GPS, headline with the lime marker, a `MetadataFeedRows` ticker); the form column follows the site theme. Phones: logo + close in a 48px bar, `AuthStageCompact` (small ink card) and the form below. A round close (X) button links home. `AuthCard` = title, `AuthModeSwitch` segmented tabs (Sign In | Sign Up, not on the password pages), ink Google button, "or with email", `AuthForm` (labels above inputs via `FormField labelPosition="above"`, lime submit with arrow chip), perk chips, `AuthLegalNote`.
+- Password reset: `/forgot-password` → `requestPasswordReset` (always the same answer, so it never reveals whether an email exists; skips Google-only users; 60 s resend cooldown) stores a sha256 of a random token in `PasswordReset` (TTL index, 60 min) and emails `/reset-password?token=…` (`resetPasswordEmail` template). `resetPassword` consumes the token once, sets the new hash, signs the user in and redirects to the dashboard. On phones there is no card and the form sits at the bottom of the screen. Copy lives in `content/auth.ts`.
 
 ## Dashboard
 

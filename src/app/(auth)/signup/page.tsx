@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { signUp } from "@/actions/auth";
-import { DAILY_LIMITS } from "@/config/limits";
+import { authCopy } from "@/content/auth";
 import { AuthCard } from "@/components/auth/AuthCard";
 import { AuthForm } from "@/components/auth/AuthForm";
 import { signUpFields } from "@/components/auth/fields";
@@ -9,14 +9,12 @@ import { SocialAuth } from "@/components/auth/SocialAuth";
 export const metadata: Metadata = { title: "Create account" };
 
 export default function SignUpPage() {
+  const copy = authCopy.signup;
+
   return (
-    <AuthCard
-      mode="signup"
-      title="Create your account"
-      description={`Free forever. ${DAILY_LIMITS.user} files a day across every tool.`}
-    >
-      <SocialAuth googleLabel="Sign up with Google" />
-      <AuthForm action={signUp} fields={signUpFields} submitLabel="Create Account" />
+    <AuthCard tabs="signup" title={copy.title} description={copy.description}>
+      <SocialAuth googleLabel={copy.google} />
+      <AuthForm action={signUp} fields={signUpFields} submitLabel={copy.submit} />
     </AuthCard>
   );
 }

@@ -2,36 +2,32 @@
 
 import Link from "next/link";
 import { routes } from "@/config/site";
-import type { AuthMode } from "@/content/auth";
+import { authCopy, type AuthMode } from "@/content/auth";
 import { useNextPath } from "@/hooks/useNextPath";
 import { cn } from "@/lib/utils/cn";
 import { withNextParam } from "@/lib/url/next-path";
+import { segmentedItem, segmentedTrack } from "@/components/ui/segmented-styles";
 
-const modes: { mode: AuthMode; label: string; href: string }[] = [
-  { mode: "signin", label: "Sign In", href: routes.signIn },
-  { mode: "signup", label: "Create Account", href: routes.signUp },
+const tabs: { mode: AuthMode; href: string }[] = [
+  { mode: "signin", href: routes.signIn },
+  { mode: "signup", href: routes.signUp },
 ];
 
 export function AuthModeSwitch({ active }: { active: AuthMode }) {
   const next = useNextPath();
 
   return (
-    <nav aria-label="Sign in or create account" className="grid grid-cols-2 rounded-xl bg-fill p-[3px]">
-      {modes.map(({ mode, label, href }) => {
+    <nav aria-label={authCopy.tabs.label} className={cn(segmentedTrack, "grid w-full grid-cols-2 bg-canvas p-0.75 lg:p-1")}>
+      {tabs.map(({ mode, href }) => {
         const isActive = mode === active;
         return (
           <Link
             key={mode}
             href={withNextParam(href, next)}
             aria-current={isActive ? "page" : undefined}
-            className={cn(
-              "flex h-[34px] items-center justify-center rounded-md text-[13.5px] font-medium transition-colors focus-visible:outline-2 focus-visible:outline-ring",
-              isActive
-                ? "bg-surface text-foreground shadow-thumb ring-1 ring-separator"
-                : "text-secondary hover:text-foreground",
-            )}
+            className={cn(segmentedItem(isActive), "h-8.5 text-[13px] lg:h-9.5 lg:text-sm")}
           >
-            {label}
+            {authCopy.tabs[mode]}
           </Link>
         );
       })}

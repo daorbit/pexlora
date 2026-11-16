@@ -10,6 +10,8 @@ export const routes = {
   home: "/",
   signIn: "/signin",
   signUp: "/signup",
+  forgotPassword: "/forgot-password",
+  resetPassword: "/reset-password",
   dashboard: "/dashboard",
   dashboardCleaner: "/dashboard/cleaner",
   dashboardConverter: "/dashboard/converter",
@@ -60,4 +62,4 @@ export const infoLinks: NavLink[] = [
 ];
 
 export const protectedRoutes = [routes.dashboard];
-export const authRoutes = [routes.signIn, routes.signUp];
+export const authRoutes = [routes.signIn, routes.signUp, routes.forgotPassword, routes.resetPassword];

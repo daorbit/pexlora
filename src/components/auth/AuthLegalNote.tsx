@@ -2,11 +2,11 @@ import Link from "next/link";
 import { routes } from "@/config/site";
 import { authLegal } from "@/content/auth";
 
-const linkClasses = "font-medium text-foreground underline decoration-border-strong underline-offset-2 hover:decoration-foreground";
+const linkClasses = "font-medium text-accent-text hover:underline";
 
 export function AuthLegalNote() {
   return (
-    <p className="text-center text-xs leading-relaxed text-secondary">
+    <p className="text-center text-[11.5px] leading-normal text-tertiary lg:text-left lg:text-[12.5px]">
       {authLegal.before}{" "}
       <Link href={routes.terms} className={linkClasses}>
         {authLegal.terms}

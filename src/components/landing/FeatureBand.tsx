@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 import type { ComponentProps, ReactNode } from "react";
 import { Band } from "@/components/ui/Band";
 import { BandEyebrow } from "@/components/landing/BandEyebrow";
@@ -25,9 +26,10 @@ export function FeatureBand({ id, tone, eyebrow, eyebrowClassName, visual, title
           <BandText>{description}</BandText>
           <Link
             href={link.href}
-            className="text-[15px] font-semibold text-accent-text underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring sm:text-base"
+            className="group inline-flex items-center gap-1.5 text-[15px] font-semibold text-accent-text underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring sm:text-base"
           >
-            {link.label} →
+            {link.label}
+            <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" strokeWidth={2.5} aria-hidden />
           </Link>
         </div>
       </div>

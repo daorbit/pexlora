@@ -5,15 +5,34 @@ const emailField: AuthField = {
   label: "Email",
   type: "email",
   autoComplete: "email",
+  placeholder: "you@example.com",
 };
 
 export const signInFields: AuthField[] = [
   emailField,
-  { name: "password", label: "Password", type: "password", autoComplete: "current-password" },
+  { name: "password", label: "Password", type: "password", autoComplete: "current-password", placeholder: "Your password" },
 ];
 
 export const signUpFields: AuthField[] = [
-  { name: "name", label: "Full name", type: "text", autoComplete: "name" },
+  { name: "name", label: "Name", type: "text", autoComplete: "name", placeholder: "Your name" },
   emailField,
-  { name: "password", label: "Password (8+ characters)", type: "password", autoComplete: "new-password" },
+  {
+    name: "password",
+    label: "Password",
+    type: "password",
+    autoComplete: "new-password",
+    placeholder: "At least 8 characters",
+  },
+];
+
+export const forgotPasswordFields: AuthField[] = [emailField];
+
+export const resetPasswordFields: AuthField[] = [
+  {
+    name: "password",
+    label: "New password",
+    type: "password",
+    autoComplete: "new-password",
+    placeholder: "At least 8 characters",
+  },
 ];

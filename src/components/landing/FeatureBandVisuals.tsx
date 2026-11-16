@@ -1,3 +1,4 @@
+import { ArrowRight } from "lucide-react";
 import { featureBands } from "@/content/landing";
 import { cn } from "@/lib/utils/cn";
 import { StrikeText } from "@/components/ui/StrikeText";
@@ -40,9 +41,7 @@ export function SizeVisual() {
   return (
     <div className="flex flex-wrap items-center gap-x-3 gap-y-1 sm:gap-x-6 lg:gap-x-10">
       <span className={cn(giantNumber, "text-border-strong")}>{from}</span>
-      <span className="text-[24px] text-tertiary sm:text-[40px] lg:text-[60px]" aria-hidden>
-        →
-      </span>
+      <ArrowRight className="size-7 shrink-0 text-tertiary sm:size-11 lg:size-16" strokeWidth={2} aria-hidden />
       <SwapStack
         className={giantNumber}
         first={<span>{format}</span>}

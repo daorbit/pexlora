@@ -1,4 +1,4 @@
-import { Check, LoaderCircle, X } from "lucide-react";
+import { ArrowRight, Check, LoaderCircle, X } from "lucide-react";
 import { AiTagIcon } from "@/components/icons/AiTagIcon";
 import { resultCopy } from "@/content/workspace";
 import type { QueueItem } from "@/hooks/useFileQueue";
@@ -66,8 +66,10 @@ function DoneSummary({ item, doneLabel }: { item: QueueItem; doneLabel: string }
         </span>
       )}
       {result.blob.size !== item.file.size && (
-        <span className="tabular-nums text-secondary">
-          {formatBytes(item.file.size)} → {formatBytes(result.blob.size)}
+        <span className="inline-flex items-center gap-1 tabular-nums text-secondary">
+          {formatBytes(item.file.size)}
+          <ArrowRight className="size-3 shrink-0" aria-label="to" />
+          {formatBytes(result.blob.size)}
           <span className={change < 0 ? "text-success" : undefined}>
             {" "}
             ({change > 0 ? "+" : ""}
