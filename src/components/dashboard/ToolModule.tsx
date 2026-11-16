@@ -13,7 +13,7 @@ export function ToolModule({ slug }: { slug: WorkspaceToolSlug }) {
     <div className="flex flex-col gap-8">
       <PageHeader title={tool.name} description={tool.description} />
       <div className="grid items-start gap-6 xl:grid-cols-[minmax(0,1fr)_300px]">
-        <ToolWorkspace initialTool={slug} showTabs={false} />
+        <ToolWorkspace tool={slug} />
         <aside className="flex flex-col gap-4">
           <Card className="flex flex-col gap-4 p-5">
             <p className="text-sm font-semibold">{title}</p>

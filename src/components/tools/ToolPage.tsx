@@ -1,9 +1,12 @@
-import { getWorkspaceTool, type WorkspaceToolSlug } from "@/config/tools";
+import { otherTools } from "@/config/tool-hub";
+import { getWorkspaceTool, toolIconSrc, type WorkspaceToolSlug } from "@/config/tools";
+import { toolPageCopy } from "@/content/tool-pages";
 import { AccountBand } from "@/components/landing/AccountBand";
 import { FaqSection } from "@/components/landing/FaqSection";
 import { FeaturesSection } from "@/components/landing/FeaturesSection";
 import { InspectorShowcase } from "@/components/landing/InspectorShowcase";
-import { ToolsSection } from "@/components/landing/ToolsSection";
+import { ConversionLinksSection } from "@/components/tools/ConversionLinksSection";
+import { HubGridSection } from "@/components/tools/HubGridSection";
 import { ToolHero } from "@/components/tools/ToolHero";
 
 const metadataTools: WorkspaceToolSlug[] = ["remove-metadata", "view-metadata", "edit-metadata"];
@@ -13,9 +16,16 @@ export function ToolPage({ slug }: { slug: WorkspaceToolSlug }) {
 
   return (
     <>
-      <ToolHero icon={tool.icon} headline={tool.headline} description={tool.description} tool={slug} />
+      <ToolHero
+        icon={tool.icon}
+        iconSrc={toolIconSrc(slug)}
+        headline={tool.headline}
+        description={tool.description}
+        tool={slug}
+      />
+      {slug === "convert-format" && <ConversionLinksSection />}
       {metadataTools.includes(slug) ? <InspectorShowcase /> : <FeaturesSection />}
-      <ToolsSection />
+      <HubGridSection {...toolPageCopy.moreTools} items={otherTools(slug)} />
       <FaqSection />
       <AccountBand />
     </>

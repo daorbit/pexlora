@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "brand:assets": "node scripts/generate-brand-assets.mjs",
-    "samples": "node scripts/generate-samples.mjs"
+    "samples": "node scripts/generate-samples.mjs",
+    "icons": "node scripts/generate-tool-icons.mjs"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",

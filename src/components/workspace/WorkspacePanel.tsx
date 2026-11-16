@@ -8,6 +8,7 @@ import type { WorkspaceToolSlug } from "@/config/tools";
 import { useFileDrop } from "@/hooks/useFileDrop";
 import { useFileQueue } from "@/hooks/useFileQueue";
 import { useFilePicker } from "@/hooks/useFilePicker";
+import { useHandedOffFiles } from "@/hooks/useHandedOffFiles";
 import { DEFAULT_TOOL_OPTIONS, type ToolOptions } from "@/lib/image/options";
 import { saveCopy } from "@/content/workspace";
 import { useCanSaveToPhotos } from "@/hooks/useCanSaveToPhotos";
@@ -20,20 +21,23 @@ import { Dropzone } from "@/components/workspace/Dropzone";
 import { FileRow } from "@/components/workspace/FileRow";
 import { ToolOptionsBar } from "@/components/workspace/options/ToolOptionsBar";
 import { QueueToolbar } from "@/components/workspace/QueueToolbar";
+import { ResultSummary } from "@/components/workspace/ResultSummary";
 import { toolBehaviors } from "@/components/workspace/toolBehaviors";
 
-type WorkspacePanelProps = {
+export type WorkspacePanelProps = {
   tool: WorkspaceToolSlug;
   accepts?: FileKind[];
+  initialOptions?: Partial<ToolOptions>;
 };
 
-export function WorkspacePanel({ tool, accepts: acceptsOverride }: WorkspacePanelProps) {
+export function WorkspacePanel({ tool, accepts: acceptsOverride, initialOptions }: WorkspacePanelProps) {
   const behavior = toolBehaviors[tool];
   const accepts = acceptsOverride ?? behavior.accepts;
   const queue = useFileQueue({ inspectOnAdd: behavior.inspectOnAdd, accepts });
   const { addFiles, resetResults, process } = queue;
-  const [options, setOptions] = useState<ToolOptions>(DEFAULT_TOOL_OPTIONS);
+  const [options, setOptions] = useState<ToolOptions>(() => ({ ...DEFAULT_TOOL_OPTIONS, ...initialOptions }));
   const optionsError = behavior.action?.validate?.(options) ?? null;
+  useHandedOffFiles(tool, addFiles);
 
   const accept = useMemo(() => acceptAttribute(accepts), [accepts]);
   const picker = useFilePicker(addFiles, accept);
@@ -83,6 +87,10 @@ export function WorkspacePanel({ tool, accepts: acceptsOverride }: WorkspacePane
             )
           }
         />
+      )}
+
+      {behavior.action && !queue.isProcessing && queue.doneItems.length > 0 && (
+        <ResultSummary items={queue.doneItems} doneLabel={behavior.action.doneLabel} />
       )}
 
       {hasItems ? (

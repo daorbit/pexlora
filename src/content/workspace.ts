@@ -53,6 +53,12 @@ export const optionsCopy = {
   metadataNote: "Your details are written to every image. GPS, camera, AI and other existing tags are removed.",
 };
 
+export const resultCopy = {
+  files: (count: number) => `${count} ${count === 1 ? "file" : "files"}`,
+  saved: (amount: string, percent: number) => `Saved ${amount} (${percent}%)`,
+  grew: (amount: string) => `${amount} larger in total`,
+};
+
 export const reportCopy = {
   empty: "No metadata found. This file is already clean.",
 };

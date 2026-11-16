@@ -9,10 +9,18 @@ const limit = (kind: keyof typeof FILE_SIZE_LIMITS_MB) => formatMegabytes(FILE_S
 export const heroCopy = {
   badge: "Free",
   tagline: "Your files. Your privacy.",
-  title: "Remove hidden metadata from",
+  title: "Remove AI metadata from",
   highlight: "any file.",
   description:
-    "Strip EXIF, GPS, AI tags and author details from photos, PDFs, Office documents, audio and video. Then compress, resize or convert your images, all in one place.",
+    "Drop a photo, PDF, document, audio or video file to strip AI tags, GPS location, EXIF and author details before you share it.",
+};
+
+export const hubCopy = {
+  eyebrow: "All tools",
+  title: "Pick a tool and drop your files.",
+  description: "Every tool is free, works in your browser and removes hidden metadata from what you download.",
+  filterLabel: "Filter tools",
+  open: "Open Tool",
 };
 
 export const trustChips = [

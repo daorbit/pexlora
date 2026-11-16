@@ -4,9 +4,15 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { Menu, X } from "lucide-react";
-import { navLinks, routes } from "@/config/site";
+import { infoLinks, routes } from "@/config/site";
+import { menuGroups } from "@/config/tool-hub";
+import { navCopy } from "@/content/navigation";
+import { cn } from "@/lib/utils/cn";
 import { Button } from "@/components/ui/Button";
 import { ThemeSwitcher } from "@/components/theme/ThemeSwitcher";
+import { MenuGroupLabel, ToolMenuLink } from "@/components/layout/ToolMenuLink";
+
+const linkClass = "flex h-12 items-center gap-3 rounded-2xl px-3 text-[16px] font-semibold active:bg-fill";
 
 export function MobileMenu() {
   const [open, setOpen] = useState(false);
@@ -33,7 +39,7 @@ export function MobileMenu() {
       <Button
         variant="icon"
         size="sm"
-        aria-label={open ? "Close menu" : "Open menu"}
+        aria-label={open ? navCopy.closeMenu : navCopy.openMenu}
         aria-expanded={open}
         aria-controls="mobile-menu"
         onClick={() => setOpen((value) => !value)}
@@ -42,33 +48,34 @@ export function MobileMenu() {
       </Button>
       {open &&
         createPortal(
-        <nav
-          id="mobile-menu"
-          aria-label="Main"
-          className="fixed inset-x-0 top-14 bottom-0 z-40 flex flex-col gap-1 overflow-y-auto border-t border-separator bg-surface px-4 pt-3 pb-[max(1.5rem,env(safe-area-inset-bottom))] text-foreground md:hidden"
-        >
-          {navLinks.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              onClick={close}
-              className="flex h-13 items-center rounded-2xl px-4 text-[17px] font-semibold active:bg-fill"
-            >
-              {link.label}
-            </a>
-          ))}
-          <Link
-            href={routes.signIn}
-            onClick={close}
-            className="flex h-13 items-center rounded-2xl px-4 text-[17px] font-semibold text-secondary active:bg-fill"
+          <nav
+            id="mobile-menu"
+            aria-label="Main"
+            className="fixed inset-x-0 top-14 bottom-0 z-40 flex flex-col gap-5 overflow-y-auto border-t border-separator bg-surface px-4 pt-4 pb-[max(1.5rem,env(safe-area-inset-bottom))] text-foreground md:hidden"
           >
-            Sign In
-          </Link>
-          <div className="mt-auto flex items-center justify-between border-t border-separator px-4 pt-5">
-            <span className="text-[15px] font-semibold text-secondary">Theme</span>
-            <ThemeSwitcher />
-          </div>
-        </nav>,
+            {menuGroups.map((group) => (
+              <div key={group.id} className="flex flex-col">
+                <MenuGroupLabel>{group.label}</MenuGroupLabel>
+                {group.items.map((item) => (
+                  <ToolMenuLink key={item.key} item={item} onSelect={close} size="md" />
+                ))}
+              </div>
+            ))}
+            <div className="flex flex-col border-t border-separator pt-3">
+              {infoLinks.map((link) => (
+                <Link key={link.href} href={link.href} onClick={close} className={linkClass}>
+                  {link.label}
+                </Link>
+              ))}
+              <Link href={routes.signIn} onClick={close} className={cn(linkClass, "text-secondary")}>
+                {navCopy.signIn}
+              </Link>
+            </div>
+            <div className="mt-auto flex items-center justify-between border-t border-separator px-3 pt-5">
+              <span className="text-[15px] font-semibold text-secondary">{navCopy.theme}</span>
+              <ThemeSwitcher />
+            </div>
+          </nav>,
           document.body,
         )}
     </div>

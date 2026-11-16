@@ -42,8 +42,8 @@ function DoneSummary({ item, doneLabel }: { item: QueueItem; doneLabel: string }
   const label = doneBadgeLabel(result, doneLabel);
 
   return (
-    <span className="inline-flex flex-wrap items-center gap-2">
-      <Badge tone="success">
+    <span className="inline-flex flex-wrap items-center gap-2 motion-safe:animate-fade-up motion-safe:[animation-duration:0.4s]">
+      <Badge tone="success" className="motion-safe:animate-pop">
         <Check className="size-3" strokeWidth={3} aria-hidden />
         {label}
       </Badge>

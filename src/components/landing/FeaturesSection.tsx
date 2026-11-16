@@ -1,12 +1,12 @@
 import { FileImage, MapPin, ShieldOff } from "lucide-react";
-import { toolAnchor } from "@/config/site";
 import { getWorkspaceTool, type WorkspaceToolSlug } from "@/config/tools";
 import { Section } from "@/components/ui/Section";
 import { FeatureTile } from "@/components/landing/FeatureTile";
 import { AiTagsVisual, FormatsVisual, LocationVisual } from "@/components/landing/FeatureVisuals";
 
 function toolLink(slug: WorkspaceToolSlug) {
-  return { label: getWorkspaceTool(slug).shortName, href: toolAnchor(slug) };
+  const tool = getWorkspaceTool(slug);
+  return { label: tool.shortName, href: tool.href };
 }
 
 export function FeaturesSection() {

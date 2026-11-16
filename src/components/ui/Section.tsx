@@ -34,7 +34,7 @@ export function Section({
       )}
       {...props}
     >
-      <Container size={narrow ? "narrow" : "wide"} className="flex flex-col gap-12 sm:gap-14">
+      <Container size={narrow ? "narrow" : "wide"} className="reveal flex flex-col gap-12 sm:gap-14">
         {title && (
           <div className={cn("flex flex-wrap items-end justify-between gap-6", centered && "justify-center")}>
             <SectionHeading eyebrow={eyebrow} title={title} centered={centered} description={centered ? description : undefined} />

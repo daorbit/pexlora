@@ -1,4 +1,5 @@
-import { LayoutGrid, Settings, type LucideIcon } from "lucide-react";
+import { LayoutGrid, Settings } from "lucide-react";
+import type { IconComponent } from "@/components/icons/types";
 import { routes } from "@/config/site";
 import {
   toolCategories,
@@ -11,7 +12,7 @@ import {
 export type DashboardNavItem = {
   label: string;
   description: string;
-  icon: LucideIcon;
+  icon: IconComponent;
   href?: string;
   soon?: boolean;
 };

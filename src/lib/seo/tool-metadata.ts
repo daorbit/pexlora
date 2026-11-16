@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
+import { conversionPath, type Conversion } from "@/config/conversions";
 import { getWorkspaceTool, type WorkspaceToolSlug } from "@/config/tools";
+import { toolPageCopy } from "@/content/tool-pages";
 import { seoPagePath, type SeoPage } from "@/content/seo-pages";
 
 const toolTitles: Record<WorkspaceToolSlug, string> = {
@@ -24,6 +26,15 @@ function pageMetadata(title: string, description: string, path: string, keywords
 
 export function seoPageMetadata(page: SeoPage): Metadata {
   return pageMetadata(page.title, page.description, seoPagePath(page), page.keywords);
+}
+
+export function conversionMetadata(conversion: Conversion): Metadata {
+  return pageMetadata(
+    toolPageCopy.conversionTitle(conversion.from, conversion.toLabel),
+    toolPageCopy.conversionMetaDescription(conversion.from, conversion.toLabel),
+    conversionPath(conversion.slug),
+    [`${conversion.from} to ${conversion.toLabel}`, `convert ${conversion.from} to ${conversion.toLabel}`],
+  );
 }
 
 export function toolMetadata(slug: WorkspaceToolSlug): Metadata {

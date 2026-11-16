@@ -1,13 +1,11 @@
-import {
-  FileImage,
-  FilePenLine,
-  FileSearch,
-  Minimize2,
-  Scaling,
-  ShieldOff,
-  type LucideIcon,
-} from "lucide-react";
 import { routes } from "@/config/site";
+import { CompressImageIcon } from "@/components/icons/CompressImageIcon";
+import { ConvertImageIcon } from "@/components/icons/ConvertImageIcon";
+import { EditMetadataIcon } from "@/components/icons/EditMetadataIcon";
+import { RemoveMetadataIcon } from "@/components/icons/RemoveMetadataIcon";
+import { ResizeImageIcon } from "@/components/icons/ResizeImageIcon";
+import type { IconComponent } from "@/components/icons/types";
+import { ViewMetadataIcon } from "@/components/icons/ViewMetadataIcon";
 
 export type WorkspaceToolSlug =
   | "remove-metadata"
@@ -27,7 +25,7 @@ export type WorkspaceTool = {
   shortName: string;
   headline: string;
   description: string;
-  icon: LucideIcon;
+  icon: IconComponent;
 };
 
 export const toolCategories: Record<ToolCategory, string> = {
@@ -40,7 +38,7 @@ export const workspaceTools: WorkspaceTool[] = [
     slug: "remove-metadata",
     category: "metadata",
     href: routes.removeMetadata,
-    icon: ShieldOff,
+    icon: RemoveMetadataIcon,
     name: "EXIF & Metadata Remover",
     shortName: "Remove Metadata",
     headline: "Remove EXIF, GPS and AI metadata from any file.",
@@ -51,7 +49,7 @@ export const workspaceTools: WorkspaceTool[] = [
     slug: "view-metadata",
     category: "metadata",
     href: routes.viewMetadata,
-    icon: FileSearch,
+    icon: ViewMetadataIcon,
     name: "EXIF & Metadata Viewer",
     shortName: "View Metadata",
     headline: "View EXIF data and hidden metadata.",
@@ -62,7 +60,7 @@ export const workspaceTools: WorkspaceTool[] = [
     slug: "edit-metadata",
     category: "metadata",
     href: routes.editMetadata,
-    icon: FilePenLine,
+    icon: EditMetadataIcon,
     name: "EXIF & Metadata Editor",
     shortName: "Edit Metadata",
     headline: "Edit EXIF data and add copyright to photos.",
@@ -73,7 +71,7 @@ export const workspaceTools: WorkspaceTool[] = [
     slug: "compress-image",
     category: "image",
     href: routes.compress,
-    icon: Minimize2,
+    icon: CompressImageIcon,
     name: "Image Compressor",
     shortName: "Compress Image",
     headline: "Compress images and reduce file size.",
@@ -84,7 +82,7 @@ export const workspaceTools: WorkspaceTool[] = [
     slug: "resize-image",
     category: "image",
     href: routes.resize,
-    icon: Scaling,
+    icon: ResizeImageIcon,
     name: "Image Resizer",
     shortName: "Resize Image",
     headline: "Resize images in pixels or by percentage.",
@@ -95,7 +93,7 @@ export const workspaceTools: WorkspaceTool[] = [
     slug: "convert-format",
     category: "image",
     href: routes.convert,
-    icon: FileImage,
+    icon: ConvertImageIcon,
     name: "Image Converter",
     shortName: "Convert Image",
     headline: "Convert images to JPG, PNG, WebP or AVIF.",
@@ -103,6 +101,8 @@ export const workspaceTools: WorkspaceTool[] = [
       "Convert JPG to WebP, PNG to JPG, WebP to PNG and more, with quality control. Metadata is removed from every file.",
   },
 ];
+
+export const toolIconSrc = (slug: WorkspaceToolSlug) => `/icons/tools/${slug}.svg`;
 
 export function getWorkspaceTool(slug: WorkspaceToolSlug) {
   return workspaceTools.find((tool) => tool.slug === slug)!;

@@ -34,7 +34,7 @@ export function SiteFooter() {
         </div>
       </Container>
 
-      <Container className="grid grid-cols-2 gap-x-6 gap-y-12 py-14 sm:py-16 lg:grid-cols-4">
+      <Container className="grid grid-cols-2 gap-x-6 gap-y-12 py-14 sm:grid-cols-3 sm:py-16 lg:grid-cols-5">
         {footerColumns.map((column) => (
           <div key={column.title} className="flex flex-col gap-4">
             <p className="text-xs font-semibold tracking-[0.12em] text-primary uppercase">{column.title}</p>

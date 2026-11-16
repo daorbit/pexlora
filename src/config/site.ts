@@ -33,14 +33,17 @@ export const routes = {
   usageApi: "/api/usage",
 } as const;
 
-export const toolAnchor = (slug: string) => `/#${slug}`;
+export type NavLink = { label: string; href: string; wideOnly?: boolean };
 
-export const navLinks = [
-  { label: "Remove Metadata", href: toolAnchor("remove-metadata") },
-  { label: "EXIF Viewer", href: toolAnchor("view-metadata") },
-  { label: "Compress", href: toolAnchor("compress-image") },
-  { label: "Resize", href: toolAnchor("resize-image") },
-  { label: "Convert", href: toolAnchor("convert-format") },
+export const navLinks: NavLink[] = [
+  { label: "Remove Metadata", href: routes.removeMetadata },
+  { label: "Compress", href: routes.compress },
+  { label: "Resize", href: routes.resize, wideOnly: true },
+  { label: "Convert", href: routes.convert },
+  { label: "FAQ", href: routes.faq, wideOnly: true },
+];
+
+export const infoLinks: NavLink[] = [
   { label: "FAQ", href: routes.faq },
   { label: "Contact", href: routes.contact },
 ];

@@ -1,0 +1,37 @@
+"use client";
+
+import { useState } from "react";
+import { hubCategories, hubItems, type HubCategory } from "@/config/tool-hub";
+import { hubCopy } from "@/content/landing";
+import { cn } from "@/lib/utils/cn";
+import { staggerDelay } from "@/lib/utils/stagger";
+import { Segmented } from "@/components/ui/Segmented";
+import { HubCard } from "@/components/home/HubCard";
+
+type Filter = HubCategory | "all";
+
+const filterOptions = hubCategories.map((category) => ({ value: category.id, label: category.label }));
+
+export function ToolHub() {
+  const [filter, setFilter] = useState<Filter>("all");
+  const items = filter === "all" ? hubItems : hubItems.filter((item) => item.category === filter);
+
+  return (
+    <div className="flex flex-col items-center gap-8">
+      <Segmented<Filter>
+        label={hubCopy.filterLabel}
+        value={filter}
+        options={filterOptions}
+        onChange={setFilter}
+        className="scrollbar-none max-w-full overflow-x-auto"
+      />
+      <ul key={filter} className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        {items.map((item, index) => (
+          <li key={item.key} className={cn("motion-safe:animate-fade-up", staggerDelay(index))}>
+            <HubCard item={item} />
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
