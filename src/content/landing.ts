@@ -1,6 +1,5 @@
-import { formatsOfKind, formatsOfKinds, type FileFormat } from "@/config/file-formats";
+import { fileFormats, formatsOfKind, type FileFormat } from "@/config/file-formats";
 import { DAILY_LIMITS, FILE_SIZE_LIMITS_MB, MAX_FILES_PER_BATCH } from "@/config/limits";
-import { FORMAT_LABELS, OUTPUT_FORMATS } from "@/lib/image/formats";
 import { formatMegabytes } from "@/lib/utils/format-bytes";
 
 const labels = (formats: FileFormat[]) => formats.map((format) => format.label);
@@ -40,183 +39,139 @@ export const showcaseTags = [
   { group: "EXIF", key: "Artist", value: "midjourney-bot", ai: true },
 ];
 
-export const aiTags = [
-  "C2PA manifest",
-  "DigitalSourceType",
-  "CreatorTool: Midjourney",
-  "parameters: Steps 30, CFG 7",
-  "Software: DALL·E 3",
-  "Credit: Made with AI",
-];
+export const featureBands = {
+  location: {
+    eyebrow: "Location",
+    value: "15.4959° N, 73.8093° E",
+    title: "Your photos know where you were.",
+    description: "See GPS, device and time data before you share, then strip it in one click.",
+  },
+  ai: {
+    eyebrow: "AI labels",
+    before: "Made with AI",
+    after: "Just a picture.",
+    title: "No more “Made with AI” labels.",
+    description: "Strip C2PA credentials, XMP digital source type, prompts and generator names that platforms read.",
+  },
+  convert: {
+    eyebrow: "Convert",
+    from: "3.1 MB",
+    format: ".webp",
+    to: "412 KB",
+    title: "Modern formats, smaller files.",
+    description: "Turn JPG and PNG into WebP or AVIF at full quality. Every file comes out clean.",
+  },
+};
 
-export const locationRows = [
-  { key: "Make", value: "Apple" },
-  { key: "Model", value: "iPhone 15 Pro" },
-  { key: "Taken", value: "14 Oct 2026, 17:42" },
-  { key: "Location", value: "15.4959° N, 73.8093° E" },
+export const stepsCopy = {
+  title: "Three steps. Nothing to install.",
+};
+
+export const steps = [
+  {
+    title: "Drop",
+    description: `Photos, PDFs, Word, Excel, PowerPoint, songs and videos. Up to ${MAX_FILES_PER_BATCH} at a time.`,
+  },
+  { title: "Read", description: "Every field is read first. AI tags show in orange, location in red." },
+  { title: "Clean", description: "Download a clean copy. It’s checked again, so you know nothing is left." },
 ];
 
 export const risksCopy = {
-  eyebrow: "Why it matters",
   title: "Every file says more than you think.",
-  description: "Hidden fields can reveal where you were, who wrote a document and which AI tool made an image.",
+  description:
+    "This is what one phone photo, one AI render and one Word file carry before Pexlora. Afterwards, none of it.",
 };
 
-export const risks = [
-  {
-    id: "location",
-    title: "Your location travels with the file",
-    description:
-      "Phones save exact coordinates in photos and videos. Anyone with the original file can find the street.",
-    sample: { label: "GPS", value: "15.4959° N, 73.8093° E" },
-  },
-  {
-    id: "ai",
-    title: "AI tools sign their work",
-    description:
-      "Midjourney, ChatGPT, Firefly and Suno write tags and C2PA credentials that apps and platforms can read.",
-    sample: { label: "CreatorTool:", value: "Midjourney v6" },
-  },
-  {
-    id: "device",
-    title: "Your device leaves a fingerprint",
-    description:
-      "Camera model, lens, serial numbers, editing software and exact timestamps can link photos back to you.",
-    sample: { label: "Model:", value: "iPhone 15 Pro" },
-  },
-  {
-    id: "author",
-    title: "Documents name their author",
-    description:
-      "Word, Excel, PowerPoint and PDF files store who wrote them, the company, editing time and every reviewer who left a comment.",
-    sample: { label: "creator:", value: "A. Sharma" },
-  },
+export type FeedTone = "location" | "ai" | "plain";
+
+export const metadataFeed: { key: string; value: string; tone: FeedTone }[] = [
+  { key: "GPSLatitude", value: "15.4959° N", tone: "location" },
+  { key: "GPSLongitude", value: "73.8093° E", tone: "location" },
+  { key: "Model", value: "iPhone 15 Pro", tone: "plain" },
+  { key: "LensModel", value: "iPhone 15 Pro back camera", tone: "plain" },
+  { key: "DateTimeOriginal", value: "2026:10:14 17:42:09", tone: "plain" },
+  { key: "CreatorTool", value: "Midjourney v6.1", tone: "ai" },
+  { key: "DigitalSourceType", value: "trainedAlgorithmicMedia", tone: "ai" },
+  { key: "c2pa.actions", value: "c2pa.created", tone: "ai" },
+  { key: "Credit", value: "Made with AI", tone: "ai" },
+  { key: "dc:creator", value: "A. Sharma", tone: "plain" },
+  { key: "Company", value: "Sharma & Co.", tone: "plain" },
+  { key: "TotalEditingTime", value: "4 h 12 min", tone: "plain" },
 ];
-
-type StepRow = { name: string; meta?: string; badge?: { label: string; tone: "warning" | "danger" } };
-
-export const steps: { label: string; title: string; description: string; rows: StepRow[]; highlight?: boolean }[] = [
-  {
-    label: "01 · Drop",
-    title: "Drop your files",
-    description: `Photos, PDFs, Word, Excel, PowerPoint, songs and videos. Up to ${MAX_FILES_PER_BATCH} at a time.`,
-    rows: [
-      { name: "holiday.jpg", meta: "3.1 MB" },
-      { name: "contract.docx", meta: "84 KB" },
-      { name: "clip.mov", meta: "146 MB" },
-    ],
-  },
-  {
-    label: "02 · Review",
-    title: "See what's inside",
-    description: "Every field is read first. AI tags show in orange, location in red.",
-    rows: [
-      { name: "CreatorTool", badge: { label: "AI", tone: "warning" } },
-      { name: "GPSLatitude", badge: { label: "Location", tone: "danger" } },
-      { name: "dc:creator", meta: "A. Sharma" },
-    ],
-  },
-  {
-    label: "03 · Download",
-    title: "Download clean copies",
-    description: "Each file is checked again after cleaning, so you know nothing is left.",
-    highlight: true,
-    rows: [
-      { name: "holiday-clean.jpg", meta: "0 tags" },
-      { name: "contract-clean.docx", meta: "0 tags" },
-      { name: "clip-clean.mov", meta: "0 tags" },
-    ],
-  },
-];
-
-export const stepsCopy = {
-  eyebrow: "How it works",
-  title: "Three steps. Nothing to install.",
-  description: "Drop a file, see what it carries and download a clean copy that's checked twice.",
-};
-
-const extensionList = (formats: FileFormat[]) =>
-  formats.flatMap((format) => format.extensions.slice(0, 1).map((extension) => `.${extension}`)).join(" ");
 
 export const privacyCopy = {
-  eyebrow: "Privacy",
-  title: "Your files stay",
-  highlight: "yours.",
+  stat: "0",
+  title: "files kept. Ever.",
   description:
-    "Most files are cleaned right in your browser. Images take a short trip over HTTPS and are gone the moment the clean copy is back.",
+    "PDFs, Office files, songs and videos are cleaned inside your browser and never leave it. Images take a short trip over HTTPS, are processed in memory and are gone the moment the clean copy is back.",
+  badges: ["On your device", "Memory only for images", "HTTPS"],
 };
-
-export const privacyRows = [
-  { title: "PDF and Office", formats: extensionList(formatsOfKinds(["pdf", "office"])), local: true },
-  { title: "Audio", formats: extensionList(formatsOfKind("audio")), local: true },
-  { title: "Video", formats: extensionList(formatsOfKind("video")), local: true },
-  { title: "Images", formats: extensionList(formatsOfKind("image")), local: false },
-];
-
-export const privacyBadges = { local: "On your device", server: "Memory only" };
 
 export const formatsCopy = {
-  eyebrow: "Formats",
   title: "Works with the files you share.",
+  description: `Images up to ${limit("image")}, documents ${limit("pdf")}, audio ${limit("audio")}, video ${limit("video")}. Converted images always come out clean.`,
 };
 
-export const formatGroups = [
-  { title: "Images", note: `Up to ${limit("image")} · clean and convert`, formats: labels(formatsOfKind("image")) },
-  { title: "Documents", note: `Up to ${limit("pdf")} · on your device`, formats: labels(formatsOfKinds(["pdf", "office"])) },
-  { title: "Audio", note: `Up to ${limit("audio")} · no re-encoding`, formats: labels(formatsOfKind("audio")) },
-  { title: "Video", note: `Up to ${limit("video")} · no re-encoding`, formats: labels(formatsOfKind("video")) },
-  {
-    title: "Convert images to",
-    note: "Always metadata-free",
-    formats: OUTPUT_FORMATS.map((format) => FORMAT_LABELS[format]),
-  },
-];
-
-export const formatsDescription =
-  "Clean photos, documents, songs and videos in the formats you already use. Converted images always come out without metadata.";
+export const formatExtensions = fileFormats.map((format) => `.${format.extensions[0]}`);
 
 export const popularToolsCopy = {
-  eyebrow: "Popular tools",
-  title: "A metadata remover for every kind of file.",
-  description: "Jump straight to the tool for the app or file type you're working with.",
+  title: "Type the app. Get the tool.",
+  searchLabel: "Search tools",
+  placeholder: "Try midjourney, gps or pdf",
+  empty: "No tool for that yet.",
+  count: (shown: number, total: number) => `${shown} of ${total}`,
+};
+
+export const learnCopy = {
+  title: "What is file metadata?",
+  tabsLabel: "Metadata types",
 };
 
 export const glossary = [
   {
     term: "EXIF",
     body: "Exchangeable Image File Format. Written by cameras and phones: make, model, lens, exposure, timestamps and often GPS coordinates.",
+    sample: { key: "Model", value: "iPhone 15 Pro" },
   },
   {
     term: "XMP",
     body: "Extensible Metadata Platform, an Adobe standard. Stores editing history, creator tools and the IPTC digital source type that marks AI images.",
+    sample: { key: "xmp:CreatorTool", value: "Midjourney v6.1" },
   },
   {
     term: "IPTC",
     body: "A press standard for captions, credits, copyright and keywords. Newer fields describe whether an image was made with AI.",
+    sample: { key: "DigitalSourceType", value: "trainedAlgorithmicMedia" },
   },
   {
     term: "C2PA",
     body: "Content Credentials. A signed manifest that records how an image was created and edited. OpenAI, Adobe and others add it to AI images.",
+    sample: { key: "c2pa.actions", value: "c2pa.created" },
   },
   {
     term: "GPS",
     body: "Latitude, longitude and altitude saved when location services are on. The most sensitive data most photos carry.",
+    sample: { key: "GPSLatitude", value: "15.4959° N" },
   },
   {
-    term: "PNG text chunks",
+    term: "PNG",
     body: "Plain-text notes inside PNG files. Stable Diffusion tools such as Automatic1111 and ComfyUI store full prompts and settings here.",
+    sample: { key: "parameters", value: "Steps: 30, CFG scale: 7" },
   },
   {
-    term: "Document properties",
+    term: "Docs",
     body: "Fields inside PDF, Word, Excel and PowerPoint files: author, last editor, company, template, editing time and the app that made the file.",
+    sample: { key: "dc:creator", value: "A. Sharma" },
   },
   {
-    term: "ID3 and audio tags",
+    term: "ID3",
     body: "Tags inside MP3, FLAC, WAV and M4A files: title, artist, encoder, cover art and comments. AI music tools often name themselves here.",
+    sample: { key: "TSSE", value: "Suno" },
   },
   {
-    term: "Video metadata",
+    term: "Video",
     body: "MP4, MOV and WebM files record the camera or phone, recording date, encoder and often the GPS location where the clip was filmed.",
+    sample: { key: "com.apple.quicktime.location", value: "+15.4959+073.8093" },
   },
 ];
 
@@ -228,7 +183,8 @@ export const faqCopy = {
 };
 
 export const accountCopy = {
-  title: `Process up to ${DAILY_LIMITS.user} files a day, free.`,
+  title: `${DAILY_LIMITS.user} files a day.`,
+  highlight: "Free.",
   description: "One click with Google. No card, no trial, no catch.",
   google: "Continue with Google",
   email: "Sign Up with Email",

@@ -6,6 +6,7 @@
 @custom-variant page-dark (&:where([data-theme="dark"] *));
 
 :root,
+.theme-light,
 [data-theme="dark"] .theme-invert {
   color-scheme: light;
   --background: #f4f3ee;
@@ -126,6 +127,105 @@
   --animate-menu-in: menu-in 0.38s cubic-bezier(0.4, 0, 0.2, 1) both;
   --animate-fade-in: fade-in 0.3s ease both;
   --animate-grow-x: grow-x 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  --animate-strike-sweep: strike-sweep 5s cubic-bezier(0.7, 0, 0.2, 1) infinite;
+  --animate-strike-ghost: strike-ghost 5s ease infinite;
+  --animate-swap-out: swap-out 5s cubic-bezier(0.7, 0, 0.2, 1) infinite;
+  --animate-swap-in: swap-in 5s cubic-bezier(0.7, 0, 0.2, 1) infinite;
+  --animate-ticker-y: ticker-y 22s linear infinite;
+  --animate-marquee-x: marquee-x 30s linear infinite;
+  --animate-step-line: step-line 3s ease-in-out infinite;
+
+  @keyframes strike-sweep {
+    0%,
+    25% {
+      scale: 0 1;
+      transform-origin: left;
+    }
+    45%,
+    85% {
+      scale: 1 1;
+      transform-origin: left;
+    }
+    85.01% {
+      transform-origin: right;
+    }
+    100% {
+      scale: 0 1;
+      transform-origin: right;
+    }
+  }
+
+  @keyframes strike-ghost {
+    0%,
+    30%,
+    100% {
+      color: var(--foreground);
+    }
+    45%,
+    85% {
+      color: var(--border-strong);
+    }
+  }
+
+  @keyframes swap-out {
+    0%,
+    35%,
+    98%,
+    100% {
+      opacity: 1;
+      translate: 0 0;
+    }
+    45%,
+    88% {
+      opacity: 0;
+      translate: 0 -100%;
+    }
+  }
+
+  @keyframes swap-in {
+    0%,
+    35%,
+    98%,
+    100% {
+      opacity: 0;
+      translate: 0 100%;
+    }
+    45%,
+    88% {
+      opacity: 1;
+      translate: 0 0;
+    }
+  }
+
+  @keyframes ticker-y {
+    to {
+      translate: 0 -50%;
+    }
+  }
+
+  @keyframes marquee-x {
+    to {
+      translate: -50% 0;
+    }
+  }
+
+  @keyframes step-line {
+    0% {
+      scale: 0 1;
+      transform-origin: left;
+    }
+    50% {
+      scale: 1 1;
+      transform-origin: left;
+    }
+    50.01% {
+      transform-origin: right;
+    }
+    100% {
+      scale: 0 1;
+      transform-origin: right;
+    }
+  }
 
   @keyframes grow-x {
     from {
@@ -221,6 +321,15 @@
 
 @utility tone-ink {
   --tone: #8a8d82;
+}
+
+@utility fade-y {
+  mask-image: linear-gradient(transparent, #000 18%, #000 82%, transparent);
+}
+
+@utility text-outline {
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--border-strong);
 }
 
 @utility scrollbar-none {

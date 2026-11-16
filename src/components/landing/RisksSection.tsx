@@ -1,31 +1,20 @@
-import { risks, risksCopy } from "@/content/landing";
-import { cn } from "@/lib/utils/cn";
-import { Section } from "@/components/ui/Section";
-
-const chipTones: Record<string, string> = {
-  location: "bg-danger-soft text-danger",
-  ai: "bg-warning-soft text-warning",
-};
+import { risksCopy } from "@/content/landing";
+import { Band } from "@/components/ui/Band";
+import { BandTitle } from "@/components/landing/BandTitle";
+import { MetadataTicker } from "@/components/landing/MetadataTicker";
 
 export function RisksSection() {
   return (
-    <Section id="why" align="left" eyebrow={risksCopy.eyebrow} title={risksCopy.title} description={risksCopy.description}>
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {risks.map((risk) => (
-          <article key={risk.id} className="flex min-w-0 flex-col gap-5 rounded-3xl border border-separator bg-surface p-6 sm:p-7">
-            <span
-              className={cn(
-                "w-fit max-w-full rounded-lg px-3 py-1.5 font-mono text-[12.5px] break-words",
-                chipTones[risk.id] ?? "bg-background text-foreground",
-              )}
-            >
-              {risk.sample.label} {risk.sample.value}
-            </span>
-            <h3 className="text-lg leading-snug font-semibold tracking-[-0.015em]">{risk.title}</h3>
-            <p className="text-[15px] leading-relaxed text-secondary">{risk.description}</p>
-          </article>
-        ))}
+    <Band
+      id="why"
+      tone="ink"
+      containerClassName="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-18"
+    >
+      <div className="flex flex-col gap-5.5">
+        <BandTitle>{risksCopy.title}</BandTitle>
+        <p className="max-w-115 text-[17px] leading-[1.55] text-secondary lg:text-[19px]">{risksCopy.description}</p>
       </div>
-    </Section>
+      <MetadataTicker />
+    </Band>
   );
 }

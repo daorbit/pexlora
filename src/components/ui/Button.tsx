@@ -4,7 +4,7 @@ import { ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
 
 type Variant = "primary" | "ink" | "secondary" | "outline" | "plain" | "nav" | "icon" | "tile";
-type Size = "sm" | "md" | "lg" | "xl";
+type Size = "sm" | "md" | "lg" | "xl" | "2xl";
 
 const base =
   "inline-flex items-center justify-center gap-2 font-semibold whitespace-nowrap transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:opacity-40";
@@ -30,6 +30,7 @@ const sizes: Record<Size, string> = {
   md: "h-10 rounded-xl px-4.5 text-sm",
   lg: "h-11 rounded-xl px-5 text-[15px]",
   xl: "h-12 rounded-xl px-6 text-[15px]",
+  "2xl": "h-14 rounded-xl px-6 text-base",
 };
 
 const arrowSizes: Record<Size, { padding: string; chip: string; icon: string }> = {
@@ -37,6 +38,7 @@ const arrowSizes: Record<Size, { padding: string; chip: string; icon: string }> 
   md: { padding: "pr-1", chip: "size-8", icon: "size-3.5" },
   lg: { padding: "pr-1", chip: "size-9", icon: "size-4" },
   xl: { padding: "pr-1.5", chip: "size-9", icon: "size-4" },
+  "2xl": { padding: "pr-2", chip: "size-10", icon: "size-4" },
 };
 
 const iconSizes: Record<Size, string> = {
@@ -44,9 +46,11 @@ const iconSizes: Record<Size, string> = {
   md: "size-10 rounded-xl",
   lg: "size-11 rounded-xl",
   xl: "size-12 rounded-xl",
+  "2xl": "size-14 rounded-xl",
 };
 
-type StyleProps = { variant?: Variant; size?: Size; arrow?: boolean };
+export type ButtonStyleProps = { variant?: Variant; size?: Size; arrow?: boolean };
+type StyleProps = ButtonStyleProps;
 
 export function buttonClasses({
   variant = "primary",
@@ -60,7 +64,7 @@ export function buttonClasses({
   return cn(base, variants[variant], sizing, arrow && !textOnly && arrowSizes[size].padding, className);
 }
 
-function Content({ children, variant = "primary", size = "md", arrow }: StyleProps & { children?: ReactNode }) {
+export function ButtonContent({ children, variant = "primary", size = "md", arrow }: StyleProps & { children?: ReactNode }) {
   if (!arrow) return children;
   const { chip, icon } = arrowSizes[size];
   return (
@@ -84,9 +88,9 @@ export function Button({
 }: ComponentProps<"button"> & StyleProps) {
   return (
     <button type={type} className={buttonClasses({ variant, size, arrow, className })} {...props}>
-      <Content variant={variant} size={size} arrow={arrow}>
+      <ButtonContent variant={variant} size={size} arrow={arrow}>
         {children}
-      </Content>
+      </ButtonContent>
     </button>
   );
 }
@@ -101,9 +105,9 @@ export function ButtonLink({
 }: ComponentProps<typeof Link> & StyleProps) {
   return (
     <Link className={buttonClasses({ variant, size, arrow, className })} {...props}>
-      <Content variant={variant} size={size} arrow={arrow}>
+      <ButtonContent variant={variant} size={size} arrow={arrow}>
         {children}
-      </Content>
+      </ButtonContent>
     </Link>
   );
 }

@@ -1,24 +1,12 @@
-import { glossary } from "@/content/landing";
-import { Section } from "@/components/ui/Section";
+import { learnCopy } from "@/content/landing";
+import { Band } from "@/components/ui/Band";
+import { GlossaryTabs } from "@/components/landing/GlossaryTabs";
 
 export function LearnSection() {
   return (
-    <Section
-      id="learn"
-      tone="surface"
-      align="left"
-      eyebrow="Learn"
-      title="What is file metadata?"
-      description="Metadata is information stored inside a file, separate from what you see or hear. It's useful for organising, but it goes with the file wherever you share it."
-    >
-      <dl className="grid grid-cols-1 gap-x-10 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
-        {glossary.map((entry) => (
-          <div key={entry.term} className="flex flex-col gap-2 border-t border-separator pt-5">
-            <dt className="font-display text-lg font-semibold">{entry.term}</dt>
-            <dd className="text-[15px] leading-relaxed text-secondary">{entry.body}</dd>
-          </div>
-        ))}
-      </dl>
-    </Section>
+    <Band id="learn" tone="ink" containerClassName="flex flex-col gap-10 lg:gap-12">
+      <h2 className="font-mono text-[13px] text-tertiary">{learnCopy.title}</h2>
+      <GlossaryTabs />
+    </Band>
   );
 }

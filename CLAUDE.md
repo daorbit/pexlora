@@ -129,7 +129,12 @@ src/
 
 ## Landing page
 
-Hero with the metadata-remover drop area → all-tools hub grid → feature tiles with product-UI visuals → steps → risks → privacy → formats → popular SEO pages → glossary → FAQ → account CTA. Avoid gradients, glows and decorative numbering; show real product UI instead.
+Hero with the metadata-remover drop area → all-tools hub grid → "Stage" bands → FAQ → account CTA. Approved mockup: https://claude.ai/artifact/7WuqGRaTyGJX9RAD8N5fAZ (direction C, `Stage.dc.html`).
+
+- Below the hub, sections are full-width `Band`s (`components/ui/Band.tsx`) that alternate `tone="ink"` (`theme-dark`) and `tone="pearl"` (`theme-light`, light tokens even on the dark site) regardless of the page theme: location (ink) → AI labels (pearl) → convert (ink) → steps (pearl) → why/metadata ticker (ink) → privacy "0 files kept" (pearl) → formats marquee (ink) → tool finder search (pearl) → glossary tabs (ink). `AccountBand` is a pearl band too ("100 files a day. Free." with the lime marker).
+- Typography carries the design: huge bold headings via `BandTitle` (md / lg / giant), mono `BandEyebrow`. Lime is only a marker, the strike line and the active item, never a band background.
+- Looping CSS animations (`animate-strike-sweep`, `strike-ghost`, `swap-out/in` via `SwapStack`, `ticker-y`, `marquee-x` via `Marquee`, `step-line`), always `motion-safe:`. Swaps slide inside a clipped box so two states never overlap.
+- Don't use `dark:` variants inside pearl bands (they still match on the dark site); use tokens.
 
 ## SEO
 

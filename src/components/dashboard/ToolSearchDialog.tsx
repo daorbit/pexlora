@@ -6,12 +6,11 @@ import { Search } from "lucide-react";
 import { dashboardSearchItems, type DashboardNavItem } from "@/config/dashboard";
 import { shellCopy } from "@/content/dashboard";
 import { cn } from "@/lib/utils/cn";
+import { matchesQuery } from "@/lib/utils/match-query";
 import { NavIcon } from "@/components/dashboard/NavIcon";
 
 function matchItems(query: string) {
-  const needle = query.trim().toLowerCase();
-  if (!needle) return dashboardSearchItems;
-  return dashboardSearchItems.filter((item) => `${item.label} ${item.description}`.toLowerCase().includes(needle));
+  return dashboardSearchItems.filter((item) => matchesQuery(query, [item.label, item.description]));
 }
 
 export function ToolSearchDialog({ onClose }: { onClose: () => void }) {

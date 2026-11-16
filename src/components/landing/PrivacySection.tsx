@@ -1,40 +1,41 @@
-import { privacyBadges, privacyCopy, privacyRows } from "@/content/landing";
+import { privacyCopy } from "@/content/landing";
 import { cn } from "@/lib/utils/cn";
-import { Container } from "@/components/ui/Container";
-import { Eyebrow } from "@/components/ui/Eyebrow";
+import { Band } from "@/components/ui/Band";
+import { BandTitle } from "@/components/landing/BandTitle";
 
 export function PrivacySection() {
   return (
-    <section id="privacy" className="scroll-mt-20 pb-16 sm:pb-22">
-      <Container>
-        <div className="theme-dark grid grid-cols-1 gap-12 rounded-3xl bg-brand-surface p-8 text-brand-foreground sm:p-14 lg:grid-cols-2 lg:items-center lg:gap-16">
-          <div className="flex min-w-0 flex-col gap-5">
-            <Eyebrow>{privacyCopy.eyebrow}</Eyebrow>
-            <h2 className="text-[32px] leading-[1.05] font-semibold tracking-[-0.03em] sm:text-[44px]">
-              {privacyCopy.title} <span className="text-primary">{privacyCopy.highlight}</span>
-            </h2>
-            <p className="max-w-md text-[17px] leading-relaxed text-secondary">{privacyCopy.description}</p>
-          </div>
-          <ul className="flex min-w-0 flex-col border-t border-separator">
-            {privacyRows.map((row) => (
-              <li key={row.title} className="flex items-center justify-between gap-5 border-b border-separator py-5">
-                <div className="flex min-w-0 flex-col gap-0.5">
-                  <span className="text-base font-semibold">{row.title}</span>
-                  <span className="truncate font-mono text-[12.5px] text-secondary">{row.formats}</span>
-                </div>
-                <span
-                  className={cn(
-                    "shrink-0 rounded-md px-3 py-1.5 text-[13px] font-semibold",
-                    row.local ? "bg-primary text-primary-foreground" : "border border-border-strong",
-                  )}
-                >
-                  {row.local ? privacyBadges.local : privacyBadges.server}
-                </span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </Container>
-    </section>
+    <Band
+      id="privacy"
+      tone="pearl"
+      containerClassName="grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-18"
+    >
+      <p
+        className="text-[160px] leading-[0.78] font-extrabold tracking-[-0.08em] lg:text-[340px]"
+        aria-hidden
+      >
+        {privacyCopy.stat}
+      </p>
+      <div className="flex flex-col gap-6">
+        <BandTitle className="text-[40px] leading-none tracking-[-0.045em] lg:text-[60px]">
+          <span className="sr-only">{privacyCopy.stat} </span>
+          {privacyCopy.title}
+        </BandTitle>
+        <p className="text-[17px] leading-[1.55] text-secondary lg:text-[19px]">{privacyCopy.description}</p>
+        <ul className="flex flex-wrap gap-2">
+          {privacyCopy.badges.map((badge, index) => (
+            <li
+              key={badge}
+              className={cn(
+                "rounded-[10px] px-3.5 py-2.25 text-sm font-semibold",
+                index === 0 ? "bg-foreground text-primary" : "bg-surface",
+              )}
+            >
+              {badge}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </Band>
   );
 }

@@ -1,33 +1,34 @@
-import { formatGroups, formatsCopy, formatsDescription } from "@/content/landing";
-import { Section } from "@/components/ui/Section";
-import { SectionHeading } from "@/components/ui/SectionHeading";
+import { formatExtensions, formatsCopy } from "@/content/landing";
+import { cn } from "@/lib/utils/cn";
+import { Band } from "@/components/ui/Band";
+import { Marquee } from "@/components/ui/Marquee";
+import { BandTitle } from "@/components/landing/BandTitle";
 
 export function FormatsSection() {
   return (
-    <Section id="formats" tone="surface">
-      <div className="grid grid-cols-1 gap-12 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-16">
-        <SectionHeading eyebrow={formatsCopy.eyebrow} title={formatsCopy.title} description={formatsDescription} />
-        <ul className="flex min-w-0 flex-col border-t border-separator">
-          {formatGroups.map((group) => (
-            <li
-              key={group.title}
-              className="flex flex-wrap items-center justify-between gap-x-6 gap-y-3 border-b border-separator py-5"
+    <Band
+      id="formats"
+      tone="ink"
+      className="lg:py-30"
+      containerClassName="grid grid-cols-1 items-end gap-6 lg:grid-cols-2 lg:gap-12"
+      after={
+        <Marquee className="mt-14" trackClassName="gap-10 pr-10 lg:gap-14 lg:pr-14">
+          {formatExtensions.map((extension, index) => (
+            <span
+              key={extension}
+              className={cn(
+                "text-[64px] font-extrabold tracking-[-0.06em] whitespace-nowrap lg:text-[120px]",
+                index % 2 === 1 && "text-outline",
+              )}
             >
-              <div className="flex min-w-44 flex-col">
-                <h3 className="text-base font-semibold">{group.title}</h3>
-                <p className="text-[13px] text-tertiary">{group.note}</p>
-              </div>
-              <ul className="flex flex-wrap gap-1.5">
-                {group.formats.map((format) => (
-                  <li key={format} className="rounded-md bg-background px-3 py-1.5 font-mono text-[12.5px]">
-                    .{format.toLowerCase()}
-                  </li>
-                ))}
-              </ul>
-            </li>
+              {extension}
+            </span>
           ))}
-        </ul>
-      </div>
-    </Section>
+        </Marquee>
+      }
+    >
+      <BandTitle>{formatsCopy.title}</BandTitle>
+      <p className="text-[17px] leading-[1.55] text-secondary lg:text-[19px]">{formatsCopy.description}</p>
+    </Band>
   );
 }

@@ -1,37 +1,28 @@
 import { routes } from "@/config/site";
 import { accountCopy } from "@/content/landing";
 import { GoogleButton } from "@/components/auth/GoogleButton";
+import { Band } from "@/components/ui/Band";
 import { ButtonLink } from "@/components/ui/Button";
-import { Container } from "@/components/ui/Container";
+import { BandTitle } from "@/components/landing/BandTitle";
 
 export function AccountBand() {
   return (
-    <section className="pb-16 sm:pb-22">
-      <Container>
-        <div className="flex flex-wrap items-center justify-between gap-8 rounded-3xl bg-primary p-8 text-primary-foreground sm:p-14">
-          <div className="flex max-w-xl flex-col gap-3">
-            <h2 className="text-[28px] leading-[1.08] font-semibold tracking-[-0.028em] sm:text-[38px]">
-              {accountCopy.title}
-            </h2>
-            <p className="text-[17px] opacity-80">{accountCopy.description}</p>
-          </div>
-          <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
-            <GoogleButton
-              label={accountCopy.google}
-              className="border-transparent bg-white text-primary-foreground hover:bg-white/85 sm:w-auto"
-            />
-            <ButtonLink
-              href={routes.signUp}
-              variant="ink"
-              size="xl"
-              arrow
-              className="bg-primary-foreground text-white hover:bg-primary-foreground/85"
-            >
-              {accountCopy.email}
-            </ButtonLink>
-          </div>
+    <Band tone="pearl" className="lg:pb-40" containerClassName="flex flex-col gap-10">
+      <BandTitle size="giant">
+        {accountCopy.title}{" "}
+        <span className="rounded-[14px] bg-primary px-[0.12em] text-primary-foreground lg:rounded-[22px]">
+          {accountCopy.highlight}
+        </span>
+      </BandTitle>
+      <div className="flex flex-wrap items-center justify-between gap-6 border-t border-border-strong pt-8">
+        <p className="text-[17px] text-secondary lg:text-[19px]">{accountCopy.description}</p>
+        <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
+          <GoogleButton label={accountCopy.google} variant="ink" size="2xl" arrow className="sm:w-auto" />
+          <ButtonLink href={routes.signUp} variant="outline" size="2xl">
+            {accountCopy.email}
+          </ButtonLink>
         </div>
-      </Container>
-    </section>
+      </div>
+    </Band>
   );
 }
