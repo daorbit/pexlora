@@ -20,7 +20,6 @@ import { MetadataReport } from "@/components/workspace/MetadataReport";
 
 type FileRowProps = {
   item: QueueItem;
-  defaultExpanded: boolean;
   doneLabel?: string;
   comparable?: boolean;
   onRemove: (id: string) => void;
@@ -38,8 +37,8 @@ function fileDetails({ file, format, report }: QueueItem) {
     .join(" · ");
 }
 
-export function FileRow({ item, defaultExpanded, doneLabel, comparable = false, onRemove, disabled }: FileRowProps) {
-  const [expanded, setExpanded] = useState(defaultExpanded);
+export function FileRow({ item, doneLabel, comparable = false, onRemove, disabled }: FileRowProps) {
+  const [expanded, setExpanded] = useState(true);
   const [comparing, setComparing] = useState(false);
   const { file, report, result } = item;
   const canCompare = comparable && Boolean(result && item.previewUrl && result.blob.type.startsWith("image/"));

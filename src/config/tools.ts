@@ -1,3 +1,4 @@
+import { AI_NAME } from "@/config/brand";
 import { routes } from "@/config/site";
 import { AltTextIcon } from "@/components/icons/AltTextIcon";
 import { CompressImageIcon } from "@/components/icons/CompressImageIcon";
@@ -110,9 +111,9 @@ export const workspaceTools: WorkspaceTool[] = [
     icon: AltTextIcon,
     name: "AI Alt Text Generator",
     shortName: "AI Alt Text",
-    headline: "Generate alt text and SEO file names with AI.",
+    headline: `Generate alt text and SEO file names with ${AI_NAME}.`,
     description:
-      "AI looks at each image and writes accessible alt text, a short description, keywords and an SEO-friendly file name you can download.",
+      `${AI_NAME} looks at each image and writes accessible alt text, a short description, keywords and an SEO-friendly file name you can download.`,
   },
 ];
 

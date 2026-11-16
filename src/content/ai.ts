@@ -1,14 +1,16 @@
+import { AI_NAME } from "@/config/brand";
 import { AI_DAILY_LIMITS, AI_TEXT_LIMITS } from "@/config/limits";
 import type { FindingLevel, HumanizeTone, TextVerdict } from "@/lib/ai/types";
 
 export const aiCopy = {
   copy: "Copy",
   copied: "Copied",
-  fillWithAi: "Fill with AI",
-  fillHint: "Add an image first, then let AI write the description and keywords.",
-  explain: "Explain with AI",
+  fillWithAi: `Fill with ${AI_NAME}`,
+  fillHint: `Add an image first, then let ${AI_NAME} write the description and keywords.`,
+  explain: `Explain with ${AI_NAME}`,
+  explainHint: "See in plain words what these tags reveal",
   explaining: "Reading the tags…",
-  explanationTitle: "What this file reveals",
+  explanationTitle: `${AI_NAME}: what this file reveals`,
   advice: "Before you share",
   levels: { high: "High risk", medium: "Medium", low: "Low" } satisfies Record<FindingLevel, string>,
   insights: {
@@ -17,7 +19,7 @@ export const aiCopy = {
     keywords: "Keywords",
     fileName: "SEO file name",
   },
-  limitNote: `AI tools are free for ${AI_DAILY_LIMITS.anonymous} requests a day, or ${AI_DAILY_LIMITS.user} with a free account.`,
+  limitNote: `${AI_NAME} tools are free for ${AI_DAILY_LIMITS.anonymous} requests a day, or ${AI_DAILY_LIMITS.user} with a free account.`,
 };
 
 export const textToolCopy = {
@@ -81,7 +83,7 @@ export const aiToolFaqs = {
     {
       question: "How does the AI text detector work?",
       answer:
-        "We combine an AI model's judgement with writing statistics: how much sentence length varies, how wide the vocabulary is and how often typical AI phrases appear. The result is a likelihood score from 0 to 100.",
+        `We combine ${AI_NAME}'s judgement with writing statistics: how much sentence length varies, how wide the vocabulary is and how often typical AI phrases appear. The result is a likelihood score from 0 to 100.`,
     },
     {
       question: "Is the result 100% accurate?",
@@ -90,7 +92,7 @@ export const aiToolFaqs = {
     },
     {
       question: "Is my text stored?",
-      answer: "No. Your text is sent to the AI model to be analysed and is not saved by Pexlora.",
+      answer: `No. Your text is sent to ${AI_NAME} to be analysed and is not saved by Pexlora.`,
     },
   ],
   "ai-humanizer": [
@@ -106,7 +108,7 @@ export const aiToolFaqs = {
     },
     {
       question: "Is my text stored?",
-      answer: "No. Your text is sent to the AI model to be rewritten and is not saved by Pexlora.",
+      answer: `No. Your text is sent to ${AI_NAME} to be rewritten and is not saved by Pexlora.`,
     },
   ],
 };

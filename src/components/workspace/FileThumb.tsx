@@ -7,18 +7,18 @@ export function FileThumb({ item }: { item: QueueItem }) {
       <Image
         src={item.previewUrl}
         alt=""
-        width={44}
-        height={44}
+        width={88}
+        height={88}
         unoptimized
-        className="size-11 shrink-0 rounded-lg bg-fill object-cover"
+        className="size-16 shrink-0 rounded-xl bg-fill object-cover sm:size-22"
       />
     );
   }
 
   const Icon = item.format.icon;
   return (
-    <span className="inline-flex size-11 shrink-0 items-center justify-center rounded-lg bg-fill text-secondary">
-      <Icon className="size-5" strokeWidth={1.75} aria-hidden />
+    <span className="inline-flex size-16 shrink-0 items-center justify-center rounded-xl bg-fill text-secondary sm:size-22">
+      <Icon className="size-6 sm:size-7" strokeWidth={1.75} aria-hidden />
     </span>
   );
 }

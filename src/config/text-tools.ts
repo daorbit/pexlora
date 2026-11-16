@@ -1,3 +1,4 @@
+import { AI_NAME } from "@/config/brand";
 import { routes } from "@/config/site";
 import { AiDetectorIcon } from "@/components/icons/AiDetectorIcon";
 import { HumanizerIcon } from "@/components/icons/HumanizerIcon";
@@ -26,7 +27,7 @@ export const textTools: TextTool[] = [
     shortName: "AI Detector",
     headline: "Check if text was written by AI.",
     description:
-      "Paste any text to get an AI likelihood score, the phrases that sound machine-written and the writing signals behind the estimate.",
+      `Paste any text and ${AI_NAME} gives an AI likelihood score, the phrases that sound machine-written and the writing signals behind the estimate.`,
   },
   {
     slug: "ai-humanizer",
@@ -37,7 +38,7 @@ export const textTools: TextTool[] = [
     shortName: "Humanize Text",
     headline: "Make AI text sound natural and human.",
     description:
-      "Rewrite stiff, AI-sounding text into clear, natural writing in your chosen tone. Facts, names and meaning stay the same.",
+      `${AI_NAME} rewrites stiff, AI-sounding text into clear, natural writing in your chosen tone. Facts, names and meaning stay the same.`,
   },
 ];
 

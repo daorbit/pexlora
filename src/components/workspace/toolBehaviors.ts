@@ -10,7 +10,6 @@ import { compressImage, convertImage, editImageMetadata, resizeImage } from "@/s
 type ToolBehavior = {
   accepts: FileKind[];
   inspectOnAdd: boolean;
-  expandReports: boolean;
   action?: {
     label: string;
     doneLabel: string;
@@ -26,7 +25,6 @@ export const toolBehaviors: Record<WorkspaceToolSlug, ToolBehavior> = {
   "remove-metadata": {
     accepts: ALL_KINDS,
     inspectOnAdd: true,
-    expandReports: false,
     action: {
       label: "Remove Metadata",
       doneLabel: "Cleaned",
@@ -37,7 +35,6 @@ export const toolBehaviors: Record<WorkspaceToolSlug, ToolBehavior> = {
   "convert-format": {
     accepts: ["image"],
     inspectOnAdd: false,
-    expandReports: false,
     action: {
       label: "Convert Images",
       doneLabel: "Converted",
@@ -50,7 +47,6 @@ export const toolBehaviors: Record<WorkspaceToolSlug, ToolBehavior> = {
   "compress-image": {
     accepts: ["image"],
     inspectOnAdd: false,
-    expandReports: false,
     action: {
       label: "Compress Images",
       doneLabel: "Compressed",
@@ -63,7 +59,6 @@ export const toolBehaviors: Record<WorkspaceToolSlug, ToolBehavior> = {
   "resize-image": {
     accepts: ["image"],
     inspectOnAdd: false,
-    expandReports: false,
     action: {
       label: "Resize Images",
       doneLabel: "Resized",
@@ -76,7 +71,6 @@ export const toolBehaviors: Record<WorkspaceToolSlug, ToolBehavior> = {
   "edit-metadata": {
     accepts: ["image"],
     inspectOnAdd: true,
-    expandReports: false,
     action: {
       label: "Save Metadata",
       doneLabel: "Saved",
@@ -88,7 +82,6 @@ export const toolBehaviors: Record<WorkspaceToolSlug, ToolBehavior> = {
   "image-alt-text": {
     accepts: ["image"],
     inspectOnAdd: false,
-    expandReports: false,
     action: {
       label: "Generate Alt Text",
       doneLabel: "Generated",
@@ -99,6 +92,5 @@ export const toolBehaviors: Record<WorkspaceToolSlug, ToolBehavior> = {
   "view-metadata": {
     accepts: ALL_KINDS,
     inspectOnAdd: true,
-    expandReports: true,
   },
 };

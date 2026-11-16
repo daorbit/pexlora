@@ -1,5 +1,6 @@
 import "server-only";
 import { ApiError } from "@/lib/api/errors";
+import { AI_NAME } from "@/config/brand";
 import { AI_MODELS } from "@/lib/ai/models";
 import { env } from "@/lib/env";
 
@@ -17,7 +18,7 @@ type CloudflareEnvelope = {
   };
 };
 
-const BUSY_MESSAGE = "Our AI is busy right now. Please try again in a minute.";
+const BUSY_MESSAGE = `${AI_NAME} is busy right now. Please try again in a minute.`;
 
 async function runModel(model: string, body: Record<string, unknown>) {
   const { accountId, apiToken } = env.cloudflareAi;
@@ -50,7 +51,7 @@ function parseJson<T>(value: unknown): T {
   try {
     return JSON.parse(match ? match[0] : value) as T;
   } catch {
-    throw new ApiError("The AI returned an unexpected answer. Please try again.", 502);
+    throw new ApiError(`${AI_NAME} returned an unexpected answer. Please try again.`, 502);
   }
 }
 

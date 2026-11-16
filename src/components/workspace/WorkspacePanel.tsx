@@ -120,7 +120,6 @@ export function WorkspacePanel({ tool, accepts: acceptsOverride, initialOptions,
               <FileRow
                 key={item.id}
                 item={item}
-                defaultExpanded={behavior.expandReports}
                 doneLabel={action?.doneLabel}
                 comparable={action?.compare}
                 onRemove={queue.remove}

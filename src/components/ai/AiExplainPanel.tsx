@@ -7,7 +7,8 @@ import type { MetadataReport } from "@/lib/metadata/types";
 import { explainReport } from "@/services/ai-api";
 import { Alert } from "@/components/ui/Alert";
 import { Badge } from "@/components/ui/Badge";
-import { AiButton } from "@/components/ai/AiButton";
+import { OrbitMark } from "@/components/ai/OrbitMark";
+import { OrbitPromptButton } from "@/components/ai/OrbitPromptButton";
 
 const levelTones: Record<FindingLevel, "danger" | "neutral" | "success"> = {
   high: "danger",
@@ -22,14 +23,12 @@ export function AiExplainPanel({ report }: { report: MetadataReport }) {
     return (
       <div className="flex flex-col gap-3">
         {error && <Alert message={error} />}
-        <AiButton
-          variant="secondary"
-          size="sm"
-          pending={pending}
+        <OrbitPromptButton
           label={aiCopy.explain}
+          hint={aiCopy.explainHint}
+          pending={pending}
           pendingLabel={aiCopy.explaining}
           onClick={() => run(report)}
-          className="w-fit"
         />
       </div>
     );
@@ -38,7 +37,10 @@ export function AiExplainPanel({ report }: { report: MetadataReport }) {
   return (
     <div className="flex flex-col gap-4 rounded-2xl bg-subtle p-4 motion-safe:animate-fade-up sm:p-5">
       <div className="flex flex-col gap-1.5">
-        <p className="text-xs font-medium text-tertiary">{aiCopy.explanationTitle}</p>
+        <p className="flex items-center gap-1.5 text-xs font-medium text-tertiary">
+          <OrbitMark size={20} className="size-5" />
+          {aiCopy.explanationTitle}
+        </p>
         <p className="text-[15px] leading-relaxed">{data.summary}</p>
       </div>
       {data.findings.length > 0 && (
