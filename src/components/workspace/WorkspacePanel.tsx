@@ -7,6 +7,7 @@ import type { SampleImage } from "@/config/samples";
 import type { WorkspaceToolSlug } from "@/config/tools";
 import { toastCopy } from "@/content/toasts";
 import { panelNotes, saveCopy } from "@/content/workspace";
+import { housePromos, resultsPromoTools } from "@/config/house-promos";
 import { useCanSaveToPhotos } from "@/hooks/useCanSaveToPhotos";
 import { useFileDrop } from "@/hooks/useFileDrop";
 import { useFileQueue } from "@/hooks/useFileQueue";
@@ -25,6 +26,7 @@ import { Dropzone } from "@/components/workspace/Dropzone";
 import { FileRow } from "@/components/workspace/FileRow";
 import { FilesCard } from "@/components/workspace/FilesCard";
 import { NextSteps } from "@/components/workspace/NextSteps";
+import { HousePromoCard } from "@/components/promo/HousePromoCard";
 import { ToolOptionsBar } from "@/components/workspace/options/ToolOptionsBar";
 import { PanelChecklist } from "@/components/workspace/PanelChecklist";
 import { ResultSummary } from "@/components/workspace/ResultSummary";
@@ -165,6 +167,9 @@ export function WorkspacePanel({ tool, accepts: acceptsOverride, initialOptions,
           )}
           {actionBar(cn(hasItems && "max-lg:hidden"))}
           {!queue.isProcessing && results.length > 0 && <NextSteps current={tool} results={results} />}
+          {!queue.isProcessing && results.length > 0 && resultsPromoTools.includes(tool) && (
+            <HousePromoCard promo={housePromos.results} placement="results" dismissible />
+          )}
           {panelFooter}
         </SettingsPanel>
       )}

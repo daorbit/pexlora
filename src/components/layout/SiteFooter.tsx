@@ -4,6 +4,8 @@ import { footerColumns, footerCopy, footerLegalLinks } from "@/content/footer";
 import { Container } from "@/components/ui/Container";
 import { CurrentYear } from "@/components/layout/CurrentYear";
 import { Logo } from "@/components/layout/Logo";
+import { HousePromoCard } from "@/components/promo/HousePromoCard";
+import { housePromos } from "@/config/house-promos";
 
 const linkClasses = "text-[15px] text-secondary transition-colors hover:text-foreground";
 
@@ -25,12 +27,13 @@ function FooterLink({ href, label }: { href: string; label: string }) {
 export function SiteFooter() {
   return (
     <footer className="theme-dark overflow-hidden bg-background pb-[env(safe-area-inset-bottom)] text-foreground">
-      <Container className="border-b border-separator py-16 sm:py-20">
+      <Container className="flex flex-col gap-10 border-b border-separator py-16 sm:py-20 lg:flex-row lg:items-end lg:justify-between">
         <div className="flex max-w-xl flex-col gap-5">
           <Logo size="lg" />
           <h2 className="text-[32px] leading-[1.06] font-semibold tracking-[-0.03em] sm:text-[44px]">{footerCopy.title}</h2>
           <p className="text-[17px] leading-relaxed text-secondary">{footerCopy.description}</p>
         </div>
+        <HousePromoCard promo={housePromos.footer} placement="footer" className="w-full max-w-sm" />
       </Container>
 
       <Container className="grid grid-cols-2 gap-x-6 gap-y-12 py-14 sm:grid-cols-3 sm:py-16 lg:grid-cols-6">
