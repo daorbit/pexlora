@@ -133,7 +133,92 @@
   --animate-swap-in: swap-in 5s cubic-bezier(0.7, 0, 0.2, 1) infinite;
   --animate-ticker-y: ticker-y 22s linear infinite;
   --animate-marquee-x: marquee-x 30s linear infinite;
-  --animate-step-line: step-line 3s ease-in-out infinite;
+  --animate-rail-dot: rail-dot 6s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+  --animate-stage-on: stage-on 6s ease infinite;
+  --animate-file-drop: file-drop 6s cubic-bezier(0.5, 0, 0.2, 1) infinite;
+  --animate-scan-y: scan-y 2s ease-in-out infinite;
+  --animate-fill-x: fill-x 6s cubic-bezier(0.6, 0, 0.2, 1) infinite;
+
+  @keyframes rail-dot {
+    0%,
+    18% {
+      left: 16.66%;
+      opacity: 1;
+    }
+    33%,
+    51% {
+      left: 50%;
+    }
+    66%,
+    92% {
+      left: 83.33%;
+      opacity: 1;
+    }
+    97% {
+      left: 83.33%;
+      opacity: 0;
+    }
+    98% {
+      left: 16.66%;
+      opacity: 0;
+    }
+    100% {
+      left: 16.66%;
+      opacity: 1;
+    }
+  }
+
+  @keyframes stage-on {
+    0%,
+    30% {
+      background-color: var(--accent-soft);
+    }
+    36%,
+    94% {
+      background-color: transparent;
+    }
+    100% {
+      background-color: var(--accent-soft);
+    }
+  }
+
+  @keyframes file-drop {
+    0% {
+      translate: 0 -36px;
+      opacity: 0;
+    }
+    12%,
+    30% {
+      translate: 0 0;
+      opacity: 1;
+    }
+    40%,
+    100% {
+      translate: 0 0;
+      opacity: 0.7;
+    }
+  }
+
+  @keyframes scan-y {
+    0%,
+    100% {
+      top: 8%;
+    }
+    50% {
+      top: 88%;
+    }
+  }
+
+  @keyframes fill-x {
+    0%,
+    66% {
+      width: 6%;
+    }
+    90%,
+    100% {
+      width: 100%;
+    }
+  }
 
   @keyframes strike-sweep {
     0%,
@@ -209,23 +294,6 @@
     }
   }
 
-  @keyframes step-line {
-    0% {
-      scale: 0 1;
-      transform-origin: left;
-    }
-    50% {
-      scale: 1 1;
-      transform-origin: left;
-    }
-    50.01% {
-      transform-origin: right;
-    }
-    100% {
-      scale: 0 1;
-      transform-origin: right;
-    }
-  }
 
   @keyframes grow-x {
     from {
@@ -321,6 +389,17 @@
 
 @utility tone-ink {
   --tone: #8a8d82;
+}
+
+html.theme-reveal::view-transition-old(root),
+html.theme-reveal::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+html.theme-reveal::view-transition-new(root) {
+  z-index: 1;
+  will-change: clip-path;
 }
 
 @utility fade-y {

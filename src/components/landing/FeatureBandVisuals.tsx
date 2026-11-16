@@ -4,15 +4,16 @@ import { StrikeText } from "@/components/ui/StrikeText";
 import { SwapStack } from "@/components/ui/SwapStack";
 
 const chip =
-  "inline-flex h-16 items-center gap-4 rounded-2xl px-6 text-[34px] font-bold tracking-[-0.05em] whitespace-nowrap sm:h-24 sm:text-[56px] lg:h-35 lg:gap-6 lg:rounded-[28px] lg:px-11 lg:text-[84px]";
+  "inline-flex h-12 items-center gap-3 rounded-xl px-4 text-[24px] font-bold tracking-[-0.04em] whitespace-nowrap sm:h-20 sm:gap-4 sm:rounded-2xl sm:px-6 sm:text-[48px] lg:h-35 lg:gap-6 lg:rounded-[28px] lg:px-11 lg:text-[84px] lg:tracking-[-0.05em]";
 
-const giantNumber = "text-[56px] leading-[0.9] font-extrabold tracking-[-0.07em] whitespace-nowrap md:text-[96px] lg:text-[150px]";
+const giantNumber =
+  "text-[40px] leading-[0.95] font-extrabold tracking-[-0.06em] whitespace-nowrap sm:text-[72px] md:text-[96px] lg:text-[150px] lg:leading-[0.9] lg:tracking-[-0.07em]";
 
 export function LocationVisual() {
   return (
     <StrikeText
       text={featureBands.location.value}
-      className="font-mono text-[26px] leading-none font-medium tracking-[-0.06em] sm:text-[44px] md:text-[64px] lg:text-[92px]"
+      className="font-mono text-[20px] leading-none font-medium tracking-[-0.05em] sm:text-[40px] md:text-[60px] lg:text-[92px] lg:tracking-[-0.06em]"
     />
   );
 }
@@ -24,7 +25,7 @@ export function AiLabelVisual() {
     <SwapStack
       first={
         <span className={cn(chip, "bg-foreground text-background")}>
-          <span className="size-8 rounded-lg bg-warning sm:size-11 lg:size-14 lg:rounded-2xl" aria-hidden />
+          <span className="size-5 rounded-md bg-warning sm:size-10 sm:rounded-lg lg:size-14 lg:rounded-2xl" aria-hidden />
           {before}
         </span>
       }
@@ -37,9 +38,9 @@ export function SizeVisual() {
   const { from, format, to } = featureBands.convert;
 
   return (
-    <div className="flex flex-wrap items-center gap-x-6 gap-y-2 lg:gap-x-10">
+    <div className="flex flex-wrap items-center gap-x-3 gap-y-1 sm:gap-x-6 lg:gap-x-10">
       <span className={cn(giantNumber, "text-border-strong")}>{from}</span>
-      <span className="text-[32px] text-tertiary lg:text-[60px]" aria-hidden>
+      <span className="text-[24px] text-tertiary sm:text-[40px] lg:text-[60px]" aria-hidden>
         →
       </span>
       <SwapStack

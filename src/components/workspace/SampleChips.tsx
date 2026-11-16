@@ -6,8 +6,8 @@ import { dropzoneCopy } from "@/content/workspace";
 
 export function SampleChips({ onSelect }: { onSelect: (sample: SampleImage) => void }) {
   return (
-    <div className="flex flex-wrap items-center justify-center gap-2">
-      <span className="text-[13px] text-secondary">{dropzoneCopy.samples}</span>
+    <div className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2">
+      <span className="w-full text-[12.5px] text-secondary sm:w-auto sm:text-[13px]">{dropzoneCopy.samples}</span>
       {sampleImages.map((sample) => (
         <button
           key={sample.id}

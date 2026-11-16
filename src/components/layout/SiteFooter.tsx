@@ -2,7 +2,6 @@ import Link from "next/link";
 import { siteConfig } from "@/config/site";
 import { footerColumns, footerCopy, footerLegalLinks } from "@/content/footer";
 import { Container } from "@/components/ui/Container";
-import { ThemeSwitcher } from "@/components/theme/ThemeSwitcher";
 import { CurrentYear } from "@/components/layout/CurrentYear";
 import { Logo } from "@/components/layout/Logo";
 
@@ -62,7 +61,6 @@ export function SiteFooter() {
             © <CurrentYear /> {siteConfig.name} · {footerCopy.productOf}. {footerCopy.legal}
           </p>
         </div>
-        <ThemeSwitcher />
       </Container>
 
       <Container aria-hidden className="pt-2 pb-8 sm:pb-12">

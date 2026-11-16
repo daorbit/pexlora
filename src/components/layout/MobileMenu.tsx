@@ -9,7 +9,6 @@ import { menuGroups } from "@/config/tool-hub";
 import { navCopy } from "@/content/navigation";
 import { cn } from "@/lib/utils/cn";
 import { Button } from "@/components/ui/Button";
-import { ThemeSwitcher } from "@/components/theme/ThemeSwitcher";
 import { MenuGroupLabel, ToolMenuLink } from "@/components/layout/ToolMenuLink";
 
 const linkClass = "flex h-12 items-center gap-3 rounded-2xl px-3 text-[16px] font-semibold active:bg-fill";
@@ -51,7 +50,7 @@ export function MobileMenu() {
           <nav
             id="mobile-menu"
             aria-label="Main"
-            className="fixed inset-x-0 top-14 bottom-0 z-40 flex flex-col gap-5 overflow-y-auto border-t border-separator bg-surface px-4 pt-4 pb-[max(1.5rem,env(safe-area-inset-bottom))] text-foreground md:hidden"
+            className="fixed inset-x-0 top-12 bottom-0 sm:top-14 z-40 flex flex-col gap-5 overflow-y-auto border-t border-separator bg-surface px-4 pt-4 pb-[max(1.5rem,env(safe-area-inset-bottom))] text-foreground md:hidden"
           >
             {menuGroups.map((group) => (
               <div key={group.id} className="flex flex-col">
@@ -70,10 +69,6 @@ export function MobileMenu() {
               <Link href={routes.signIn} onClick={close} className={cn(linkClass, "text-secondary")}>
                 {navCopy.signIn}
               </Link>
-            </div>
-            <div className="mt-auto flex items-center justify-between border-t border-separator px-3 pt-5">
-              <span className="text-[15px] font-semibold text-secondary">{navCopy.theme}</span>
-              <ThemeSwitcher />
             </div>
           </nav>,
           document.body,

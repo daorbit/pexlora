@@ -35,24 +35,24 @@ export function Dropzone({ accepts, isDragging, onBrowse, onSample, compact = fa
       onClick={onClick}
       className={cn(
         "flex min-h-72 cursor-pointer flex-col items-center justify-center gap-5 rounded-2xl border-[1.5px] border-dashed px-5 py-10 text-center transition-colors sm:min-h-80 sm:gap-6 sm:px-6 sm:py-14",
-        isDragging ? "border-foreground bg-fill" : "border-border-strong bg-subtle hover:border-foreground/40 hover:bg-fill/60",
-        compact && "min-h-0 gap-4 py-7 sm:min-h-0 sm:gap-4 sm:py-8",
+        isDragging ? "border-foreground bg-fill" : "border-primary bg-subtle hover:bg-fill/60",
+        compact && "min-h-0 gap-3 px-4 py-5 sm:min-h-0 sm:gap-4 sm:py-8",
       )}
     >
       <span
         className={cn(
           "inline-flex items-center justify-center rounded-xl bg-primary text-primary-foreground",
-          compact ? "size-12" : "size-14",
+          compact ? "size-10 sm:size-12" : "size-14",
         )}
       >
-        <Upload className={compact ? "size-5" : "size-6"} strokeWidth={2} aria-hidden />
+        <Upload className={compact ? "size-[18px] sm:size-5" : "size-6"} strokeWidth={2} aria-hidden />
       </span>
-      <div className="flex flex-col gap-1.5">
-        <p className={cn("font-display font-semibold tracking-[-0.02em]", compact ? "text-xl" : "text-[22px] sm:text-2xl")}>
+      <div className={cn("flex flex-col", compact ? "gap-0.5 sm:gap-1.5" : "gap-1.5")}>
+        <p className={cn("font-display font-semibold tracking-[-0.02em]", compact ? "text-lg sm:text-xl" : "text-[22px] sm:text-2xl")}>
           <span className="sm:hidden">{dropzoneCopy.mobileTitle(accepts)}</span>
           <span className="hidden sm:inline">{isDragging ? dropzoneCopy.dragging : dropzoneCopy.title(accepts)}</span>
         </p>
-        <p className="text-[15px] text-secondary">
+        <p className={cn("text-secondary", compact ? "text-[13px] sm:text-[15px]" : "text-[15px]")}>
           <span className="hidden sm:inline">{dropzoneCopy.paste} · </span>
           {MAX_FILES_PER_BATCH} at a time
         </p>
@@ -60,7 +60,10 @@ export function Dropzone({ accepts, isDragging, onBrowse, onSample, compact = fa
       <Button variant="ink" size={compact ? "md" : "lg"} arrow onClick={onBrowse} className="w-full max-w-xs justify-between pl-6 sm:w-auto sm:justify-center">
         {dropzoneCopy.button(accepts)}
       </Button>
-      <ul className="flex flex-wrap justify-center gap-1.5" aria-label={describeAccepted(accepts)}>
+      <ul
+        className={cn("flex flex-wrap justify-center gap-1.5", compact && "hidden sm:flex")}
+        aria-label={describeAccepted(accepts)}
+      >
         {accepts.map((kind) => (
           <li
             key={kind}

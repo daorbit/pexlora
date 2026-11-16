@@ -8,7 +8,7 @@ type Size = "sm" | "md" | "lg";
 
 const sizes: Record<Size, { text: string; mark: string; pixels: number }> = {
   sm: { text: "gap-2 text-[15px]", mark: "size-[22px]", pixels: 22 },
-  md: { text: "gap-2 text-[19px] sm:gap-2.5 sm:text-[21px]", mark: "size-7 sm:size-8", pixels: 32 },
+  md: { text: "gap-1.5 text-base sm:gap-2.5 sm:text-[21px]", mark: "size-[22px] sm:size-8", pixels: 32 },
   lg: { text: "gap-3 text-[26px]", mark: "size-9", pixels: 36 },
 };
 

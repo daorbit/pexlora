@@ -10,7 +10,7 @@ export function GlossaryTabs() {
 
   return (
     <>
-      <div role="tablist" aria-label={learnCopy.tabsLabel} className="flex flex-wrap items-baseline gap-x-5 lg:gap-x-7">
+      <div role="tablist" aria-label={learnCopy.tabsLabel} className="flex flex-wrap items-baseline gap-x-3.5 gap-y-1 sm:gap-x-5 lg:gap-x-7">
         {glossary.map((entry, index) => {
           const selected = index === active;
           return (
@@ -23,7 +23,7 @@ export function GlossaryTabs() {
               aria-controls={`${id}-panel-${index}`}
               onClick={() => setActive(index)}
               className={cn(
-                "text-[48px] leading-[1.05] font-extrabold tracking-[-0.06em] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring lg:text-[88px]",
+                "text-[30px] leading-[1.1] font-extrabold tracking-[-0.05em] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring sm:text-[52px] lg:text-[88px] lg:leading-[1.05] lg:tracking-[-0.06em]",
                 selected ? "text-primary" : "text-border-strong hover:text-foreground",
               )}
             >
@@ -39,12 +39,14 @@ export function GlossaryTabs() {
           id={`${id}-panel-${index}`}
           aria-labelledby={`${id}-tab-${index}`}
           hidden={index !== active}
-          className="grid grid-cols-1 items-end gap-8 border-t border-separator pt-10 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)] lg:gap-14"
+          className="grid grid-cols-1 items-end gap-4 border-t border-separator pt-5 sm:gap-8 sm:pt-10 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)] lg:gap-14"
         >
-          <p className="text-[22px] leading-[1.3] font-medium tracking-[-0.02em] lg:text-[32px]">{entry.body}</p>
-          <div className="flex flex-col gap-2 rounded-[20px] bg-surface p-5.5 font-mono">
-            <span className="text-[13px] text-tertiary">{entry.sample.key}</span>
-            <span className="text-lg break-all">{entry.sample.value}</span>
+          <p className="text-[16px] leading-[1.45] font-medium tracking-[-0.01em] sm:text-[22px] sm:leading-[1.3] lg:text-[32px] lg:tracking-[-0.02em]">
+            {entry.body}
+          </p>
+          <div className="flex flex-col gap-1 rounded-2xl bg-surface p-4 font-mono sm:gap-2 sm:rounded-[20px] sm:p-5.5">
+            <span className="text-xs text-tertiary sm:text-[13px]">{entry.sample.key}</span>
+            <span className="text-[14px] break-all sm:text-lg">{entry.sample.value}</span>
           </div>
         </div>
       ))}

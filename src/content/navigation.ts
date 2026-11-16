@@ -3,6 +3,8 @@ export const navCopy = {
   viewAll: "View all tools",
   signIn: "Sign In",
   theme: "Theme",
+  toLight: "Switch to light mode",
+  toDark: "Switch to dark mode",
   openMenu: "Open menu",
   closeMenu: "Close menu",
 };

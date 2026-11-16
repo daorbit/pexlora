@@ -76,6 +76,18 @@ export const steps = [
   { title: "Clean", description: "Download a clean copy. It’s checked again, so you know nothing is left." },
 ];
 
+export const stepsDemo = {
+  file: "sunset.jpg",
+  fileMeta: "3.1 MB",
+  fields: [
+    { key: "CreatorTool", label: "AI", tone: "ai" as const },
+    { key: "GPSLatitude", label: "Location", tone: "location" as const },
+    { key: "Model", label: "iPhone 15 Pro", tone: "plain" as const },
+  ],
+  cleanFile: "sunset-clean.jpg",
+  cleanBadge: "0 tags",
+};
+
 export const risksCopy = {
   title: "Every file says more than you think.",
   description:
@@ -187,7 +199,9 @@ export const accountCopy = {
   highlight: "Free.",
   description: "One click with Google. No card, no trial, no catch.",
   google: "Continue with Google",
+  googleShort: "Google",
   email: "Sign Up with Email",
+  emailShort: "Email",
 };
 
 export const faqs = [
