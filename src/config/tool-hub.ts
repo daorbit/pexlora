@@ -13,6 +13,7 @@ export type HubItem = {
   href: string;
   iconSrc: string;
   category: HubCategory;
+  shortName?: string;
 };
 
 export const hubCategories: { id: HubCategory | "all"; label: string }[] = [
@@ -30,6 +31,7 @@ const textToolItems: HubItem[] = textTools.map((tool) => ({
   href: tool.href,
   iconSrc: textToolIconSrc(tool.slug),
   category: "ai",
+  shortName: tool.shortName,
 }));
 
 const compressTargetItem: HubItem = {
@@ -39,6 +41,7 @@ const compressTargetItem: HubItem = {
   href: compressTargetPath(defaultCompressTarget.slug),
   iconSrc: compressTargetIconSrc,
   category: "image",
+  shortName: toolPageCopy.compressTargetHub.name,
 };
 
 const toolItems: HubItem[] = [
@@ -50,11 +53,16 @@ const toolItems: HubItem[] = [
       href: tool.href,
       iconSrc: toolIconSrc(tool.slug),
       category: tool.category,
+      shortName: tool.shortName,
     };
     return tool.slug === "compress-image" ? [item, compressTargetItem] : [item];
   }),
   ...textToolItems,
 ];
+
+const heroShortcutKeys = ["remove-metadata", "compress-to-size", "resize-image", "convert-format", "image-alt-text"];
+
+export const heroShortcuts = heroShortcutKeys.flatMap((key) => toolItems.filter((item) => item.key === key));
 
 export function conversionItem(conversion: Conversion): HubItem {
   return {

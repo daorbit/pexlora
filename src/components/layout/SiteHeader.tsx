@@ -11,8 +11,8 @@ import { ToolsMenu } from "@/components/layout/ToolsMenu";
 
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-50 border-b border-separator bg-surface/90 text-foreground backdrop-blur-md">
-      <Container className="grid h-14 grid-cols-[1fr_auto] items-center gap-3 sm:gap-6 md:grid-cols-[1fr_auto_1fr]">
+    <header className="sticky top-0 z-50 bg-background/85 text-foreground backdrop-blur-md">
+      <Container className="grid h-16 grid-cols-[1fr_auto] items-center gap-3 sm:gap-6 md:grid-cols-[1fr_auto_1fr]">
         <Logo size="md" />
         <nav className="hidden items-center gap-6 md:flex lg:gap-7">
           <ToolsMenu />

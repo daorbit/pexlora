@@ -13,7 +13,7 @@ export async function HeaderAuth() {
       <ButtonLink href={routes.signIn} variant="nav" className="hidden px-3 sm:inline-flex">
         Sign In
       </ButtonLink>
-      <ButtonLink href={routes.signUp} size="sm" arrow>
+      <ButtonLink href={routes.signUp} variant="ink" size="md">
         Get Started
       </ButtonLink>
     </div>

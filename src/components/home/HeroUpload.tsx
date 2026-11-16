@@ -40,7 +40,7 @@ export function HeroUpload() {
     <div {...dropProps} className="w-full">
       <input {...picker.inputProps} />
       <WorkspaceFrame>
-        <Dropzone accepts={accepts} isDragging={isDragging} onBrowse={picker.open} onSample={addSample} />
+        <Dropzone accepts={accepts} isDragging={isDragging} onBrowse={picker.open} onSample={addSample} compact />
       </WorkspaceFrame>
     </div>
   );

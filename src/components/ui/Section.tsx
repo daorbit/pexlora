@@ -29,7 +29,8 @@ export function Section({
     <section
       className={cn(
         "scroll-mt-20 py-16 sm:py-22",
-        tone === "surface" && "border-y border-separator bg-surface",
+        tone === "surface" &&
+          "bg-[linear-gradient(to_bottom,var(--background),var(--surface)_120px,var(--surface)_calc(100%-120px),var(--background))]",
         className,
       )}
       {...props}

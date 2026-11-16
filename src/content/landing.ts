@@ -7,12 +7,14 @@ const labels = (formats: FileFormat[]) => formats.map((format) => format.label);
 const limit = (kind: keyof typeof FILE_SIZE_LIMITS_MB) => formatMegabytes(FILE_SIZE_LIMITS_MB[kind]);
 
 export const heroCopy = {
-  badge: "Free",
-  tagline: "Your files. Your privacy.",
-  title: "Remove AI metadata from",
-  highlight: "any file.",
+  eyebrow: "Free privacy tools",
+  eyebrowNote: "No sign-up",
+  title: "Share the photo.",
+  titleLead: "Not the",
+  highlight: "location.",
   description:
-    "Drop a photo, PDF, document, audio or video file to strip AI tags, GPS location, EXIF and author details before you share it.",
+    "Strip AI tags, GPS, EXIF and author details from photos, PDFs, documents, audio and video in seconds. Nothing is ever stored.",
+  shortcutsLabel: "Popular tools",
 };
 
 export const hubCopy = {
@@ -22,13 +24,6 @@ export const hubCopy = {
   filterLabel: "Filter tools",
   open: "Open Tool",
 };
-
-export const trustChips = [
-  "No sign-up",
-  "Files never stored",
-  `${DAILY_LIMITS.anonymous} free files a day`,
-  "No quality loss",
-];
 
 export const showcaseFile = {
   name: "ai-render.jpg",

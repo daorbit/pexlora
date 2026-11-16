@@ -16,13 +16,14 @@ type DropzoneProps = {
   isDragging: boolean;
   onBrowse: () => void;
   onSample: (sample: SampleImage) => void;
+  compact?: boolean;
 };
 
 function isOwnControl(target: EventTarget) {
   return target instanceof Element && target.closest("button, a, input") !== null;
 }
 
-export function Dropzone({ accepts, isDragging, onBrowse, onSample }: DropzoneProps) {
+export function Dropzone({ accepts, isDragging, onBrowse, onSample, compact = false }: DropzoneProps) {
   const acceptsLocal = accepts.some((kind) => kind !== "image");
 
   const onClick = (event: MouseEvent<HTMLDivElement>) => {
@@ -35,13 +36,19 @@ export function Dropzone({ accepts, isDragging, onBrowse, onSample }: DropzonePr
       className={cn(
         "flex min-h-72 cursor-pointer flex-col items-center justify-center gap-5 rounded-2xl border-[1.5px] border-dashed px-5 py-10 text-center transition-colors sm:min-h-80 sm:gap-6 sm:px-6 sm:py-14",
         isDragging ? "border-foreground bg-fill" : "border-border-strong bg-subtle hover:border-foreground/40 hover:bg-fill/60",
+        compact && "min-h-0 gap-4 py-7 sm:min-h-0 sm:gap-4 sm:py-8",
       )}
     >
-      <span className="inline-flex size-14 items-center justify-center rounded-xl bg-primary text-primary-foreground">
-        <Upload className="size-6" strokeWidth={2} aria-hidden />
+      <span
+        className={cn(
+          "inline-flex items-center justify-center rounded-xl bg-primary text-primary-foreground",
+          compact ? "size-12" : "size-14",
+        )}
+      >
+        <Upload className={compact ? "size-5" : "size-6"} strokeWidth={2} aria-hidden />
       </span>
       <div className="flex flex-col gap-1.5">
-        <p className="font-display text-[22px] font-semibold tracking-[-0.02em] sm:text-2xl">
+        <p className={cn("font-display font-semibold tracking-[-0.02em]", compact ? "text-xl" : "text-[22px] sm:text-2xl")}>
           <span className="sm:hidden">{dropzoneCopy.mobileTitle(accepts)}</span>
           <span className="hidden sm:inline">{isDragging ? dropzoneCopy.dragging : dropzoneCopy.title(accepts)}</span>
         </p>
@@ -50,7 +57,7 @@ export function Dropzone({ accepts, isDragging, onBrowse, onSample }: DropzonePr
           {MAX_FILES_PER_BATCH} at a time
         </p>
       </div>
-      <Button variant="ink" size="lg" arrow onClick={onBrowse} className="w-full max-w-xs justify-between pl-6 sm:w-auto sm:justify-center">
+      <Button variant="ink" size={compact ? "md" : "lg"} arrow onClick={onBrowse} className="w-full max-w-xs justify-between pl-6 sm:w-auto sm:justify-center">
         {dropzoneCopy.button(accepts)}
       </Button>
       <ul className="flex flex-wrap justify-center gap-1.5" aria-label={describeAccepted(accepts)}>
@@ -63,7 +70,7 @@ export function Dropzone({ accepts, isDragging, onBrowse, onSample }: DropzonePr
           </li>
         ))}
       </ul>
-      {acceptsLocal && <p className="max-w-md text-[13px] text-secondary">{dropzoneCopy.onDevice}</p>}
+      {acceptsLocal && !compact && <p className="max-w-md text-[13px] text-secondary">{dropzoneCopy.onDevice}</p>}
       {accepts.includes("image") && <SampleChips onSelect={onSample} />}
     </div>
   );
