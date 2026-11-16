@@ -4,6 +4,7 @@ import type { WorkspaceToolSlug } from "@/config/tools";
 import type { ToolOptions } from "@/lib/image/options";
 import { CompressOptionsBar } from "@/components/workspace/options/CompressOptionsBar";
 import { ConvertOptionsBar } from "@/components/workspace/options/ConvertOptionsBar";
+import { MetadataOptionsBar } from "@/components/workspace/options/MetadataOptionsBar";
 import { ResizeOptionsBar } from "@/components/workspace/options/ResizeOptionsBar";
 
 type ToolOptionsBarProps = {
@@ -36,6 +37,14 @@ export function ToolOptionsBar({ tool, options, onChange, disabled }: ToolOption
         <ResizeOptionsBar
           options={options.resize}
           onChange={(resize) => onChange({ ...options, resize })}
+          disabled={disabled}
+        />
+      );
+    case "edit-metadata":
+      return (
+        <MetadataOptionsBar
+          options={options.metadata}
+          onChange={(metadata) => onChange({ ...options, metadata })}
           disabled={disabled}
         />
       );

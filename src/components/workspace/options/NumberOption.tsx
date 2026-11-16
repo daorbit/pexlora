@@ -1,7 +1,9 @@
 "use client";
 
 import { optionsCopy } from "@/content/workspace";
+import { cn } from "@/lib/utils/cn";
 import { OptionGroup } from "@/components/workspace/options/OptionsBar";
+import { optionFieldInput, optionFieldShell } from "@/components/workspace/options/styles";
 
 type NumberOptionProps = {
   label: string;
@@ -15,7 +17,7 @@ type NumberOptionProps = {
 export function NumberOption({ label, unit, value, max, disabled, onChange }: NumberOptionProps) {
   return (
     <OptionGroup as="label" label={label}>
-      <span className="inline-flex h-8 items-center gap-1 rounded-full border border-separator bg-surface pr-3 transition-colors focus-within:border-foreground hover:border-border-strong">
+      <span className={cn(optionFieldShell, "inline-flex items-center gap-1 pr-3")}>
         <input
           type="number"
           inputMode="numeric"
@@ -26,7 +28,7 @@ export function NumberOption({ label, unit, value, max, disabled, onChange }: Nu
           placeholder={optionsCopy.auto}
           disabled={disabled}
           onChange={(event) => onChange(event.target.value === "" ? null : Number(event.target.value))}
-          className="h-full w-20 bg-transparent pl-3 text-[13px] tabular-nums outline-none placeholder:text-secondary disabled:opacity-50"
+          className={cn(optionFieldInput, "w-20 pl-3 tabular-nums")}
         />
         <span className="text-xs text-secondary">{unit}</span>
       </span>

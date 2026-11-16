@@ -11,6 +11,8 @@ export const MAX_RESIZE_DIMENSION = 8000;
 
 export const RESIZE_PERCENT_RANGE = { min: 10, max: 200, step: 5 } as const;
 
+export const MAX_METADATA_TEXT_LENGTH = 300;
+
 export const FILE_SIZE_LIMITS_MB: Record<FileKind, number> = {
   image: 4,
   pdf: 100,

@@ -1,9 +1,9 @@
 import { ALL_KINDS, type FileKind } from "@/config/file-formats";
 import type { WorkspaceToolSlug } from "@/config/tools";
-import { getResizeError, type ToolOptions } from "@/lib/image/options";
+import { getMetadataFieldsError, getResizeError, type ToolOptions } from "@/lib/image/options";
 import type { ProcessedFile } from "@/lib/metadata/types";
 import { cleanFile } from "@/services/file-service";
-import { compressImage, convertImage, resizeImage } from "@/services/image-api";
+import { compressImage, convertImage, editImageMetadata, resizeImage } from "@/services/image-api";
 
 type ToolBehavior = {
   accepts: FileKind[];
@@ -62,6 +62,18 @@ export const toolBehaviors: Record<WorkspaceToolSlug, ToolBehavior> = {
       run: (file, { resize }) => resizeImage(file, resize),
       validate: ({ resize }) => getResizeError(resize),
       zipName: "resized-images.zip",
+    },
+  },
+  "edit-metadata": {
+    accepts: ["image"],
+    inspectOnAdd: true,
+    expandReports: false,
+    action: {
+      label: "Save Metadata",
+      doneLabel: "Saved",
+      run: (file, { metadata }) => editImageMetadata(file, metadata),
+      validate: ({ metadata }) => getMetadataFieldsError(metadata),
+      zipName: "edited-images.zip",
     },
   },
   "view-metadata": {

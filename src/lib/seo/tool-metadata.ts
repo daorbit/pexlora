@@ -8,6 +8,7 @@ const toolTitles: Record<WorkspaceToolSlug, string> = {
   "view-metadata": "Metadata Viewer: See EXIF, XMP, Author & AI Tags in Any File",
   "compress-image": "Compress JPG, PNG, WebP & AVIF Images Online Free",
   "resize-image": "Resize Images by Pixels or Percentage Online Free",
+  "edit-metadata": "Edit Image Metadata: Add Author, Copyright & Keywords Free",
 };
 
 function pageMetadata(title: string, description: string, path: string, keywords?: string[]): Metadata {

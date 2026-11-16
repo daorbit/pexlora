@@ -1,6 +1,7 @@
 import "server-only";
 import exifr from "exifr";
 import sharp from "sharp";
+import { decodeEntities } from "@/lib/files/xml";
 import { createReport, toEntry } from "@/lib/metadata/report";
 import type { MetadataEntry, MetadataGroupId, MetadataReport } from "@/lib/metadata/types";
 
@@ -25,7 +26,7 @@ function isIndexedObject(value: Record<string, unknown>) {
 function flatten(prefix: string, source: Record<string, unknown>): MetadataEntry[] {
   return Object.entries(source).flatMap(([key, value]) => {
     const path = prefix ? `${prefix}:${key}` : key;
-    if (!isPlainObject(value)) return [toEntry(path, value)];
+    if (!isPlainObject(value)) return [toEntry(path, typeof value === "string" ? decodeEntities(value) : value)];
     if (isIndexedObject(value)) return [toEntry(path, Object.values(value))];
     return flatten(path, value);
   });

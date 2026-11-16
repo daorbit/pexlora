@@ -2,7 +2,13 @@ import "server-only";
 import sharp, { type ResizeOptions as SharpResizeOptions, type Sharp } from "sharp";
 import { MAX_RESIZE_DIMENSION } from "@/config/limits";
 import { DEFAULT_QUALITY, toOutputFormat, type OutputFormat } from "@/lib/image/formats";
-import { COMPRESSION_QUALITY, type CompressionLevel, type ResizeOptions } from "@/lib/image/options";
+import { buildExif, buildXmp } from "@/lib/image/metadata-writer";
+import {
+  COMPRESSION_QUALITY,
+  type CompressionLevel,
+  type MetadataFields,
+  type ResizeOptions,
+} from "@/lib/image/options";
 
 const LOSSLESS_QUALITY = 95;
 
@@ -50,6 +56,16 @@ export async function convertImage(buffer: Buffer, format: OutputFormat, quality
 export async function compressImage(buffer: Buffer, level: CompressionLevel) {
   const { format } = await sourceInfo(buffer);
   const { data } = await encode(buffer, { format, quality: COMPRESSION_QUALITY[level], palette: true });
+  return { buffer: data, format };
+}
+
+export async function writeMetadata(buffer: Buffer, fields: MetadataFields) {
+  const { format } = await sourceInfo(buffer);
+  const { data } = await encode(buffer, {
+    format,
+    quality: LOSSLESS_QUALITY,
+    transform: (pipeline) => pipeline.withExif(buildExif(fields)).withXmp(buildXmp(fields)),
+  });
   return { buffer: data, format };
 }
 

@@ -15,6 +15,10 @@ export function decodeEntities(text: string) {
   });
 }
 
+export function escapeXml(text: string) {
+  return text.replace(/[&<>"']/g, (char) => `&${Object.keys(ENTITIES).find((key) => ENTITIES[key] === char)};`);
+}
+
 function skipped(name: string, prefixes: string[]) {
   return prefixes.some((prefix) => name.startsWith(prefix));
 }

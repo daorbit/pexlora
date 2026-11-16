@@ -1,4 +1,4 @@
-import { MAX_RESIZE_DIMENSION, RESIZE_PERCENT_RANGE } from "@/config/limits";
+import { MAX_METADATA_TEXT_LENGTH, MAX_RESIZE_DIMENSION, RESIZE_PERCENT_RANGE } from "@/config/limits";
 import { DEFAULT_OUTPUT_FORMAT, DEFAULT_QUALITY, type OutputFormat } from "@/lib/image/formats";
 
 export const COMPRESSION_LEVELS = ["light", "balanced", "strong"] as const;
@@ -23,17 +23,39 @@ export type ResizeOptions = {
   keepAspect: boolean;
 };
 
+export const METADATA_FIELDS = ["author", "copyright", "description", "keywords"] as const;
+export type MetadataField = (typeof METADATA_FIELDS)[number];
+export type MetadataFields = Record<MetadataField, string>;
+
 export type ToolOptions = {
   convert: ConvertOptions;
   compress: CompressOptions;
   resize: ResizeOptions;
+  metadata: MetadataFields;
 };
 
 export const DEFAULT_TOOL_OPTIONS: ToolOptions = {
   convert: { format: DEFAULT_OUTPUT_FORMAT, quality: DEFAULT_QUALITY },
   compress: { level: "balanced" },
   resize: { mode: "percent", percent: 50, width: null, height: null, keepAspect: true },
+  metadata: { author: "", copyright: "", description: "", keywords: "" },
 };
+
+export function getMetadataFieldsError(fields: MetadataFields) {
+  const values = METADATA_FIELDS.map((field) => fields[field].trim());
+  if (values.every((value) => !value)) return "Fill in at least one field.";
+  if (values.some((value) => value.length > MAX_METADATA_TEXT_LENGTH)) {
+    return `Keep each field under ${MAX_METADATA_TEXT_LENGTH} characters.`;
+  }
+  return null;
+}
+
+export function splitKeywords(keywords: string) {
+  return keywords
+    .split(",")
+    .map((keyword) => keyword.trim())
+    .filter(Boolean);
+}
 
 export function isCompressionLevel(value: unknown): value is CompressionLevel {
   return COMPRESSION_LEVELS.includes(value as CompressionLevel);

@@ -19,6 +19,7 @@ export const dashboardModules: { slug: WorkspaceToolSlug; href: string }[] = [
   { slug: "remove-metadata", href: routes.dashboardCleaner },
   { slug: "convert-format", href: routes.dashboardConverter },
   { slug: "view-metadata", href: routes.dashboardInspector },
+  { slug: "edit-metadata", href: routes.dashboardEditor },
   { slug: "compress-image", href: routes.dashboardCompressor },
   { slug: "resize-image", href: routes.dashboardResizer },
 ];

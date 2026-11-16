@@ -1,5 +1,5 @@
 import type { OutputFormat } from "@/lib/image/formats";
-import type { CompressionLevel, ResizeOptions } from "@/lib/image/options";
+import type { CompressionLevel, MetadataFields, ResizeOptions } from "@/lib/image/options";
 import type { ImageDimensions, MetadataReport, ProcessedFile } from "@/lib/metadata/types";
 import { apiRequest } from "@/services/api-client";
 
@@ -51,6 +51,10 @@ export async function convertImage(file: File, format: OutputFormat, quality: nu
 
 export async function compressImage(file: File, level: CompressionLevel) {
   return toProcessedFile(await post("/api/images/compress", file, { level }), file.name);
+}
+
+export async function editImageMetadata(file: File, fields: MetadataFields) {
+  return toProcessedFile(await post("/api/images/edit-metadata", file, fields), file.name);
 }
 
 export async function resizeImage(file: File, options: ResizeOptions) {

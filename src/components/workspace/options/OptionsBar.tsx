@@ -14,13 +14,14 @@ type OptionGroupProps = {
   label: string;
   as?: "div" | "label";
   className?: string;
+  labelClassName?: string;
   children: ReactNode;
 };
 
-export function OptionGroup({ label, as: Tag = "div", className, children }: OptionGroupProps) {
+export function OptionGroup({ label, as: Tag = "div", className, labelClassName, children }: OptionGroupProps) {
   return (
     <Tag className={cn("flex items-center gap-3", className)}>
-      <span className="text-[13px] font-semibold text-secondary">{label}</span>
+      <span className={cn("text-[13px] font-semibold text-secondary", labelClassName)}>{label}</span>
       {children}
     </Tag>
   );

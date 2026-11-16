@@ -1,5 +1,6 @@
 import {
   FileImage,
+  FilePenLine,
   FileSearch,
   Minimize2,
   Scaling,
@@ -13,7 +14,8 @@ export type WorkspaceToolSlug =
   | "convert-format"
   | "compress-image"
   | "resize-image"
-  | "view-metadata";
+  | "view-metadata"
+  | "edit-metadata";
 
 export type WorkspaceTool = {
   slug: WorkspaceToolSlug;
@@ -55,6 +57,16 @@ export const workspaceTools: WorkspaceTool[] = [
     headline: "See what your files reveal.",
     description:
       "Read every EXIF, XMP, author, audio and video tag a file carries, with AI tags shown first.",
+  },
+  {
+    slug: "edit-metadata",
+    href: routes.editMetadata,
+    icon: FilePenLine,
+    name: "Metadata Editor",
+    shortName: "Editor",
+    headline: "Add your name and copyright to images.",
+    description:
+      "Write author, copyright, description and keywords into JPG, PNG, WebP and AVIF files. GPS, camera and AI tags are removed.",
   },
   {
     slug: "compress-image",

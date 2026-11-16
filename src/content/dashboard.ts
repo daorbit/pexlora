@@ -42,6 +42,16 @@ export const moduleTips: Record<WorkspaceToolSlug, { title: string; tips: string
       "Metadata is removed from every resized file",
     ],
   },
+  "edit-metadata": {
+    title: "How it works",
+    tips: [
+      "Fill in only the fields you need",
+      "The same details go into every image in the batch",
+      "Separate keywords with commas",
+      "Existing tags, GPS and AI credits are removed",
+      "Open Inspector to check the result",
+    ],
+  },
   "view-metadata": {
     title: "Reading the report",
     tips: [

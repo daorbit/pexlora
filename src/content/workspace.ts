@@ -1,5 +1,5 @@
 import type { FileKind } from "@/config/file-formats";
-import type { CompressionLevel, ResizeMode } from "@/lib/image/options";
+import type { CompressionLevel, MetadataField, ResizeMode } from "@/lib/image/options";
 
 const onlyImages = (kinds: FileKind[]) => kinds.length === 1 && kinds[0] === "image";
 
@@ -44,6 +44,13 @@ export const optionsCopy = {
   pixels: "px",
   auto: "Auto",
   keepAspect: "Keep aspect ratio",
+  metadataFields: {
+    author: { label: "Author", placeholder: "Your name or studio" },
+    copyright: { label: "Copyright", placeholder: "© 2026 Your Name" },
+    description: { label: "Description", placeholder: "What the image shows" },
+    keywords: { label: "Keywords", placeholder: "sunset, beach, travel" },
+  } satisfies Record<MetadataField, { label: string; placeholder: string }>,
+  metadataNote: "Your details are written to every image. GPS, camera, AI and other existing tags are removed.",
 };
 
 export const reportCopy = {
