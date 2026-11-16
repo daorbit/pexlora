@@ -1,12 +1,15 @@
-import type { PlanTier } from "@/config/plans";
+import { isPlanId, type PlanId, type PlanTier } from "@/config/plans";
 
-export type PlanSource = { plan?: { tier?: string | null; expiresAt?: Date | string | null } | null };
+export type PlanSource = {
+  plan?: { tier?: string | null; id?: string | null; expiresAt?: Date | string | null } | null;
+};
 
-export type ActivePlan = { tier: PlanTier; expiresAt: string | null };
+export type ActivePlan = { tier: PlanTier; id: PlanId; expiresAt: string | null };
 
 export function activePlan({ plan }: PlanSource, now = Date.now()): ActivePlan | null {
   if (plan?.tier !== "pro") return null;
-  if (!plan.expiresAt) return { tier: "pro", expiresAt: null };
+  if (!plan.expiresAt) return { tier: "pro", id: "pro-lifetime", expiresAt: null };
   const expiresAt = new Date(plan.expiresAt);
-  return expiresAt.getTime() > now ? { tier: "pro", expiresAt: expiresAt.toISOString() } : null;
+  if (expiresAt.getTime() <= now) return null;
+  return { tier: "pro", id: isPlanId(plan.id) ? plan.id : "pro-365", expiresAt: expiresAt.toISOString() };
 }

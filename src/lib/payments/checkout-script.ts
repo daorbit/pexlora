@@ -31,6 +31,27 @@ declare global {
 }
 
 let loading: Promise<RazorpayConstructor> | null = null;
+let logo: Promise<string | undefined> | null = null;
+
+function readAsDataUrl(blob: Blob) {
+  return new Promise<string>((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(String(reader.result));
+    reader.onerror = () => reject(reader.error);
+    reader.readAsDataURL(blob);
+  });
+}
+
+export function loadCheckoutLogo(src: string) {
+  logo ??= fetch(src)
+    .then((response) => (response.ok ? response.blob() : Promise.reject(new Error("Logo unavailable"))))
+    .then(readAsDataUrl)
+    .catch(() => {
+      logo = null;
+      return undefined;
+    });
+  return logo;
+}
 
 export function loadRazorpayCheckout() {
   if (window.Razorpay) return Promise.resolve(window.Razorpay);

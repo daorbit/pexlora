@@ -7,7 +7,7 @@ import { Skeleton } from "@/components/ui/Skeleton";
 export async function HeaderAuth() {
   const user = await getCurrentUser().catch(() => null);
 
-  if (user) return <UserMenu name={user.name} avatarUrl={user.avatarUrl} />;
+  if (user) return <UserMenu name={user.name} email={user.email} avatarUrl={user.avatarUrl} plan={user.plan} />;
 
   return (
     <div className="flex items-center gap-1 sm:gap-2">

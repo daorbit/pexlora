@@ -3,11 +3,11 @@
 import { useCallback, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createOrder, type CheckoutOrder } from "@/actions/payments";
-import { brandColors } from "@/config/brand";
+import { brandAssets, brandColors } from "@/config/brand";
 import type { PlanId } from "@/config/plans";
 import { routes, siteConfig } from "@/config/site";
 import { checkoutCopy, planCopy } from "@/content/pricing";
-import { loadRazorpayCheckout, type RazorpaySuccess } from "@/lib/payments/checkout-script";
+import { loadCheckoutLogo, loadRazorpayCheckout, type RazorpaySuccess } from "@/lib/payments/checkout-script";
 import { toast } from "@/lib/toast/store";
 import { withNextParam } from "@/lib/url/next-path";
 import { formatDate } from "@/lib/utils/format-date";
@@ -39,7 +39,10 @@ export function useCheckout() {
 
   const open = useCallback(
     async (plan: PlanId, order: CheckoutOrder) => {
-      const Razorpay = await loadRazorpayCheckout().catch(() => null);
+      const [Razorpay, image] = await Promise.all([
+        loadRazorpayCheckout().catch(() => null),
+        loadCheckoutLogo(brandAssets.appleTouchIcon),
+      ]);
       if (!Razorpay) {
         setPendingPlan(null);
         toast.error(checkoutCopy.loadFailed);
@@ -52,6 +55,7 @@ export function useCheckout() {
         currency: order.currency,
         name: siteConfig.name,
         description: checkoutCopy.description(planCopy[plan].name),
+        image,
         prefill: order.prefill,
         theme: { color: brandColors.night },
         handler: confirm,

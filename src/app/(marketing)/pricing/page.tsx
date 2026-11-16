@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
+import { formatPrice } from "@/config/plans";
 import { routes } from "@/config/site";
 import { pricingCopy } from "@/content/pricing";
+import { env } from "@/lib/env";
 import { pageMetadata } from "@/lib/seo/page-metadata";
 import { pricingStructuredData } from "@/lib/seo/structured-data";
+import { Alert } from "@/components/ui/Alert";
 import { Container } from "@/components/ui/Container";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Highlight } from "@/components/ui/Highlight";
@@ -15,6 +18,8 @@ import { JsonLd } from "@/components/seo/JsonLd";
 export const metadata: Metadata = pageMetadata(pricingCopy.metaTitle, pricingCopy.description, routes.pricing);
 
 export default function PricingPage() {
+  const testAmount = env.paymentTestAmountPaise;
+
   return (
     <>
       <JsonLd data={pricingStructuredData()} />
@@ -27,6 +32,7 @@ export default function PricingPage() {
             </h1>
             <p className="max-w-lg text-[17px] leading-relaxed text-secondary">{pricingCopy.lead}</p>
           </div>
+          {testAmount !== null && <Alert message={pricingCopy.testMode(formatPrice(testAmount))} />}
           <PricingPlans />
           <div className="flex flex-col items-center gap-1.5 text-center text-[13.5px] text-tertiary">
             <p>{pricingCopy.trust}</p>

@@ -1,5 +1,5 @@
 import mongoose, { Schema, type InferSchemaType, type Model } from "mongoose";
-import { PLAN_TIERS } from "@/config/plans";
+import { PLAN_IDS, PLAN_TIERS } from "@/config/plans";
 import { USER_ROLES } from "@/config/roles";
 import { refreshModelInDev } from "@/lib/db/define-model";
 
@@ -26,6 +26,7 @@ const userSchema = new Schema(
       type: new Schema(
         {
           tier: { type: String, enum: PLAN_TIERS, required: true },
+          id: { type: String, enum: PLAN_IDS },
           expiresAt: { type: Date, default: null },
         },
         { _id: false },

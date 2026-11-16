@@ -8,3 +8,9 @@ export const navCopy = {
   openMenu: "Open menu",
   closeMenu: "Close menu",
 };
+
+export const accountMenuCopy = {
+  open: "Account menu",
+  dashboard: "Dashboard",
+  settings: "Settings",
+};

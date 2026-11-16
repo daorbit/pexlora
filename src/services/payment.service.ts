@@ -4,6 +4,7 @@ import { after } from "next/server";
 import { PLANS, PAYMENT_APP_TAG, formatPrice, type PlanId } from "@/config/plans";
 import { planCopy } from "@/content/pricing";
 import { connectToDatabase } from "@/lib/db/mongoose";
+import { env } from "@/lib/env";
 import { createRazorpayOrder } from "@/lib/payments/razorpay";
 import { formatDate } from "@/lib/utils/format-date";
 import { sendPaymentReceiptEmail } from "@/services/mail.service";
@@ -17,7 +18,7 @@ export type GrantResult = { ok: true; expiresAt: Date | null } | { ok: false };
 export async function createPurchaseOrder(userId: string, planId: PlanId) {
   const plan = PLANS[planId];
   const order = await createRazorpayOrder({
-    amount: plan.amountPaise,
+    amount: env.paymentTestAmountPaise ?? plan.amountPaise,
     currency: plan.currency,
     receipt: `${PAYMENT_APP_TAG}-${Date.now().toString(36)}`,
     notes: { app: PAYMENT_APP_TAG, userId, plan: plan.id },
@@ -40,22 +41,24 @@ async function recomputePlan(userId: string) {
 
   let lifetime = false;
   let expiresAt = 0;
+  let latest: PlanId | null = null;
   for (const purchase of purchases) {
     const { days } = PLANS[purchase.plan];
     if (days === null) lifetime = true;
     else expiresAt = Math.max(expiresAt, new Date(purchase.paidAt ?? Date.now()).getTime()) + days * DAY_MS;
+    latest = purchase.plan;
   }
 
   if (lifetime) {
-    await User.updateOne({ _id: userId }, { $set: { plan: { tier: "pro", expiresAt: null } } });
+    await User.updateOne({ _id: userId }, { $set: { plan: { tier: "pro", id: "pro-lifetime", expiresAt: null } } });
     return null;
   }
-  if (!purchases.length) {
+  if (!latest) {
     await User.updateOne({ _id: userId }, { $unset: { plan: 1 } });
     return null;
   }
   const end = new Date(expiresAt);
-  await User.updateOne({ _id: userId }, { $set: { plan: { tier: "pro", expiresAt: end } } });
+  await User.updateOne({ _id: userId }, { $set: { plan: { tier: "pro", id: latest, expiresAt: end } } });
   return end;
 }
 

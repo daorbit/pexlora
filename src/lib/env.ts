@@ -56,5 +56,10 @@ export const env = {
   get razorpayWebhookSecret() {
     return required("RAZORPAY_WEBHOOK_SECRET");
   },
+  get paymentTestAmountPaise() {
+    if (process.env.VERCEL_ENV === "production") return null;
+    const rupees = Number(process.env.PAYMENT_TEST_PRICE_INR);
+    return Number.isFinite(rupees) && rupees >= 1 ? Math.round(rupees * 100) : null;
+  },
   isProduction: process.env.NODE_ENV === "production",
 };

@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/Badge";
 import { ButtonLink } from "@/components/ui/Button";
 import { SettingsPanel } from "@/components/dashboard/SettingsPanel";
 import { SettingsRow } from "@/components/dashboard/SettingsRow";
+import { ProBadge } from "@/components/plan/ProBadge";
 
 export async function PlanSettings({ user }: { user: CurrentUser }) {
   const history = await listBillingHistory(user.id).catch(() => []);
@@ -18,7 +19,7 @@ export async function PlanSettings({ user }: { user: CurrentUser }) {
   return (
     <SettingsPanel title={billingCopy.title}>
       <SettingsRow label={billingCopy.currentPlan} description={planDescription}>
-        <Badge tone={plan ? "accent" : "success"}>{plan ? billingCopy.pro : billingCopy.free}</Badge>
+        {plan ? <ProBadge plan={plan} className="px-2 py-1 text-xs" /> : <Badge tone="success">{billingCopy.free}</Badge>}
         {!lifetime && (
           <ButtonLink href={routes.pricing} variant={plan ? "secondary" : "primary"} size="sm">
             {plan ? billingCopy.extend : billingCopy.upgrade}

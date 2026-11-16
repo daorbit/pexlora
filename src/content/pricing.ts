@@ -31,6 +31,7 @@ export const pricingCopy = {
   perDay: (plan: Plan) => (plan.days === null ? "Never expires" : `${formatPerDay(plan.amountPaise, plan.days)} a day`),
   trust: `Secure payment by Razorpay · UPI, cards, net banking · Full refund within ${REFUND_WINDOW_DAYS} days`,
   extend: "Buying again while Pro is active adds the days to your current pass.",
+  testMode: (amount: string) => `Test price is on: Checkout charges ${amount} for every plan. This notice never shows on the live site.`,
   signInToBuy: "Sign In to Buy",
   activeUntil: (date: string) => `Pro is active until ${date}.`,
   activeLifetime: "You have Pro for life.",
@@ -73,6 +74,14 @@ export const checkoutCopy = {
   unavailable: "Payments aren't available right now. Please try again later.",
   loadFailed: "Couldn't open the payment window. Check your connection and try again.",
   processing: "Opening Checkout",
+};
+
+export const memberCopy = {
+  badge: "Pro",
+  member: "Pro member",
+  until: (date: string) => `Until ${date}`,
+  lifetime: "Lifetime",
+  label: (planName: string) => `Pro member, ${planName}`,
 };
 
 export const upsellCopy = {

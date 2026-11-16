@@ -1,56 +1,25 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { ChevronDown } from "lucide-react";
 import { navCopy } from "@/content/navigation";
+import { useHoverMenu } from "@/hooks/useHoverMenu";
 import { cn } from "@/lib/utils/cn";
 import { MegaMenuPanel } from "@/components/layout/MegaMenuPanel";
 
 const MENU_ID = "tools-menu";
-const CLOSE_DELAY_MS = 140;
 
 export function ToolsMenu() {
-  const [open, setOpen] = useState(false);
-  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  const cancelClose = useCallback(() => {
-    if (closeTimer.current) clearTimeout(closeTimer.current);
-    closeTimer.current = null;
-  }, []);
-
-  const show = useCallback(() => {
-    cancelClose();
-    setOpen(true);
-  }, [cancelClose]);
-
-  const hide = useCallback(() => {
-    cancelClose();
-    setOpen(false);
-  }, [cancelClose]);
-
-  const scheduleHide = useCallback(() => {
-    cancelClose();
-    closeTimer.current = setTimeout(() => setOpen(false), CLOSE_DELAY_MS);
-  }, [cancelClose]);
-
-  useEffect(() => {
-    if (!open) return;
-    const onKey = (event: KeyboardEvent) => event.key === "Escape" && hide();
-    document.addEventListener("keydown", onKey);
-    return () => document.removeEventListener("keydown", onKey);
-  }, [open, hide]);
-
-  useEffect(() => cancelClose, [cancelClose]);
+  const { open, hide, scheduleHide, toggle, hoverProps } = useHoverMenu();
 
   return (
     <>
-      <div onPointerEnter={show} onPointerLeave={scheduleHide}>
+      <div {...hoverProps}>
         <button
           type="button"
           aria-expanded={open}
           aria-controls={MENU_ID}
-          onClick={() => (open ? hide() : show())}
+          onClick={toggle}
           className="inline-flex h-14 items-center gap-1 text-sm font-semibold text-foreground"
         >
           {navCopy.allTools}
