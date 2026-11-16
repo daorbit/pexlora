@@ -1,32 +1,36 @@
 import { Suspense, type ReactNode } from "react";
-import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
+import { AppSidebar } from "@/components/dashboard/AppSidebar";
+import { DashboardTopBar } from "@/components/dashboard/DashboardTopBar";
 import { MobileNav } from "@/components/dashboard/MobileNav";
-import { SidebarNav } from "@/components/dashboard/SidebarNav";
+import { SidebarUsage, SidebarUsageFallback } from "@/components/dashboard/SidebarUsage";
 import { SidebarUser, SidebarUserFallback } from "@/components/dashboard/SidebarUser";
 
-function SidebarFooter() {
-  return (
+export function DashboardShell({ children }: { children: ReactNode }) {
+  const usage = (
+    <Suspense fallback={<SidebarUsageFallback />}>
+      <SidebarUsage />
+    </Suspense>
+  );
+  const account = (
     <Suspense fallback={<SidebarUserFallback />}>
       <SidebarUser />
     </Suspense>
   );
-}
 
-export function DashboardShell({ children }: { children: ReactNode }) {
   return (
-    <div className="flex min-h-screen flex-1 bg-background">
-      <aside className="sticky top-0 hidden h-screen w-64 shrink-0 border-r border-separator bg-background lg:block">
-        <SidebarNav footer={<SidebarFooter />} />
-      </aside>
-      <div className="flex min-w-0 flex-1 flex-col">
-        <DashboardHeader
+    <div className="flex min-h-dvh flex-1 bg-canvas lg:gap-3 lg:p-3">
+      <div className="sticky top-3 hidden h-[calc(100dvh-1.5rem)] shrink-0 lg:block">
+        <AppSidebar usage={usage} account={account} />
+      </div>
+      <div className="flex min-w-0 flex-1 flex-col bg-background lg:rounded-[24px]">
+        <DashboardTopBar
           mobileNav={
             <MobileNav>
-              <SidebarNav footer={<SidebarFooter />} />
+              <AppSidebar usage={usage} account={account} collapsible={false} className="w-full" />
             </MobileNav>
           }
         />
-        <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8 sm:px-8 sm:py-10">{children}</main>
+        <main className="w-full flex-1 px-4 pt-6 pb-10 sm:px-8 sm:pt-[26px]">{children}</main>
       </div>
     </div>
   );

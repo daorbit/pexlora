@@ -1,4 +1,6 @@
+import { compressTargetPath, compressTargets } from "@/config/compress-targets";
 import { conversionPath, popularConversions } from "@/config/conversions";
+import { toolPageCopy } from "@/content/tool-pages";
 import { routes } from "@/config/site";
 import { textTools } from "@/config/text-tools";
 import { workspaceTools } from "@/config/tools";
@@ -20,6 +22,13 @@ export const footerColumns = [
   {
     title: "Convert images",
     links: popularConversions.map((conversion) => ({ label: conversion.name, href: conversionPath(conversion.slug) })),
+  },
+  {
+    title: "Compress to size",
+    links: compressTargets.map((target) => ({
+      label: toolPageCopy.compressTargetName(target.label),
+      href: compressTargetPath(target.slug),
+    })),
   },
   { title: "AI cleaners", links: pageLinks(seoPagesIn("ai")) },
   {

@@ -9,11 +9,13 @@ const toTarget = (kb: number): CompressTarget => ({
   label: formatKilobytes(kb),
 });
 
-export const COMPRESS_TARGET_PRESETS_KB = [20, 50, 100, 200, 500] as const;
+export const COMPRESS_TARGET_PRESETS_KB = [20, 50, 100, 200, 500, 1024] as const;
 
 export const DEFAULT_COMPRESS_TARGET_KB = 100;
 
-export const compressTargets: CompressTarget[] = [20, 50, 100, 200, 500, 1024].map(toTarget);
+export const compressTargets: CompressTarget[] = COMPRESS_TARGET_PRESETS_KB.map(toTarget);
+
+export const defaultCompressTarget = toTarget(DEFAULT_COMPRESS_TARGET_KB);
 
 export function getCompressTarget(slug: string) {
   return compressTargets.find((target) => target.slug === slug);

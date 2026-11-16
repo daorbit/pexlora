@@ -19,7 +19,7 @@ export function ConversionPage({ conversion }: { conversion: Conversion }) {
         description={toolPageCopy.conversionDescription(conversion.from, conversion.toLabel)}
         tool="convert-format"
         initialOptions={{ convert: { format: conversion.to } }}
-        conversion={conversion.slug}
+        conversion={conversion}
       />
       <ConversionLinksSection current={conversion.slug} />
       <FeaturesSection />

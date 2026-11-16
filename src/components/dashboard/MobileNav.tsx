@@ -14,7 +14,7 @@ export function MobileNav({ children }: { children: ReactNode }) {
     <>
       <Button
         variant="icon"
-        size="sm"
+        size="md"
         className="lg:hidden"
         aria-label="Open menu"
         aria-expanded={open}
@@ -27,21 +27,17 @@ export function MobileNav({ children }: { children: ReactNode }) {
           <button
             type="button"
             aria-label="Close menu"
-            className="absolute inset-0 bg-black/40"
+            className="absolute inset-0 bg-black/50 motion-safe:animate-fade-in"
             onClick={() => setOpenOn(null)}
           />
-          <aside className="relative h-full w-72 max-w-[85%] border-r border-separator bg-background">
-            <Button
-              variant="icon"
-              size="sm"
-              className="absolute top-4 right-3 z-10"
-              aria-label="Close menu"
-              onClick={() => setOpenOn(null)}
-            >
-              <X className="size-4" aria-hidden />
-            </Button>
+          <div className="relative h-full w-72 max-w-[85%] p-2">
+            <div className="theme-dark absolute top-5 right-5 z-10">
+              <Button variant="icon" size="sm" aria-label="Close menu" onClick={() => setOpenOn(null)}>
+                <X className="size-4" aria-hidden />
+              </Button>
+            </div>
             {children}
-          </aside>
+          </div>
         </div>
       )}
     </>

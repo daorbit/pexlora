@@ -75,6 +75,22 @@ export const moduleTips: Record<WorkspaceToolSlug, { title: string; tips: string
   },
 };
 
+export const shellCopy = {
+  home: "Pexlora home",
+  collapse: "Collapse sidebar",
+  expand: "Expand sidebar",
+  newBadge: "New",
+  searchTools: "Search tools",
+  searchPlaceholder: "Search tools and pages",
+  noResults: "No tools match your search.",
+  website: "Open website",
+  settings: "Account settings",
+  filesLeft: (left: number) => `${left} ${left === 1 ? "file" : "files"} left`,
+  ofToday: (limit: number) => `of ${limit} today`,
+  tips: "Tips",
+  limits: "Limits",
+};
+
 export const sharedLimits = [
   { label: "Images", value: formatMegabytes(FILE_SIZE_LIMITS_MB.image) },
   { label: "PDF and Office", value: formatMegabytes(FILE_SIZE_LIMITS_MB.pdf) },

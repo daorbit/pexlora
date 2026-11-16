@@ -5,10 +5,10 @@ import { COMPRESS_TARGET_KB_RANGE } from "@/config/limits";
 import { optionsCopy } from "@/content/workspace";
 import type { CompressOptions } from "@/lib/image/options";
 import { formatKilobytes } from "@/lib/utils/format-bytes";
-import { Segmented } from "@/components/ui/Segmented";
 import { CheckboxOption } from "@/components/workspace/options/CheckboxOption";
 import { NumberOption } from "@/components/workspace/options/NumberOption";
 import { OptionGroup } from "@/components/workspace/options/OptionsBar";
+import { OptionTiles } from "@/components/workspace/options/OptionTiles";
 
 const presetOptions = COMPRESS_TARGET_PRESETS_KB.map((kb) => ({ value: String(kb), label: formatKilobytes(kb) }));
 
@@ -22,13 +22,13 @@ export function CompressTargetOptions({ options, onChange, disabled }: CompressT
   return (
     <>
       <OptionGroup label={optionsCopy.target}>
-        <Segmented
+        <OptionTiles
           label={optionsCopy.targetLabel}
-          size="sm"
           value={String(options.targetKb)}
           options={presetOptions}
           onChange={(value) => onChange({ targetKb: Number(value) })}
           disabled={disabled}
+          columns={3}
         />
       </OptionGroup>
       <NumberOption

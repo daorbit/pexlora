@@ -6,6 +6,7 @@ import { brandAssets, brandColors } from "@/config/brand";
 import { seo } from "@/config/seo";
 import { siteConfig } from "@/config/site";
 import { env } from "@/lib/env";
+import { sidebarInitScript } from "@/lib/sidebar";
 import { themeInitScript } from "@/lib/theme";
 import "./globals.css";
 
@@ -80,6 +81,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <Script id="theme-init" strategy="beforeInteractive">
           {themeInitScript}
+        </Script>
+        <Script id="sidebar-init" strategy="beforeInteractive">
+          {sidebarInitScript}
         </Script>
         <AnalyticsScript />
       </head>

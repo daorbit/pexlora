@@ -1,3 +1,5 @@
+import { compressTargetPath, defaultCompressTarget } from "@/config/compress-targets";
+import { toolPageCopy } from "@/content/tool-pages";
 import { conversionIconSrc, conversionPath, popularConversions, type Conversion } from "@/config/conversions";
 import { textToolIconSrc, textTools } from "@/config/text-tools";
 import { toolIconSrc, workspaceTools, type ToolCategory } from "@/config/tools";
@@ -30,15 +32,27 @@ const textToolItems: HubItem[] = textTools.map((tool) => ({
   category: "ai",
 }));
 
+const compressTargetItem: HubItem = {
+  key: "compress-to-size",
+  name: toolPageCopy.compressTargetHub.name,
+  description: toolPageCopy.compressTargetHub.description,
+  href: compressTargetPath(defaultCompressTarget.slug),
+  iconSrc: toolIconSrc("compress-image"),
+  category: "image",
+};
+
 const toolItems: HubItem[] = [
-  ...workspaceTools.map((tool) => ({
-    key: tool.slug,
-    name: tool.name,
-    description: tool.description,
-    href: tool.href,
-    iconSrc: toolIconSrc(tool.slug),
-    category: tool.category,
-  })),
+  ...workspaceTools.flatMap((tool) => {
+    const item: HubItem = {
+      key: tool.slug,
+      name: tool.name,
+      description: tool.description,
+      href: tool.href,
+      iconSrc: toolIconSrc(tool.slug),
+      category: tool.category,
+    };
+    return tool.slug === "compress-image" ? [item, compressTargetItem] : [item];
+  }),
   ...textToolItems,
 ];
 

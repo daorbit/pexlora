@@ -5,33 +5,39 @@ import {
   COMPRESS_MODES,
   COMPRESSION_LEVELS,
   getCompressError,
-  type CompressionLevel,
-  type CompressMode,
   type CompressOptions,
 } from "@/lib/image/options";
-import { Segmented } from "@/components/ui/Segmented";
 import { CompressTargetOptions } from "@/components/workspace/options/CompressTargetOptions";
 import { OptionGroup, OptionHint, OptionsBar } from "@/components/workspace/options/OptionsBar";
+import { OptionTiles } from "@/components/workspace/options/OptionTiles";
 import type { OptionsBarProps } from "@/components/workspace/options/types";
 
-const modeOptions = COMPRESS_MODES.map((mode) => ({ value: mode, label: optionsCopy.compressModes[mode] }));
+const modeOptions = COMPRESS_MODES.map((mode) => ({
+  value: mode,
+  label: optionsCopy.compressModes[mode],
+  hint: optionsCopy.compressModeHints[mode],
+}));
 
 const levelOptions = COMPRESSION_LEVELS.map((level) => ({
   value: level,
   label: optionsCopy.levels[level].label,
+  hint: optionsCopy.levels[level].hint,
 }));
 
 export function CompressOptionsBar({ options, onChange, disabled }: OptionsBarProps<CompressOptions>) {
   const error = getCompressError(options);
   const set = (patch: Partial<CompressOptions>) => onChange({ ...options, ...patch });
-  const hint = options.mode === "level" ? optionsCopy.levels[options.level].hint : optionsCopy.targetHint;
+  const byLevel = options.mode === "level";
 
   return (
-    <OptionsBar footer={<OptionHint tone={error ? "danger" : "muted"}>{error ?? hint}</OptionHint>}>
+    <OptionsBar
+      footer={
+        error ? <OptionHint tone="danger">{error}</OptionHint> : !byLevel && <OptionHint>{optionsCopy.targetHint}</OptionHint>
+      }
+    >
       <OptionGroup label={optionsCopy.compressBy}>
-        <Segmented<CompressMode>
+        <OptionTiles
           label={optionsCopy.compressBy}
-          size="sm"
           value={options.mode}
           options={modeOptions}
           onChange={(mode) => set({ mode })}
@@ -39,15 +45,15 @@ export function CompressOptionsBar({ options, onChange, disabled }: OptionsBarPr
         />
       </OptionGroup>
 
-      {options.mode === "level" ? (
+      {byLevel ? (
         <OptionGroup label={optionsCopy.level}>
-          <Segmented<CompressionLevel>
+          <OptionTiles
             label={optionsCopy.levelLabel}
-            size="sm"
             value={options.level}
             options={levelOptions}
             onChange={(level) => set({ level })}
             disabled={disabled}
+            columns={1}
           />
         </OptionGroup>
       ) : (

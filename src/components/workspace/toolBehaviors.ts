@@ -1,5 +1,6 @@
 import { ALL_KINDS, type FileKind } from "@/config/file-formats";
 import type { WorkspaceToolSlug } from "@/config/tools";
+import { optionsCopy } from "@/content/workspace";
 import { getCompressError, getMetadataFieldsError, getResizeError, type ToolOptions } from "@/lib/image/options";
 import type { ProcessedFile } from "@/lib/metadata/types";
 import { generateAltText } from "@/services/ai-api";
@@ -13,6 +14,7 @@ type ToolBehavior = {
   action?: {
     label: string;
     doneLabel: string;
+    note?: string;
     run: (file: File, options: ToolOptions) => Promise<ProcessedFile>;
     validate?: (options: ToolOptions) => string | null;
     zipName: string;
@@ -38,6 +40,7 @@ export const toolBehaviors: Record<WorkspaceToolSlug, ToolBehavior> = {
     action: {
       label: "Convert Images",
       doneLabel: "Converted",
+      note: optionsCopy.fullQuality,
       run: (file, { convert }) => convertImage(file, convert.format),
       zipName: "converted-images.zip",
     },

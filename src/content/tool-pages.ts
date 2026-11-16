@@ -9,6 +9,11 @@ export const toolPageCopy = {
     `Free ${from} to ${to} converter. Convert ${from} images to ${to} online at full quality, with batch conversion and metadata removed. No sign-up.`,
   compressTargets: { eyebrow: "Target sizes", title: "Compress to an exact size." },
   compressTargetLink: (size: string) => `Under ${size}`,
+  compressTargetName: (size: string) => `Compress to ${size}`,
+  compressTargetHub: {
+    name: "Compress to Size",
+    description: "Get photos under 20 KB, 50 KB, 100 KB or any size you need for forms, exams and ID uploads.",
+  },
   compressTargetHeadline: (size: string) => `Compress images to ${size}.`,
   compressTargetDescription: (size: string) =>
     `Get any photo under ${size} for job portals, exam forms and ID uploads. Quality is lowered only as much as needed, and every metadata tag is removed.`,

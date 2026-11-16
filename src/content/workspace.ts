@@ -1,4 +1,6 @@
 import type { FileKind } from "@/config/file-formats";
+import type { WorkspaceToolSlug } from "@/config/tools";
+import type { OutputFormat } from "@/lib/image/formats";
 import type { CompressionLevel, CompressMode, MetadataField, ResizeMode } from "@/lib/image/options";
 
 const onlyImages = (kinds: FileKind[]) => kinds.length === 1 && kinds[0] === "image";
@@ -22,8 +24,16 @@ export const saveCopy = {
 };
 
 export const optionsCopy = {
-  format: "Format",
+  format: "Convert to",
   formatLabel: "Output format",
+  formatHints: {
+    jpeg: "Opens everywhere",
+    png: "Lossless, transparency",
+    webp: "Best for websites",
+    avif: "Smallest photos",
+  } satisfies Record<OutputFormat, string>,
+  conversion: "Conversion",
+  fullQuality: "Full quality · metadata removed",
   level: "Level",
   levelLabel: "Compression level",
   levels: {
@@ -36,7 +46,11 @@ export const optionsCopy = {
     level: "Level",
     target: "Target Size",
   } satisfies Record<CompressMode, string>,
-  target: "Target",
+  compressModeHints: {
+    level: "Light, Balanced or Strong",
+    target: "Under 100 KB, 50 KB…",
+  } satisfies Record<CompressMode, string>,
+  target: "Get each file under",
   targetLabel: "Target file size",
   custom: "Custom",
   kilobytes: "KB",
@@ -46,6 +60,10 @@ export const optionsCopy = {
   modes: {
     percent: "Percentage",
     dimensions: "Dimensions",
+  } satisfies Record<ResizeMode, string>,
+  modeHints: {
+    percent: "Scale every image",
+    dimensions: "Exact width and height",
   } satisfies Record<ResizeMode, string>,
   scale: "Scale",
   width: "Width",
@@ -70,6 +88,25 @@ export const resultCopy = {
   targetMissed: (target: string) => `Over ${target}`,
   targetMissedHint: (target: string, smallest: string) => `Couldn't reach ${target}, smallest is ${smallest}.`,
   tryResize: "Try resizing first",
+};
+
+export const queueCopy = {
+  addFiles: "Add Files",
+  clearAll: "Clear All",
+  dropMore: "Drop or paste more files",
+  freeLeft: (count: number) => `${count} free ${count === 1 ? "file" : "files"} left today`,
+  addToStart: "Add files to start",
+};
+
+export const panelNotes: Partial<Record<WorkspaceToolSlug, { title: string; items: string[] }>> = {
+  "remove-metadata": {
+    title: "What's removed",
+    items: ["EXIF, GPS and camera details", "AI tags and C2PA credentials", "Author names in documents"],
+  },
+  "image-alt-text": {
+    title: "What you get",
+    items: ["Alt text and a short description", "Keywords for search", "An SEO-friendly file name"],
+  },
 };
 
 export const reportCopy = {

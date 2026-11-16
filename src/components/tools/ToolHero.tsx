@@ -1,3 +1,4 @@
+import type { Conversion } from "@/config/conversions";
 import type { FileKind } from "@/config/file-formats";
 import type { WorkspaceToolSlug } from "@/config/tools";
 import type { ToolOptions } from "@/lib/image/options";
@@ -13,12 +14,12 @@ type ToolHeroProps = {
   tool: WorkspaceToolSlug;
   accepts?: FileKind[];
   initialOptions?: Partial<ToolOptions>;
-  conversion?: string;
+  conversion?: Conversion;
 };
 
 export function ToolHero({ tool, accepts, initialOptions, conversion, ...intro }: ToolHeroProps) {
   return (
-    <PageIntroHero {...intro}>
+    <PageIntroHero {...intro} wide>
       <ToolWorkspace tool={tool} accepts={accepts} initialOptions={initialOptions} conversion={conversion} />
     </PageIntroHero>
   );

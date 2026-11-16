@@ -1,80 +1,36 @@
 "use client";
 
-import Link from "next/link";
 import { usePathname } from "next/navigation";
-import type { ReactNode } from "react";
-import { dashboardNav, isNavItemActive, type DashboardNavItem } from "@/config/dashboard";
+import { dashboardNav, isNavItemActive } from "@/config/dashboard";
 import { cn } from "@/lib/utils/cn";
-import { Badge } from "@/components/ui/Badge";
-import { Logo } from "@/components/layout/Logo";
-import { HubItemIcon } from "@/components/tools/HubItemIcon";
+import { SidebarLink } from "@/components/dashboard/SidebarLink";
+import { whenCollapsed } from "@/components/dashboard/sidebar-styles";
 
-const itemClasses =
-  "group flex h-10 items-center gap-3 rounded-xl px-3 text-sm font-medium transition-colors";
-
-function NavIcon({ item }: { item: DashboardNavItem }) {
-  if (item.iconSrc) return <HubItemIcon src={item.iconSrc} size="xs" />;
-  const Icon = item.icon;
-  return (
-    <span className="flex size-6 shrink-0 items-center justify-center">
-      <Icon className="size-4" aria-hidden />
-    </span>
-  );
-}
-
-function NavItem({ item, active }: { item: DashboardNavItem; active: boolean }) {
-  const content = (
-    <>
-      <NavIcon item={item} />
-      <span className="flex-1 truncate">{item.label}</span>
-      {item.soon && <Badge>Soon</Badge>}
-      {active && <span className="size-1.5 rounded-full bg-accent" aria-hidden />}
-    </>
-  );
-
-  if (!item.href) {
-    return (
-      <span className={cn(itemClasses, "cursor-not-allowed text-secondary/60")} aria-disabled>
-        {content}
-      </span>
-    );
-  }
-
-  return (
-    <Link
-      href={item.href}
-      aria-current={active ? "page" : undefined}
-      className={cn(
-        itemClasses,
-        active
-          ? "bg-fill text-foreground"
-          : "text-secondary hover:bg-fill hover:text-foreground",
-      )}
-    >
-      {content}
-    </Link>
-  );
-}
-
-export function SidebarNav({ footer }: { footer: ReactNode }) {
+export function SidebarNav() {
   const pathname = usePathname();
 
   return (
-    <div className="flex h-full flex-col">
-      <div className="flex h-16 shrink-0 items-center border-b border-separator px-5">
-        <Logo />
-      </div>
-      <nav className="flex flex-1 flex-col gap-6 overflow-y-auto px-3 py-5">
-        {dashboardNav.map((section) => (
-          <div key={section.title} className="flex flex-col gap-1">
-            <p className="px-3 pb-1 text-xs font-medium text-secondary">{section.title}</p>
-            {section.items.map((item) => (
-              <NavItem key={item.label} item={item} active={isNavItemActive(item, pathname)} />
-            ))}
-          </div>
-        ))}
-      </nav>
-      <div className="shrink-0 border-t border-separator p-3">{footer}</div>
-    </div>
+    <nav aria-label="Dashboard" className="flex flex-col gap-4">
+      {dashboardNav.map((section, index) => (
+        <div key={section.title ?? index} className="flex flex-col gap-0.5">
+          {section.title && (
+            <>
+              <p
+                className={cn(
+                  "px-3 pb-1 text-[11px] font-semibold tracking-[0.06em] text-tertiary uppercase",
+                  whenCollapsed.hidden,
+                )}
+              >
+                {section.title}
+              </p>
+              <span className={cn("mx-auto mb-1 h-px w-7 bg-separator", whenCollapsed.visible)} aria-hidden />
+            </>
+          )}
+          {section.items.map((item) => (
+            <SidebarLink key={item.href} item={item} active={isNavItemActive(item, pathname)} />
+          ))}
+        </div>
+      ))}
+    </nav>
   );
 }

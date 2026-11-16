@@ -1,10 +1,12 @@
 @import "tailwindcss";
 
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *, .theme-dark, .theme-dark *));
+@custom-variant rail-collapsed (&:where([data-sidebar="collapsed"] .sidebar-rail, [data-sidebar="collapsed"] .sidebar-rail *));
 
 :root {
   color-scheme: light;
   --background: #f4f3ee;
+  --canvas: #e9e8e1;
   --surface: #ffffff;
   --subtle: #faf9f5;
   --fill: #f1efe8;
@@ -42,6 +44,7 @@
 .theme-dark {
   color-scheme: dark;
   --background: #0c0d0a;
+  --canvas: #050604;
   --surface: #161813;
   --subtle: #12140f;
   --fill: #1e201a;
@@ -77,6 +80,7 @@
 
 @theme inline {
   --color-background: var(--background);
+  --color-canvas: var(--canvas);
   --color-surface: var(--surface);
   --color-subtle: var(--subtle);
   --color-fill: var(--fill);

@@ -22,9 +22,9 @@ export async function DashboardGreeting() {
           {greeting()}
           <span className="h-px w-10 bg-accent" aria-hidden />
         </p>
-        <h1 className="max-w-md text-[32px] font-bold leading-[1.1] tracking-[-0.035em] sm:text-[42px]">
+        <h2 className="max-w-md text-[32px] font-bold leading-[1.1] tracking-[-0.035em] sm:text-[42px]">
           What are we cleaning today, <Highlight>{firstName}?</Highlight>
-        </h1>
+        </h2>
       </div>
       <ButtonLink href={routes.dashboardCleaner} size="lg">
         Clean an Image

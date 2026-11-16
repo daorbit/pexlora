@@ -3,7 +3,7 @@ import type { ComponentProps, ReactNode } from "react";
 import { ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
 
-type Variant = "primary" | "ink" | "secondary" | "outline" | "plain" | "nav" | "icon";
+type Variant = "primary" | "ink" | "secondary" | "outline" | "plain" | "nav" | "icon" | "tile";
 type Size = "sm" | "md" | "lg" | "xl";
 
 const base =
@@ -17,6 +17,7 @@ const variants: Record<Variant, string> = {
   plain: "text-sm font-semibold text-foreground underline decoration-border-strong underline-offset-4 hover:decoration-foreground",
   nav: "text-sm font-semibold text-secondary hover:text-foreground",
   icon: "text-secondary hover:bg-fill hover:text-foreground",
+  tile: "bg-surface text-foreground shadow-thumb hover:bg-fill",
 };
 
 const chipVariants: Partial<Record<Variant, string>> = {
@@ -54,7 +55,8 @@ export function buttonClasses({
   className,
 }: StyleProps & { className?: string }) {
   const textOnly = variant === "plain" || variant === "nav";
-  const sizing = variant === "icon" ? iconSizes[size] : textOnly ? "" : sizes[size];
+  const square = variant === "icon" || variant === "tile";
+  const sizing = square ? iconSizes[size] : textOnly ? "" : sizes[size];
   return cn(base, variants[variant], sizing, arrow && !textOnly && arrowSizes[size].padding, className);
 }
 

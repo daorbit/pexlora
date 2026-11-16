@@ -94,7 +94,8 @@ src/
 
 ## Dashboard
 
-- `(app)` layout = `DashboardShell`: fixed sidebar (`SidebarNav`, config in `src/config/dashboard.ts`), top bar (`DashboardHeader` with page title, today's usage, theme toggle), mobile drawer (`MobileNav`).
+- `(app)` layout = `DashboardShell` (approved mockup: https://claude.ai/artifact/Av516ukMWgpcVq6kFA11PD, option A): `bg-canvas` frame, floating ink `AppSidebar` (`theme-dark`, open by default, collapses to a 76px rail; the logo turns into the expand button on hover) and a rounded `bg-background` sheet. The collapsed state lives in `html[data-sidebar]`, set before paint by `sidebarInitScript` (`lib/sidebar.ts`); style collapsed parts with the `rail-collapsed:` variant (`sidebar-styles.ts`), never React state, or the sidebar flashes on reload. `DashboardTopBar` = `ShellPageTitle` (icon, title, subtitle from `findActiveNavItem`) + ⌘K `ToolSearch` + theme toggle; pages don't render their own h1. Usage ring and account sit at the bottom of the sidebar. Phones get `MobileNav` (the same sidebar, never collapsed).
+- Tool workspace (dashboard and public pages): files card on the left, `SettingsPanel` on the right (`OptionTiles` options, `ActionBar`, `panelFooter` for tips/limits), the action bar is sticky at the bottom on phones. Cards use `rounded-[22px]`, the sheet and sidebar `rounded-[24px]`.
 - Routes: `/dashboard` (overview: usage stats + tool cards), `/dashboard/cleaner`, `/dashboard/converter`, `/dashboard/inspector` (each a `ToolModule`: workspace + tips/limits aside), `/dashboard/settings`.
 - Usage read via `getUserUsage` (`src/lib/auth/usage.ts`); keys come from `usageKeys` in `usage.service.ts`.
 - New tools: add to `config/tools.ts`, then to `dashboardHrefs` in `config/dashboard.ts`, plus a page under `(app)/dashboard/`. The sidebar, page headers and the overview grid (`dashboardToolGroups` → `HubCard`) all use the coloured tool SVGs.

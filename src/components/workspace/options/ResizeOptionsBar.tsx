@@ -2,15 +2,19 @@
 
 import { MAX_RESIZE_DIMENSION, RESIZE_PERCENT_RANGE } from "@/config/limits";
 import { optionsCopy } from "@/content/workspace";
-import { getResizeError, RESIZE_MODES, type ResizeMode, type ResizeOptions } from "@/lib/image/options";
-import { Segmented } from "@/components/ui/Segmented";
+import { getResizeError, RESIZE_MODES, type ResizeOptions } from "@/lib/image/options";
 import { CheckboxOption } from "@/components/workspace/options/CheckboxOption";
 import { NumberOption } from "@/components/workspace/options/NumberOption";
 import { OptionGroup, OptionHint, OptionsBar } from "@/components/workspace/options/OptionsBar";
+import { OptionTiles } from "@/components/workspace/options/OptionTiles";
 import { RangeOption } from "@/components/workspace/options/RangeOption";
 import type { OptionsBarProps } from "@/components/workspace/options/types";
 
-const modeOptions = RESIZE_MODES.map((mode) => ({ value: mode, label: optionsCopy.modes[mode] }));
+const modeOptions = RESIZE_MODES.map((mode) => ({
+  value: mode,
+  label: optionsCopy.modes[mode],
+  hint: optionsCopy.modeHints[mode],
+}));
 
 export function ResizeOptionsBar({ options, onChange, disabled }: OptionsBarProps<ResizeOptions>) {
   const error = getResizeError(options);
@@ -19,9 +23,8 @@ export function ResizeOptionsBar({ options, onChange, disabled }: OptionsBarProp
   return (
     <OptionsBar footer={error && <OptionHint tone="danger">{error}</OptionHint>}>
       <OptionGroup label={optionsCopy.resizeBy}>
-        <Segmented<ResizeMode>
+        <OptionTiles
           label={optionsCopy.resizeBy}
-          size="sm"
           value={options.mode}
           options={modeOptions}
           onChange={(mode) => set({ mode })}
@@ -41,30 +44,32 @@ export function ResizeOptionsBar({ options, onChange, disabled }: OptionsBarProp
           onChange={(percent) => set({ percent })}
         />
       ) : (
-        <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
-          <NumberOption
-            label={optionsCopy.width}
-            unit={optionsCopy.pixels}
-            value={options.width}
-            max={MAX_RESIZE_DIMENSION}
-            disabled={disabled}
-            onChange={(width) => set({ width })}
-          />
-          <NumberOption
-            label={optionsCopy.height}
-            unit={optionsCopy.pixels}
-            value={options.height}
-            max={MAX_RESIZE_DIMENSION}
-            disabled={disabled}
-            onChange={(height) => set({ height })}
-          />
+        <>
+          <div className="grid grid-cols-2 gap-3">
+            <NumberOption
+              label={optionsCopy.width}
+              unit={optionsCopy.pixels}
+              value={options.width}
+              max={MAX_RESIZE_DIMENSION}
+              disabled={disabled}
+              onChange={(width) => set({ width })}
+            />
+            <NumberOption
+              label={optionsCopy.height}
+              unit={optionsCopy.pixels}
+              value={options.height}
+              max={MAX_RESIZE_DIMENSION}
+              disabled={disabled}
+              onChange={(height) => set({ height })}
+            />
+          </div>
           <CheckboxOption
             label={optionsCopy.keepAspect}
             checked={options.keepAspect}
             disabled={disabled}
             onChange={(keepAspect) => set({ keepAspect })}
           />
-        </div>
+        </>
       )}
     </OptionsBar>
   );

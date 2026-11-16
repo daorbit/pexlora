@@ -3,10 +3,10 @@ import { cn } from "@/lib/utils/cn";
 
 type Size = "xs" | "sm" | "md" | "lg" | "xl";
 
-const pixels: Record<Size, number> = { xs: 24, sm: 36, md: 44, lg: 52, xl: 64 };
+const pixels: Record<Size, number> = { xs: 28, sm: 36, md: 44, lg: 52, xl: 64 };
 
 const sizeClasses: Record<Size, string> = {
-  xs: "size-6",
+  xs: "size-7",
   sm: "size-9",
   md: "size-11",
   lg: "size-13",

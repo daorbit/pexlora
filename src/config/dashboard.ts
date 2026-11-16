@@ -14,14 +14,15 @@ import {
 export type DashboardNavItem = {
   label: string;
   description: string;
+  subtitle: string;
   icon: IconComponent;
   iconSrc?: string;
-  href?: string;
-  soon?: boolean;
+  href: string;
+  isNew?: boolean;
 };
 
 export type DashboardNavSection = {
-  title: string;
+  title?: string;
   items: DashboardNavItem[];
 };
 
@@ -35,6 +36,7 @@ const dashboardHrefs: Record<WorkspaceToolSlug, string> = {
   "image-alt-text": routes.dashboardAltText,
 };
 
+const newToolSlugs: string[] = ["compress-image"];
 
 const toolCategoryOrder: ToolCategory[] = ["metadata", "image", "ai"];
 
@@ -42,6 +44,7 @@ type DashboardTool = {
   slug: string;
   shortName: string;
   name: string;
+  headline: string;
   description: string;
   icon: IconComponent;
   iconSrc: string;
@@ -68,9 +71,11 @@ function toolSection(category: ToolCategory): DashboardNavSection {
     items: dashboardTools(category).map((tool) => ({
       label: tool.shortName,
       description: tool.name,
+      subtitle: tool.headline,
       icon: tool.icon,
       iconSrc: tool.iconSrc,
       href: tool.href,
+      isNew: newToolSlugs.includes(tool.slug),
     })),
   };
 }
@@ -90,42 +95,34 @@ export const dashboardToolGroups = toolCategoryOrder.map((category) => ({
   ),
 }));
 
-export const dashboardNav: DashboardNavSection[] = [
-  {
-    title: "General",
-    items: [
-      {
-        label: "Overview",
-        description: "Your usage and tools at a glance",
-        icon: LayoutGrid,
-        href: routes.dashboard,
-      },
-    ],
-  },
-  ...toolCategoryOrder.map(toolSection),
-  {
-    title: "Account",
-    items: [
-      {
-        label: "Settings",
-        description: "Profile, sign-in and preferences",
-        icon: Settings,
-        href: routes.dashboardSettings,
-      },
-    ],
-  },
+export const overviewNavItem: DashboardNavItem = {
+  label: "Overview",
+  description: "Overview",
+  subtitle: "Your usage and tools at a glance",
+  icon: LayoutGrid,
+  href: routes.dashboard,
+};
+
+export const settingsNavItem: DashboardNavItem = {
+  label: "Settings",
+  description: "Settings",
+  subtitle: "Manage your profile, plan and preferences",
+  icon: Settings,
+  href: routes.dashboardSettings,
+};
+
+export const dashboardNav: DashboardNavSection[] = [{ items: [overviewNavItem] }, ...toolCategoryOrder.map(toolSection)];
+
+export const dashboardSearchItems: DashboardNavItem[] = [
+  ...dashboardNav.flatMap((section) => section.items),
+  settingsNavItem,
 ];
 
-export function findNavItem(pathname: string) {
-  const items = dashboardNav.flatMap((section) => section.items).filter((item) => item.href);
-  return (
-    items.find((item) => item.href === pathname) ??
-    items.find((item) => item.href !== routes.dashboard && pathname.startsWith(item.href!))
-  );
-}
-
 export function isNavItemActive(item: DashboardNavItem, pathname: string) {
-  if (!item.href) return false;
   if (item.href === routes.dashboard) return pathname === routes.dashboard;
   return pathname === item.href || pathname.startsWith(`${item.href}/`);
+}
+
+export function findActiveNavItem(pathname: string) {
+  return dashboardSearchItems.find((item) => isNavItemActive(item, pathname)) ?? overviewNavItem;
 }

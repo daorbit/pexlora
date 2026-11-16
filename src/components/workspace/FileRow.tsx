@@ -39,9 +39,9 @@ export function FileRow({ item, defaultExpanded, doneLabel, onRemove, disabled }
   const { file, report, result } = item;
 
   return (
-    <li className="relative flex flex-col motion-safe:animate-fade-up motion-safe:[animation-duration:0.35s]">
+    <li className="relative flex flex-col overflow-clip rounded-2xl bg-subtle motion-safe:animate-fade-up motion-safe:[animation-duration:0.35s]">
       {(item.status === "processing" || item.status === "inspecting") && <ProgressBar />}
-      <div className="flex flex-wrap items-center gap-x-3 gap-y-2.5 px-4 py-3.5 sm:flex-nowrap sm:gap-x-4 sm:px-5">
+      <div className="flex flex-wrap items-center gap-x-3 gap-y-2.5 p-2.5 sm:flex-nowrap sm:gap-x-4 sm:pr-3">
         <FileThumb item={item} />
         <div className="min-w-0 flex-1 basis-40">
           <p className="truncate text-[15px] font-medium">{file.name}</p>

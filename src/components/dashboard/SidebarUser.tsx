@@ -1,36 +1,39 @@
-import { LogOut } from "lucide-react";
-import { signOut } from "@/actions/auth";
+import Link from "next/link";
+import { Settings } from "lucide-react";
+import { routes } from "@/config/site";
+import { shellCopy } from "@/content/dashboard";
 import { requireUser } from "@/lib/auth/dal";
-import { Button } from "@/components/ui/Button";
+import { cn } from "@/lib/utils/cn";
 import { UserAvatar } from "@/components/ui/UserAvatar";
+import { whenCollapsed } from "@/components/dashboard/sidebar-styles";
+
+const rowClasses = cn("flex items-center gap-2.5 rounded-xl p-1.5", whenCollapsed.centered);
 
 export async function SidebarUser() {
   const user = await requireUser();
 
   return (
-    <div className="flex items-center gap-3 rounded-lg px-2 py-1.5">
-      <UserAvatar name={user.name} avatarUrl={user.avatarUrl} size="md" />
-      <div className="min-w-0 flex-1">
-        <p className="truncate text-sm font-medium">{user.name}</p>
-        <p className="truncate text-xs text-secondary">{user.email}</p>
-      </div>
-      <form action={signOut}>
-        <Button type="submit" variant="icon" size="sm" aria-label="Sign out" title="Sign out">
-          <LogOut className="size-4" aria-hidden />
-        </Button>
-      </form>
-    </div>
+    <Link
+      href={routes.dashboardSettings}
+      title={shellCopy.settings}
+      aria-label={shellCopy.settings}
+      className={cn(rowClasses, "transition-colors hover:bg-fill")}
+    >
+      <UserAvatar name={user.name} avatarUrl={user.avatarUrl} size="sm" />
+      <span className={cn("min-w-0 flex-1", whenCollapsed.hidden)}>
+        <span className="block truncate text-sm font-semibold">{user.name}</span>
+        <span className="block truncate text-xs text-secondary">{user.email}</span>
+      </span>
+      <Settings className={cn("size-4 shrink-0 text-secondary", whenCollapsed.hidden)} aria-hidden />
+    </Link>
   );
 }
 
 export function SidebarUserFallback() {
   return (
-    <div className="flex items-center gap-3 px-2 py-1.5">
-      <div className="size-9 animate-pulse rounded-full bg-fill" />
-      <div className="flex flex-1 flex-col gap-1.5">
-        <div className="h-3 w-24 animate-pulse rounded bg-fill" />
-        <div className="h-3 w-32 animate-pulse rounded bg-fill" />
-      </div>
+    <div className={rowClasses}>
+      <span className="size-8 animate-pulse rounded-full bg-fill" />
+      <span className={cn("h-8 flex-1 animate-pulse rounded-lg bg-fill", whenCollapsed.hidden)} />
     </div>
   );
 }

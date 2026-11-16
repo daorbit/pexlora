@@ -26,23 +26,22 @@ export function MetadataOptionsBar({ options, onChange, disabled, sourceFile }: 
   return (
     <OptionsBar
       footer={
-        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-          <OptionHint tone={ai.error ? "danger" : "muted"}>
-            {ai.error ?? (sourceFile ? optionsCopy.metadataNote : aiCopy.fillHint)}
-          </OptionHint>
+        <div className="flex flex-col gap-3">
           <AiButton
-            variant="ink"
-            size="sm"
+            variant="secondary"
             pending={ai.pending}
             label={aiCopy.fillWithAi}
             disabled={disabled || !sourceFile}
             onClick={fillWithAi}
-            className="shrink-0"
+            className="w-full"
           />
+          <OptionHint tone={ai.error ? "danger" : "muted"}>
+            {ai.error ?? (sourceFile ? optionsCopy.metadataNote : aiCopy.fillHint)}
+          </OptionHint>
         </div>
       }
     >
-      <div className="grid w-full gap-x-6 gap-y-2.5 md:grid-cols-2">
+      <div className="flex flex-col gap-4">
         {METADATA_FIELDS.map((field) => (
           <TextOption
             key={field}

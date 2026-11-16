@@ -26,7 +26,7 @@ export function NumberOption({
 }: NumberOptionProps) {
   return (
     <OptionGroup as="label" label={label}>
-      <span className={cn(optionFieldShell, "inline-flex items-center gap-1 pr-3")}>
+      <span className={cn(optionFieldShell, "flex items-center gap-1 pr-3")}>
         <input
           type="number"
           inputMode="numeric"
@@ -37,7 +37,7 @@ export function NumberOption({
           placeholder={placeholder}
           disabled={disabled}
           onChange={(event) => onChange(event.target.value === "" ? null : Number(event.target.value))}
-          className={cn(optionFieldInput, "w-20 pl-3 tabular-nums")}
+          className={cn(optionFieldInput, "w-full min-w-0 flex-1 pl-3 tabular-nums")}
         />
         <span className="text-xs text-secondary">{unit}</span>
       </span>

@@ -15,7 +15,7 @@ type TextOptionProps = {
 
 export function TextOption({ label, value, placeholder, disabled, onChange }: TextOptionProps) {
   return (
-    <OptionGroup as="label" label={label} className="min-w-0" labelClassName="w-20 shrink-0">
+    <OptionGroup as="label" label={label} className="min-w-0">
       <input
         type="text"
         value={value}
