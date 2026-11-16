@@ -9,34 +9,35 @@ export function SunMoonIcon({ moon, className }: { moon: boolean; className?: st
 
   return (
     <svg viewBox="0 0 64 64" className={className} aria-hidden>
-      <mask id={maskId}>
+      <mask id={maskId} maskUnits="userSpaceOnUse" x="0" y="0" width="64" height="64">
         <rect width="64" height="64" fill="#fff" />
         <circle
-          cx="54"
-          cy="12"
-          r="16"
+          cx="78"
+          cy="-14"
+          r="18"
           fill="#000"
-          className={cn(morph, moon ? "-translate-x-3.5 translate-y-2" : "translate-0")}
+          className={cn(morph, moon ? "-translate-x-8 translate-y-8" : "translate-0")}
         />
       </mask>
       <g
-        className={cn(morph, "origin-center transform-fill", moon ? "scale-50 -rotate-90 opacity-0" : "opacity-100")}
+        className={cn(morph, "origin-center transform-fill", moon ? "scale-50 rotate-90 opacity-0" : "opacity-100")}
         stroke="currentColor"
-        strokeWidth="5"
+        strokeWidth="4.5"
         strokeLinecap="round"
       >
         {RAYS.map((angle) => (
-          <line key={angle} x1="32" y1="4" x2="32" y2="11" transform={`rotate(${angle} 32 32)`} />
+          <line key={angle} x1="32" y1="6" x2="32" y2="12" transform={`rotate(${angle} 32 32)`} />
         ))}
       </g>
-      <circle
-        cx="32"
-        cy="32"
-        r="22"
-        fill="currentColor"
-        mask={`url(#${maskId})`}
-        className={cn(morph, "origin-center transform-fill", moon ? "scale-100" : "scale-[0.58]")}
-      />
+      <g mask={`url(#${maskId})`}>
+        <circle
+          cx="32"
+          cy="32"
+          r="22"
+          fill="currentColor"
+          className={cn(morph, "origin-center transform-fill", moon ? "scale-100" : "scale-50")}
+        />
+      </g>
     </svg>
   );
 }
