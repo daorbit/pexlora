@@ -7,9 +7,9 @@ import type { WorkspaceToolSlug } from "@/config/tools";
 import { useFileDrop } from "@/hooks/useFileDrop";
 import { useFileQueue } from "@/hooks/useFileQueue";
 import { useFilePicker } from "@/hooks/useFilePicker";
-import { useHandedOffFiles } from "@/hooks/useHandedOffFiles";
 import { useToolOptions } from "@/hooks/useToolOptions";
-import type { ToolOptions } from "@/lib/image/options";
+import { useWorkspaceSession } from "@/hooks/useWorkspaceSession";
+import type { MetadataFields, ToolOptions } from "@/lib/image/options";
 import { saveCopy } from "@/content/workspace";
 import { useCanSaveToPhotos } from "@/hooks/useCanSaveToPhotos";
 import { cn } from "@/lib/utils/cn";
@@ -34,9 +34,10 @@ export function WorkspacePanel({ tool, accepts: acceptsOverride, initialOptions 
   const accepts = acceptsOverride ?? behavior.accepts;
   const queue = useFileQueue({ inspectOnAdd: behavior.inspectOnAdd, accepts });
   const { addFiles, resetResults, process } = queue;
-  const [options, setOptions] = useToolOptions(tool, initialOptions);
+  const [options, setOptions, patchOptions] = useToolOptions(tool, initialOptions);
   const optionsError = behavior.action?.validate?.(options) ?? null;
-  useHandedOffFiles(tool, addFiles);
+  const restoreMetadata = useCallback((metadata: MetadataFields) => patchOptions({ metadata }), [patchOptions]);
+  useWorkspaceSession(tool, queue, { metadata: options.metadata, restoreMetadata });
 
   const accept = useMemo(() => acceptAttribute(accepts), [accepts]);
   const picker = useFilePicker(addFiles, accept);
@@ -90,7 +91,7 @@ export function WorkspacePanel({ tool, accepts: acceptsOverride, initialOptions 
       {hasItems ? (
         <div
           className={cn(
-            "overflow-clip rounded-[20px] border border-separator transition-colors",
+            "overflow-clip rounded-2xl border border-separator transition-colors",
             isDragging && "border-foreground bg-fill",
           )}
         >

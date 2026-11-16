@@ -13,9 +13,9 @@ export function SampleChips({ onSelect }: { onSelect: (sample: SampleImage) => v
           key={sample.id}
           type="button"
           onClick={() => onSelect(sample)}
-          className="inline-flex items-center gap-2 rounded-full border border-separator bg-surface py-1 pr-3 pl-1 text-[13px] font-semibold transition-colors hover:border-border-strong focus-visible:outline-2 focus-visible:outline-ring"
+          className="inline-flex items-center gap-2 rounded-xl border border-separator bg-surface py-1 pr-3 pl-1 text-[13px] font-semibold transition-colors hover:border-border-strong focus-visible:outline-2 focus-visible:outline-ring"
         >
-          <Image src={sample.src} alt="" width={22} height={22} className="size-[22px] rounded-full object-cover" />
+          <Image src={sample.src} alt="" width={22} height={22} className="size-[22px] rounded-md object-cover" />
           {sample.label}
         </button>
       ))}

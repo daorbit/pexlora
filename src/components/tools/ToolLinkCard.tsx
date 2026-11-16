@@ -13,7 +13,7 @@ export function ToolLinkCard({ href, icon: Icon, name, description }: ToolLinkCa
   return (
     <Link
       href={href}
-      className="group flex items-center gap-4 rounded-[20px] border border-separator bg-surface p-4 transition-colors hover:border-border-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+      className="group flex items-center gap-4 rounded-2xl border border-separator bg-surface p-4 transition-colors hover:border-border-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
     >
       <span className="inline-flex size-12 shrink-0 items-center justify-center rounded-2xl bg-ink text-primary dark:bg-primary dark:text-primary-foreground">
         <Icon className="size-5" strokeWidth={2} aria-hidden />

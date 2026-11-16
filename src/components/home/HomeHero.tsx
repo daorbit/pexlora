@@ -9,8 +9,8 @@ export function HomeHero() {
     <section className="pt-10 pb-14 sm:pt-16 sm:pb-20">
       <Container className="flex flex-col items-center gap-8 sm:gap-10">
         <div className="flex max-w-3xl flex-col items-center gap-5 text-center">
-          <p className="inline-flex items-center gap-2 rounded-full border border-separator bg-surface py-1 pr-3.5 pl-1 text-[13px] font-semibold motion-safe:animate-fade-up">
-            <span className="rounded-full bg-ink px-2.5 py-1 text-[11px] font-bold tracking-[0.06em] text-primary uppercase dark:text-ink-foreground">
+          <p className="inline-flex items-center gap-2 rounded-xl border border-separator bg-surface py-1 pr-3.5 pl-1 text-[13px] font-semibold motion-safe:animate-fade-up">
+            <span className="rounded-lg bg-ink px-2.5 py-1 text-[11px] font-bold tracking-[0.06em] text-primary uppercase dark:text-ink-foreground">
               {heroCopy.badge}
             </span>
             {heroCopy.tagline}

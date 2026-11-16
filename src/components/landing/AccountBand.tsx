@@ -8,7 +8,7 @@ export function AccountBand() {
   return (
     <section className="pb-16 sm:pb-22">
       <Container>
-        <div className="flex flex-wrap items-center justify-between gap-8 rounded-[32px] bg-primary p-8 text-primary-foreground sm:p-14">
+        <div className="flex flex-wrap items-center justify-between gap-8 rounded-3xl bg-primary p-8 text-primary-foreground sm:p-14">
           <div className="flex max-w-xl flex-col gap-3">
             <h2 className="text-[28px] leading-[1.08] font-semibold tracking-[-0.028em] sm:text-[38px]">
               {accountCopy.title}

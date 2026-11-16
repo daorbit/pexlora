@@ -1,26 +1,30 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import type { WorkspaceToolSlug } from "@/config/tools";
+import { useLocationSearch } from "@/hooks/useLocationSearch";
 import { DEFAULT_TOOL_OPTIONS, type ToolOptions } from "@/lib/image/options";
-import { readSearchParams, replaceSearchParams } from "@/lib/url/search-params";
+import { replaceSearchParams } from "@/lib/url/search-params";
 import { optionsFromParams, optionsToParams } from "@/lib/url/tool-params";
 
 export function useToolOptions(tool: WorkspaceToolSlug, initialOptions?: Partial<ToolOptions>) {
   const [base] = useState<ToolOptions>(() => ({ ...DEFAULT_TOOL_OPTIONS, ...initialOptions }));
-  const [options, setOptionsState] = useState<ToolOptions>(base);
+  const [local, setLocal] = useState<ToolOptions>(base);
+  const params = useLocationSearch();
 
-  useEffect(() => {
-    setOptionsState(optionsFromParams(tool, readSearchParams(), base));
-  }, [tool, base]);
+  const options = useMemo(() => optionsFromParams(tool, params, local), [tool, params, local]);
 
   const setOptions = useCallback(
     (next: ToolOptions) => {
-      setOptionsState(next);
+      setLocal(next);
       replaceSearchParams(optionsToParams(tool, next, base));
     },
     [tool, base],
   );
 
-  return [options, setOptions] as const;
+  const patchOptions = useCallback((patch: Partial<ToolOptions>) => {
+    setLocal((current) => ({ ...current, ...patch }));
+  }, []);
+
+  return [options, setOptions, patchOptions] as const;
 }

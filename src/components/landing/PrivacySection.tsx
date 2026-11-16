@@ -7,7 +7,7 @@ export function PrivacySection() {
   return (
     <section id="privacy" className="scroll-mt-20 pb-16 sm:pb-22">
       <Container>
-        <div className="theme-dark grid grid-cols-1 gap-12 rounded-[32px] bg-brand-surface p-8 text-brand-foreground sm:p-14 lg:grid-cols-2 lg:items-center lg:gap-16">
+        <div className="theme-dark grid grid-cols-1 gap-12 rounded-3xl bg-brand-surface p-8 text-brand-foreground sm:p-14 lg:grid-cols-2 lg:items-center lg:gap-16">
           <div className="flex min-w-0 flex-col gap-5">
             <Eyebrow>{privacyCopy.eyebrow}</Eyebrow>
             <h2 className="text-[32px] leading-[1.05] font-semibold tracking-[-0.03em] sm:text-[44px]">
@@ -24,7 +24,7 @@ export function PrivacySection() {
                 </div>
                 <span
                   className={cn(
-                    "shrink-0 rounded-full px-3 py-1.5 text-[13px] font-semibold",
+                    "shrink-0 rounded-md px-3 py-1.5 text-[13px] font-semibold",
                     row.local ? "bg-primary text-primary-foreground" : "border border-border-strong",
                   )}
                 >

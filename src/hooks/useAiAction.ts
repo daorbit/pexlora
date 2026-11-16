@@ -35,5 +35,7 @@ export function useAiAction<Args extends unknown[], T>(action: (...args: Args) =
 
   const reset = useCallback(() => setState({ data: null, error: null, upsell: false, pending: false }), []);
 
-  return { ...state, run, reset };
+  const restore = useCallback((data: T) => setState({ data, error: null, upsell: false, pending: false }), []);
+
+  return { ...state, run, reset, restore };
 }

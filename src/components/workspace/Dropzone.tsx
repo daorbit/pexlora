@@ -33,11 +33,11 @@ export function Dropzone({ accepts, isDragging, onBrowse, onSample }: DropzonePr
     <div
       onClick={onClick}
       className={cn(
-        "flex min-h-72 cursor-pointer flex-col items-center justify-center gap-5 rounded-[20px] border-[1.5px] border-dashed px-5 py-10 text-center transition-colors sm:min-h-80 sm:gap-6 sm:px-6 sm:py-14",
+        "flex min-h-72 cursor-pointer flex-col items-center justify-center gap-5 rounded-2xl border-[1.5px] border-dashed px-5 py-10 text-center transition-colors sm:min-h-80 sm:gap-6 sm:px-6 sm:py-14",
         isDragging ? "border-foreground bg-fill" : "border-border-strong bg-subtle hover:border-foreground/40 hover:bg-fill/60",
       )}
     >
-      <span className="inline-flex size-14 items-center justify-center rounded-[18px] bg-primary text-primary-foreground">
+      <span className="inline-flex size-14 items-center justify-center rounded-xl bg-primary text-primary-foreground">
         <Upload className="size-6" strokeWidth={2} aria-hidden />
       </span>
       <div className="flex flex-col gap-1.5">
@@ -57,7 +57,7 @@ export function Dropzone({ accepts, isDragging, onBrowse, onSample }: DropzonePr
         {accepts.map((kind) => (
           <li
             key={kind}
-            className="rounded-full border border-separator bg-surface px-3 py-1 text-[12.5px] font-medium text-secondary"
+            className="rounded-md border border-separator bg-surface px-3 py-1 text-[12.5px] font-medium text-secondary"
           >
             {fileKinds[kind].label}
           </li>

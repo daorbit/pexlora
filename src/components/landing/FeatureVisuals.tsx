@@ -15,7 +15,7 @@ export function AiTagsVisual() {
         {aiTags.map((tag) => (
           <span
             key={tag}
-            className="inline-flex items-center gap-2 rounded-full border border-separator bg-surface py-2 pr-3 pl-4 text-[14px]"
+            className="inline-flex items-center gap-2 rounded-xl border border-separator bg-surface py-2 pr-3 pl-4 text-[14px]"
           >
             <span className="text-secondary line-through decoration-warning decoration-2">{tag}</span>
             <span className="inline-flex size-5 items-center justify-center rounded-full bg-warning-soft text-warning">
@@ -35,7 +35,7 @@ export function FormatsVisual() {
     <div className={visualFrame}>
       <div className="flex flex-col gap-5 rounded-xl border border-separator bg-surface p-5">
         <div className="flex items-center gap-3">
-          <Image src={photo.src} alt="" width={48} height={48} className="size-12 rounded-[10px] object-cover" />
+          <Image src={photo.src} alt="" width={48} height={48} className="size-12 rounded-lg object-cover" />
           <div className="min-w-0 flex-1">
             <p className="truncate text-[15px] font-medium">{photo.fileName}</p>
             <p className="text-[13px] text-secondary">JPEG</p>

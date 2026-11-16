@@ -1,21 +1,15 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
-import { readSearchParams, replaceSearchParams } from "@/lib/url/search-params";
+import { useCallback } from "react";
+import { useLocationSearch } from "@/hooks/useLocationSearch";
+import { replaceSearchParams } from "@/lib/url/search-params";
 
 export function useSearchParamState<T extends string>(key: string, allowed: readonly T[], fallback: T) {
-  const [value, setValueState] = useState<T>(fallback);
-
-  useEffect(() => {
-    const fromUrl = readSearchParams().get(key);
-    if (fromUrl && allowed.includes(fromUrl as T)) setValueState(fromUrl as T);
-  }, [key, allowed]);
+  const fromUrl = useLocationSearch().get(key);
+  const value = fromUrl && allowed.includes(fromUrl as T) ? (fromUrl as T) : fallback;
 
   const setValue = useCallback(
-    (next: T) => {
-      setValueState(next);
-      replaceSearchParams({ [key]: next === fallback ? null : next });
-    },
+    (next: T) => replaceSearchParams({ [key]: next === fallback ? null : next }),
     [key, fallback],
   );
 

@@ -9,7 +9,7 @@ import { Badge } from "@/components/ui/Badge";
 import { Logo } from "@/components/layout/Logo";
 
 const itemClasses =
-  "flex h-10 items-center gap-3 rounded-full px-4 text-sm font-medium transition-colors";
+  "flex h-10 items-center gap-3 rounded-xl px-4 text-sm font-medium transition-colors";
 
 function NavItem({ item, active }: { item: DashboardNavItem; active: boolean }) {
   const Icon = item.icon;

@@ -25,10 +25,10 @@ const chipVariants: Partial<Record<Variant, string>> = {
 };
 
 const sizes: Record<Size, string> = {
-  sm: "h-8 rounded-full px-3.5 text-[13px]",
-  md: "h-10 rounded-full px-4.5 text-sm",
-  lg: "h-11 rounded-full px-5 text-[15px]",
-  xl: "h-12 rounded-full px-6 text-[15px]",
+  sm: "h-8 rounded-xl px-3.5 text-[13px]",
+  md: "h-10 rounded-xl px-4.5 text-sm",
+  lg: "h-11 rounded-xl px-5 text-[15px]",
+  xl: "h-12 rounded-xl px-6 text-[15px]",
 };
 
 const arrowSizes: Record<Size, { padding: string; chip: string; icon: string }> = {
@@ -39,10 +39,10 @@ const arrowSizes: Record<Size, { padding: string; chip: string; icon: string }> 
 };
 
 const iconSizes: Record<Size, string> = {
-  sm: "size-8 rounded-full",
-  md: "size-10 rounded-full",
-  lg: "size-11 rounded-full",
-  xl: "size-12 rounded-full",
+  sm: "size-8 rounded-xl",
+  md: "size-10 rounded-xl",
+  lg: "size-11 rounded-xl",
+  xl: "size-12 rounded-xl",
 };
 
 type StyleProps = { variant?: Variant; size?: Size; arrow?: boolean };
@@ -64,7 +64,7 @@ function Content({ children, variant = "primary", size = "md", arrow }: StylePro
   return (
     <>
       {children}
-      <span className={cn("ml-1 inline-flex items-center justify-center rounded-full", chip, chipVariants[variant])}>
+      <span className={cn("ml-1 inline-flex items-center justify-center rounded-lg", chip, chipVariants[variant])}>
         <ArrowRight className={icon} strokeWidth={2.5} aria-hidden />
       </span>
     </>

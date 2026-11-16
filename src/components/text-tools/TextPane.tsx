@@ -13,7 +13,7 @@ export function TextPane({ title, meta, footer, className, children }: TextPaneP
   return (
     <section
       className={cn(
-        "flex min-h-[420px] flex-col overflow-hidden rounded-[20px] border border-separator bg-surface transition-colors focus-within:border-border-strong",
+        "flex min-h-[420px] flex-col overflow-hidden rounded-2xl border border-separator bg-surface transition-colors focus-within:border-border-strong",
         className,
       )}
     >

@@ -21,5 +21,5 @@ export async function HeaderAuth() {
 }
 
 export function HeaderAuthFallback() {
-  return <div className="h-8 w-36 animate-pulse rounded-full bg-fill" />;
+  return <div className="h-8 w-36 animate-pulse rounded-xl bg-fill" />;
 }

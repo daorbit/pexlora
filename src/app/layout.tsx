@@ -1,11 +1,12 @@
 import type { Metadata, Viewport } from "next";
 import { Geist_Mono, Inter } from "next/font/google";
+import Script from "next/script";
 import { AnalyticsScript } from "@/components/layout/AnalyticsScript";
-import { ThemeScript } from "@/components/theme/ThemeScript";
 import { brandAssets, brandColors } from "@/config/brand";
 import { seo } from "@/config/seo";
 import { siteConfig } from "@/config/site";
 import { env } from "@/lib/env";
+import { themeInitScript } from "@/lib/theme";
 import "./globals.css";
 
 const inter = Inter({
@@ -77,7 +78,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       className={`${inter.variable} ${geistMono.variable} h-full antialiased`}
     >
       <head>
-        <ThemeScript />
+        <Script id="theme-init" strategy="beforeInteractive">
+          {themeInitScript}
+        </Script>
         <AnalyticsScript />
       </head>
       <body className="flex min-h-full flex-col">{children}</body>

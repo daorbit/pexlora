@@ -25,7 +25,7 @@ export function InsightsPanel({ insights, fileName }: { insights: ImageInsights;
           <p className="text-xs font-medium text-tertiary">{aiCopy.insights.keywords}</p>
           <ul className="flex flex-wrap gap-1.5">
             {insights.keywords.map((keyword) => (
-              <li key={keyword} className="rounded-full border border-separator bg-surface px-3 py-1 text-[13px] font-medium">
+              <li key={keyword} className="rounded-md border border-separator bg-surface px-3 py-1 text-[13px] font-medium">
                 {keyword}
               </li>
             ))}

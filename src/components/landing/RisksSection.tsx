@@ -15,7 +15,7 @@ export function RisksSection() {
           <article key={risk.id} className="flex min-w-0 flex-col gap-5 rounded-3xl border border-separator bg-surface p-6 sm:p-7">
             <span
               className={cn(
-                "w-fit max-w-full rounded-[10px] px-3 py-1.5 font-mono text-[12.5px] break-words",
+                "w-fit max-w-full rounded-lg px-3 py-1.5 font-mono text-[12.5px] break-words",
                 chipTones[risk.id] ?? "bg-background text-foreground",
               )}
             >

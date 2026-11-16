@@ -16,7 +16,7 @@ export function ResultSummary({ items, doneLabel }: ResultSummaryProps) {
   return (
     <div
       role="status"
-      className="flex items-center gap-3 rounded-[20px] bg-success-soft px-4 py-3 text-success motion-safe:animate-fade-up motion-safe:[animation-duration:0.4s]"
+      className="flex items-center gap-3 rounded-2xl bg-success-soft px-4 py-3 text-success motion-safe:animate-fade-up motion-safe:[animation-duration:0.4s]"
     >
       <span className="inline-flex size-8 shrink-0 items-center justify-center rounded-full bg-success text-surface motion-safe:animate-pop">
         <Check className="size-4" strokeWidth={3} aria-hidden />

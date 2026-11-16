@@ -67,7 +67,7 @@ src/
 - Not Quantalog any more. No blue or teal anywhere, no gradients, no coloured glow shadows. Approved mockup: https://claude.ai/artifact/XHamM1FBhgv1HnbHdP8w2k
 - Light: page pearl #f4f3ee, cards white, text ink #10120d, muted #5f6359, borders #e7e5dd. Dark: #0c0d0a page, #161813 surfaces, pearl text.
 - Brand colour is neon lime #b9f12f (`primary`), used as a fill: buttons, the active tab, the `<Highlight>` marker in headlines, badges, the sign-up band. Lime is never body text on light backgrounds; use `accent-text` (#3f6212) for readable lime-ish text. `ink` is the second button colour (black pill with a lime arrow chip, pearl in dark).
-- Buttons are pills (`rounded-full`). `Button`/`ButtonLink` take `variant` (primary | ink | secondary | outline | plain | nav | icon) and `arrow` for the round arrow chip. Focus rings use `outline-ring`.
+- Corners are rounded but not pills: buttons, inputs, tracks and sidebar items `rounded-xl` (12px), segment items and button arrow chips `rounded-lg`, badges and small chips `rounded-md`, cards `rounded-2xl`/`rounded-3xl` (theme scale in `globals.css`: xl 12px, 2xl 14px, 3xl 18px). `rounded-full` only for true circles (avatars, dots, icon discs) and thin progress bars. `Button`/`ButtonLink` take `variant` (primary | ink | secondary | outline | plain | nav | icon) and `arrow` for the round arrow chip. Focus rings use `outline-ring`.
 - Headings: semibold (`font-semibold`, `tracking-[-0.028em]`), hero `font-bold`. `Section` takes `tone` ("page" | "surface") to alternate pearl and white bands and `align`; `SectionHeading` is the eyebrow + h2 block for custom layouts. Eyebrows are small grey uppercase.
 - Segmented controls (options bars, hub filter) use `segmented-styles.ts` (pill track, lime active pill). The tool sits in `WorkspaceFrame` on tool pages and the dashboard.
 - Dark bands (privacy card, footer) use `theme-dark` so tokens flip regardless of theme.
@@ -85,7 +85,9 @@ src/
 - **Never use sparkle icons** (lucide `Sparkles` etc.). For AI tags use the custom `AiTagIcon` in `src/components/icons/`; add new custom icons there when lucide has no fitting one.
 - Fonts: Apple's system stack (`-apple-system`, SF Pro) with Inter as the fallback on Windows/Android, Geist Mono for metadata values.
 - Every clickable element gets `cursor: pointer` (base layer in `globals.css`). Don't remove it.
-- Theme: **Light / Dark only** (no System option). `ThemeScript` sets `data-theme` before paint (stored choice, else the device setting on first visit); `useTheme` (useSyncExternalStore) + `ThemeToggle` (header icon) + `ThemeSwitcher` (footer / settings).
+- Theme: **Light / Dark only** (no System option). a `beforeInteractive` `<Script id="theme-init">` in the root layout sets `data-theme` before paint (stored choice, else the device setting on first visit); `useTheme` (useSyncExternalStore) + `ThemeToggle` (header icon) + `ThemeSwitcher` (footer / settings).
+- URL state: tool settings live in search params (`?format=webp&quality=80`, `?level=strong`, `?mode=size&width=1200`, `?tone=casual`, homepage `?tools=ai`), read with `useLocationSearch` (useSyncExternalStore) and written with `replaceSearchParams`; defaults are omitted. Never put user text or files in the URL. Protected pages redirect to `/signin?next=…`; validate with `safeNextPath`.
+- Session state: queued files, results, reports and AI text outputs persist per tool in IndexedDB (`lib/storage`, `useWorkspaceSession`, `useTextToolSession`) for 24 hours on the device; "Clear All" removes them.
 - Every tool has its own page (`ToolPage` → `ToolHero` + `ToolWorkspace`). Header, footer and menus link to those routes, never to `/#tool` hashes.
 - Scrollbar: thin, themed via `--scrollbar-thumb` / `--scrollbar-thumb-hover` in `globals.css`.
 - Button and title labels use title case ("Choose Images"); headlines are sentence case.

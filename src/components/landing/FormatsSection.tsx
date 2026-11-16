@@ -19,7 +19,7 @@ export function FormatsSection() {
               </div>
               <ul className="flex flex-wrap gap-1.5">
                 {group.formats.map((format) => (
-                  <li key={format} className="rounded-full bg-background px-3 py-1.5 font-mono text-[12.5px]">
+                  <li key={format} className="rounded-md bg-background px-3 py-1.5 font-mono text-[12.5px]">
                     .{format.toLowerCase()}
                   </li>
                 ))}

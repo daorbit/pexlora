@@ -1,15 +1,16 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Wand } from "lucide-react";
 import { AI_TEXT_LIMITS } from "@/config/limits";
 import { textHandoffKey } from "@/config/text-tools";
 import { textToolCopy } from "@/content/ai";
 import { useAiAction } from "@/hooks/useAiAction";
-import { useHandOff } from "@/hooks/useHandOff";
 import { useScrollToResult } from "@/hooks/useScrollToResult";
+import { useTextToolSession } from "@/hooks/useTextToolSession";
 import { countWords } from "@/lib/ai/text-stats";
+import type { AiTextReport } from "@/lib/ai/types";
 import { handOff } from "@/lib/utils/file-handoff";
 import { detectAiText } from "@/services/ai-api";
 import { Button } from "@/components/ui/Button";
@@ -27,7 +28,7 @@ export function AiDetectorWorkspace({ peerHref }: { peerHref: string }) {
   const [text, setText] = useState("");
   const [checkedText, setCheckedText] = useState("");
   const detector = useAiAction(detectAiText);
-  const { reset } = detector;
+  const { reset, restore } = detector;
   const report = detector.data;
   const resultRef = useScrollToResult(report);
 
@@ -38,7 +39,17 @@ export function AiDetectorWorkspace({ peerHref }: { peerHref: string }) {
     },
     [reset],
   );
-  useHandOff<string>(textHandoffKey("ai-text-detector"), changeText);
+
+  const snapshot = useMemo(() => ({ text, checkedText, report }), [text, checkedText, report]);
+  const applySession = useCallback(
+    (session: { text: string; checkedText?: string; report?: AiTextReport | null }) => {
+      setText(session.text);
+      setCheckedText(session.checkedText ?? "");
+      if (session.report) restore({ ...session.report, quotaRemaining: null });
+    },
+    [restore],
+  );
+  useTextToolSession("ai-text-detector", snapshot, applySession);
 
   const ready = countWords(text) >= AI_TEXT_LIMITS.minWords;
   const run = () => {

@@ -21,7 +21,7 @@ export function PageIntroHero({ icon: Icon, iconSrc, headline, description, wide
           {iconSrc ? (
             <HubItemIcon src={iconSrc} size="xl" className="motion-safe:animate-pop" />
           ) : (
-            <span className="inline-flex size-14 items-center justify-center rounded-[18px] bg-ink text-primary motion-safe:animate-pop dark:bg-primary dark:text-primary-foreground">
+            <span className="inline-flex size-14 items-center justify-center rounded-xl bg-ink text-primary motion-safe:animate-pop dark:bg-primary dark:text-primary-foreground">
               <Icon className="size-6" strokeWidth={2} />
             </span>
           )}

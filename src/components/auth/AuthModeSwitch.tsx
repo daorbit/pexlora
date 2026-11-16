@@ -25,7 +25,7 @@ export function AuthModeSwitch({ active }: { active: AuthMode }) {
             href={withNextParam(href, next)}
             aria-current={isActive ? "page" : undefined}
             className={cn(
-              "flex h-[34px] items-center justify-center rounded-[9px] text-[13.5px] font-medium transition-colors focus-visible:outline-2 focus-visible:outline-ring",
+              "flex h-[34px] items-center justify-center rounded-md text-[13.5px] font-medium transition-colors focus-visible:outline-2 focus-visible:outline-ring",
               isActive
                 ? "bg-surface text-foreground shadow-thumb ring-1 ring-separator"
                 : "text-secondary hover:text-foreground",

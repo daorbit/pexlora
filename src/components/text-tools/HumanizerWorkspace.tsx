@@ -1,15 +1,15 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { RotateCcw, SearchCheck } from "lucide-react";
 import { AI_TEXT_LIMITS } from "@/config/limits";
 import { textHandoffKey } from "@/config/text-tools";
 import { textToolCopy } from "@/content/ai";
 import { useAiAction } from "@/hooks/useAiAction";
-import { useHandOff } from "@/hooks/useHandOff";
 import { useScrollToResult } from "@/hooks/useScrollToResult";
 import { useSearchParamState } from "@/hooks/useSearchParamState";
+import { useTextToolSession } from "@/hooks/useTextToolSession";
 import { countWords } from "@/lib/ai/text-stats";
 import { HUMANIZE_TONES, type HumanizeTone } from "@/lib/ai/types";
 import { handOff } from "@/lib/utils/file-handoff";
@@ -31,11 +31,21 @@ export function HumanizerWorkspace({ peerHref }: { peerHref: string }) {
   const [text, setText] = useState("");
   const [tone, setTone] = useSearchParamState<HumanizeTone>("tone", HUMANIZE_TONES, "natural");
   const humanizer = useAiAction(humanizeText);
+  const { restore } = humanizer;
   const output = humanizer.data?.text ?? "";
   const resultRef = useScrollToResult(output);
 
   const changeText = useCallback((value: string) => setText(value), []);
-  useHandOff<string>(textHandoffKey("ai-humanizer"), changeText);
+
+  const snapshot = useMemo(() => ({ text, output }), [text, output]);
+  const applySession = useCallback(
+    (session: { text: string; output?: string }) => {
+      setText(session.text);
+      if (session.output) restore({ text: session.output, quotaRemaining: null });
+    },
+    [restore],
+  );
+  useTextToolSession("ai-humanizer", snapshot, applySession);
 
   const ready = countWords(text) >= AI_TEXT_LIMITS.minWords;
   const run = () => {

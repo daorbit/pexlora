@@ -76,7 +76,7 @@ const font = "font-family=\"Inter, -apple-system, 'Segoe UI', Arial, sans-serif\
 
 function toolSvg({ color, ink = "#FFFFFF", glyph }) {
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
-<rect width="48" height="48" rx="13" fill="${color}"/>
+<rect width="48" height="48" rx="10" fill="${color}"/>
 <g transform="translate(10 10) scale(1.1667)" fill="none" stroke="${ink}" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">${glyph}</g>
 </svg>
 `;

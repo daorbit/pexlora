@@ -24,7 +24,7 @@ export function StepsSection() {
           >
             <span
               className={cn(
-                "w-fit rounded-full px-3 py-1 font-mono text-[12.5px]",
+                "w-fit rounded-md px-3 py-1 font-mono text-[12.5px]",
                 step.highlight ? "bg-ink text-primary dark:bg-primary-foreground" : "bg-surface",
               )}
             >

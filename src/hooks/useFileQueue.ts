@@ -27,6 +27,33 @@ export type QueueItem = {
 
 export type QueueNotice = { message: string; upsell: boolean };
 
+export type SavedQueueItem = {
+  file: File;
+  status: "ready" | "done" | "error";
+  report?: MetadataReport;
+  result?: Omit<QueueResult, "url">;
+  error?: string;
+};
+
+export function snapshotQueue(items: QueueItem[]): SavedQueueItem[] {
+  return items.map(({ file, status, report, result, error }) => ({
+    file,
+    status: status === "done" || status === "error" ? status : "ready",
+    report,
+    result:
+      result && status === "done"
+        ? {
+            blob: result.blob,
+            name: result.name,
+            leftoverTags: result.leftoverTags,
+            dimensions: result.dimensions,
+            insights: result.insights,
+          }
+        : undefined,
+    error,
+  }));
+}
+
 type Runner = (file: File) => Promise<ProcessedFile>;
 
 type QueueOptions = { inspectOnAdd: boolean; accepts: FileKind[] };
@@ -148,6 +175,34 @@ export function useFileQueue({ inspectOnAdd, accepts }: QueueOptions) {
     setNotice(null);
   }, []);
 
+  const restore = useCallback(
+    (saved: SavedQueueItem[]) => {
+      const restored: QueueItem[] = saved.flatMap((entry) => {
+        const format = detectFormat(entry.file);
+        if (!format) return [];
+        return [
+          {
+            id: crypto.randomUUID(),
+            file: entry.file,
+            format,
+            previewUrl: format.kind === "image" ? URL.createObjectURL(entry.file) : null,
+            status: entry.status,
+            report: entry.report,
+            error: entry.error,
+            result: entry.result ? { ...entry.result, url: URL.createObjectURL(entry.result.blob) } : undefined,
+          },
+        ];
+      });
+
+      setItems((current) => {
+        current.forEach(revoke);
+        return restored;
+      });
+      if (inspectOnAdd) restored.filter((item) => item.status === "ready" && !item.report).forEach(inspect);
+    },
+    [inspect, inspectOnAdd],
+  );
+
   const resetResults = useCallback(() => {
     setItems((current) =>
       current.map((item) => {
@@ -171,5 +226,6 @@ export function useFileQueue({ inspectOnAdd, accepts }: QueueOptions) {
     remove,
     reset,
     resetResults,
+    restore,
   };
 }

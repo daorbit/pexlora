@@ -5,7 +5,7 @@ import { AuthMetadataChips } from "@/components/auth/AuthMetadataChips";
 
 export function AuthMedia() {
   return (
-    <section className="theme-dark relative isolate hidden min-h-[640px] overflow-hidden rounded-[28px] bg-brand-surface text-foreground lg:block">
+    <section className="theme-dark relative isolate hidden min-h-[640px] overflow-hidden rounded-3xl bg-brand-surface text-foreground lg:block">
       <Image
         src={authMedia.src}
         alt={authMedia.alt}

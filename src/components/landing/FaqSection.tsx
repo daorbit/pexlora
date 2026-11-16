@@ -25,7 +25,7 @@ export function FaqSection({ items = faqs }: FaqSectionProps) {
         </SectionHeading>
         <div className="flex min-w-0 flex-col gap-2.5">
           {items.map((faq) => (
-            <details key={faq.question} className="group rounded-[20px] border border-separator bg-surface px-6">
+            <details key={faq.question} className="group rounded-2xl border border-separator bg-surface px-6">
               <summary className="flex list-none items-center justify-between gap-6 py-5 text-base font-semibold">
                 {faq.question}
                 <span className="inline-flex size-8 shrink-0 items-center justify-center rounded-full bg-fill transition-all group-open:rotate-45 group-open:bg-primary group-open:text-primary-foreground">

@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils/cn";
 
 export function OptionsBar({ children, footer }: { children: ReactNode; footer?: ReactNode }) {
   return (
-    <div className="flex flex-col gap-2 rounded-[20px] bg-subtle px-4 py-3">
+    <div className="flex flex-col gap-2 rounded-2xl bg-subtle px-4 py-3">
       <div className="flex flex-wrap items-center gap-x-8 gap-y-3">{children}</div>
       {footer}
     </div>
