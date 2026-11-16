@@ -9,6 +9,10 @@ const limit = (kind: keyof typeof FILE_SIZE_LIMITS_MB) => formatMegabytes(FILE_S
 export const heroCopy = {
   badge: "Free",
   tagline: "Your files. Your privacy.",
+  title: "Remove hidden metadata from",
+  highlight: "any file.",
+  description:
+    "Strip EXIF, GPS, AI tags and author details from photos, PDFs, Office documents, audio and video. Then compress, resize or convert your images, all in one place.",
 };
 
 export const trustChips = [
@@ -170,7 +174,7 @@ export const formatsDescription =
 
 export const popularToolsCopy = {
   eyebrow: "Popular tools",
-  title: "A cleaner for every kind of file.",
+  title: "A metadata remover for every kind of file.",
   description: "Jump straight to the tool for the app or file type you're working with.",
 };
 
@@ -221,7 +225,7 @@ export const faqCopy = {
 };
 
 export const accountCopy = {
-  title: `Clean up to ${DAILY_LIMITS.user} files a day, free.`,
+  title: `Process up to ${DAILY_LIMITS.user} files a day, free.`,
   description: "One click with Google. No card, no trial, no catch.",
   google: "Continue with Google",
   email: "Sign Up with Email",
@@ -241,7 +245,7 @@ export const faqs = [
   {
     question: "How do I remove GPS location from a photo?",
     answer:
-      "Drop the photo into the Cleaner and choose Remove Metadata. GPS coordinates, along with every other EXIF, XMP and IPTC field, are removed from the downloaded copy.",
+      "Open the Remove Metadata tool, drop the photo in and click Remove Metadata. GPS coordinates, along with every other EXIF, XMP and IPTC field, are removed from the downloaded copy.",
   },
   {
     question: "Do I need an account?",

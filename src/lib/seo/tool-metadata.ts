@@ -3,12 +3,12 @@ import { getWorkspaceTool, type WorkspaceToolSlug } from "@/config/tools";
 import { seoPagePath, type SeoPage } from "@/content/seo-pages";
 
 const toolTitles: Record<WorkspaceToolSlug, string> = {
-  "remove-metadata": "Remove AI Metadata, EXIF & GPS from Images, PDF & Video Free",
-  "convert-format": "Convert Images to WebP, AVIF, PNG & JPG Free",
-  "view-metadata": "Metadata Viewer: See EXIF, XMP, Author & AI Tags in Any File",
-  "compress-image": "Compress JPG, PNG, WebP & AVIF Images Online Free",
-  "resize-image": "Resize Images by Pixels or Percentage Online Free",
-  "edit-metadata": "Edit Image Metadata: Add Author, Copyright & Keywords Free",
+  "remove-metadata": "Remove Metadata from Photos Online: EXIF, GPS & AI Tags Free",
+  "view-metadata": "EXIF Viewer: Check Photo Metadata & GPS Location Online Free",
+  "edit-metadata": "EXIF Editor: Add Copyright & Author to Photos Online Free",
+  "compress-image": "Compress Image Online: Reduce JPG, PNG & WebP Size Free",
+  "resize-image": "Resize Image Online in Pixels or Percentage Free",
+  "convert-format": "Image Converter: JPG to WebP, PNG to JPG & AVIF Online Free",
 };
 
 function pageMetadata(title: string, description: string, path: string, keywords?: string[]): Metadata {

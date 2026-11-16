@@ -7,6 +7,7 @@ import { PopularToolsSection } from "@/components/landing/PopularToolsSection";
 import { PrivacySection } from "@/components/landing/PrivacySection";
 import { RisksSection } from "@/components/landing/RisksSection";
 import { StepsSection } from "@/components/landing/StepsSection";
+import { heroCopy } from "@/content/landing";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { Highlight } from "@/components/ui/Highlight";
 import { homeStructuredData } from "@/lib/seo/structured-data";
@@ -18,10 +19,10 @@ export default function HomePage() {
       <PageHero
         title={
           <>
-            Remove hidden metadata from <Highlight>any file.</Highlight>
+            {heroCopy.title} <Highlight>{heroCopy.highlight}</Highlight>
           </>
         }
-        description="Strip AI tags, C2PA credentials, GPS and author details from photos, PDFs, Office documents, audio and video before you share them."
+        description={heroCopy.description}
       />
       <StepsSection />
       <RisksSection />

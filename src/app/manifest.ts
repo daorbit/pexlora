@@ -6,7 +6,7 @@ import { siteConfig } from "@/config/site";
 export default function manifest(): MetadataRoute.Manifest {
   return {
     id: "/",
-    name: `${siteConfig.name}: Metadata Cleaner`,
+    name: `${siteConfig.name}: Remove Metadata, Compress & Resize Images`,
     short_name: siteConfig.name,
     description: seo.description,
     start_url: "/",

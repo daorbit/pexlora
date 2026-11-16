@@ -2,7 +2,7 @@ export const siteConfig = {
   name: "Pexlora",
   tagline: "Clean your files before you share them",
   description:
-    "Remove AI tags, C2PA credentials, GPS and author details from photos, PDFs, Office documents, audio and video, or convert, compress and resize JPG, PNG, WebP and AVIF images. Free, no sign-up.",
+    "Remove EXIF, GPS and AI metadata from photos, PDFs, Office documents, audio and video, view and edit EXIF data, and compress, resize or convert JPG, PNG, WebP and AVIF images. Free, no sign-up.",
   googleSiteVerification: "HiZBxbDomDb7TUXm27xBbCModk82j3wdBABq0wHr5xM",
 } as const;
 
@@ -37,9 +37,10 @@ export const toolAnchor = (slug: string) => `/#${slug}`;
 
 export const navLinks = [
   { label: "Remove Metadata", href: toolAnchor("remove-metadata") },
+  { label: "EXIF Viewer", href: toolAnchor("view-metadata") },
+  { label: "Compress", href: toolAnchor("compress-image") },
+  { label: "Resize", href: toolAnchor("resize-image") },
   { label: "Convert", href: toolAnchor("convert-format") },
-  { label: "Inspect", href: toolAnchor("view-metadata") },
-  { label: "Privacy", href: "/#privacy" },
   { label: "FAQ", href: routes.faq },
   { label: "Contact", href: routes.contact },
 ];

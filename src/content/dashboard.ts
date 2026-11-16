@@ -49,7 +49,7 @@ export const moduleTips: Record<WorkspaceToolSlug, { title: string; tips: string
       "The same details go into every image in the batch",
       "Separate keywords with commas",
       "Existing tags, GPS and AI credits are removed",
-      "Open Inspector to check the result",
+      "Use View Metadata to check the result",
     ],
   },
   "view-metadata": {
@@ -59,7 +59,7 @@ export const moduleTips: Record<WorkspaceToolSlug, { title: string; tips: string
       "Groups show where each tag lives: XMP, EXIF, GPS, authors",
       "PDF, Office, audio and video are read on your device",
       "Inspecting doesn't count towards your daily limit",
-      "Open Cleaner to remove what you find",
+      "Use Remove Metadata to strip what you find",
     ],
   },
 };

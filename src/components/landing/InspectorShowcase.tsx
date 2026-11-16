@@ -26,7 +26,7 @@ export function InspectorShowcase() {
       title="See what's hidden. Then remove it."
       description="Every file is read before it's cleaned, so you know exactly what was there and that nothing is left behind."
     >
-      <WindowFrame title={`${showcaseFile.name} — Inspector`}>
+      <WindowFrame title={`${showcaseFile.name} — Metadata Viewer`}>
         <div className="grid lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)_minmax(0,0.8fr)]">
           <div className="flex flex-col gap-3 border-b border-separator p-5 lg:border-r lg:border-b-0">
             <Image

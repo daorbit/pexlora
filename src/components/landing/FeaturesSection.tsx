@@ -1,8 +1,13 @@
 import { FileImage, MapPin, ShieldOff } from "lucide-react";
 import { toolAnchor } from "@/config/site";
+import { getWorkspaceTool, type WorkspaceToolSlug } from "@/config/tools";
 import { Section } from "@/components/ui/Section";
 import { FeatureTile } from "@/components/landing/FeatureTile";
 import { AiTagsVisual, FormatsVisual, LocationVisual } from "@/components/landing/FeatureVisuals";
+
+function toolLink(slug: WorkspaceToolSlug) {
+  return { label: getWorkspaceTool(slug).shortName, href: toolAnchor(slug) };
+}
 
 export function FeaturesSection() {
   return (
@@ -19,7 +24,7 @@ export function FeaturesSection() {
           label="Remove AI Metadata"
           title="No more “Made with AI” labels."
           body="Strip C2PA credentials, XMP digital source type, prompts and generator names."
-          primary={{ label: "Open Cleaner", href: toolAnchor("remove-metadata") }}
+          primary={toolLink("remove-metadata")}
           secondary={{ label: "What gets removed", href: "/#learn" }}
           visual={<AiTagsVisual />}
         />
@@ -29,7 +34,7 @@ export function FeaturesSection() {
           label="Protect Your Location"
           title="Your photos know where you were."
           body="See GPS, device and time data before you share, then strip it in one click."
-          primary={{ label: "Open Inspector", href: toolAnchor("view-metadata") }}
+          primary={toolLink("view-metadata")}
           secondary={{ label: "Why it matters", href: "/#why" }}
           visual={<LocationVisual />}
         />
@@ -39,7 +44,7 @@ export function FeaturesSection() {
           label="Convert Images"
           title="Modern formats, smaller files."
           body="Turn JPG and PNG into WebP or AVIF with full quality control. Every file comes out clean."
-          primary={{ label: "Open Converter", href: toolAnchor("convert-format") }}
+          primary={toolLink("convert-format")}
           secondary={{ label: "Supported formats", href: "/#formats" }}
           visual={<FormatsVisual />}
           className="lg:col-span-2 lg:mx-auto lg:w-[calc(50%-0.375rem)]"

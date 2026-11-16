@@ -28,7 +28,7 @@ export const viewerPages: SeoPage[] = [
       heading: "Read a photo's metadata in seconds",
       paragraphs: [
         "Drop a photo to see everything stored inside it. Fields are grouped by where they live, such as C2PA, XMP, IPTC, GPS, EXIF and color profile, with AI-related fields marked in orange and listed first.",
-        "Viewing is free and doesn't count toward your daily limit. When you're done, open the Cleaner to remove what you found.",
+        "Viewing is free and doesn't count toward your daily limit. When you're done, open Remove Metadata to strip what you found.",
       ],
     },
     list: shownList([

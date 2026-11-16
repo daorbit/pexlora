@@ -1,6 +1,12 @@
 import { LayoutGrid, Settings, type LucideIcon } from "lucide-react";
 import { routes } from "@/config/site";
-import { getWorkspaceTool, type WorkspaceToolSlug } from "@/config/tools";
+import {
+  toolCategories,
+  toolsInCategory,
+  workspaceTools,
+  type ToolCategory,
+  type WorkspaceToolSlug,
+} from "@/config/tools";
 
 export type DashboardNavItem = {
   label: string;
@@ -15,19 +21,28 @@ export type DashboardNavSection = {
   items: DashboardNavItem[];
 };
 
-export const dashboardModules: { slug: WorkspaceToolSlug; href: string }[] = [
-  { slug: "remove-metadata", href: routes.dashboardCleaner },
-  { slug: "convert-format", href: routes.dashboardConverter },
-  { slug: "view-metadata", href: routes.dashboardInspector },
-  { slug: "edit-metadata", href: routes.dashboardEditor },
-  { slug: "compress-image", href: routes.dashboardCompressor },
-  { slug: "resize-image", href: routes.dashboardResizer },
-];
+const dashboardHrefs: Record<WorkspaceToolSlug, string> = {
+  "remove-metadata": routes.dashboardCleaner,
+  "view-metadata": routes.dashboardInspector,
+  "edit-metadata": routes.dashboardEditor,
+  "compress-image": routes.dashboardCompressor,
+  "resize-image": routes.dashboardResizer,
+  "convert-format": routes.dashboardConverter,
+};
 
-const toolItems: DashboardNavItem[] = dashboardModules.map(({ slug, href }) => {
-  const tool = getWorkspaceTool(slug);
-  return { label: tool.shortName, description: tool.name, icon: tool.icon, href };
-});
+export const dashboardModules = workspaceTools.map((tool) => ({ slug: tool.slug, href: dashboardHrefs[tool.slug] }));
+
+function toolSection(category: ToolCategory): DashboardNavSection {
+  return {
+    title: toolCategories[category],
+    items: toolsInCategory(category).map((tool) => ({
+      label: tool.shortName,
+      description: tool.name,
+      icon: tool.icon,
+      href: dashboardHrefs[tool.slug],
+    })),
+  };
+}
 
 export const dashboardNav: DashboardNavSection[] = [
   {
@@ -41,7 +56,8 @@ export const dashboardNav: DashboardNavSection[] = [
       },
     ],
   },
-  { title: "Tools", items: toolItems },
+  toolSection("metadata"),
+  toolSection("image"),
   {
     title: "Account",
     items: [

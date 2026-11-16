@@ -17,8 +17,11 @@ export type WorkspaceToolSlug =
   | "view-metadata"
   | "edit-metadata";
 
+export type ToolCategory = "metadata" | "image";
+
 export type WorkspaceTool = {
   slug: WorkspaceToolSlug;
+  category: ToolCategory;
   href: string;
   name: string;
   shortName: string;
@@ -27,69 +30,84 @@ export type WorkspaceTool = {
   icon: LucideIcon;
 };
 
+export const toolCategories: Record<ToolCategory, string> = {
+  metadata: "Metadata tools",
+  image: "Image tools",
+};
+
 export const workspaceTools: WorkspaceTool[] = [
   {
     slug: "remove-metadata",
+    category: "metadata",
     href: routes.removeMetadata,
     icon: ShieldOff,
-    name: "Remove AI Metadata",
-    shortName: "Cleaner",
-    headline: "Remove AI metadata from any file.",
+    name: "EXIF & Metadata Remover",
+    shortName: "Remove Metadata",
+    headline: "Remove EXIF, GPS and AI metadata from any file.",
     description:
-      "Strip C2PA credentials, AI-generator tags, EXIF, GPS and author details from photos, PDFs, Office documents, audio and video.",
-  },
-  {
-    slug: "convert-format",
-    href: routes.convert,
-    icon: FileImage,
-    name: "Image Converter",
-    shortName: "Converter",
-    headline: "Convert images in seconds.",
-    description:
-      "Switch between JPG, PNG, WebP and AVIF with quality control. Metadata is removed from every file.",
+      "Remove metadata from photos, PDFs, Office documents, audio and video: EXIF, GPS location, C2PA credentials, AI tags and author names.",
   },
   {
     slug: "view-metadata",
+    category: "metadata",
     href: routes.viewMetadata,
     icon: FileSearch,
-    name: "Metadata Viewer",
-    shortName: "Inspector",
-    headline: "See what your files reveal.",
+    name: "EXIF & Metadata Viewer",
+    shortName: "View Metadata",
+    headline: "View EXIF data and hidden metadata.",
     description:
-      "Read every EXIF, XMP, author, audio and video tag a file carries, with AI tags shown first.",
+      "Check photo metadata online: EXIF, GPS location, camera, XMP, author and AI tags in images, PDFs, audio and video, with AI tags shown first.",
   },
   {
     slug: "edit-metadata",
+    category: "metadata",
     href: routes.editMetadata,
     icon: FilePenLine,
-    name: "Metadata Editor",
-    shortName: "Editor",
-    headline: "Add your name and copyright to images.",
+    name: "EXIF & Metadata Editor",
+    shortName: "Edit Metadata",
+    headline: "Edit EXIF data and add copyright to photos.",
     description:
-      "Write author, copyright, description and keywords into JPG, PNG, WebP and AVIF files. GPS, camera and AI tags are removed.",
+      "Add author, copyright, description and keywords to JPG, PNG, WebP and AVIF images. GPS, camera and AI tags are removed.",
   },
   {
     slug: "compress-image",
+    category: "image",
     href: routes.compress,
     icon: Minimize2,
     name: "Image Compressor",
-    shortName: "Compressor",
-    headline: "Compress images without losing sharpness.",
+    shortName: "Compress Image",
+    headline: "Compress images and reduce file size.",
     description:
-      "Shrink JPG, PNG, WebP and AVIF files with three compression levels. The format stays the same and metadata is removed.",
+      "Reduce image size for JPG, PNG, WebP and AVIF with three compression levels. The format stays the same and metadata is removed.",
   },
   {
     slug: "resize-image",
+    category: "image",
     href: routes.resize,
     icon: Scaling,
     name: "Image Resizer",
-    shortName: "Resizer",
-    headline: "Resize images to any size.",
+    shortName: "Resize Image",
+    headline: "Resize images in pixels or by percentage.",
     description:
-      "Scale images by percentage or to an exact width and height, with or without keeping the aspect ratio. Metadata is removed.",
+      "Change image size to an exact width and height in pixels or scale by percentage, with or without keeping the aspect ratio.",
+  },
+  {
+    slug: "convert-format",
+    category: "image",
+    href: routes.convert,
+    icon: FileImage,
+    name: "Image Converter",
+    shortName: "Convert Image",
+    headline: "Convert images to JPG, PNG, WebP or AVIF.",
+    description:
+      "Convert JPG to WebP, PNG to JPG, WebP to PNG and more, with quality control. Metadata is removed from every file.",
   },
 ];
 
 export function getWorkspaceTool(slug: WorkspaceToolSlug) {
   return workspaceTools.find((tool) => tool.slug === slug)!;
+}
+
+export function toolsInCategory(category: ToolCategory) {
+  return workspaceTools.filter((tool) => tool.category === category);
 }
