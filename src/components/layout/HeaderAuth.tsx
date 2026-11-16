@@ -2,6 +2,7 @@ import { routes } from "@/config/site";
 import { getCurrentUser } from "@/lib/auth/dal";
 import { ButtonLink } from "@/components/ui/Button";
 import { UserMenu } from "@/components/layout/UserMenu";
+import { Skeleton } from "@/components/ui/Skeleton";
 
 export async function HeaderAuth() {
   const user = await getCurrentUser().catch(() => null);
@@ -21,5 +22,5 @@ export async function HeaderAuth() {
 }
 
 export function HeaderAuthFallback() {
-  return <div className="h-8 w-36 animate-pulse rounded-xl bg-fill" />;
+  return <Skeleton className="h-8 w-36 rounded-xl" />;
 }

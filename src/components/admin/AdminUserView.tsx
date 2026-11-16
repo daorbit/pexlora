@@ -12,6 +12,7 @@ import { LimitsForm } from "@/components/admin/LimitsForm";
 import { ResetUsageForm } from "@/components/admin/ResetUsageForm";
 import { RoleForm } from "@/components/admin/RoleForm";
 import { UsageMeters } from "@/components/admin/UsageMeters";
+import { SkeletonCard } from "@/components/ui/Skeleton";
 
 export async function AdminUserView({ params }: { params: Promise<{ id: string }> }) {
   const [admin, { id }] = await Promise.all([requireSuperAdmin(), params]);
@@ -65,10 +66,10 @@ export async function AdminUserView({ params }: { params: Promise<{ id: string }
 export function AdminUserFallback() {
   return (
     <div className="flex flex-col gap-5">
-      <div className="h-32 animate-pulse rounded-2xl border border-separator bg-fill" />
-      <div className="grid gap-5 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)]">
-        <div className="h-80 animate-pulse rounded-2xl border border-separator bg-fill" />
-        <div className="h-48 animate-pulse rounded-2xl border border-separator bg-fill" />
+      <SkeletonCard lines={2} />
+      <div className="grid items-start gap-5 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)]">
+        <SkeletonCard lines={6} />
+        <SkeletonCard lines={3} />
       </div>
     </div>
   );

@@ -5,6 +5,7 @@ import { AdminStats, AdminStatsFallback } from "@/components/admin/AdminStats";
 import { UserSearchForm } from "@/components/admin/UserSearchForm";
 import { UsersList } from "@/components/admin/UsersList";
 import { UsersPagination } from "@/components/admin/UsersPagination";
+import { SkeletonCard } from "@/components/ui/Skeleton";
 
 export type AdminSearchParams = Promise<{ q?: string | string[]; page?: string | string[] }>;
 
@@ -42,7 +43,7 @@ export function AdminUsersFallback() {
   return (
     <div className="flex flex-col gap-6">
       <AdminStatsFallback />
-      <div className="h-96 animate-pulse rounded-2xl border border-separator bg-fill" />
+      <SkeletonCard lines={8} className="min-h-96" />
     </div>
   );
 }

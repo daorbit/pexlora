@@ -2,6 +2,22 @@ import { DAILY_LIMITS, FILE_SIZE_LIMITS_MB, MAX_FILES_PER_BATCH, MAX_RESIZE_DIME
 import type { WorkspaceToolSlug } from "@/config/tools";
 import { formatMegabytes } from "@/lib/utils/format-bytes";
 
+export const overviewCopy = {
+  toolsTitle: "Tools",
+  quickLinksTitle: "Quick links",
+  compressTitle: "Compress to size",
+  compressTo: (size: string) => `Under ${size}`,
+  convertTitle: "Convert to",
+  convertTo: (format: string) => `To ${format}`,
+};
+
+export const greetingCopy = {
+  morning: "Good morning",
+  afternoon: "Good afternoon",
+  evening: "Good evening",
+  fallback: "Welcome back",
+};
+
 export const moduleTips: Record<WorkspaceToolSlug, { title: string; tips: string[] }> = {
   "remove-metadata": {
     title: "What gets removed",

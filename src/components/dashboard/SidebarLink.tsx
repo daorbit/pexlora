@@ -26,7 +26,6 @@ export function SidebarLink({ item, active }: { item: DashboardNavItem; active: 
           {shellCopy.newBadge}
         </Badge>
       )}
-      {active && <span className={cn("size-1.5 rounded-full bg-primary", whenCollapsed.hidden)} aria-hidden />}
     </Link>
   );
 }

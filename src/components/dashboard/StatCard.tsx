@@ -1,6 +1,7 @@
 import type { LucideIcon } from "lucide-react";
 import type { ReactNode } from "react";
 import { Card } from "@/components/ui/Card";
+import { SkeletonCard } from "@/components/ui/Skeleton";
 
 type StatCardProps = {
   label: string;
@@ -23,5 +24,5 @@ export function StatCard({ label, value, icon: Icon, hint }: StatCardProps) {
 }
 
 export function StatCardFallback() {
-  return <div className="h-[138px] animate-pulse rounded-xl border border-separator bg-fill" />;
+  return <SkeletonCard lines={2} className="h-[138px]" />;
 }
