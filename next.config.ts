@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { legacyRedirects } from "./src/config/redirects";
 import { securityHeaders } from "./src/config/security-headers";
 
 const nextConfig: NextConfig = {
@@ -6,6 +7,9 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
+  },
+  async redirects() {
+    return legacyRedirects;
   },
   partialPrefetching: true,
   experimental: {

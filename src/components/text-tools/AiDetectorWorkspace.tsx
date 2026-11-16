@@ -1,19 +1,14 @@
 "use client";
 
 import { useCallback, useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
-import { Wand } from "lucide-react";
 import { AI_TEXT_LIMITS } from "@/config/limits";
-import { textHandoffKey } from "@/config/text-tools";
 import { textToolCopy } from "@/content/ai";
 import { useAiAction } from "@/hooks/useAiAction";
 import { useScrollToResult } from "@/hooks/useScrollToResult";
 import { useTextToolSession } from "@/hooks/useTextToolSession";
 import { countWords } from "@/lib/ai/text-stats";
 import type { AiTextReport } from "@/lib/ai/types";
-import { handOff } from "@/lib/utils/file-handoff";
 import { detectAiText } from "@/services/ai-api";
-import { Button } from "@/components/ui/Button";
 import { UpsellAlert } from "@/components/ui/UpsellAlert";
 import { DetectorResult } from "@/components/text-tools/DetectorResult";
 import { OutputActions } from "@/components/text-tools/OutputActions";
@@ -23,8 +18,7 @@ import { TextInput } from "@/components/text-tools/TextInput";
 import { TextPane } from "@/components/text-tools/TextPane";
 import { WorkspaceFrame } from "@/components/workspace/WorkspaceFrame";
 
-export function AiDetectorWorkspace({ peerHref }: { peerHref: string }) {
-  const router = useRouter();
+export function AiDetectorWorkspace() {
   const [text, setText] = useState("");
   const [checkedText, setCheckedText] = useState("");
   const detector = useAiAction(detectAiText);
@@ -58,11 +52,6 @@ export function AiDetectorWorkspace({ peerHref }: { peerHref: string }) {
     detector.run(text);
   };
 
-  const humanize = () => {
-    handOff(textHandoffKey("ai-humanizer"), checkedText);
-    router.push(peerHref);
-  };
-
   return (
     <WorkspaceFrame>
       <div className="flex flex-col gap-3 p-1">
@@ -84,14 +73,7 @@ export function AiDetectorWorkspace({ peerHref }: { peerHref: string }) {
               title={textToolCopy.resultLabel}
               footer={
                 report && (
-                  <OutputActions text={textToolCopy.shareResult(report.score)} shareTitle={textToolCopy.scoreLabel}>
-                    {report.verdict !== "likely-human" && (
-                      <Button variant="ink" size="sm" onClick={humanize}>
-                        <Wand className="size-3.5" aria-hidden />
-                        {textToolCopy.toHumanizer}
-                      </Button>
-                    )}
-                  </OutputActions>
+                  <OutputActions text={textToolCopy.shareResult(report.score)} shareTitle={textToolCopy.scoreLabel} />
                 )
               }
               className="h-full"

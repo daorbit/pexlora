@@ -10,7 +10,7 @@ import {
 
 export type FileKind = "image" | "pdf" | "office" | "audio" | "video";
 
-export type FileEngine = "image" | "pdf" | "ooxml" | "id3" | "riff" | "flac" | "isobmff" | "ebml";
+export type FileEngine = "image" | "raster" | "heif" | "pdf" | "ooxml" | "id3" | "riff" | "flac" | "isobmff" | "ebml";
 
 export type FileFormat = {
   id: string;
@@ -20,6 +20,7 @@ export type FileFormat = {
   extensions: string[];
   mimeTypes: string[];
   icon: LucideIcon;
+  serverReadable?: false;
 };
 
 export const fileKinds: Record<FileKind, { label: string; noun: string; icon: LucideIcon }> = {
@@ -33,12 +34,22 @@ export const fileKinds: Record<FileKind, { label: string; noun: string; icon: Lu
 export const ALL_KINDS = Object.keys(fileKinds) as FileKind[];
 
 export const fileFormats: FileFormat[] = [
-  { id: "jpeg", kind: "image", engine: "image", label: "JPG", extensions: ["jpg", "jpeg"], mimeTypes: ["image/jpeg"], icon: FileImage },
-  { id: "png", kind: "image", engine: "image", label: "PNG", extensions: ["png"], mimeTypes: ["image/png"], icon: FileImage },
-  { id: "webp", kind: "image", engine: "image", label: "WebP", extensions: ["webp"], mimeTypes: ["image/webp"], icon: FileImage },
+  { id: "jpeg", kind: "image", engine: "raster", label: "JPG", extensions: ["jpg", "jpeg"], mimeTypes: ["image/jpeg"], icon: FileImage },
+  { id: "png", kind: "image", engine: "raster", label: "PNG", extensions: ["png"], mimeTypes: ["image/png"], icon: FileImage },
+  { id: "webp", kind: "image", engine: "raster", label: "WebP", extensions: ["webp"], mimeTypes: ["image/webp"], icon: FileImage },
   { id: "avif", kind: "image", engine: "image", label: "AVIF", extensions: ["avif"], mimeTypes: ["image/avif"], icon: FileImage },
   { id: "tiff", kind: "image", engine: "image", label: "TIFF", extensions: ["tif", "tiff"], mimeTypes: ["image/tiff"], icon: FileImage },
   { id: "gif", kind: "image", engine: "image", label: "GIF", extensions: ["gif"], mimeTypes: ["image/gif"], icon: FileImage },
+  {
+    id: "heic",
+    kind: "image",
+    engine: "heif",
+    label: "HEIC",
+    extensions: ["heic", "heif"],
+    mimeTypes: ["image/heic", "image/heif"],
+    icon: FileImage,
+    serverReadable: false,
+  },
   { id: "pdf", kind: "pdf", engine: "pdf", label: "PDF", extensions: ["pdf"], mimeTypes: ["application/pdf"], icon: FileText },
   {
     id: "docx",
@@ -97,12 +108,12 @@ export function formatsOfKind(kind: FileKind) {
   return fileFormats.filter((format) => format.kind === kind);
 }
 
-export function formatsOfKinds(kinds: FileKind[]) {
-  return fileFormats.filter((format) => kinds.includes(format.kind));
+export function formatsOfKinds(kinds: FileKind[], localCapable = true) {
+  return fileFormats.filter((format) => kinds.includes(format.kind) && (localCapable || format.serverReadable !== false));
 }
 
-export function acceptAttribute(kinds: FileKind[]) {
-  return formatsOfKinds(kinds)
+export function acceptAttribute(kinds: FileKind[], localCapable = true) {
+  return formatsOfKinds(kinds, localCapable)
     .flatMap((format) => [...format.mimeTypes, ...format.extensions.map((extension) => `.${extension}`)])
     .join(",");
 }

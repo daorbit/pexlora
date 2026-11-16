@@ -1,7 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import { Geist_Mono, Inter } from "next/font/google";
 import Script from "next/script";
+import { Suspense } from "react";
 import { AnalyticsScript } from "@/components/layout/AnalyticsScript";
+import { Toaster } from "@/components/ui/Toaster";
 import { brandColors } from "@/config/brand";
 import { openGraphDefaults, seo, twitterDefaults } from "@/config/seo";
 import { siteConfig } from "@/config/site";
@@ -68,7 +70,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </Script>
         <AnalyticsScript />
       </head>
-      <body className="flex min-h-full flex-col">{children}</body>
+      <body className="flex min-h-full flex-col">
+        {children}
+        <Suspense fallback={null}>
+          <Toaster />
+        </Suspense>
+      </body>
     </html>
   );
 }

@@ -12,6 +12,7 @@ import { createSession, deleteSession } from "@/lib/auth/session";
 import { setSignupTicket } from "@/lib/auth/signup-ticket";
 import { actionRateLimit } from "@/lib/security/action-limit";
 import { hashIdentifier } from "@/lib/security/client";
+import { setFlash } from "@/lib/toast/flash";
 import { NEXT_PARAM, safeNextPath } from "@/lib/url/next-path";
 import { signInSchema, signUpSchema, type AuthFormState } from "@/lib/validations/auth";
 import { sendAccountExistsEmail, sendVerificationCodeEmail } from "@/services/mail.service";
@@ -79,6 +80,7 @@ export async function signIn(_state: AuthFormState, formData: FormData): Promise
     if (!user || !valid) return { message: authCopy.signin.invalid, values };
 
     await createSession(user._id.toString(), user.sessionVersion ?? 0);
+    await setFlash("signed-in");
   } catch (error) {
     console.error("signIn failed", error);
     return { message: accountCopy.unavailable, values };
@@ -89,5 +91,6 @@ export async function signIn(_state: AuthFormState, formData: FormData): Promise
 
 export async function signOut() {
   await deleteSession();
+  await setFlash("signed-out");
   redirect(routes.home);
 }

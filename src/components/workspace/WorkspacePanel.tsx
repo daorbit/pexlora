@@ -5,6 +5,7 @@ import type { Conversion } from "@/config/conversions";
 import { acceptAttribute, type FileKind } from "@/config/file-formats";
 import type { SampleImage } from "@/config/samples";
 import type { WorkspaceToolSlug } from "@/config/tools";
+import { toastCopy } from "@/content/toasts";
 import { panelNotes, saveCopy } from "@/content/workspace";
 import { useCanSaveToPhotos } from "@/hooks/useCanSaveToPhotos";
 import { useFileDrop } from "@/hooks/useFileDrop";
@@ -16,6 +17,7 @@ import type { MetadataFields, ToolOptions } from "@/lib/image/options";
 import { fetchAsFile } from "@/lib/utils/fetch-file";
 import { isGalleryMedia, saveFiles } from "@/lib/utils/save-file";
 import { cn } from "@/lib/utils/cn";
+import { toast } from "@/lib/toast/store";
 import { UpsellAlert } from "@/components/ui/UpsellAlert";
 import { ActionBar } from "@/components/workspace/ActionBar";
 import { ConversionSummary } from "@/components/workspace/ConversionSummary";
@@ -41,14 +43,15 @@ export function WorkspacePanel({ tool, accepts: acceptsOverride, initialOptions,
   const behavior = toolBehaviors[tool];
   const action = behavior.action;
   const accepts = acceptsOverride ?? behavior.accepts;
-  const queue = useFileQueue({ inspectOnAdd: behavior.inspectOnAdd, accepts });
+  const { localCapable } = behavior;
+  const queue = useFileQueue({ inspectOnAdd: behavior.inspectOnAdd, accepts, localCapable });
   const { addFiles, resetResults, process } = queue;
   const [options, setOptions, patchOptions] = useToolOptions(tool, initialOptions);
   const optionsError = action?.validate?.(options) ?? null;
   const restoreMetadata = useCallback((metadata: MetadataFields) => patchOptions({ metadata }), [patchOptions]);
   useWorkspaceSession(tool, queue, { metadata: options.metadata, restoreMetadata, scope: conversion?.slug });
 
-  const accept = useMemo(() => acceptAttribute(accepts), [accepts]);
+  const accept = useMemo(() => acceptAttribute(accepts, localCapable), [accepts, localCapable]);
   const picker = useFilePicker(addFiles, accept);
   const { isDragging, dropProps } = useFileDrop(addFiles, !queue.isProcessing);
   const hasItems = queue.items.length > 0;
@@ -63,8 +66,11 @@ export function WorkspacePanel({ tool, accepts: acceptsOverride, initialOptions,
     [resetResults, setOptions],
   );
 
-  const run = useCallback(() => {
-    if (action && !optionsError) process((file) => action.run(file, options));
+  const run = useCallback(async () => {
+    if (!action || optionsError) return;
+    const { done, failed } = await process((file) => action.run(file, options));
+    if (done) toast.success(action.doneToast?.(done) ?? toastCopy.filesDone(done, action.doneLabel));
+    if (failed) toast.error(toastCopy.filesFailed(failed));
   }, [action, optionsError, options, process]);
 
   const addSample = useCallback(
@@ -116,12 +122,12 @@ export function WorkspacePanel({ tool, accepts: acceptsOverride, initialOptions,
             onAdd={picker.open}
             onClear={queue.reset}
           >
-            {queue.items.map((item) => (
+            {queue.items.map((item, index) => (
               <FileRow
                 key={item.id}
                 item={item}
-                doneLabel={action?.doneLabel}
                 comparable={action?.compare}
+                compareOpen={index === 0}
                 onRemove={queue.remove}
                 disabled={queue.isProcessing}
               />
@@ -129,7 +135,13 @@ export function WorkspacePanel({ tool, accepts: acceptsOverride, initialOptions,
           </FilesCard>
         ) : (
           <div className="rounded-[22px] bg-surface p-2.5 shadow-card">
-            <Dropzone accepts={accepts} isDragging={isDragging} onBrowse={picker.open} onSample={addSample} />
+            <Dropzone
+              accepts={accepts}
+              localCapable={localCapable}
+              isDragging={isDragging}
+              onBrowse={picker.open}
+              onSample={addSample}
+            />
           </div>
         )}
       </div>

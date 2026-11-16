@@ -19,7 +19,6 @@ const toolTitles: Record<WorkspaceToolSlug, string> = {
 
 const textToolTitles: Record<TextToolSlug, string> = {
   "ai-text-detector": "AI Text Detector: Check if Text Was Written by AI Free",
-  "ai-humanizer": "AI Humanizer: Make AI Text Sound Natural and Human Free",
 };
 
 export function textToolMetadata(slug: TextToolSlug): Metadata {

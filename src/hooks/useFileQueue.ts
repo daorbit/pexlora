@@ -58,7 +58,9 @@ export function snapshotQueue(items: QueueItem[]): SavedQueueItem[] {
 
 type Runner = (file: File) => Promise<ProcessedFile>;
 
-type QueueOptions = { inspectOnAdd: boolean; accepts: FileKind[] };
+export type BatchSummary = { done: number; failed: number };
+
+type QueueOptions = { inspectOnAdd: boolean; accepts: FileKind[]; localCapable: boolean };
 
 function errorMessage(error: unknown) {
   return error instanceof Error ? error.message : "Something went wrong.";
@@ -69,7 +71,7 @@ function revoke(item: QueueItem) {
   if (item.result) URL.revokeObjectURL(item.result.url);
 }
 
-export function useFileQueue({ inspectOnAdd, accepts }: QueueOptions) {
+export function useFileQueue({ inspectOnAdd, accepts, localCapable }: QueueOptions) {
   const [items, setItems] = useState<QueueItem[]>([]);
   const [notice, setNotice] = useState<QueueNotice | null>(null);
   const [quotaRemaining, setQuotaRemaining] = useState<number | null>(null);
@@ -107,7 +109,7 @@ export function useFileQueue({ inspectOnAdd, accepts }: QueueOptions) {
       const accepted: QueueItem[] = [];
 
       files.forEach((file) => {
-        const fileError = getFileError(file, accepts);
+        const fileError = getFileError(file, accepts, localCapable);
         if (fileError) return problems.push(`${file.name}: ${fileError}`);
         if (accepted.length >= slots) {
           return problems.push(`You can add up to ${MAX_FILES_PER_BATCH} files at a time.`);
@@ -127,12 +129,13 @@ export function useFileQueue({ inspectOnAdd, accepts }: QueueOptions) {
       setItems((current) => [...current, ...accepted]);
       if (inspectOnAdd) accepted.forEach(inspect);
     },
-    [accepts, inspect, inspectOnAdd],
+    [accepts, inspect, inspectOnAdd, localCapable],
   );
 
   const process = useCallback(
-    async (run: Runner) => {
+    async (run: Runner): Promise<BatchSummary> => {
       const pending = itemsRef.current.filter((item) => item.status === "ready");
+      const summary: BatchSummary = { done: 0, failed: 0 };
       let lowestQuota: number | null = null;
       setIsProcessing(true);
       setNotice(null);
@@ -145,6 +148,7 @@ export function useFileQueue({ inspectOnAdd, accepts }: QueueOptions) {
             status: "done",
             result: { ...processed, url: URL.createObjectURL(processed.blob) },
           });
+          summary.done += 1;
           if (remaining !== null) {
             lowestQuota = lowestQuota === null ? remaining : Math.min(lowestQuota, remaining);
             setQuotaRemaining(lowestQuota);
@@ -158,10 +162,12 @@ export function useFileQueue({ inspectOnAdd, accepts }: QueueOptions) {
             return;
           }
           update(item.id, { status: "error", error: errorMessage(error) });
+          summary.failed += 1;
         }
       });
 
       setIsProcessing(false);
+      return summary;
     },
     [update],
   );

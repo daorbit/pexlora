@@ -1,4 +1,4 @@
-import { ArrowRight, Check, LoaderCircle, X } from "lucide-react";
+import { ArrowRight, LoaderCircle, X } from "lucide-react";
 import { AiTagIcon } from "@/components/icons/AiTagIcon";
 import { resultCopy } from "@/content/workspace";
 import type { QueueItem } from "@/hooks/useFileQueue";
@@ -35,38 +35,33 @@ function ReportSummary({ item }: { item: QueueItem }) {
 
 type QueueResult = NonNullable<QueueItem["result"]>;
 
-function doneBadgeLabel(result: QueueResult, doneLabel: string) {
-  if (result.target) {
-    const target = formatKilobytes(result.target.bytes / 1024);
-    return result.target.met ? resultCopy.targetMet(target) : resultCopy.targetMissed(target);
-  }
-  if (result.leftoverTags === null) return doneLabel;
-  return result.leftoverTags === 0 ? "Clean" : `${result.leftoverTags} left`;
+function problemLabel(result: QueueResult) {
+  if (result.target && !result.target.met) return resultCopy.targetMissed(formatKilobytes(result.target.bytes / 1024));
+  if (result.leftoverTags) return resultCopy.tagsLeft(result.leftoverTags);
+  return null;
 }
 
-function DoneSummary({ item, doneLabel }: { item: QueueItem; doneLabel: string }) {
+function DoneSummary({ item }: { item: QueueItem }) {
   const result = item.result!;
   const change = sizeChangePercent(item.file.size, result.blob.size);
-  const label = doneBadgeLabel(result, doneLabel);
+  const problem = problemLabel(result);
   const missedTarget = result.target && !result.target.met ? result.target : null;
 
   return (
     <span className="inline-flex flex-wrap items-center gap-2 motion-safe:animate-fade-up motion-safe:[animation-duration:0.4s]">
-      <Badge tone={missedTarget ? "danger" : "success"} className="motion-safe:animate-pop">
-        {missedTarget ? (
+      {problem && (
+        <Badge tone={missedTarget ? "danger" : "warning"} className="motion-safe:animate-pop">
           <X className="size-3" strokeWidth={3} aria-hidden />
-        ) : (
-          <Check className="size-3" strokeWidth={3} aria-hidden />
-        )}
-        {label}
-      </Badge>
+          {problem}
+        </Badge>
+      )}
       {result.dimensions && (
         <span className="tabular-nums text-secondary">
           {result.dimensions.width} × {result.dimensions.height}
         </span>
       )}
       {result.blob.size !== item.file.size && (
-        <span className="inline-flex items-center gap-1 tabular-nums text-secondary">
+        <span className="inline-flex items-center gap-1 whitespace-nowrap tabular-nums text-secondary">
           {formatBytes(item.file.size)}
           <ArrowRight className="size-3 shrink-0" aria-label="to" />
           {formatBytes(result.blob.size)}
@@ -82,7 +77,7 @@ function DoneSummary({ item, doneLabel }: { item: QueueItem; doneLabel: string }
   );
 }
 
-export function FileStatus({ item, doneLabel = "Done" }: { item: QueueItem; doneLabel?: string }) {
+export function FileStatus({ item }: { item: QueueItem }) {
   switch (item.status) {
     case "inspecting":
       return <Pending label="Reading metadata…" />;
@@ -91,7 +86,7 @@ export function FileStatus({ item, doneLabel = "Done" }: { item: QueueItem; done
     case "error":
       return <span className="text-danger">{item.error}</span>;
     case "done":
-      return <DoneSummary item={item} doneLabel={doneLabel} />;
+      return <DoneSummary item={item} />;
     default:
       return <ReportSummary item={item} />;
   }

@@ -2,6 +2,7 @@ import { fileKinds, type FileFormat } from "@/config/file-formats";
 import { detectFormat } from "@/lib/files/detect";
 import { loadProcessor, type LocalEngine } from "@/lib/files/processors";
 import { UnreadableFileError, type FileProcessor } from "@/lib/files/processors/types";
+import { leftoverTagCount } from "@/lib/metadata/report";
 import type { MetadataReport, ProcessedFile } from "@/lib/metadata/types";
 import { extensionOf, withExtension } from "@/lib/utils/file-name";
 import { cleanImage, inspectImage } from "@/services/image-api";
@@ -24,10 +25,6 @@ async function runLocal<T>(format: FileFormat, task: (processor: FileProcessor) 
   }
 }
 
-export function isProcessedLocally(file: File) {
-  return detectFormat(file)?.engine !== "image";
-}
-
 export async function inspectFile(file: File): Promise<MetadataReport> {
   const format = formatOf(file);
   if (format.engine === "image") return inspectImage(file);
@@ -41,7 +38,7 @@ export async function cleanFile(file: File): Promise<ProcessedFile> {
   const { blob, leftoverTags } = await runLocal(format, async (processor) => {
     const cleaned = await processor.clean(file, format);
     const verification = await processor.inspect(cleaned, format);
-    return { blob: cleaned, leftoverTags: verification.totalTags };
+    return { blob: cleaned, leftoverTags: leftoverTagCount(verification) };
   });
   const quotaRemaining = await consumeQuota();
   const extension = extensionOf(file.name) || format.extensions[0];

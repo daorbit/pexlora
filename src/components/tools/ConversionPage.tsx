@@ -1,9 +1,8 @@
-import { conversionIconSrc, conversionPath, type Conversion } from "@/config/conversions";
+import { conversionPath, type Conversion } from "@/config/conversions";
 import { otherTools } from "@/config/tool-hub";
 import { toolPageCopy } from "@/content/tool-pages";
 import { conversionFaqs, conversionSteps } from "@/content/variant-guides";
 import { toolStructuredData } from "@/lib/seo/structured-data";
-import { ConvertImageIcon } from "@/components/icons/ConvertImageIcon";
 import { AccountBand } from "@/components/landing/AccountBand";
 import { FaqSection } from "@/components/landing/FaqSection";
 import { FeaturesSection } from "@/components/landing/FeaturesSection";
@@ -29,8 +28,6 @@ export function ConversionPage({ conversion }: { conversion: Conversion }) {
         })}
       />
       <ToolHero
-        icon={ConvertImageIcon}
-        iconSrc={conversionIconSrc(conversion.slug)}
         headline={toolPageCopy.conversionHeadline(conversion.from, conversion.toLabel)}
         description={description}
         tool="convert-format"

@@ -24,7 +24,7 @@ export const FORMAT_MIME_TYPES: Record<OutputFormat, string> = {
   avif: "image/avif",
 };
 
-const imageFormats = formatsOfKind("image");
+const imageFormats = formatsOfKind("image").filter((format) => format.serverReadable !== false);
 
 export const INPUT_FORMAT_LABELS = imageFormats.map((format) => format.label);
 

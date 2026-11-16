@@ -2,12 +2,14 @@ import "server-only";
 import { after } from "next/server";
 import type { GoogleLinkResult } from "@/content/account";
 import { createSession, getSession } from "@/lib/auth/session";
+import { setFlash } from "@/lib/toast/flash";
 import { sendWelcomeEmail } from "@/services/mail.service";
 import { findOrCreateGoogleUser, linkGoogleAccount, type GoogleProfile } from "@/services/user.service";
 
 export async function signInWithGoogle(profile: GoogleProfile) {
   const { user, isNew } = await findOrCreateGoogleUser(profile);
   await createSession(user._id.toString(), user.sessionVersion ?? 0);
+  await setFlash(isNew ? "account-created" : "signed-in");
 
   if (isNew) {
     after(() => sendWelcomeEmail({ name: user.name, email: user.email }));

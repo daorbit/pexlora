@@ -1,5 +1,5 @@
 import { toolItem } from "@/config/tool-hub";
-import { relatedSeoPages, seoPageIconSrc, seoPagePath, type SeoPage } from "@/content/seo-pages";
+import { relatedSeoPages, seoPagePath, type SeoPage } from "@/content/seo-pages";
 import { howToSteps } from "@/content/seo-pages/shared";
 import { toolStructuredData } from "@/lib/seo/structured-data";
 import { AccountBand } from "@/components/landing/AccountBand";
@@ -24,8 +24,6 @@ export function SeoToolPage({ page }: { page: SeoPage }) {
         })}
       />
       <ToolHero
-        icon={page.icon}
-        iconSrc={seoPageIconSrc(page)}
         headline={page.headline}
         description={page.description}
         tool={page.tool}

@@ -11,8 +11,7 @@ export const dropzoneCopy = {
   title: (kinds: FileKind[]) => (onlyImages(kinds) ? "Drop images here" : "Drop files here"),
   mobileTitle: (kinds: FileKind[]) => (onlyImages(kinds) ? "Pick images to start" : "Pick files to start"),
   button: (kinds: FileKind[]) => (onlyImages(kinds) ? "Choose Images" : "Choose Files"),
-  onDevice: "Documents, audio and video are cleaned on your device and never uploaded.",
-  onDeviceShort: "Docs, audio and video stay on your device",
+  onDevice: "JPG, PNG, WebP and HEIC photos, documents, audio and video are read and cleaned on your device. They aren't uploaded.",
   samples: "No file handy? Try a sample:",
 };
 
@@ -84,7 +83,7 @@ export const resultCopy = {
   files: (count: number) => `${count} ${count === 1 ? "file" : "files"}`,
   saved: (amount: string, percent: number) => `Saved ${amount} (${percent}%)`,
   grew: (amount: string) => `${amount} larger in total`,
-  targetMet: (target: string) => `Under ${target}`,
+  tagsLeft: (count: number) => `${count} ${count === 1 ? "tag" : "tags"} left`,
   targetMissed: (target: string) => `Over ${target}`,
   targetMissedHint: (target: string, smallest: string) => `Couldn't reach ${target}, smallest is ${smallest}.`,
   tryResize: "Try resizing first",
@@ -107,6 +106,7 @@ export const locationCopy = {
 
 export const compareCopy = {
   toggle: "Compare",
+  details: "Details",
   label: "Drag to compare the original and the result",
   before: "Original",
   after: "Result",

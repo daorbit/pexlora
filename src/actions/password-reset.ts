@@ -10,6 +10,7 @@ import { env } from "@/lib/env";
 import { hashPassword } from "@/lib/auth/password";
 import { createSession } from "@/lib/auth/session";
 import { actionRateLimit } from "@/lib/security/action-limit";
+import { setFlash } from "@/lib/toast/flash";
 import { forgotPasswordSchema, resetPasswordSchema, type AuthFormState } from "@/lib/validations/auth";
 import { sendPasswordChangedEmail, sendPasswordResetEmail } from "@/services/mail.service";
 import {
@@ -69,6 +70,7 @@ export async function resetPassword(_state: AuthFormState, formData: FormData): 
 
     const version = await updateUserPassword(userId, await hashPassword(parsed.data.password));
     await createSession(userId, version);
+    await setFlash("password-reset");
     const user = await findUserByIdWithPassword(userId);
     if (user) after(() => sendPasswordChangedEmail(user));
   } catch (error) {

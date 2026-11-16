@@ -13,6 +13,7 @@ import { SampleChips } from "@/components/workspace/SampleChips";
 
 type DropzoneProps = {
   accepts: FileKind[];
+  localCapable: boolean;
   isDragging: boolean;
   onBrowse: () => void;
   onSample: (sample: SampleImage) => void;
@@ -23,8 +24,7 @@ function isOwnControl(target: EventTarget) {
   return target instanceof Element && target.closest("button, a, input") !== null;
 }
 
-export function Dropzone({ accepts, isDragging, onBrowse, onSample, compact = false }: DropzoneProps) {
-  const acceptsLocal = accepts.some((kind) => kind !== "image");
+export function Dropzone({ accepts, localCapable, isDragging, onBrowse, onSample, compact = false }: DropzoneProps) {
 
   const onClick = (event: MouseEvent<HTMLDivElement>) => {
     if (!isOwnControl(event.target)) onBrowse();
@@ -62,7 +62,7 @@ export function Dropzone({ accepts, isDragging, onBrowse, onSample, compact = fa
       </Button>
       <ul
         className={cn("flex flex-wrap justify-center gap-1.5", compact && "hidden sm:flex")}
-        aria-label={describeAccepted(accepts)}
+        aria-label={describeAccepted(accepts, localCapable)}
       >
         {accepts.map((kind) => (
           <li
@@ -73,7 +73,7 @@ export function Dropzone({ accepts, isDragging, onBrowse, onSample, compact = fa
           </li>
         ))}
       </ul>
-      {acceptsLocal && !compact && <p className="max-w-md text-[13px] text-secondary">{dropzoneCopy.onDevice}</p>}
+      {localCapable && !compact && <p className="max-w-md text-[13px] text-secondary">{dropzoneCopy.onDevice}</p>}
       {accepts.includes("image") && <SampleChips onSelect={onSample} />}
     </div>
   );

@@ -85,9 +85,11 @@ export function createReport() {
 export type ReportBuilder = ReturnType<typeof createReport>;
 
 const NON_IDENTIFYING_GROUPS = new Set<MetadataGroupId>(["icc"]);
+const NON_IDENTIFYING_KEYS = new Set(["Orientation"]);
 
 export function leftoverTagCount(report: MetadataReport) {
   return report.groups
     .filter((group) => !NON_IDENTIFYING_GROUPS.has(group.id))
-    .reduce((total, group) => total + group.entries.length, 0);
+    .flatMap((group) => group.entries)
+    .filter((entry) => !NON_IDENTIFYING_KEYS.has(entry.key)).length;
 }

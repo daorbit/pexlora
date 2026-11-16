@@ -116,8 +116,8 @@ export const privacyCopy = {
   stat: "0",
   title: "files kept.",
   description:
-    "PDFs, Office files, songs and videos are cleaned inside your browser and never leave it. Images take a short trip over HTTPS to our server, are processed in memory and aren't saved.",
-  badges: ["On your device", "Memory only for images", "HTTPS"],
+    "Photos, PDFs, Office files, songs and videos are cleaned inside your browser and never leave it. Only AVIF, TIFF and GIF images, and the image editing tools, use our server, where files are processed in memory and not saved.",
+  badges: ["On your device", "Memory only on the server", "HTTPS"],
 };
 
 export const formatsCopy = {
@@ -228,7 +228,7 @@ export const faqs = [
   {
     question: "Are my files uploaded or stored?",
     answer:
-      `PDF, Office, audio and video files are cleaned in your browser and never uploaded. Images are processed in memory on our server and not saved. ${AI_NAME} features work differently: they send the image or text you submit to Cloudflare Workers AI to produce the answer.`,
+      `JPG, PNG, WebP and HEIC photos, PDF, Office, audio and video files are cleaned in your browser and never uploaded. AVIF, TIFF and GIF images, and images you convert, compress, resize or edit, are processed in memory on our server and not saved. ${AI_NAME} features work differently: they send the image or text you submit to Cloudflare Workers AI to produce the answer.`,
   },
   {
     question: "Which files can I clean?",
@@ -257,6 +257,6 @@ export const faqs = [
   {
     question: "Why did my file get bigger after cleaning?",
     answer:
-      "Usually it doesn't: JPG, PNG and WebP files only lose their metadata, so they come out slightly smaller. Photos saved with a rotation flag, and AVIF, TIFF and GIF files, are re-encoded at high quality, which can add some size. Use the compressor if size matters.",
+      "Usually it doesn't: JPG, PNG, WebP and HEIC files only lose their metadata, so they come out slightly smaller. AVIF, TIFF and GIF files are re-encoded at high quality, which can add some size. Use the compressor if size matters.",
   },
 ];

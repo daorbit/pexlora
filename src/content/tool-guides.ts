@@ -20,7 +20,8 @@ export type ToolGuide = {
   relatedGuides?: string[];
 };
 
-const imageFormats = extensions(["image"]);
+const imageFormats = extensions(["image"], false);
+const allImageFormats = extensions(["image"]);
 
 const imageUpload: SeoFaq = {
   question: "Are my images uploaded?",
@@ -49,8 +50,8 @@ export const toolGuides: Record<WorkspaceToolSlug, ToolGuide> = {
       heading: "Remove hidden metadata before you share a file",
       paragraphs: [
         "Photos, documents and recordings carry more than you see: GPS coordinates, camera serial numbers, author and company names, editing software, and AI tags such as C2PA Content Credentials or generation prompts. Pexlora reads every field first, shows you what it found, then gives you a copy without it.",
-        `It works with photos (${imageFormats}), PDFs, Word, Excel and PowerPoint files, audio and video. Documents, audio and video are cleaned in your browser and never uploaded. Images are cleaned on our server and not saved.`,
-        "For JPG, PNG and WebP the metadata is cut out of the file without re-encoding, so the picture stays identical. The colour profile is kept so colours don't shift.",
+        `It works with photos (${allImageFormats}), PDFs, Word, Excel and PowerPoint files, audio and video. JPG, PNG, WebP and HEIC photos, documents, audio and video are cleaned in your browser and never uploaded. AVIF, TIFF and GIF images are cleaned on our server in memory and not saved.`,
+        "For JPG, PNG, WebP and HEIC the metadata is cut out of the file without re-encoding, so the picture stays identical. Photos keep only their rotation flag and colour profile, so they don't turn sideways or shift colour.",
       ],
     },
     steps: howToSteps["remove-metadata"],
@@ -82,7 +83,7 @@ export const toolGuides: Record<WorkspaceToolSlug, ToolGuide> = {
       faqs.inspectFree,
       {
         question: "Which files can I check?",
-        answer: `Photos (${imageFormats}), PDFs, Word, Excel and PowerPoint files, audio and video.`,
+        answer: `Photos (${allImageFormats}), PDFs, Word, Excel and PowerPoint files, audio and video.`,
       },
       {
         question: "Why does my photo show no GPS location?",

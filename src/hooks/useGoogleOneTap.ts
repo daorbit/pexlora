@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { completeOneTap, fetchOneTapNonce } from "@/services/auth-api";
+import { showFlashToast } from "@/hooks/useFlashToast";
 
 let started = false;
 
@@ -27,7 +28,10 @@ export function useGoogleOneTap(clientId: string, scriptReady: boolean) {
           use_fedcm_for_prompt: true,
           callback: ({ credential }) => {
             completeOneTap(credential)
-              .then(() => router.refresh())
+              .then(() => {
+                showFlashToast();
+                router.refresh();
+              })
               .catch((error) => console.error("Google One Tap sign-in failed", error));
           },
         });

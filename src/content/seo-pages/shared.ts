@@ -3,8 +3,8 @@ import { DAILY_LIMITS, FILE_SIZE_LIMITS_MB, MAX_FILES_PER_BATCH } from "@/config
 import { formatMegabytes } from "@/lib/utils/format-bytes";
 import type { SeoFaq } from "@/content/seo-pages/types";
 
-export const extensions = (kinds: FileKind[]) =>
-  formatsOfKinds(kinds)
+export const extensions = (kinds: FileKind[], localCapable = true) =>
+  formatsOfKinds(kinds, localCapable)
     .map((format) => format.label)
     .join(", ");
 
@@ -23,7 +23,7 @@ export const shownList = (items: string[]) => ({
 });
 
 export const imageQualityAnswer =
-  "No. For JPG, PNG and WebP, Pexlora cuts the metadata out of the file and leaves the image data untouched, so the pixels stay identical. Photos saved with a rotation flag, and AVIF, TIFF and GIF files, are re-encoded at high quality instead, and TIFF and GIF come back as PNG.";
+  "No. For JPG, PNG, WebP and HEIC, Pexlora cuts the metadata out of the file and leaves the image data untouched, so the pixels stay identical. Photos keep their rotation flag so they don't turn sideways. AVIF, TIFF and GIF are re-encoded at high quality instead, and TIFF and GIF come back as PNG.";
 
 export const faqs = {
   onDevice: {
@@ -32,9 +32,9 @@ export const faqs = {
       "No. The file is read and cleaned inside your browser, and the clean copy is built on your device. Only a counter for your daily limit is sent to our server.",
   },
   imagePrivacy: {
-    question: "Are my images stored?",
+    question: "Are my images uploaded?",
     answer:
-      "Pexlora doesn't save them. Images are sent over HTTPS to our server, processed in memory and returned to you. Our code doesn't write them to disk or to a database.",
+      "JPG, PNG, WebP and HEIC photos aren't. They are read and cleaned in your browser. AVIF, TIFF and GIF images are sent over HTTPS to our server, processed in memory and not saved.",
   },
   free: {
     question: "Is it free?",
@@ -70,7 +70,7 @@ export const faqs = {
   mixedPrivacy: {
     question: "Are my files uploaded or stored?",
     answer:
-      "PDF, Office, audio and video files are cleaned in your browser and aren't uploaded. Images are sent over HTTPS to our server, processed in memory and not saved by Pexlora.",
+      "JPG, PNG, WebP and HEIC photos, PDF, Office, audio and video files are cleaned in your browser and aren't uploaded. AVIF, TIFF and GIF images are sent over HTTPS to our server, processed in memory and not saved.",
   },
   desktopAlternative: {
     question: "Can I remove metadata without a website?",

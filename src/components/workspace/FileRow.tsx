@@ -1,10 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronDown, ChevronsLeftRight, X } from "lucide-react";
+import { Columns2, X } from "lucide-react";
 import { compareCopy } from "@/content/workspace";
 import type { QueueItem } from "@/hooks/useFileQueue";
-import { cn } from "@/lib/utils/cn";
 import { formatBytes } from "@/lib/utils/format-bytes";
 import { formatDuration } from "@/lib/utils/format-duration";
 import { Button } from "@/components/ui/Button";
@@ -17,11 +16,12 @@ import { FileThumb } from "@/components/workspace/FileThumb";
 import { ProgressBar } from "@/components/workspace/ProgressBar";
 import { SaveFileButton } from "@/components/workspace/SaveFileButton";
 import { MetadataReport } from "@/components/workspace/MetadataReport";
+import { RowToggle } from "@/components/workspace/RowToggle";
 
 type FileRowProps = {
   item: QueueItem;
-  doneLabel?: string;
   comparable?: boolean;
+  compareOpen?: boolean;
   onRemove: (id: string) => void;
   disabled: boolean;
 };
@@ -37,9 +37,9 @@ function fileDetails({ file, format, report }: QueueItem) {
     .join(" · ");
 }
 
-export function FileRow({ item, doneLabel, comparable = false, onRemove, disabled }: FileRowProps) {
+export function FileRow({ item, comparable = false, compareOpen = false, onRemove, disabled }: FileRowProps) {
   const [expanded, setExpanded] = useState(true);
-  const [comparing, setComparing] = useState(false);
+  const [comparing, setComparing] = useState(compareOpen);
   const { file, report, result } = item;
   const canCompare = comparable && Boolean(result && item.previewUrl && result.blob.type.startsWith("image/"));
 
@@ -48,38 +48,24 @@ export function FileRow({ item, doneLabel, comparable = false, onRemove, disable
       {(item.status === "processing" || item.status === "inspecting") && <ProgressBar />}
       <div className="flex flex-wrap items-center gap-x-3 gap-y-2.5 p-2.5 sm:flex-nowrap sm:gap-x-4 sm:pr-3">
         <FileThumb item={item} />
-        <div className="min-w-0 flex-1 basis-40">
+        <div className="flex min-w-0 flex-1 basis-40 flex-col gap-1">
           <p className="truncate text-[15px] font-medium">{file.name}</p>
           <p className="text-[13px] tabular-nums text-secondary">{fileDetails(item)}</p>
-        </div>
-        <div className="order-last w-full text-[13px] sm:order-none sm:w-auto sm:flex-1">
-          <FileStatus item={item} doneLabel={doneLabel} />
+          <div className="text-[13px]">
+            <FileStatus item={item} />
+          </div>
         </div>
         <div className="ml-auto flex items-center gap-1">
           {canCompare && (
-            <Button
-              variant="plain"
-              className="mr-2 text-[13px]"
-              onClick={() => setComparing((value) => !value)}
-              aria-expanded={comparing}
-            >
-              <ChevronsLeftRight className="size-3.5" aria-hidden />
-              {compareCopy.toggle}
-            </Button>
+            <RowToggle
+              label={compareCopy.toggle}
+              icon={Columns2}
+              open={comparing}
+              onToggle={() => setComparing((value) => !value)}
+            />
           )}
           {report && (
-            <Button
-              variant="plain"
-              className="mr-2 text-[13px]"
-              onClick={() => setExpanded((value) => !value)}
-              aria-expanded={expanded}
-            >
-              Details
-              <ChevronDown
-                className={cn("size-3.5 transition-transform", expanded && "rotate-180")}
-                aria-hidden
-              />
-            </Button>
+            <RowToggle label={compareCopy.details} open={expanded} onToggle={() => setExpanded((value) => !value)} />
           )}
           {result && <SaveFileButton file={result} />}
           <Button

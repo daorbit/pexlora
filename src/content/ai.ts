@@ -1,6 +1,6 @@
 import { AI_NAME } from "@/config/brand";
 import { AI_DAILY_LIMITS, AI_TEXT_LIMITS } from "@/config/limits";
-import type { FindingLevel, HumanizeTone, TextVerdict } from "@/lib/ai/types";
+import type { FindingLevel, TextVerdict } from "@/lib/ai/types";
 
 export const aiCopy = {
   copy: "Copy",
@@ -8,6 +8,7 @@ export const aiCopy = {
   fillWithAi: `Fill with ${AI_NAME}`,
   fillHint: `Add an image first, then let ${AI_NAME} write the description and keywords.`,
   explain: `Explain with ${AI_NAME}`,
+  altTextReady: (count: number) => `Alt text ready for ${count} ${count === 1 ? "image" : "images"}.`,
   explainHint: "See in plain words what these tags reveal",
   explaining: "Reading the tags…",
   explanationTitle: `${AI_NAME}: what this file reveals`,
@@ -33,7 +34,6 @@ export const textToolCopy = {
   share: "Share",
   shared: "Copied to share",
   tryAgain: "Try Again",
-  outputEmpty: "Your humanized text will appear here.",
   resultEmpty: "Your AI score will appear here.",
   resultLabel: "Result",
   shareResult: (score: number) => `This text scored ${score}% AI likelihood on Pexlora's AI Text Detector.`,
@@ -44,18 +44,6 @@ export const textToolCopy = {
   maxCharacters: AI_TEXT_LIMITS.maxCharacters,
   detect: "Check Text",
   detecting: "Checking…",
-  humanize: "Humanize Text",
-  humanizing: "Rewriting…",
-  tone: "Tone",
-  tones: {
-    natural: "Natural",
-    casual: "Casual",
-    professional: "Professional",
-    simple: "Simple",
-  } satisfies Record<HumanizeTone, string>,
-  output: "Rewritten text",
-  personalTip:
-    "Make it yours: add a real example, a number or your own opinion. Detectors and readers both notice generic writing, and only you can add what you actually know.",
   verdicts: {
     "likely-ai": "Likely AI-written",
     mixed: "Mixed or edited",
@@ -70,8 +58,6 @@ export const textToolCopy = {
     variation: "Rhythm variation",
     vocabulary: "Vocabulary range",
   },
-  toHumanizer: "Humanize This Text",
-  toDetector: "Check with AI Detector",
   disclaimer:
     "AI detection is an estimate, not proof. No detector is fully reliable, so never use this score alone to judge someone's work.",
   sampleText:
@@ -93,22 +79,6 @@ export const aiToolFaqs = {
     {
       question: "Is my text stored?",
       answer: `No. Your text is sent to ${AI_NAME} to be analysed and is not saved by Pexlora.`,
-    },
-  ],
-  "ai-humanizer": [
-    {
-      question: "What does the AI humanizer change?",
-      answer:
-        "It varies sentence rhythm, removes filler and clichés such as \"delve\" and \"moreover\", and uses plainer words in the tone you pick. Facts, names and numbers are kept.",
-    },
-    {
-      question: "Will the result pass AI detectors?",
-      answer:
-        "We don't promise that. The goal is clearer, more natural writing. Always read the result, add your own knowledge and follow your school's or employer's rules on AI use.",
-    },
-    {
-      question: "Is my text stored?",
-      answer: `No. Your text is sent to ${AI_NAME} to be rewritten and is not saved by Pexlora.`,
     },
   ],
 };

@@ -32,11 +32,13 @@ export function fixedText(bytes: Uint8Array) {
 }
 
 export function indexOfBytes(bytes: Uint8Array, needle: Uint8Array, from = 0) {
-  outer: for (let index = from; index <= bytes.length - needle.length; index += 1) {
-    for (let offset = 0; offset < needle.length; offset += 1) {
-      if (bytes[index + offset] !== needle[offset]) continue outer;
-    }
-    return index;
+  const last = bytes.length - needle.length;
+  let index = bytes.indexOf(needle[0], from);
+  while (index !== -1 && index <= last) {
+    let offset = 1;
+    while (offset < needle.length && bytes[index + offset] === needle[offset]) offset += 1;
+    if (offset === needle.length) return index;
+    index = bytes.indexOf(needle[0], index + 1);
   }
   return -1;
 }

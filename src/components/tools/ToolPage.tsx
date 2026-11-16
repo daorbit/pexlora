@@ -1,5 +1,5 @@
 import { otherTools } from "@/config/tool-hub";
-import { getWorkspaceTool, toolIconSrc, type WorkspaceToolSlug } from "@/config/tools";
+import { getWorkspaceTool, type WorkspaceToolSlug } from "@/config/tools";
 import { seoPagesBySlug } from "@/content/seo-pages";
 import { toolGuides } from "@/content/tool-guides";
 import { toolPageCopy } from "@/content/tool-pages";
@@ -35,8 +35,6 @@ export function ToolPage({ slug }: { slug: WorkspaceToolSlug }) {
         })}
       />
       <ToolHero
-        icon={tool.icon}
-        iconSrc={toolIconSrc(slug)}
         headline={tool.headline}
         description={tool.description}
         tool={slug}

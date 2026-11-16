@@ -11,6 +11,7 @@ import { createSession } from "@/lib/auth/session";
 import { clearSignupTicket, readSignupTicket } from "@/lib/auth/signup-ticket";
 import { actionRateLimit } from "@/lib/security/action-limit";
 import { hashIdentifier } from "@/lib/security/client";
+import { setFlash } from "@/lib/toast/flash";
 import { verifyCodeSchema, type AuthFormState } from "@/lib/validations/auth";
 import { sendAccountExistsEmail, sendVerificationCodeEmail, sendWelcomeEmail } from "@/services/mail.service";
 import { hitRateLimit } from "@/services/rate-limit.service";
@@ -39,6 +40,7 @@ export async function verifyEmail(_state: AuthFormState, formData: FormData): Pr
     const user = await createUser(result.signup);
     await clearSignupTicket();
     await createSession(user._id.toString(), 0);
+    await setFlash("account-created");
     after(() => sendWelcomeEmail({ name: user.name, email: user.email }));
   } catch (error) {
     console.error("verifyEmail failed", error);

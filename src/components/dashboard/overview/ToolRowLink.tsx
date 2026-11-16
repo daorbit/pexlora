@@ -15,6 +15,7 @@ export function ToolRowLink({ href, iconSrc, name, description, compact = false 
   return (
     <Link
       href={href}
+      prefetch={compact ? false : undefined}
       className={cn(
         "group flex items-center gap-3.5 px-4 transition-colors hover:bg-fill focus-visible:bg-fill focus-visible:outline-none",
         compact ? "py-2.5" : "py-3",

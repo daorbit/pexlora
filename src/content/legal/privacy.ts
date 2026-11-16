@@ -10,12 +10,12 @@ export const privacyPolicy: LegalDocument = {
   navLabel: "Privacy",
   title: "Privacy Policy",
   metaTitle: "Privacy Policy",
-  description: `How ${name} handles your files, your account and your data. Files are never stored, nothing is sold.`,
+  description: `How ${name} handles your files, your account and your data. We don't keep your files and we don't sell data.`,
   lead: `${name} exists to protect your privacy, so this policy is short on surprises. It explains what we collect, why, how long we keep it and the choices you have.`,
   highlights: [
     {
-      title: "Files are never stored",
-      body: "Images are processed in memory and discarded the moment the result is sent back. Documents, audio and video never leave your device.",
+      title: "We don't keep your files",
+      body: "Removing or viewing metadata in JPG, PNG, WebP and HEIC photos, documents, audio and video happens in your browser. Images sent to our server are processed in memory and not saved.",
     },
     {
       title: "No raw IP addresses",
@@ -52,9 +52,10 @@ export const privacyPolicy: LegalDocument = {
         {
           type: "list",
           items: [
-            "Images (JPG, PNG, WebP, AVIF, GIF, TIFF) are sent over an encrypted HTTPS connection to our servers to be cleaned, inspected, converted, compressed, resized or edited. They are processed in memory, never written to disk, never looked at by a person and discarded as soon as the result is returned.",
-            "PDFs, Office documents, audio and video are read and cleaned inside your browser. They are never uploaded. Only a small request that counts towards your daily limit reaches our server.",
-            "AI features (alt text, metadata explanations, the AI text detector, the humanizer and Fill with AI) send the image or text you submit to Cloudflare Workers AI to produce the result. We don't keep your input or the output on our servers.",
+            "When you remove or view metadata, JPG, PNG, WebP and HEIC photos, PDFs, Office documents, audio and video are read and cleaned inside your browser. They are not uploaded. Only a small request that counts towards your daily limit reaches our server.",
+            "AVIF, GIF and TIFF images, and any image you convert, compress, resize or edit, are sent over an encrypted HTTPS connection to our server. Our code processes them in memory, doesn't write them to disk or to a database, and returns the result straight away. No person looks at them.",
+            "Orbit AI features (alt text, metadata explanations, the AI text detector and Fill with Orbit AI) send what you submit to Cloudflare Workers AI to produce the result: an image preview for alt text, the list of tags found in a file for explanations, or your text. We don't keep your input or the output on our servers. Cloudflare processes it under its own terms.",
+            "Like any website, our hosting provider keeps standard technical request logs (such as the time, the page address and the IP address) for a limited period to operate and secure the service. These logs don't contain your files.",
           ],
         },
         {
@@ -77,9 +78,14 @@ export const privacyPolicy: LegalDocument = {
           items: [
             "your name and email address;",
             "a one-way (bcrypt) hash of your password, never the password itself;",
-            "if you sign in with Google, your Google account ID and profile picture address; and",
+            "if you sign in with Google, your Google account ID and profile picture address;",
+            "your role (user or super admin) and any custom daily limit; and",
             "when the account was created and last updated.",
           ],
+        },
+        {
+          type: "p",
+          text: "While you finish signing up with email, we keep your name, email address, password hash and a hashed verification code for up to one hour. If you don't enter the code in time, this record is deleted automatically.",
         },
       ],
     },
@@ -90,6 +96,10 @@ export const privacyPolicy: LegalDocument = {
         {
           type: "p",
           text: "To keep the service free and fair, we count how many files are processed each day (UTC). Signed-in use is counted against your account. Signed-out use is counted against a SHA-256 hash of your IP address combined with a secret key, so the raw IP address is never stored. These counters are deleted automatically after 48 hours.",
+        },
+        {
+          type: "p",
+          text: "To protect sign-in, sign-up and the tools from abuse, we also count recent requests against the same kind of salted hash of your IP address and, for sign-in and sign-up, of the email address entered. These records are deleted automatically, at the latest after one hour.",
         },
       ],
     },
@@ -110,7 +120,7 @@ export const privacyPolicy: LegalDocument = {
         {
           type: "list",
           items: [
-            "We send account emails, such as a welcome email, through Google's Gmail service. We don't send marketing emails without your consent.",
+            "We send account emails, such as verification codes, password resets, welcome messages and security notices, through Google's Gmail service. We don't send marketing emails without your consent.",
             `The contact and early-access forms are hosted by DA Orbit Forms (${company.formsHost}). We receive what you type into them and use it only to reply to you.`,
           ],
         },
@@ -148,10 +158,10 @@ export const privacyPolicy: LegalDocument = {
           type: "table",
           columns: ["Provider", "What it does", "Data involved"],
           rows: [
-            ["Vercel", "Hosting, in the Mumbai region", "Requests and images while they are processed"],
-            ["MongoDB Atlas", "Database", "Account details and daily counters"],
+            ["Vercel", "Hosting, in the Mumbai region", "Requests, technical logs, and images sent to server-side tools while they are processed"],
+            ["MongoDB Atlas", "Database", "Account details, pending sign-ups, daily and rate-limit counters"],
             ["Cloudflare Workers AI", "AI features", "Images and text you submit to AI tools"],
-            ["Google", "Sign-in with Google and account emails", "Name, email, Google account ID"],
+            ["Google", "Sign-in with Google and account emails (Gmail)", "Name, email, Google account ID, email contents"],
             [`${company.legalName} (${company.analyticsName}, Forms)`, "Analytics and contact forms", "Page views, form answers"],
           ],
         },
@@ -168,8 +178,10 @@ export const privacyPolicy: LegalDocument = {
         {
           type: "list",
           items: [
-            "Files: not kept. Images are discarded once the result is returned.",
+            "Files: not kept. Files cleaned in your browser never reach us, and images processed on our server are discarded once the result is returned.",
             "Saved work in your browser: 24 hours, or until you press Clear All.",
+            "Pending sign-ups: deleted automatically after one hour.",
+            "Rate-limit records: deleted automatically within one hour.",
             "Daily counters: deleted automatically after 48 hours.",
             "Account details: until you ask us to delete your account.",
           ],
@@ -182,7 +194,7 @@ export const privacyPolicy: LegalDocument = {
       blocks: [
         {
           type: "p",
-          text: `Everything travels over HTTPS, passwords are hashed with bcrypt, and you stay signed in with a signed, HTTP-only cookie that expires after 7 days. The Security & Data page explains how each part of the service is protected.`,
+          text: `Everything travels over HTTPS, passwords are hashed with bcrypt, new email accounts are confirmed with a one-time code, and you stay signed in with a signed, HTTP-only cookie that expires after 7 days. Changing your password signs out your other devices. The Security & Data page explains how each part of the service is protected.`,
         },
       ],
     },

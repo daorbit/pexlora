@@ -31,6 +31,18 @@ function readCanvas(bytes: Uint8Array, chunk: Chunk): Canvas {
   throw new Error(`Unexpected WebP image chunk ${chunk.type}`);
 }
 
+function readUint24(bytes: Uint8Array, offset: number) {
+  return bytes[offset] | (bytes[offset + 1] << 8) | (bytes[offset + 2] << 16);
+}
+
+export function webpSize(bytes: Uint8Array, first: Chunk) {
+  if (first.type === "VP8X") {
+    return { width: readUint24(bytes, first.start + 12) + 1, height: readUint24(bytes, first.start + 15) + 1 };
+  }
+  const { width, height } = readCanvas(bytes, first);
+  return { width, height };
+}
+
 function writeUint24(bytes: Uint8Array, offset: number, value: number) {
   bytes[offset] = value & 0xff;
   bytes[offset + 1] = (value >> 8) & 0xff;

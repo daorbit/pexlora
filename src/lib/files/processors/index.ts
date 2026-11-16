@@ -4,6 +4,8 @@ import type { FileProcessor } from "@/lib/files/processors/types";
 export type LocalEngine = Exclude<FileEngine, "image">;
 
 const loaders: Record<LocalEngine, () => Promise<FileProcessor>> = {
+  raster: () => import("@/lib/files/processors/raster").then((module) => module.rasterProcessor),
+  heif: () => import("@/lib/files/processors/heif").then((module) => module.heifProcessor),
   pdf: () => import("@/lib/files/processors/pdf").then((module) => module.pdfProcessor),
   ooxml: () => import("@/lib/files/processors/ooxml").then((module) => module.ooxmlProcessor),
   id3: () => import("@/lib/files/processors/mp3").then((module) => module.mp3Processor),

@@ -1,3 +1,7 @@
+"use client";
+
+import { useEffect } from "react";
+import { toast } from "@/lib/toast/store";
 import { Alert } from "@/components/ui/Alert";
 
 type FormStatusProps = {
@@ -5,6 +9,10 @@ type FormStatusProps = {
 };
 
 export function FormStatus({ state }: FormStatusProps) {
-  if (!state?.message) return null;
-  return <Alert tone={state.status === "success" ? "success" : "danger"} message={state.message} />;
+  useEffect(() => {
+    if (state?.status === "success" && state.message) toast.success(state.message);
+  }, [state]);
+
+  if (state?.status !== "error" || !state.message) return null;
+  return <Alert tone="danger" message={state.message} />;
 }

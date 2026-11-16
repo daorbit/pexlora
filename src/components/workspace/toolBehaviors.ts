@@ -1,5 +1,6 @@
 import { ALL_KINDS, type FileKind } from "@/config/file-formats";
 import type { WorkspaceToolSlug } from "@/config/tools";
+import { aiCopy } from "@/content/ai";
 import { optionsCopy } from "@/content/workspace";
 import { getCompressError, getMetadataFieldsError, getResizeError, type ToolOptions } from "@/lib/image/options";
 import type { ProcessedFile } from "@/lib/metadata/types";
@@ -9,10 +10,12 @@ import { compressImage, convertImage, editImageMetadata, resizeImage } from "@/s
 
 type ToolBehavior = {
   accepts: FileKind[];
+  localCapable: boolean;
   inspectOnAdd: boolean;
   action?: {
     label: string;
     doneLabel: string;
+    doneToast?: (count: number) => string;
     note?: string;
     compare?: boolean;
     run: (file: File, options: ToolOptions) => Promise<ProcessedFile>;
@@ -24,6 +27,7 @@ type ToolBehavior = {
 export const toolBehaviors: Record<WorkspaceToolSlug, ToolBehavior> = {
   "remove-metadata": {
     accepts: ALL_KINDS,
+    localCapable: true,
     inspectOnAdd: true,
     action: {
       label: "Remove Metadata",
@@ -34,6 +38,7 @@ export const toolBehaviors: Record<WorkspaceToolSlug, ToolBehavior> = {
   },
   "convert-format": {
     accepts: ["image"],
+    localCapable: false,
     inspectOnAdd: false,
     action: {
       label: "Convert Images",
@@ -46,6 +51,7 @@ export const toolBehaviors: Record<WorkspaceToolSlug, ToolBehavior> = {
   },
   "compress-image": {
     accepts: ["image"],
+    localCapable: false,
     inspectOnAdd: false,
     action: {
       label: "Compress Images",
@@ -58,6 +64,7 @@ export const toolBehaviors: Record<WorkspaceToolSlug, ToolBehavior> = {
   },
   "resize-image": {
     accepts: ["image"],
+    localCapable: false,
     inspectOnAdd: false,
     action: {
       label: "Resize Images",
@@ -70,6 +77,7 @@ export const toolBehaviors: Record<WorkspaceToolSlug, ToolBehavior> = {
   },
   "edit-metadata": {
     accepts: ["image"],
+    localCapable: false,
     inspectOnAdd: true,
     action: {
       label: "Save Metadata",
@@ -81,16 +89,19 @@ export const toolBehaviors: Record<WorkspaceToolSlug, ToolBehavior> = {
   },
   "image-alt-text": {
     accepts: ["image"],
+    localCapable: false,
     inspectOnAdd: false,
     action: {
       label: "Generate Alt Text",
       doneLabel: "Generated",
+      doneToast: aiCopy.altTextReady,
       run: (file) => generateAltText(file),
       zipName: "renamed-images.zip",
     },
   },
   "view-metadata": {
     accepts: ALL_KINDS,
+    localCapable: true,
     inspectOnAdd: true,
   },
 };

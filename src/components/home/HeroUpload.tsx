@@ -14,7 +14,7 @@ import { WorkspaceFrame } from "@/components/workspace/WorkspaceFrame";
 import { toolBehaviors } from "@/components/workspace/toolBehaviors";
 
 const TOOL: WorkspaceToolSlug = "remove-metadata";
-const accepts = toolBehaviors[TOOL].accepts;
+const { accepts, localCapable } = toolBehaviors[TOOL];
 
 export function HeroUpload() {
   const router = useRouter();
@@ -40,7 +40,14 @@ export function HeroUpload() {
     <div {...dropProps} className="w-full">
       <input {...picker.inputProps} />
       <WorkspaceFrame>
-        <Dropzone accepts={accepts} isDragging={isDragging} onBrowse={picker.open} onSample={addSample} compact />
+        <Dropzone
+          accepts={accepts}
+          localCapable={localCapable}
+          isDragging={isDragging}
+          onBrowse={picker.open}
+          onSample={addSample}
+          compact
+        />
       </WorkspaceFrame>
     </div>
   );
