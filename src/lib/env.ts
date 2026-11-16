@@ -38,6 +38,7 @@ export const env = {
     return {
       clientId: required("GCP_CLIENT_ID"),
       clientSecret: required("GCP_CLIENT_SECRET"),
+      redirectUri: process.env.GCP_REDIRECT_URI || null,
     };
   },
   isProduction: process.env.NODE_ENV === "production",

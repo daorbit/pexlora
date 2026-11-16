@@ -21,7 +21,7 @@ function base64Url(buffer: Buffer) {
 }
 
 function redirectUri() {
-  return `${env.appUrl}${routes.googleCallback}`;
+  return env.google.redirectUri ?? `${env.appUrl}${routes.googleCallback}`;
 }
 
 export function createGoogleAuthRequest() {

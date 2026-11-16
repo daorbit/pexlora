@@ -27,11 +27,20 @@ export async function GET(request: NextRequest) {
   const code = searchParams.get("code");
   const state = searchParams.get("state");
 
-  if (searchParams.get("error") === "access_denied") {
+  const googleError = searchParams.get("error");
+  if (googleError === "access_denied") {
     return redirectTo(routes.signIn);
   }
 
-  if (!code || !state || !saved || saved.state !== state) {
+  if (googleError || !code || !state || !saved || saved.state !== state) {
+    console.error("Google callback rejected", {
+      googleError,
+      hasCode: Boolean(code),
+      hasState: Boolean(state),
+      hasCookie: Boolean(saved),
+      stateMatches: saved?.state === state,
+      host: request.nextUrl.host,
+    });
     return redirectTo(`${routes.signIn}?error=google`);
   }
 

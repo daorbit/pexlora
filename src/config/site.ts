@@ -3,7 +3,7 @@ export const siteConfig = {
   tagline: "Clean your files before you share them",
   description:
     "Remove AI tags, C2PA credentials, GPS and author details from photos, PDFs, Office documents, audio and video, or convert images between JPG, PNG, WebP and AVIF. Free, no sign-up.",
-  googleSiteVerification: "cTfaR0-ueMd0ggkCiBUKhInoVg11CPe-VPoQJrzorb8",
+  googleSiteVerification: "HiZBxbDomDb7TUXm27xBbCModk82j3wdBABq0wHr5xM",
 } as const;
 
 export const routes = {
