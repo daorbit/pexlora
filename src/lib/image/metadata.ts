@@ -62,14 +62,10 @@ async function readExifr(buffer: Buffer) {
   }
 }
 
-async function readLocation(buffer: Buffer): Promise<GeoLocation | undefined> {
-  try {
-    const gps = await exifr.gps(buffer);
-    const valid = gps && Number.isFinite(gps.latitude) && Number.isFinite(gps.longitude);
-    return valid ? { latitude: gps.latitude, longitude: gps.longitude } : undefined;
-  } catch {
-    return undefined;
-  }
+function readLocation(gps: Record<string, unknown> | undefined): GeoLocation | undefined {
+  const latitude = Number(gps?.latitude);
+  const longitude = Number(gps?.longitude);
+  return gps && Number.isFinite(latitude) && Number.isFinite(longitude) ? { latitude, longitude } : undefined;
 }
 
 function hasC2pa(buffer: Buffer) {
@@ -77,11 +73,8 @@ function hasC2pa(buffer: Buffer) {
 }
 
 export async function inspectImage(buffer: Buffer): Promise<MetadataReport> {
-  const [info, segments, location] = await Promise.all([
-    sharp(buffer).metadata(),
-    readExifr(buffer),
-    readLocation(buffer),
-  ]);
+  const [info, segments] = await Promise.all([sharp(buffer).metadata(), readExifr(buffer)]);
+  const location = readLocation(segments.gps);
   const report = createReport();
 
   for (const [segment, values] of Object.entries(segments)) {

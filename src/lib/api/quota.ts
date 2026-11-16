@@ -56,3 +56,16 @@ export function consumeFileQuota(request: Request) {
 export function consumeAiQuota(request: Request) {
   return consumeQuota(request, "ai");
 }
+
+async function withQuota<T>(request: Request, kind: QuotaKind, task: () => Promise<T>) {
+  const [quotaRemaining, result] = await Promise.all([consumeQuota(request, kind), task()]);
+  return { quotaRemaining, result };
+}
+
+export function withFileQuota<T>(request: Request, task: () => Promise<T>) {
+  return withQuota(request, "files", task);
+}
+
+export function withAiQuota<T>(request: Request, task: () => Promise<T>) {
+  return withQuota(request, "ai", task);
+}

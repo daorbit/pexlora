@@ -14,6 +14,8 @@ export const AI_TEXT_LIMITS = { minWords: 40, maxCharacters: 6000 } as const;
 
 export const MAX_FILES_PER_BATCH = 10;
 
+export const PARALLEL_FILE_JOBS = 3;
+
 export const MAX_RESIZE_DIMENSION = 8000;
 
 export const RESIZE_PERCENT_RANGE = { min: 10, max: 200, step: 5 } as const;

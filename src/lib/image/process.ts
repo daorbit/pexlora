@@ -1,21 +1,30 @@
 import "server-only";
 import type { ResizeOptions as SharpResizeOptions } from "sharp";
 import { MAX_RESIZE_DIMENSION } from "@/config/limits";
-import { encode, sourceInfo } from "@/lib/image/encode";
+import { encode, sourceInfo, toBuffer } from "@/lib/image/encode";
 import { CONVERT_QUALITY, DEFAULT_QUALITY, type OutputFormat } from "@/lib/image/formats";
-import { buildExif, buildXmp } from "@/lib/image/metadata-writer";
+import { injectMetadata } from "@/lib/image/inject";
+import { metadataCarrier, withMetadataFields } from "@/lib/image/metadata-writer";
 import {
   COMPRESSION_QUALITY,
   type CompressionLevel,
   type MetadataFields,
   type ResizeOptions,
 } from "@/lib/image/options";
+import { stripLossless } from "@/lib/image/strip";
 
 const LOSSLESS_QUALITY = 95;
 
+async function losslessStrip(buffer: Buffer) {
+  const { format, needsRotation } = await sourceInfo(buffer);
+  return { format, stripped: needsRotation ? null : stripLossless(format, buffer) };
+}
+
 export async function stripMetadata(buffer: Buffer) {
-  const { format } = await sourceInfo(buffer);
-  const { data } = await encode(buffer, { format, quality: LOSSLESS_QUALITY });
+  const { format, stripped } = await losslessStrip(buffer);
+  if (stripped) return { buffer: toBuffer(stripped), format };
+
+  const { data } = await encode(buffer, { format, quality: LOSSLESS_QUALITY, speed: "fast" });
   return { buffer: data, format };
 }
 
@@ -26,16 +35,25 @@ export async function convertImage(buffer: Buffer, format: OutputFormat) {
 
 export async function compressImage(buffer: Buffer, level: CompressionLevel) {
   const { format } = await sourceInfo(buffer);
-  const { data } = await encode(buffer, { format, quality: COMPRESSION_QUALITY[level], palette: true });
+  const { data } = await encode(buffer, {
+    format,
+    quality: COMPRESSION_QUALITY[level],
+    speed: "smallest",
+    palette: true,
+  });
   return { buffer: data, format };
 }
 
 export async function writeMetadata(buffer: Buffer, fields: MetadataFields) {
-  const { format } = await sourceInfo(buffer);
+  const { format, stripped } = await losslessStrip(buffer);
+  const written = stripped && injectMetadata(format, stripped, await metadataCarrier(format, fields));
+  if (written) return { buffer: toBuffer(written), format };
+
   const { data } = await encode(buffer, {
     format,
     quality: LOSSLESS_QUALITY,
-    transform: (pipeline) => pipeline.withExif(buildExif(fields)).withXmp(buildXmp(fields)),
+    speed: "fast",
+    transform: (pipeline) => withMetadataFields(pipeline, fields),
   });
   return { buffer: data, format };
 }

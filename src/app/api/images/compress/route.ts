@@ -1,6 +1,6 @@
 import { ApiError, withApiErrors } from "@/lib/api/errors";
 import { imageResponse } from "@/lib/api/image-response";
-import { consumeFileQuota } from "@/lib/api/quota";
+import { withFileQuota } from "@/lib/api/quota";
 import { readImageUpload } from "@/lib/api/upload";
 import { compressToTarget } from "@/lib/image/compress-target";
 import { FORMAT_EXTENSIONS } from "@/lib/image/formats";
@@ -29,8 +29,7 @@ export const POST = withApiErrors(async (request) => {
   const { form, file, buffer } = await readImageUpload(request);
   const job = form.has("targetKb") ? compressByTarget(form, buffer) : compressByLevel(form, buffer);
 
-  const quotaRemaining = await consumeFileQuota(request);
-  const result = await job.run();
+  const { quotaRemaining, result } = await withFileQuota(request, job.run);
 
   return imageResponse({
     ...result,

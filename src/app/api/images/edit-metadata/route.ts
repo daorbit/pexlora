@@ -1,6 +1,6 @@
 import { ApiError, withApiErrors } from "@/lib/api/errors";
 import { imageResponse } from "@/lib/api/image-response";
-import { consumeFileQuota } from "@/lib/api/quota";
+import { withFileQuota } from "@/lib/api/quota";
 import { readImageUpload } from "@/lib/api/upload";
 import { FORMAT_EXTENSIONS } from "@/lib/image/formats";
 import { getMetadataFieldsError, METADATA_FIELDS, type MetadataFields } from "@/lib/image/options";
@@ -24,8 +24,7 @@ export const POST = withApiErrors(async (request) => {
     throw new ApiError(fieldsError);
   }
 
-  const quotaRemaining = await consumeFileQuota(request);
-  const result = await writeMetadata(buffer, fields);
+  const { quotaRemaining, result } = await withFileQuota(request, () => writeMetadata(buffer, fields));
 
   return imageResponse({
     buffer: result.buffer,

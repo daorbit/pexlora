@@ -29,7 +29,7 @@ function toSlug(value: string) {
     .join("-");
 }
 
-async function toDataUrl(buffer: Buffer) {
+export async function imagePreview(buffer: Buffer) {
   const preview = await sharp(buffer, { animated: false })
     .rotate()
     .resize({ width: 768, height: 768, fit: "inside", withoutEnlargement: true })
@@ -39,8 +39,8 @@ async function toDataUrl(buffer: Buffer) {
   return `data:image/jpeg;base64,${preview.toString("base64")}`;
 }
 
-export async function imageInsights(buffer: Buffer): Promise<ImageInsights> {
-  const description = await describeImage(await toDataUrl(buffer), VISION_PROMPT);
+export async function imageInsights(previewUrl: string): Promise<ImageInsights> {
+  const description = await describeImage(previewUrl, VISION_PROMPT);
 
   const result = await generateJson<ImageInsights>(
     [

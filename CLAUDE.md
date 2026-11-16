@@ -119,7 +119,10 @@ src/
 
 - Client validates type/size (`lib/image/validate.ts`), then posts each file to `/api/images/*`.
 - `inspect` returns an `ImageReport` (groups: C2PA, PNG text, XMP, IPTC, GPS, EXIF, ICC; AI entries flagged).
-- `clean` re-encodes with sharp (metadata dropped by default, orientation baked in) and re-inspects the output to report leftover tags.
+- `clean` cuts metadata segments out of JPEG/PNG/WebP bytes (`lib/image/strip`, lossless, keeps ICC) and re-inspects the output to report leftover tags. Only rotated images (EXIF orientation > 1) and other formats re-encode.
+- `edit-metadata` strips losslessly, then splices in EXIF/XMP taken from a 1x1 carrier image (`lib/image/inject`, `metadataCarrier`).
+- Encoder speed presets in `lib/image/encode.ts`: `fast` (clean/edit fallback), `balanced` (convert, resize), `smallest` (compress). Don't bring back mozjpeg at q100, WebP effort 6 or AVIF effort 4: they're many times slower for little or no size gain.
+- Routes run the quota check in parallel with the work (`withFileQuota` / `withAiQuota`); paid AI model calls wait for the quota. The client queue runs `PARALLEL_FILE_JOBS` files at once.
 - `convert` takes `format` (jpeg/png/webp/avif) and `quality`.
 - sharp reports AVIF as `heif`; `toOutputFormat` maps it back.
 - Quota: `consumeImageQuota` counts per user or per hashed IP per UTC day in Mongo. If Mongo is unreachable it fails open.

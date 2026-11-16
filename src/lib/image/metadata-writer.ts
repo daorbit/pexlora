@@ -1,6 +1,7 @@
 import "server-only";
-import type { Exif } from "sharp";
+import sharp, { type Exif, type Sharp } from "sharp";
 import { escapeXml } from "@/lib/files/xml";
+import type { OutputFormat } from "@/lib/image/formats";
 import { splitKeywords, type MetadataFields } from "@/lib/image/options";
 
 function listItems(values: string[], attributes = "") {
@@ -45,4 +46,13 @@ export function buildExif(fields: MetadataFields): Exif {
     ].filter(([, value]) => value),
   );
   return { IFD0: ifd0 };
+}
+
+export function withMetadataFields(pipeline: Sharp, fields: MetadataFields) {
+  return pipeline.withExif(buildExif(fields)).withXmp(buildXmp(fields));
+}
+
+export function metadataCarrier(format: OutputFormat, fields: MetadataFields) {
+  const pixel = sharp({ create: { width: 1, height: 1, channels: 3, background: "#ffffff" } });
+  return withMetadataFields(pixel, fields).toFormat(format).toBuffer();
 }

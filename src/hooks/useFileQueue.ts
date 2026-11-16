@@ -2,8 +2,9 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { FileFormat, FileKind } from "@/config/file-formats";
-import { MAX_FILES_PER_BATCH } from "@/config/limits";
+import { MAX_FILES_PER_BATCH, PARALLEL_FILE_JOBS } from "@/config/limits";
 import { detectFormat, getFileError } from "@/lib/files/detect";
+import { runPool } from "@/lib/utils/run-pool";
 import type { MetadataReport, ProcessedFile } from "@/lib/metadata/types";
 import { ApiRequestError } from "@/services/api-client";
 import { inspectFile } from "@/services/file-service";
@@ -132,10 +133,11 @@ export function useFileQueue({ inspectOnAdd, accepts }: QueueOptions) {
   const process = useCallback(
     async (run: Runner) => {
       const pending = itemsRef.current.filter((item) => item.status === "ready");
+      let lowestQuota: number | null = null;
       setIsProcessing(true);
       setNotice(null);
 
-      for (const item of pending) {
+      await runPool(pending, PARALLEL_FILE_JOBS, async (item, stop) => {
         update(item.id, { status: "processing", error: undefined });
         try {
           const { quotaRemaining: remaining, ...processed } = await run(item.file);
@@ -143,17 +145,21 @@ export function useFileQueue({ inspectOnAdd, accepts }: QueueOptions) {
             status: "done",
             result: { ...processed, url: URL.createObjectURL(processed.blob) },
           });
-          if (remaining !== null) setQuotaRemaining(remaining);
+          if (remaining !== null) {
+            lowestQuota = lowestQuota === null ? remaining : Math.min(lowestQuota, remaining);
+            setQuotaRemaining(lowestQuota);
+          }
         } catch (error) {
           if (error instanceof ApiRequestError && error.status === 429) {
             update(item.id, { status: "ready" });
             setNotice({ message: error.message, upsell: error.upsell });
             setQuotaRemaining(0);
-            break;
+            stop();
+            return;
           }
           update(item.id, { status: "error", error: errorMessage(error) });
         }
-      }
+      });
 
       setIsProcessing(false);
     },

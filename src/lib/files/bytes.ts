@@ -52,6 +52,16 @@ export function isPrintable(bytes: Uint8Array) {
   return printable / bytes.length > 0.9;
 }
 
+export function concatBytes(parts: Uint8Array[]) {
+  const output = new Uint8Array(parts.reduce((total, part) => total + part.length, 0));
+  let offset = 0;
+  for (const part of parts) {
+    output.set(part, offset);
+    offset += part.length;
+  }
+  return output;
+}
+
 export function zeros(length: number) {
   return new Uint8Array(length);
 }
