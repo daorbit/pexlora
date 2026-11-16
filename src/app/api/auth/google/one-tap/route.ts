@@ -2,7 +2,10 @@ import { cookies } from "next/headers";
 import { routes } from "@/config/site";
 import { createOneTapNonce, ONE_TAP_COOKIE, OAUTH_COOKIE_TTL_SECONDS, verifyGoogleIdToken } from "@/lib/auth/google";
 import { signInWithGoogle } from "@/lib/auth/google-sign-in";
+import { securityCopy } from "@/content/security";
 import { env } from "@/lib/env";
+import { clientId } from "@/lib/security/client";
+import { hitRateLimit } from "@/services/rate-limit.service";
 
 const noStore = { "Cache-Control": "no-store" };
 
@@ -31,6 +34,11 @@ export async function POST(request: Request) {
 
   if (!isSameOrigin(request) || !nonce) {
     return Response.json({ error: "Sign-in request rejected." }, { status: 403, headers: noStore });
+  }
+
+  const limit = await hitRateLimit("googleAuthIp", clientId(request.headers));
+  if (!limit.ok) {
+    return Response.json({ error: securityCopy.tooManyRequests(limit.retryAfterSeconds) }, { status: 429, headers: noStore });
   }
 
   const body = (await request.json().catch(() => null)) as { credential?: unknown } | null;

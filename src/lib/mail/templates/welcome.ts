@@ -1,22 +1,21 @@
 import { DAILY_LIMITS } from "@/config/limits";
 import { routes, siteConfig } from "@/config/site";
-import { escapeHtml, renderEmail, type EmailContent } from "@/lib/mail/templates/layout";
+import { escapeHtml, firstName, renderEmail, type EmailContent } from "@/lib/mail/templates/layout";
 
 export function welcomeEmail({ name, appUrl }: { name: string; appUrl: string }): EmailContent {
-  const firstName = escapeHtml(name.split(" ")[0] ?? name);
-
   return {
-    subject: `Welcome to ${siteConfig.name}`,
+    subject: `Your ${siteConfig.name} account is ready`,
     ...renderEmail({
       appUrl,
-      preheader: `Your account is ready, with ${DAILY_LIMITS.user} files a day.`,
-      heading: `Welcome, ${firstName}.`,
+      preheader: `You can now process up to ${DAILY_LIMITS.user} files a day.`,
+      heading: "Your account is ready",
       paragraphs: [
-        `Your ${escapeHtml(siteConfig.name)} account is ready. You can now process up to <strong>${DAILY_LIMITS.user} files a day</strong> across every tool.`,
-        "Remove AI metadata, convert between JPG, PNG, WebP and AVIF, or inspect what an image is carrying before you share it.",
+        `Hi ${escapeHtml(firstName(name))},`,
+        `Thanks for signing up. Your daily limit is now ${DAILY_LIMITS.user} files across every tool, from removing metadata to compressing and converting images.`,
+        "Your files are processed only to give you the result. We don't keep them.",
       ],
-      cta: { label: "Open your dashboard", url: `${appUrl}${routes.dashboard}` },
-      footnote: "You're receiving this because you just created an account. If that wasn't you, you can ignore this email.",
+      cta: { label: "Go to your dashboard", url: `${appUrl}${routes.dashboard}` },
+      reason: `You received this email because you created a ${siteConfig.name} account.`,
     }),
   };
 }

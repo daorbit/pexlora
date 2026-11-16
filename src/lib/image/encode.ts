@@ -1,6 +1,7 @@
 import "server-only";
 import sharp, { type JpegOptions, type Sharp } from "sharp";
 import { toOutputFormat, type OutputFormat } from "@/lib/image/formats";
+import { openImage } from "@/lib/image/open";
 
 export type EncodeSpeed = "fast" | "balanced" | "smallest";
 
@@ -39,12 +40,12 @@ const DEFAULT_PALETTE_EFFORT = 10;
 const PALETTE_COMPRESSION_LEVEL = 6;
 
 function pipelineFor(source: EncodeSource) {
-  if (Buffer.isBuffer(source)) return sharp(source, { animated: false }).rotate();
+  if (Buffer.isBuffer(source)) return openImage(source, { animated: false }).rotate();
   return sharp(source.data, { raw: source.info });
 }
 
 export async function decode(buffer: Buffer): Promise<DecodedImage> {
-  const { data, info } = await sharp(buffer, { animated: false })
+  const { data, info } = await openImage(buffer, { animated: false })
     .rotate()
     .raw({ depth: "uchar" })
     .toBuffer({ resolveWithObject: true });
@@ -88,7 +89,7 @@ export async function encode(
 }
 
 export async function sourceInfo(buffer: Buffer) {
-  const { format, autoOrient, orientation } = await sharp(buffer).metadata();
+  const { format, autoOrient, orientation } = await openImage(buffer).metadata();
   return {
     format: toOutputFormat(format),
     width: autoOrient.width,

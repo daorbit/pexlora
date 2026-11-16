@@ -1,6 +1,6 @@
 import "server-only";
 import exifr from "exifr";
-import sharp from "sharp";
+import { openImage } from "@/lib/image/open";
 import { decodeEntities } from "@/lib/files/xml";
 import { createReport, toEntry } from "@/lib/metadata/report";
 import type { GeoLocation, MetadataEntry, MetadataGroupId, MetadataReport } from "@/lib/metadata/types";
@@ -73,7 +73,7 @@ function hasC2pa(buffer: Buffer) {
 }
 
 export async function inspectImage(buffer: Buffer): Promise<MetadataReport> {
-  const [info, segments] = await Promise.all([sharp(buffer).metadata(), readExifr(buffer)]);
+  const [info, segments] = await Promise.all([openImage(buffer).metadata(), readExifr(buffer)]);
   const location = readLocation(segments.gps);
   const report = createReport();
 

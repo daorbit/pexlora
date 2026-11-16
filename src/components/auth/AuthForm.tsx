@@ -4,17 +4,21 @@ import { useActionState, type ReactNode } from "react";
 import { LoaderCircle } from "lucide-react";
 import { useNextPath } from "@/hooks/useNextPath";
 import { NEXT_PARAM } from "@/lib/url/next-path";
-import type { AuthFormState } from "@/lib/validations/auth";
+import type { AuthFieldName, AuthFormState } from "@/lib/validations/auth";
 import { Alert } from "@/components/ui/Alert";
 import { Button } from "@/components/ui/Button";
 import { FormField } from "@/components/ui/FormField";
+import { cn } from "@/lib/utils/cn";
 
 export type AuthField = {
-  name: "name" | "email" | "password";
+  name: AuthFieldName;
   label: string;
   type: "text" | "email" | "password";
   autoComplete?: string;
   placeholder?: string;
+  inputMode?: "numeric" | "email" | "text";
+  maxLength?: number;
+  className?: string;
 };
 
 type AuthFormProps = {
@@ -44,10 +48,12 @@ export function AuthForm({ action, fields, submitLabel, hiddenFields, afterField
           type={field.type}
           autoComplete={field.autoComplete}
           placeholder={field.placeholder}
+          inputMode={field.inputMode}
+          maxLength={field.maxLength}
           labelPosition="above"
-          defaultValue={field.name === "password" ? undefined : state?.values?.[field.name]}
+          defaultValue={field.name === "name" || field.name === "email" ? state?.values?.[field.name] : undefined}
           errors={state?.errors?.[field.name]}
-          className="border-border-strong focus:ring-accent-soft"
+          className={cn("border-border-strong focus:ring-accent-soft", field.className)}
           required
         />
       ))}

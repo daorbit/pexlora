@@ -5,6 +5,8 @@ import type { GoogleLinkResult } from "@/content/account";
 import { getGoogleProfile, OAUTH_COOKIE, type OAuthState } from "@/lib/auth/google";
 import { linkGoogleToCurrentUser, signInWithGoogle } from "@/lib/auth/google-sign-in";
 import { env } from "@/lib/env";
+import { clientId } from "@/lib/security/client";
+import { hitRateLimit } from "@/services/rate-limit.service";
 import { safeNextPath } from "@/lib/url/next-path";
 
 function redirectTo(path: string) {
@@ -54,6 +56,8 @@ export async function GET(request: NextRequest) {
     });
     return failureRedirect(link);
   }
+
+  if (!(await hitRateLimit("googleAuthIp", clientId(request.headers))).ok) return failureRedirect(link);
 
   try {
     const profile = await getGoogleProfile(code, saved.verifier);

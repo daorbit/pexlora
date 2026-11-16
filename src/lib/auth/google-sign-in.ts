@@ -7,7 +7,7 @@ import { findOrCreateGoogleUser, linkGoogleAccount, type GoogleProfile } from "@
 
 export async function signInWithGoogle(profile: GoogleProfile) {
   const { user, isNew } = await findOrCreateGoogleUser(profile);
-  await createSession(user._id.toString());
+  await createSession(user._id.toString(), user.sessionVersion ?? 0);
 
   if (isNew) {
     after(() => sendWelcomeEmail({ name: user.name, email: user.email }));

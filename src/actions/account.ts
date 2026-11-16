@@ -1,10 +1,12 @@
 "use server";
 
 import { refresh } from "next/cache";
+import { after } from "next/server";
 import { z } from "zod";
 import { accountCopy } from "@/content/account";
 import { getCurrentUser } from "@/lib/auth/dal";
 import { hashPassword, verifyPassword } from "@/lib/auth/password";
+import { createSession } from "@/lib/auth/session";
 import {
   changePasswordSchema,
   profileSchema,
@@ -13,6 +15,7 @@ import {
   type PasswordField,
   type ProfileField,
 } from "@/lib/validations/account";
+import { sendPasswordChangedEmail } from "@/services/mail.service";
 import { findUserByIdWithPassword, updateUserName, updateUserPassword } from "@/services/user.service";
 
 const failure = (message: string) => ({ status: "error" as const, message });
@@ -76,7 +79,9 @@ export async function updatePassword(
       }
     }
 
-    await updateUserPassword(user.id, await hashPassword(parsed.data.newPassword));
+    const version = await updateUserPassword(user.id, await hashPassword(parsed.data.newPassword));
+    await createSession(user.id, version);
+    after(() => sendPasswordChangedEmail(user));
     refresh();
     return {
       status: "success",

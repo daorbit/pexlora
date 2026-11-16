@@ -16,6 +16,7 @@ const userSchema = new Schema(
     googleId: { type: String, unique: true, sparse: true },
     avatarUrl: { type: String },
     role: { type: String, enum: USER_ROLES, default: "user" },
+    sessionVersion: { type: Number, default: 0 },
     limits: {
       files: { type: Number, default: null },
       ai: { type: Number, default: null },

@@ -24,7 +24,7 @@ export const getCurrentUser = cache(async (): Promise<CurrentUser | null> => {
   if (!session) return null;
 
   const user = await findUserByIdWithPassword(session.userId);
-  if (!user) return null;
+  if (!user || (user.sessionVersion ?? 0) !== (session.version ?? 0)) return null;
 
   return {
     id: user._id.toString(),
@@ -41,8 +41,8 @@ export const getCurrentUser = cache(async (): Promise<CurrentUser | null> => {
 
 export async function requireUser(): Promise<CurrentUser> {
   const user = await getCurrentUser();
-  if (!user) redirect(routes.signIn);
-  return user;
+  if (user) return user;
+  redirect((await getSession()) ? routes.sessionExpired : routes.signIn);
 }
 
 export async function getSuperAdmin() {

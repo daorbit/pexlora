@@ -1,5 +1,6 @@
 import { brandAssets } from "@/config/brand";
-import { siteConfig } from "@/config/site";
+import { company } from "@/config/company";
+import { routes, siteConfig } from "@/config/site";
 
 export type EmailContent = {
   subject: string;
@@ -12,8 +13,10 @@ type EmailLayoutOptions = {
   preheader: string;
   heading: string;
   paragraphs: string[];
+  code?: string;
   cta?: { label: string; url: string };
-  footnote?: string;
+  note?: string;
+  reason: string;
 };
 
 export function escapeHtml(value: string) {
@@ -25,48 +28,75 @@ export function escapeHtml(value: string) {
     .replace(/'/g, "&#39;");
 }
 
+export function firstName(name: string) {
+  return name.trim().split(/\s+/)[0] || name;
+}
+
 const colors = {
-  paper: "#f5f5f7",
-  surface: "#ffffff",
-  ink: "#1d1d1f",
-  muted: "#6e6e73",
-  border: "#e5e5ea",
-  accent: "#0071e3",
+  page: "#f4f3ee",
+  card: "#ffffff",
+  border: "#e7e5dd",
+  ink: "#10120d",
+  body: "#3d4037",
+  muted: "#7a7d73",
+  codeBg: "#f4f3ee",
 };
 
-export function renderEmail({ appUrl, preheader, heading, paragraphs, cta, footnote }: EmailLayoutOptions) {
-  const body = paragraphs
-    .map((text) => `<p style="margin:0 0 16px;font-size:15px;line-height:1.6;color:${colors.ink};">${text}</p>`)
-    .join("");
+const font = "-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,Helvetica,Arial,sans-serif";
+const mono = "'SF Mono',SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace";
 
-  const button = cta
-    ? `<p style="margin:24px 0;"><a href="${cta.url}" style="display:inline-block;background:${colors.accent};color:#ffffff;text-decoration:none;font-weight:500;font-size:15px;padding:12px 22px;border-radius:980px;">${escapeHtml(cta.label)}</a></p>`
-    : "";
+const stripTags = (value: string) => value.replace(/<[^>]+>/g, "").replace(/&nbsp;/g, " ");
 
-  const note = footnote
-    ? `<p style="margin:24px 0 0;padding-top:16px;border-top:1px solid ${colors.border};font-size:12px;line-height:1.6;color:${colors.muted};">${footnote}</p>`
-    : "";
+function paragraphHtml(text: string) {
+  return `<p style="margin:0 0 16px;font-size:15px;line-height:24px;color:${colors.body};">${text}</p>`;
+}
 
+function codeHtml(code: string) {
+  return `<p style="margin:8px 0 24px;"><span style="display:inline-block;padding:14px 22px;background:${colors.codeBg};border-radius:10px;font-family:${mono};font-size:30px;line-height:36px;font-weight:600;letter-spacing:8px;color:${colors.ink};">${escapeHtml(code)}</span></p>`;
+}
+
+function buttonHtml({ label, url }: { label: string; url: string }) {
+  return `<p style="margin:8px 0 24px;"><a href="${escapeHtml(url)}" style="display:inline-block;background:${colors.ink};color:#ffffff;text-decoration:none;font-size:15px;line-height:20px;font-weight:600;padding:12px 20px;border-radius:10px;">${escapeHtml(label)}</a></p>`;
+}
+
+export function renderEmail({ appUrl, preheader, heading, paragraphs, code, cta, note, reason }: EmailLayoutOptions) {
+  const privacyUrl = `${appUrl}${routes.privacy}`;
   const html = `<!doctype html>
-<html>
-  <body style="margin:0;padding:0;background:${colors.paper};font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;">
-    <span style="display:none;max-height:0;overflow:hidden;">${escapeHtml(preheader)}</span>
-    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${colors.paper};padding:32px 16px;">
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="color-scheme" content="light" />
+    <title>${escapeHtml(heading)}</title>
+  </head>
+  <body style="margin:0;padding:0;background:${colors.page};font-family:${font};-webkit-font-smoothing:antialiased;">
+    <div style="display:none;max-height:0;overflow:hidden;opacity:0;">${escapeHtml(preheader)}</div>
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${colors.page};">
       <tr>
-        <td align="center">
-          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:520px;background:${colors.surface};border-radius:18px;">
+        <td align="center" style="padding:40px 16px;">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:520px;">
             <tr>
-              <td style="padding:28px 32px 8px;">
-                <p style="margin:0 0 24px;font-size:17px;font-weight:600;color:${colors.ink};">
-                  <img src="${appUrl}${brandAssets.emailIcon}" width="28" height="28" alt="" style="vertical-align:middle;margin-right:8px;border-radius:7px;" />${escapeHtml(siteConfig.name)}
-                </p>
-                <h1 style="margin:0 0 20px;font-size:24px;line-height:1.2;color:${colors.ink};">${escapeHtml(heading)}</h1>
-                ${body}
-                ${button}
-                ${note}
+              <td style="padding:0 4px 20px;">
+                <a href="${escapeHtml(appUrl)}" style="text-decoration:none;color:${colors.ink};font-size:16px;font-weight:600;">
+                  <img src="${escapeHtml(appUrl)}${brandAssets.emailIcon}" width="24" height="24" alt="" style="vertical-align:middle;margin-right:8px;border-radius:6px;border:0;" />${escapeHtml(siteConfig.name)}
+                </a>
               </td>
             </tr>
-            <tr><td style="padding:0 32px 28px;"></td></tr>
+            <tr>
+              <td style="background:${colors.card};border:1px solid ${colors.border};border-radius:14px;padding:36px 32px 20px;">
+                <h1 style="margin:0 0 16px;font-size:22px;line-height:28px;font-weight:600;color:${colors.ink};">${escapeHtml(heading)}</h1>
+                ${paragraphs.map(paragraphHtml).join("")}
+                ${code ? codeHtml(code) : ""}
+                ${cta ? buttonHtml(cta) : ""}
+                ${note ? `<p style="margin:0 0 16px;font-size:13px;line-height:20px;color:${colors.muted};">${note}</p>` : ""}
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:20px 4px 0;font-size:12px;line-height:18px;color:${colors.muted};">
+                <p style="margin:0 0 6px;">${escapeHtml(reason)}</p>
+                <p style="margin:0;">${escapeHtml(siteConfig.name)} by ${escapeHtml(company.legalName)}, ${escapeHtml(company.country)} · <a href="${escapeHtml(privacyUrl)}" style="color:${colors.muted};">Privacy</a></p>
+              </td>
+            </tr>
           </table>
         </td>
       </tr>
@@ -77,9 +107,14 @@ export function renderEmail({ appUrl, preheader, heading, paragraphs, cta, footn
   const text = [
     heading,
     "",
-    ...paragraphs.map((paragraph) => paragraph.replace(/<[^>]+>/g, "")),
-    cta ? `\n${cta.label}: ${cta.url}` : "",
-    footnote ? `\n${footnote.replace(/<[^>]+>/g, "")}` : "",
+    ...paragraphs.map(stripTags).flatMap((paragraph) => [paragraph, ""]),
+    ...(code ? [code, ""] : []),
+    ...(cta ? [`${cta.label}: ${cta.url}`, ""] : []),
+    ...(note ? [stripTags(note), ""] : []),
+    "--",
+    reason,
+    `${siteConfig.name} by ${company.legalName}, ${company.country}`,
+    privacyUrl,
   ].join("\n");
 
   return { html, text };

@@ -9,9 +9,9 @@ import {
   verifySessionToken,
 } from "@/lib/auth/token";
 
-export async function createSession(userId: string) {
+export async function createSession(userId: string, version = 0) {
   const expiresAt = Date.now() + SESSION_TTL_SECONDS * 1000;
-  const token = await signSessionToken({ userId, expiresAt }, env.sessionSecret);
+  const token = await signSessionToken({ userId, version, expiresAt }, env.sessionSecret);
   const cookieStore = await cookies();
 
   cookieStore.set(SESSION_COOKIE, token, {

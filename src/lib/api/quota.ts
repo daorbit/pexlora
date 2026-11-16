@@ -1,27 +1,27 @@
 import "server-only";
-import { createHash } from "node:crypto";
 import { AI_DAILY_LIMITS, DAILY_LIMITS } from "@/config/limits";
+import type { RateLimitScope } from "@/config/security";
+import { securityCopy } from "@/content/security";
 import { ApiError } from "@/lib/api/errors";
 import { effectiveLimits } from "@/lib/auth/roles";
 import { getSession } from "@/lib/auth/session";
-import { env } from "@/lib/env";
+import { clientId } from "@/lib/security/client";
+import { hitRateLimit } from "@/services/rate-limit.service";
 import { incrementUsage, usageKeys } from "@/services/usage.service";
 import { findUserLimits } from "@/services/user.service";
 
 type QuotaKind = "files" | "ai";
 
-const quotas: Record<QuotaKind, { limits: { anonymous: number; user: number }; noun: string; prefix: string }> = {
-  files: { limits: DAILY_LIMITS, noun: "files", prefix: "" },
-  ai: { limits: AI_DAILY_LIMITS, noun: "AI requests", prefix: "ai:" },
+type QuotaConfig = { limits: { anonymous: number; user: number }; noun: string; prefix: string; burst: RateLimitScope };
+
+const quotas: Record<QuotaKind, QuotaConfig> = {
+  files: { limits: DAILY_LIMITS, noun: "files", prefix: "", burst: "imageApi" },
+  ai: { limits: AI_DAILY_LIMITS, noun: "AI requests", prefix: "ai:", burst: "aiApi" },
 };
 
-function clientIp(request: Request) {
-  const forwarded = request.headers.get("x-forwarded-for");
-  return forwarded?.split(",")[0]?.trim() || request.headers.get("x-real-ip") || "unknown";
-}
-
-function hashIp(ip: string) {
-  return createHash("sha256").update(`${ip}:${env.sessionSecret}`).digest("hex");
+export async function assertApiRateLimit(request: Request, scope: RateLimitScope, identity?: string) {
+  const result = await hitRateLimit(scope, identity ?? clientId(request.headers));
+  if (!result.ok) throw new ApiError(securityCopy.tooManyRequests(result.retryAfterSeconds), 429);
 }
 
 async function userLimit(userId: string, kind: QuotaKind) {
@@ -30,9 +30,12 @@ async function userLimit(userId: string, kind: QuotaKind) {
 }
 
 async function consumeQuota(request: Request, kind: QuotaKind) {
-  const { limits, noun, prefix } = quotas[kind];
+  const { limits, noun, prefix, burst } = quotas[kind];
   const session = await getSession();
-  const key = prefix + (session ? usageKeys.user(session.userId) : usageKeys.ip(hashIp(clientIp(request))));
+  const identity = session ? usageKeys.user(session.userId) : usageKeys.ip(clientId(request.headers));
+  const key = prefix + identity;
+
+  const burstCheck = assertApiRateLimit(request, burst, identity);
 
   let used: number;
   let limit: number;
@@ -43,8 +46,10 @@ async function consumeQuota(request: Request, kind: QuotaKind) {
     ]);
   } catch (error) {
     console.warn("Usage tracking unavailable, skipping quota check", error);
+    await burstCheck;
     return null;
   }
+  await burstCheck;
 
   if (used > limit) {
     throw new ApiError(

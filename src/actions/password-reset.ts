@@ -1,6 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { after } from "next/server";
 import { z } from "zod";
 import { routes } from "@/config/site";
 import { accountCopy } from "@/content/account";
@@ -8,17 +9,21 @@ import { authCopy } from "@/content/auth";
 import { env } from "@/lib/env";
 import { hashPassword } from "@/lib/auth/password";
 import { createSession } from "@/lib/auth/session";
+import { actionRateLimit } from "@/lib/security/action-limit";
 import { forgotPasswordSchema, resetPasswordSchema, type AuthFormState } from "@/lib/validations/auth";
-import { sendPasswordResetEmail } from "@/services/mail.service";
+import { sendPasswordChangedEmail, sendPasswordResetEmail } from "@/services/mail.service";
 import {
   consumePasswordResetToken,
   createPasswordResetToken,
   RESET_TOKEN_TTL_MINUTES,
 } from "@/services/password-reset.service";
-import { findUserByEmailWithPassword, updateUserPassword } from "@/services/user.service";
+import { findUserByEmailWithPassword, findUserByIdWithPassword, updateUserPassword } from "@/services/user.service";
 
 export async function requestPasswordReset(_state: AuthFormState, formData: FormData): Promise<AuthFormState> {
   const email = String(formData.get("email") ?? "");
+  const limited = await actionRateLimit("forgotPasswordIp");
+  if (limited) return { message: limited, values: { email } };
+
   const parsed = forgotPasswordSchema.safeParse({ email });
 
   if (!parsed.success) {
@@ -45,6 +50,9 @@ export async function requestPasswordReset(_state: AuthFormState, formData: Form
 }
 
 export async function resetPassword(_state: AuthFormState, formData: FormData): Promise<AuthFormState> {
+  const limited = await actionRateLimit("resetPasswordIp");
+  if (limited) return { message: limited };
+
   const parsed = resetPasswordSchema.safeParse({
     token: String(formData.get("token") ?? ""),
     password: String(formData.get("password") ?? ""),
@@ -59,8 +67,10 @@ export async function resetPassword(_state: AuthFormState, formData: FormData): 
     const userId = await consumePasswordResetToken(parsed.data.token);
     if (!userId) return { message: authCopy.reset.invalid };
 
-    await updateUserPassword(userId, await hashPassword(parsed.data.password));
-    await createSession(userId);
+    const version = await updateUserPassword(userId, await hashPassword(parsed.data.password));
+    await createSession(userId, version);
+    const user = await findUserByIdWithPassword(userId);
+    if (user) after(() => sendPasswordChangedEmail(user));
   } catch (error) {
     console.error("resetPassword failed", error);
     return { message: accountCopy.unavailable };

@@ -22,7 +22,14 @@ export async function updateUserName(id: string, name: string) {
 
 export async function updateUserPassword(id: string, passwordHash: string) {
   await connectToDatabase();
-  await User.updateOne({ _id: id }, { $set: { passwordHash } });
+  const user = await User.findByIdAndUpdate(
+    id,
+    { $set: { passwordHash }, $inc: { sessionVersion: 1 } },
+    { returnDocument: "after" },
+  )
+    .select("sessionVersion")
+    .lean();
+  return user?.sessionVersion ?? 0;
 }
 
 export async function findUserByEmailWithPassword(email: string) {

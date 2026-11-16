@@ -1,5 +1,5 @@
 import "server-only";
-import sharp from "sharp";
+import { openImage } from "@/lib/image/open";
 import { describeImage, generateJson } from "@/lib/ai/cloudflare";
 import type { ImageInsights } from "@/lib/ai/types";
 
@@ -30,7 +30,7 @@ function toSlug(value: string) {
 }
 
 export async function imagePreview(buffer: Buffer) {
-  const preview = await sharp(buffer, { animated: false })
+  const preview = await openImage(buffer, { animated: false })
     .rotate()
     .resize({ width: 768, height: 768, fit: "inside", withoutEnlargement: true })
     .flatten({ background: "#ffffff" })

@@ -24,6 +24,8 @@ export const routes = {
   dashboardHumanizer: "/dashboard/humanizer",
   dashboardSettings: "/dashboard/settings",
   dashboardAdmin: "/dashboard/admin",
+  sessionExpired: "/api/auth/session-expired",
+  verifyEmail: "/verify-email",
   removeMetadata: "/remove-ai-metadata",
   convert: "/convert-image",
   viewMetadata: "/metadata-viewer",
@@ -63,4 +65,4 @@ export const infoLinks: NavLink[] = [
 ];
 
 export const protectedRoutes = [routes.dashboard];
-export const authRoutes = [routes.signIn, routes.signUp, routes.forgotPassword, routes.resetPassword];
+export const authRoutes = [routes.signIn, routes.signUp, routes.forgotPassword, routes.resetPassword, routes.verifyEmail];
