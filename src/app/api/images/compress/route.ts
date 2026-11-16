@@ -3,12 +3,16 @@ import { imageResponse } from "@/lib/api/image-response";
 import { withFileQuota } from "@/lib/api/quota";
 import { readImageUpload } from "@/lib/api/upload";
 import { compressToTarget } from "@/lib/image/compress-target";
-import { FORMAT_EXTENSIONS } from "@/lib/image/formats";
+import { FORMAT_EXTENSIONS, type OutputFormat } from "@/lib/image/formats";
 import { getCompressTargetError, isCompressionLevel } from "@/lib/image/options";
 import { compressImage } from "@/lib/image/process";
 import { withExtension } from "@/lib/utils/file-name";
 
-function compressByTarget(form: FormData, buffer: Buffer) {
+type CompressJob = {
+  run: () => Promise<{ buffer: Buffer; format: OutputFormat; width?: number; height?: number; targetMet?: boolean }>;
+};
+
+function compressByTarget(form: FormData, buffer: Buffer): CompressJob {
   const targetKb = Number(form.get("targetKb"));
   const targetError = getCompressTargetError(targetKb);
   if (targetError) throw new ApiError(targetError);
@@ -17,7 +21,7 @@ function compressByTarget(form: FormData, buffer: Buffer) {
   return { run: () => compressToTarget(buffer, targetKb * 1024, allowFormatChange) };
 }
 
-function compressByLevel(form: FormData, buffer: Buffer) {
+function compressByLevel(form: FormData, buffer: Buffer): CompressJob {
   const level = form.get("level");
   if (!isCompressionLevel(level)) {
     throw new ApiError("Choose a compression level: Light, Balanced or Strong.");
