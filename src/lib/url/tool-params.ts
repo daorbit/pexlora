@@ -13,8 +13,18 @@ function readInt(params: URLSearchParams, key: string, min: number, max: number)
   return Number.isInteger(value) && value >= min && value <= max ? value : null;
 }
 
-function unlessDefault<T>(value: T, fallback: T, encode: (value: T) => string = String) {
-  return value === fallback ? null : encode(value);
+function readResizeMode(params: URLSearchParams, fallback: ToolOptions["resize"]["mode"]) {
+  const mode = params.get("mode");
+  if (mode === "size") return "dimensions";
+  if (mode === "percent") return "percent";
+  return fallback;
+}
+
+function readKeepAspect(params: URLSearchParams, fallback: boolean) {
+  const ratio = params.get("ratio");
+  if (ratio === "free") return false;
+  if (ratio === "keep") return true;
+  return fallback;
 }
 
 export function optionsFromParams(tool: WorkspaceToolSlug, params: URLSearchParams, base: ToolOptions): ToolOptions {
@@ -29,15 +39,14 @@ export function optionsFromParams(tool: WorkspaceToolSlug, params: URLSearchPara
       return { ...base, compress: { level: isCompressionLevel(level) ? level : base.compress.level } };
     }
     case "resize-image": {
-      const mode = params.get("mode") === "size" ? "dimensions" : base.resize.mode;
       return {
         ...base,
         resize: {
-          mode,
+          mode: readResizeMode(params, base.resize.mode),
           percent: readInt(params, "scale", RESIZE_PERCENT_RANGE.min, RESIZE_PERCENT_RANGE.max) ?? base.resize.percent,
           width: readInt(params, "width", 1, MAX_RESIZE_DIMENSION) ?? base.resize.width,
           height: readInt(params, "height", 1, MAX_RESIZE_DIMENSION) ?? base.resize.height,
-          keepAspect: params.get("ratio") === "free" ? false : base.resize.keepAspect,
+          keepAspect: readKeepAspect(params, base.resize.keepAspect),
         },
       };
     }
@@ -46,24 +55,24 @@ export function optionsFromParams(tool: WorkspaceToolSlug, params: URLSearchPara
   }
 }
 
-export function optionsToParams(tool: WorkspaceToolSlug, options: ToolOptions, base: ToolOptions): ParamUpdates {
+export function optionsToParams(tool: WorkspaceToolSlug, options: ToolOptions, { formatInRoute = false } = {}): ParamUpdates {
   switch (tool) {
     case "convert-format":
       return {
-        format: unlessDefault(options.convert.format, base.convert.format, (format) => FORMAT_EXTENSIONS[format]),
-        quality: unlessDefault(options.convert.quality, base.convert.quality),
+        format: formatInRoute ? null : FORMAT_EXTENSIONS[options.convert.format],
+        quality: String(options.convert.quality),
       };
     case "compress-image":
-      return { level: unlessDefault(options.compress.level, base.compress.level) };
+      return { level: options.compress.level };
     case "resize-image": {
       const { resize } = options;
       const bySize = resize.mode === "dimensions";
       return {
-        mode: bySize ? "size" : null,
-        scale: bySize ? null : unlessDefault(resize.percent, base.resize.percent),
+        mode: bySize ? "size" : "percent",
+        scale: bySize ? null : String(resize.percent),
         width: bySize && resize.width !== null ? String(resize.width) : null,
         height: bySize && resize.height !== null ? String(resize.height) : null,
-        ratio: bySize && !resize.keepAspect ? "free" : null,
+        ratio: bySize ? (resize.keepAspect ? "keep" : "free") : null,
       };
     }
     default:

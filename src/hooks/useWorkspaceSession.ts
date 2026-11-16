@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import type { WorkspaceToolSlug } from "@/config/tools";
 import { snapshotQueue, type QueueItem, type SavedQueueItem } from "@/hooks/useFileQueue";
 import type { MetadataFields } from "@/lib/image/options";
@@ -66,4 +66,13 @@ export function useWorkspaceSession(tool: WorkspaceToolSlug, queue: SessionQueue
     }, SAVE_DELAY_MS);
     return () => clearTimeout(timer);
   }, [key, tool, queue.items, queue.isProcessing, options.metadata]);
+
+  const saveWithoutResults = useCallback(() => {
+    const items = snapshotQueue(queue.items).map((item) =>
+      item.status === "done" ? { ...item, status: "ready" as const, result: undefined } : item,
+    );
+    return items.length ? saveSession<WorkspaceSession>(key, { items }) : clearSession(key);
+  }, [key, queue.items]);
+
+  return { saveWithoutResults };
 }

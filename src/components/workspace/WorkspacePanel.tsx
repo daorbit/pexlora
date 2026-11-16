@@ -1,6 +1,8 @@
 "use client";
 
 import { useCallback, useMemo } from "react";
+import { useRouter } from "next/navigation";
+import { conversionHref } from "@/config/conversions";
 import { acceptAttribute, type FileKind } from "@/config/file-formats";
 import type { SampleImage } from "@/config/samples";
 import type { WorkspaceToolSlug } from "@/config/tools";
@@ -27,17 +29,19 @@ export type WorkspacePanelProps = {
   tool: WorkspaceToolSlug;
   accepts?: FileKind[];
   initialOptions?: Partial<ToolOptions>;
+  conversionFrom?: string;
 };
 
-export function WorkspacePanel({ tool, accepts: acceptsOverride, initialOptions }: WorkspacePanelProps) {
+export function WorkspacePanel({ tool, accepts: acceptsOverride, initialOptions, conversionFrom }: WorkspacePanelProps) {
+  const router = useRouter();
   const behavior = toolBehaviors[tool];
   const accepts = acceptsOverride ?? behavior.accepts;
   const queue = useFileQueue({ inspectOnAdd: behavior.inspectOnAdd, accepts });
   const { addFiles, resetResults, process } = queue;
-  const [options, setOptions, patchOptions] = useToolOptions(tool, initialOptions);
+  const [options, setOptions, patchOptions] = useToolOptions(tool, initialOptions, Boolean(conversionFrom));
   const optionsError = behavior.action?.validate?.(options) ?? null;
   const restoreMetadata = useCallback((metadata: MetadataFields) => patchOptions({ metadata }), [patchOptions]);
-  useWorkspaceSession(tool, queue, { metadata: options.metadata, restoreMetadata });
+  const { saveWithoutResults } = useWorkspaceSession(tool, queue, { metadata: options.metadata, restoreMetadata });
 
   const accept = useMemo(() => acceptAttribute(accepts), [accepts]);
   const picker = useFilePicker(addFiles, accept);
@@ -45,11 +49,16 @@ export function WorkspacePanel({ tool, accepts: acceptsOverride, initialOptions 
   const hasItems = queue.items.length > 0;
 
   const changeOptions = useCallback(
-    (next: ToolOptions) => {
+    async (next: ToolOptions) => {
+      if (conversionFrom && next.convert.format !== options.convert.format) {
+        await saveWithoutResults();
+        router.replace(conversionHref(conversionFrom, next.convert.format, next.convert.quality), { scroll: false });
+        return;
+      }
       setOptions(next);
       resetResults();
     },
-    [resetResults, setOptions],
+    [conversionFrom, options.convert.format, resetResults, router, saveWithoutResults, setOptions],
   );
 
   const run = useCallback(() => {

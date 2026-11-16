@@ -13,12 +13,13 @@ type ToolHeroProps = {
   tool: WorkspaceToolSlug;
   accepts?: FileKind[];
   initialOptions?: Partial<ToolOptions>;
+  conversionFrom?: string;
 };
 
-export function ToolHero({ tool, accepts, initialOptions, ...intro }: ToolHeroProps) {
+export function ToolHero({ tool, accepts, initialOptions, conversionFrom, ...intro }: ToolHeroProps) {
   return (
     <PageIntroHero {...intro}>
-      <ToolWorkspace tool={tool} accepts={accepts} initialOptions={initialOptions} />
+      <ToolWorkspace tool={tool} accepts={accepts} initialOptions={initialOptions} conversionFrom={conversionFrom} />
     </PageIntroHero>
   );
 }
