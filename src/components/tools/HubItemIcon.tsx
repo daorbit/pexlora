@@ -1,11 +1,12 @@
 import Image from "next/image";
 import { cn } from "@/lib/utils/cn";
 
-type Size = "sm" | "md" | "lg" | "xl";
+type Size = "xs" | "sm" | "md" | "lg" | "xl";
 
-const pixels: Record<Size, number> = { sm: 36, md: 44, lg: 52, xl: 64 };
+const pixels: Record<Size, number> = { xs: 24, sm: 36, md: 44, lg: 52, xl: 64 };
 
 const sizeClasses: Record<Size, string> = {
+  xs: "size-6",
   sm: "size-9",
   md: "size-11",
   lg: "size-13",

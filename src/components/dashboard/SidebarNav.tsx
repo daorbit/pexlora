@@ -7,15 +7,25 @@ import { dashboardNav, isNavItemActive, type DashboardNavItem } from "@/config/d
 import { cn } from "@/lib/utils/cn";
 import { Badge } from "@/components/ui/Badge";
 import { Logo } from "@/components/layout/Logo";
+import { HubItemIcon } from "@/components/tools/HubItemIcon";
 
 const itemClasses =
-  "flex h-10 items-center gap-3 rounded-xl px-4 text-sm font-medium transition-colors";
+  "group flex h-10 items-center gap-3 rounded-xl px-3 text-sm font-medium transition-colors";
+
+function NavIcon({ item }: { item: DashboardNavItem }) {
+  if (item.iconSrc) return <HubItemIcon src={item.iconSrc} size="xs" />;
+  const Icon = item.icon;
+  return (
+    <span className="flex size-6 shrink-0 items-center justify-center">
+      <Icon className="size-4" aria-hidden />
+    </span>
+  );
+}
 
 function NavItem({ item, active }: { item: DashboardNavItem; active: boolean }) {
-  const Icon = item.icon;
   const content = (
     <>
-      <Icon className="size-4 shrink-0" aria-hidden />
+      <NavIcon item={item} />
       <span className="flex-1 truncate">{item.label}</span>
       {item.soon && <Badge>Soon</Badge>}
       {active && <span className="size-1.5 rounded-full bg-accent" aria-hidden />}

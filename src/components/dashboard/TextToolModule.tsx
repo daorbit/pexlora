@@ -1,4 +1,4 @@
-import { getTextTool, type TextToolSlug } from "@/config/text-tools";
+import { getTextTool, textToolIconSrc, type TextToolSlug } from "@/config/text-tools";
 import { PageHeader } from "@/components/dashboard/PageHeader";
 import { TextToolWorkspace } from "@/components/text-tools/TextToolWorkspace";
 
@@ -7,7 +7,7 @@ export function TextToolModule({ slug }: { slug: TextToolSlug }) {
 
   return (
     <div className="flex flex-col gap-8">
-      <PageHeader title={tool.name} description={tool.description} />
+      <PageHeader title={tool.name} description={tool.description} iconSrc={textToolIconSrc(slug)} />
       <TextToolWorkspace slug={slug} context="dashboard" />
     </div>
   );

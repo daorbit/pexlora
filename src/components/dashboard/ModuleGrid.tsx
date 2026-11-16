@@ -1,16 +1,21 @@
-import { dashboardModules } from "@/config/dashboard";
-import { getWorkspaceTool } from "@/config/tools";
-import { ToolCard } from "@/components/tools/ToolCard";
+import { dashboardToolGroups } from "@/config/dashboard";
+import { HubCard } from "@/components/home/HubCard";
 
 export function ModuleGrid() {
   return (
-    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      {dashboardModules.map(({ slug, href }) => {
-        const tool = getWorkspaceTool(slug);
-        return (
-          <ToolCard key={slug} icon={tool.icon} name={tool.name} description={tool.description} href={href} />
-        );
-      })}
+    <div className="flex flex-col gap-8">
+      {dashboardToolGroups.map((group) => (
+        <section key={group.category} className="flex flex-col gap-3">
+          <p className="text-xs font-medium text-secondary uppercase">{group.title}</p>
+          <ul className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+            {group.items.map((item) => (
+              <li key={item.key}>
+                <HubCard item={item} />
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))}
     </div>
   );
 }

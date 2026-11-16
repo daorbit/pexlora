@@ -1,5 +1,5 @@
 import { Check } from "lucide-react";
-import { getWorkspaceTool, type WorkspaceToolSlug } from "@/config/tools";
+import { getWorkspaceTool, toolIconSrc, type WorkspaceToolSlug } from "@/config/tools";
 import { moduleTips, sharedLimits } from "@/content/dashboard";
 import { Card } from "@/components/ui/Card";
 import { PageHeader } from "@/components/dashboard/PageHeader";
@@ -11,7 +11,7 @@ export function ToolModule({ slug }: { slug: WorkspaceToolSlug }) {
 
   return (
     <div className="flex flex-col gap-8">
-      <PageHeader title={tool.name} description={tool.description} />
+      <PageHeader title={tool.name} description={tool.description} iconSrc={toolIconSrc(slug)} />
       <div className="grid items-start gap-6 xl:grid-cols-[minmax(0,1fr)_300px]">
         <ToolWorkspace tool={slug} />
         <aside className="flex flex-col gap-4">

@@ -97,7 +97,7 @@ src/
 - `(app)` layout = `DashboardShell`: fixed sidebar (`SidebarNav`, config in `src/config/dashboard.ts`), top bar (`DashboardHeader` with page title, today's usage, theme toggle), mobile drawer (`MobileNav`).
 - Routes: `/dashboard` (overview: usage stats + tool cards), `/dashboard/cleaner`, `/dashboard/converter`, `/dashboard/inspector` (each a `ToolModule`: workspace + tips/limits aside), `/dashboard/settings`.
 - Usage read via `getUserUsage` (`src/lib/auth/usage.ts`); keys come from `usageKeys` in `usage.service.ts`.
-- New tools: add to `config/tools.ts`, then to `dashboardModules` in `config/dashboard.ts`, plus a page under `(app)/dashboard/`.
+- New tools: add to `config/tools.ts`, then to `dashboardHrefs` in `config/dashboard.ts`, plus a page under `(app)/dashboard/`. The sidebar, page headers and the overview grid (`dashboardToolGroups` → `HubCard`) all use the coloured tool SVGs.
 
 ## Next.js 16 specifics
 

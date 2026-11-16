@@ -1,11 +1,12 @@
 import { LayoutGrid, Settings } from "lucide-react";
 import type { IconComponent } from "@/components/icons/types";
 import { routes } from "@/config/site";
-import { textTools } from "@/config/text-tools";
+import { textToolIconSrc, textTools } from "@/config/text-tools";
+import type { HubItem } from "@/config/tool-hub";
 import {
   toolCategories,
+  toolIconSrc,
   toolsInCategory,
-  workspaceTools,
   type ToolCategory,
   type WorkspaceToolSlug,
 } from "@/config/tools";
@@ -14,6 +15,7 @@ export type DashboardNavItem = {
   label: string;
   description: string;
   icon: IconComponent;
+  iconSrc?: string;
   href?: string;
   soon?: boolean;
 };
@@ -33,29 +35,60 @@ const dashboardHrefs: Record<WorkspaceToolSlug, string> = {
   "image-alt-text": routes.dashboardAltText,
 };
 
-export const dashboardModules = workspaceTools.map((tool) => ({ slug: tool.slug, href: dashboardHrefs[tool.slug] }));
 
-function toolSection(category: ToolCategory): DashboardNavSection {
-  const items: DashboardNavItem[] = toolsInCategory(category).map((tool) => ({
-    label: tool.shortName,
-    description: tool.name,
-    icon: tool.icon,
+const toolCategoryOrder: ToolCategory[] = ["metadata", "image", "ai"];
+
+type DashboardTool = {
+  slug: string;
+  shortName: string;
+  name: string;
+  description: string;
+  icon: IconComponent;
+  iconSrc: string;
+  href: string;
+};
+
+function dashboardTools(category: ToolCategory): DashboardTool[] {
+  const tools = toolsInCategory(category).map((tool) => ({
+    ...tool,
+    iconSrc: toolIconSrc(tool.slug),
     href: dashboardHrefs[tool.slug],
   }));
+  if (category !== "ai") return tools;
 
-  if (category === "ai") {
-    items.push(
-      ...textTools.map((tool) => ({
-        label: tool.shortName,
-        description: tool.name,
-        icon: tool.icon,
-        href: tool.dashboardHref,
-      })),
-    );
-  }
-
-  return { title: toolCategories[category], items };
+  return [
+    ...tools,
+    ...textTools.map((tool) => ({ ...tool, iconSrc: textToolIconSrc(tool.slug), href: tool.dashboardHref })),
+  ];
 }
+
+function toolSection(category: ToolCategory): DashboardNavSection {
+  return {
+    title: toolCategories[category],
+    items: dashboardTools(category).map((tool) => ({
+      label: tool.shortName,
+      description: tool.name,
+      icon: tool.icon,
+      iconSrc: tool.iconSrc,
+      href: tool.href,
+    })),
+  };
+}
+
+export const dashboardToolGroups = toolCategoryOrder.map((category) => ({
+  category,
+  title: toolCategories[category],
+  items: dashboardTools(category).map(
+    (tool): HubItem => ({
+      key: tool.slug,
+      name: tool.name,
+      description: tool.description,
+      href: tool.href,
+      iconSrc: tool.iconSrc,
+      category,
+    }),
+  ),
+}));
 
 export const dashboardNav: DashboardNavSection[] = [
   {
@@ -69,9 +102,7 @@ export const dashboardNav: DashboardNavSection[] = [
       },
     ],
   },
-  toolSection("metadata"),
-  toolSection("image"),
-  toolSection("ai"),
+  ...toolCategoryOrder.map(toolSection),
   {
     title: "Account",
     items: [
