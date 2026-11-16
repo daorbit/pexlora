@@ -1,14 +1,22 @@
+import { AI_NAME } from "@/config/brand";
 import { DAILY_LIMITS, FILE_SIZE_LIMITS_MB, MAX_FILES_PER_BATCH, MAX_RESIZE_DIMENSION } from "@/config/limits";
 import type { WorkspaceToolSlug } from "@/config/tools";
 import { formatMegabytes } from "@/lib/utils/format-bytes";
 
 export const overviewCopy = {
-  toolsTitle: "Tools",
-  quickLinksTitle: "Quick links",
-  compressTitle: "Compress to size",
-  compressTo: (size: string) => `Under ${size}`,
-  convertTitle: "Convert to",
-  convertTo: (format: string) => `To ${format}`,
+  usage: {
+    title: "Today",
+    files: "Files",
+    ai: `${AI_NAME} requests`,
+    left: (count: number) => `${count} left`,
+    resets: "Resets at midnight UTC",
+    plan: "Free plan",
+  },
+  tools: { title: "Tools", description: "Everything in your workspace." },
+  shortcuts: { title: "Shortcuts", description: "Open a tool with the setting already chosen." },
+  guides: { title: "Guides", description: "Focused tools for specific apps and file types. They open on the website." },
+  compress: { title: "Compress to size", description: "For forms, exams and upload limits.", caption: "Under" },
+  convert: { title: "Convert", description: "Every converted file comes out clean.", caption: "To" },
 };
 
 export const greetingCopy = {

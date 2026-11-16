@@ -10,17 +10,17 @@ export async function DashboardGreeting() {
   const firstName = user.name.split(" ")[0];
 
   return (
-    <section className="theme-dark flex flex-col items-start justify-between gap-6 rounded-3xl bg-brand-surface p-7 text-brand-foreground sm:flex-row sm:items-end sm:p-10">
+    <section className="theme-dark flex h-full flex-col justify-between gap-8 rounded-3xl bg-brand-surface p-6 text-brand-foreground sm:p-8">
       <div className="flex flex-col gap-4">
         <p className="flex items-center gap-3 text-xs font-medium uppercase tracking-[0.24em] text-secondary">
           <DayGreeting />
           <span className="h-px w-10 bg-accent" aria-hidden />
         </p>
-        <h2 className="max-w-md text-[32px] font-bold leading-[1.1] tracking-[-0.035em] sm:text-[42px]">
+        <h2 className="max-w-lg text-[28px] font-bold leading-[1.1] tracking-[-0.035em] sm:text-[38px]">
           What are we cleaning today, <Highlight>{firstName}?</Highlight>
         </h2>
       </div>
-      <ButtonLink href={routes.dashboardCleaner} size="lg">
+      <ButtonLink href={routes.dashboardCleaner} size="lg" className="self-start">
         Clean an Image
         <ArrowRight className="size-4" aria-hidden />
       </ButtonLink>

@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { adminCopy } from "@/content/admin";
-import { AdminUserFallback, AdminUserView } from "@/components/admin/AdminUserView";
+import { AdminUserFallback, AdminUserView, type AdminUserSearchParams } from "@/components/admin/AdminUserView";
 
 export const metadata: Metadata = { title: adminCopy.nav.label };
 
-export default function AdminUserPage({ params }: { params: Promise<{ id: string }> }) {
+export default function AdminUserPage({ searchParams }: { searchParams: AdminUserSearchParams }) {
   return (
     <Suspense fallback={<AdminUserFallback />}>
-      <AdminUserView params={params} />
+      <AdminUserView searchParams={searchParams} />
     </Suspense>
   );
 }

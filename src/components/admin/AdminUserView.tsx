@@ -14,9 +14,11 @@ import { RoleForm } from "@/components/admin/RoleForm";
 import { UsageMeters } from "@/components/admin/UsageMeters";
 import { SkeletonCard } from "@/components/ui/Skeleton";
 
-export async function AdminUserView({ params }: { params: Promise<{ id: string }> }) {
-  const [admin, { id }] = await Promise.all([requireSuperAdmin(), params]);
-  const user = await getAdminUser(id);
+export type AdminUserSearchParams = Promise<{ id?: string | string[] }>;
+
+export async function AdminUserView({ searchParams }: { searchParams: AdminUserSearchParams }) {
+  const [admin, { id }] = await Promise.all([requireSuperAdmin(), searchParams]);
+  const user = await getAdminUser((Array.isArray(id) ? id[0] : id) ?? "");
   if (!user) notFound();
 
   const isSelf = user.id === admin.id;

@@ -55,9 +55,3 @@ export async function incrementUsage(key: string, amount = 1) {
   ).lean();
   return usage?.count ?? amount;
 }
-
-export async function getUsageToday(key: string) {
-  await connectToDatabase();
-  const usage = await Usage.findOne({ key, day: today() }).lean();
-  return usage?.count ?? 0;
-}
