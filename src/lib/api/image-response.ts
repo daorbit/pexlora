@@ -9,6 +9,7 @@ type ImageResponseOptions = {
   leftoverTags?: number;
   width?: number;
   height?: number;
+  targetMet?: boolean;
 };
 
 export function imageResponse({
@@ -19,6 +20,7 @@ export function imageResponse({
   leftoverTags,
   width,
   height,
+  targetMet,
 }: ImageResponseOptions) {
   const headers = new Headers({
     "Content-Type": FORMAT_MIME_TYPES[format],
@@ -28,6 +30,7 @@ export function imageResponse({
 
   if (quotaRemaining !== null) headers.set("X-Quota-Remaining", String(quotaRemaining));
   if (leftoverTags !== undefined) headers.set("X-Leftover-Tags", String(leftoverTags));
+  if (targetMet !== undefined) headers.set("X-Target-Met", String(targetMet));
   if (width !== undefined && height !== undefined) {
     headers.set("X-Image-Width", String(width));
     headers.set("X-Image-Height", String(height));

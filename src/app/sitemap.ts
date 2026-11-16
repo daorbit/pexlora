@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { compressTargetPath, compressTargets } from "@/config/compress-targets";
 import { conversionPath, conversions } from "@/config/conversions";
 import { routes } from "@/config/site";
 import { textTools } from "@/config/text-tools";
@@ -17,6 +18,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       ...textTools.map((tool) => tool.href),
       ...seoPages.map(seoPagePath),
       ...conversions.map((conversion) => conversionPath(conversion.slug)),
+      ...compressTargets.map((target) => compressTargetPath(target.slug)),
     ].map((path) => ({
       url: `${base}${path}`,
       lastModified,

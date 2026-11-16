@@ -1,5 +1,11 @@
-import { MAX_METADATA_TEXT_LENGTH, MAX_RESIZE_DIMENSION, RESIZE_PERCENT_RANGE } from "@/config/limits";
-import { DEFAULT_OUTPUT_FORMAT, DEFAULT_QUALITY, type OutputFormat } from "@/lib/image/formats";
+import { DEFAULT_COMPRESS_TARGET_KB } from "@/config/compress-targets";
+import {
+  COMPRESS_TARGET_KB_RANGE,
+  MAX_METADATA_TEXT_LENGTH,
+  MAX_RESIZE_DIMENSION,
+  RESIZE_PERCENT_RANGE,
+} from "@/config/limits";
+import { DEFAULT_OUTPUT_FORMAT, type OutputFormat } from "@/lib/image/formats";
 
 export const COMPRESSION_LEVELS = ["light", "balanced", "strong"] as const;
 export type CompressionLevel = (typeof COMPRESSION_LEVELS)[number];
@@ -10,11 +16,19 @@ export const COMPRESSION_QUALITY: Record<CompressionLevel, number> = {
   strong: 50,
 };
 
+export const COMPRESS_MODES = ["level", "target"] as const;
+export type CompressMode = (typeof COMPRESS_MODES)[number];
+
 export const RESIZE_MODES = ["percent", "dimensions"] as const;
 export type ResizeMode = (typeof RESIZE_MODES)[number];
 
-export type ConvertOptions = { format: OutputFormat; quality: number };
-export type CompressOptions = { level: CompressionLevel };
+export type ConvertOptions = { format: OutputFormat };
+export type CompressOptions = {
+  mode: CompressMode;
+  level: CompressionLevel;
+  targetKb: number | null;
+  allowFormatChange: boolean;
+};
 export type ResizeOptions = {
   mode: ResizeMode;
   percent: number;
@@ -35,8 +49,8 @@ export type ToolOptions = {
 };
 
 export const DEFAULT_TOOL_OPTIONS: ToolOptions = {
-  convert: { format: DEFAULT_OUTPUT_FORMAT, quality: DEFAULT_QUALITY },
-  compress: { level: "balanced" },
+  convert: { format: DEFAULT_OUTPUT_FORMAT },
+  compress: { mode: "level", level: "balanced", targetKb: DEFAULT_COMPRESS_TARGET_KB, allowFormatChange: false },
   resize: { mode: "percent", percent: 50, width: null, height: null, keepAspect: true },
   metadata: { author: "", copyright: "", description: "", keywords: "" },
 };
@@ -61,12 +75,25 @@ export function isCompressionLevel(value: unknown): value is CompressionLevel {
   return COMPRESSION_LEVELS.includes(value as CompressionLevel);
 }
 
+export function isCompressMode(value: unknown): value is CompressMode {
+  return COMPRESS_MODES.includes(value as CompressMode);
+}
+
 export function isResizeMode(value: unknown): value is ResizeMode {
   return RESIZE_MODES.includes(value as ResizeMode);
 }
 
 function inRange(value: number | null, min: number, max: number) {
   return value !== null && Number.isInteger(value) && value >= min && value <= max;
+}
+
+export function getCompressTargetError(targetKb: number | null) {
+  const { min, max } = COMPRESS_TARGET_KB_RANGE;
+  return inRange(targetKb, min, max) ? null : `Enter a target size between ${min} and ${max} KB.`;
+}
+
+export function getCompressError(options: CompressOptions) {
+  return options.mode === "target" ? getCompressTargetError(options.targetKb) : null;
 }
 
 export function getResizeError(options: ResizeOptions) {

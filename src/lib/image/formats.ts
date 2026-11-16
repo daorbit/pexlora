@@ -32,6 +32,7 @@ export const ACCEPTED_MIME_TYPES = imageFormats.flatMap((format) => format.mimeT
 
 export const DEFAULT_OUTPUT_FORMAT: OutputFormat = "webp";
 export const DEFAULT_QUALITY = 90;
+export const CONVERT_QUALITY = 100;
 
 export function isOutputFormat(value: unknown): value is OutputFormat {
   return OUTPUT_FORMATS.includes(value as OutputFormat);

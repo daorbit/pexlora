@@ -1,5 +1,5 @@
 import type { FileKind } from "@/config/file-formats";
-import type { CompressionLevel, MetadataField, ResizeMode } from "@/lib/image/options";
+import type { CompressionLevel, CompressMode, MetadataField, ResizeMode } from "@/lib/image/options";
 
 const onlyImages = (kinds: FileKind[]) => kinds.length === 1 && kinds[0] === "image";
 
@@ -24,8 +24,6 @@ export const saveCopy = {
 export const optionsCopy = {
   format: "Format",
   formatLabel: "Output format",
-  quality: "Quality",
-  lossless: "Lossless",
   level: "Level",
   levelLabel: "Compression level",
   levels: {
@@ -33,6 +31,17 @@ export const optionsCopy = {
     balanced: { label: "Balanced", hint: "Much smaller, still sharp" },
     strong: { label: "Strong", hint: "Smallest file, some softening" },
   } satisfies Record<CompressionLevel, { label: string; hint: string }>,
+  compressBy: "Compress by",
+  compressModes: {
+    level: "Level",
+    target: "Target Size",
+  } satisfies Record<CompressMode, string>,
+  target: "Target",
+  targetLabel: "Target file size",
+  custom: "Custom",
+  kilobytes: "KB",
+  allowFormatChange: "Allow JPG for PNGs",
+  targetHint: "Quality is lowered, then the image is scaled down, until each file fits.",
   resizeBy: "Resize by",
   modes: {
     percent: "Percentage",
@@ -57,6 +66,10 @@ export const resultCopy = {
   files: (count: number) => `${count} ${count === 1 ? "file" : "files"}`,
   saved: (amount: string, percent: number) => `Saved ${amount} (${percent}%)`,
   grew: (amount: string) => `${amount} larger in total`,
+  targetMet: (target: string) => `Under ${target}`,
+  targetMissed: (target: string) => `Over ${target}`,
+  targetMissedHint: (target: string, smallest: string) => `Couldn't reach ${target}, smallest is ${smallest}.`,
+  tryResize: "Try resizing first",
 };
 
 export const reportCopy = {

@@ -25,6 +25,7 @@ export const routes = {
   convert: "/convert-image",
   viewMetadata: "/metadata-viewer",
   compress: "/compress-image",
+  compressTo: "/compress-image-to",
   resize: "/resize-image",
   editMetadata: "/edit-image-metadata",
   altText: "/ai-alt-text-generator",

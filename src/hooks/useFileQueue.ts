@@ -47,6 +47,7 @@ export function snapshotQueue(items: QueueItem[]): SavedQueueItem[] {
             name: result.name,
             leftoverTags: result.leftoverTags,
             dimensions: result.dimensions,
+            target: result.target,
             insights: result.insights,
           }
         : undefined,

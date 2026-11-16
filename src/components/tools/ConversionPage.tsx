@@ -2,7 +2,6 @@ import { conversionIconSrc, type Conversion } from "@/config/conversions";
 import { ConvertImageIcon } from "@/components/icons/ConvertImageIcon";
 import { otherTools } from "@/config/tool-hub";
 import { toolPageCopy } from "@/content/tool-pages";
-import { DEFAULT_QUALITY } from "@/lib/image/formats";
 import { AccountBand } from "@/components/landing/AccountBand";
 import { FaqSection } from "@/components/landing/FaqSection";
 import { FeaturesSection } from "@/components/landing/FeaturesSection";
@@ -19,8 +18,8 @@ export function ConversionPage({ conversion }: { conversion: Conversion }) {
         headline={toolPageCopy.conversionHeadline(conversion.from, conversion.toLabel)}
         description={toolPageCopy.conversionDescription(conversion.from, conversion.toLabel)}
         tool="convert-format"
-        initialOptions={{ convert: { format: conversion.to, quality: DEFAULT_QUALITY } }}
-        conversionFrom={conversion.fromExtension}
+        initialOptions={{ convert: { format: conversion.to } }}
+        conversion={conversion.slug}
       />
       <ConversionLinksSection current={conversion.slug} />
       <FeaturesSection />

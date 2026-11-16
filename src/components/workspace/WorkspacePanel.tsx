@@ -1,8 +1,6 @@
 "use client";
 
 import { useCallback, useMemo } from "react";
-import { useRouter } from "next/navigation";
-import { conversionHref } from "@/config/conversions";
 import { acceptAttribute, type FileKind } from "@/config/file-formats";
 import type { SampleImage } from "@/config/samples";
 import type { WorkspaceToolSlug } from "@/config/tools";
@@ -29,19 +27,18 @@ export type WorkspacePanelProps = {
   tool: WorkspaceToolSlug;
   accepts?: FileKind[];
   initialOptions?: Partial<ToolOptions>;
-  conversionFrom?: string;
+  conversion?: string;
 };
 
-export function WorkspacePanel({ tool, accepts: acceptsOverride, initialOptions, conversionFrom }: WorkspacePanelProps) {
-  const router = useRouter();
+export function WorkspacePanel({ tool, accepts: acceptsOverride, initialOptions, conversion }: WorkspacePanelProps) {
   const behavior = toolBehaviors[tool];
   const accepts = acceptsOverride ?? behavior.accepts;
   const queue = useFileQueue({ inspectOnAdd: behavior.inspectOnAdd, accepts });
   const { addFiles, resetResults, process } = queue;
-  const [options, setOptions, patchOptions] = useToolOptions(tool, initialOptions, Boolean(conversionFrom));
+  const [options, setOptions, patchOptions] = useToolOptions(tool, initialOptions);
   const optionsError = behavior.action?.validate?.(options) ?? null;
   const restoreMetadata = useCallback((metadata: MetadataFields) => patchOptions({ metadata }), [patchOptions]);
-  const { saveWithoutResults } = useWorkspaceSession(tool, queue, { metadata: options.metadata, restoreMetadata });
+  useWorkspaceSession(tool, queue, { metadata: options.metadata, restoreMetadata, scope: conversion });
 
   const accept = useMemo(() => acceptAttribute(accepts), [accepts]);
   const picker = useFilePicker(addFiles, accept);
@@ -49,16 +46,11 @@ export function WorkspacePanel({ tool, accepts: acceptsOverride, initialOptions,
   const hasItems = queue.items.length > 0;
 
   const changeOptions = useCallback(
-    async (next: ToolOptions) => {
-      if (conversionFrom && next.convert.format !== options.convert.format) {
-        await saveWithoutResults();
-        router.replace(conversionHref(conversionFrom, next.convert.format, next.convert.quality), { scroll: false });
-        return;
-      }
+    (next: ToolOptions) => {
       setOptions(next);
       resetResults();
     },
-    [conversionFrom, options.convert.format, resetResults, router, saveWithoutResults, setOptions],
+    [resetResults, setOptions],
   );
 
   const run = useCallback(() => {
@@ -83,13 +75,15 @@ export function WorkspacePanel({ tool, accepts: acceptsOverride, initialOptions,
     <div {...dropProps} className="relative flex flex-col gap-2.5">
       <input {...picker.inputProps} />
 
-      <ToolOptionsBar
-        tool={tool}
-        options={options}
-        onChange={changeOptions}
-        disabled={queue.isProcessing}
-        sourceFile={queue.items.find((item) => item.format.kind === "image")?.file}
-      />
+      {!conversion && (
+        <ToolOptionsBar
+          tool={tool}
+          options={options}
+          onChange={changeOptions}
+          disabled={queue.isProcessing}
+          sourceFile={queue.items.find((item) => item.format.kind === "image")?.file}
+        />
+      )}
 
       <UpsellAlert message={queue.notice?.message ?? null} upsell={Boolean(queue.notice?.upsell)} />
 

@@ -44,11 +44,14 @@ export type MetadataReport = ReportDetails & {
 
 export type ImageDimensions = { width: number; height: number };
 
+export type SizeTarget = { bytes: number; met: boolean };
+
 export type ProcessedFile = {
   blob: Blob;
   name: string;
   leftoverTags: number | null;
   quotaRemaining: number | null;
   dimensions?: ImageDimensions | null;
+  target?: SizeTarget | null;
   insights?: ImageInsights;
 };

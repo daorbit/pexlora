@@ -10,11 +10,20 @@ type NumberOptionProps = {
   unit: string;
   value: number | null;
   max: number;
+  placeholder?: string;
   disabled?: boolean;
   onChange: (value: number | null) => void;
 };
 
-export function NumberOption({ label, unit, value, max, disabled, onChange }: NumberOptionProps) {
+export function NumberOption({
+  label,
+  unit,
+  value,
+  max,
+  placeholder = optionsCopy.auto,
+  disabled,
+  onChange,
+}: NumberOptionProps) {
   return (
     <OptionGroup as="label" label={label}>
       <span className={cn(optionFieldShell, "inline-flex items-center gap-1 pr-3")}>
@@ -25,7 +34,7 @@ export function NumberOption({ label, unit, value, max, disabled, onChange }: Nu
           max={max}
           step={1}
           value={value ?? ""}
-          placeholder={optionsCopy.auto}
+          placeholder={placeholder}
           disabled={disabled}
           onChange={(event) => onChange(event.target.value === "" ? null : Number(event.target.value))}
           className={cn(optionFieldInput, "w-20 pl-3 tabular-nums")}

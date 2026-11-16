@@ -79,7 +79,7 @@ export const workspaceTools: WorkspaceTool[] = [
     shortName: "Compress Image",
     headline: "Compress images and reduce file size.",
     description:
-      "Reduce image size for JPG, PNG, WebP and AVIF with three compression levels. The format stays the same and metadata is removed.",
+      "Reduce image size for JPG, PNG, WebP and AVIF with three compression levels or an exact target like 100 KB. The format stays the same and metadata is removed.",
   },
   {
     slug: "resize-image",
@@ -101,7 +101,7 @@ export const workspaceTools: WorkspaceTool[] = [
     shortName: "Convert Image",
     headline: "Convert images to JPG, PNG, WebP or AVIF.",
     description:
-      "Convert JPG to WebP, PNG to JPG, WebP to PNG and more, with quality control. Metadata is removed from every file.",
+      "Convert JPG to WebP, PNG to JPG, WebP to PNG and more at full quality. Metadata is removed from every file.",
   },
   {
     slug: "image-alt-text",

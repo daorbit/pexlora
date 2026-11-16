@@ -5,6 +5,7 @@ import { AccountBand } from "@/components/landing/AccountBand";
 import { FaqSection } from "@/components/landing/FaqSection";
 import { FeaturesSection } from "@/components/landing/FeaturesSection";
 import { InspectorShowcase } from "@/components/landing/InspectorShowcase";
+import { CompressTargetLinksSection } from "@/components/tools/CompressTargetLinksSection";
 import { ConversionLinksSection } from "@/components/tools/ConversionLinksSection";
 import { HubGridSection } from "@/components/tools/HubGridSection";
 import { ToolHero } from "@/components/tools/ToolHero";
@@ -24,6 +25,7 @@ export function ToolPage({ slug }: { slug: WorkspaceToolSlug }) {
         tool={slug}
       />
       {slug === "convert-format" && <ConversionLinksSection />}
+      {slug === "compress-image" && <CompressTargetLinksSection />}
       {metadataTools.includes(slug) ? <InspectorShowcase /> : <FeaturesSection />}
       <HubGridSection {...toolPageCopy.moreTools} items={otherTools(slug)} />
       <FaqSection />

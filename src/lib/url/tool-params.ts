@@ -1,7 +1,7 @@
-import { RESIZE_PERCENT_RANGE, MAX_RESIZE_DIMENSION } from "@/config/limits";
+import { COMPRESS_TARGET_KB_RANGE, MAX_RESIZE_DIMENSION, RESIZE_PERCENT_RANGE } from "@/config/limits";
 import type { WorkspaceToolSlug } from "@/config/tools";
 import { FORMAT_EXTENSIONS, OUTPUT_FORMATS, type OutputFormat } from "@/lib/image/formats";
-import { isCompressionLevel, type ToolOptions } from "@/lib/image/options";
+import { isCompressionLevel, type CompressOptions, type ToolOptions } from "@/lib/image/options";
 import type { ParamUpdates } from "@/lib/url/search-params";
 
 const formatByExtension = Object.fromEntries(
@@ -27,17 +27,28 @@ function readKeepAspect(params: URLSearchParams, fallback: boolean) {
   return fallback;
 }
 
+function readCompressOptions(params: URLSearchParams, base: CompressOptions): CompressOptions {
+  const level = params.get("level");
+  const targetKb = readInt(params, "target", COMPRESS_TARGET_KB_RANGE.min, COMPRESS_TARGET_KB_RANGE.max);
+  const fallback = params.get("fallback");
+  const mode = targetKb !== null ? "target" : isCompressionLevel(level) ? "level" : base.mode;
+
+  return {
+    mode,
+    level: isCompressionLevel(level) ? level : base.level,
+    targetKb: targetKb ?? base.targetKb,
+    allowFormatChange: fallback === null ? base.allowFormatChange : fallback === "jpg",
+  };
+}
+
 export function optionsFromParams(tool: WorkspaceToolSlug, params: URLSearchParams, base: ToolOptions): ToolOptions {
   switch (tool) {
     case "convert-format": {
       const format = formatByExtension[params.get("format") ?? ""] ?? base.convert.format;
-      const quality = readInt(params, "quality", 40, 100) ?? base.convert.quality;
-      return { ...base, convert: { format, quality } };
+      return { ...base, convert: { format } };
     }
-    case "compress-image": {
-      const level = params.get("level");
-      return { ...base, compress: { level: isCompressionLevel(level) ? level : base.compress.level } };
-    }
+    case "compress-image":
+      return { ...base, compress: readCompressOptions(params, base.compress) };
     case "resize-image": {
       return {
         ...base,
@@ -55,15 +66,19 @@ export function optionsFromParams(tool: WorkspaceToolSlug, params: URLSearchPara
   }
 }
 
-export function optionsToParams(tool: WorkspaceToolSlug, options: ToolOptions, { formatInRoute = false } = {}): ParamUpdates {
+export function optionsToParams(tool: WorkspaceToolSlug, options: ToolOptions): ParamUpdates {
   switch (tool) {
     case "convert-format":
+      return { format: FORMAT_EXTENSIONS[options.convert.format] };
+    case "compress-image": {
+      const { compress } = options;
+      const byTarget = compress.mode === "target";
       return {
-        format: formatInRoute ? null : FORMAT_EXTENSIONS[options.convert.format],
-        quality: String(options.convert.quality),
+        level: byTarget ? null : compress.level,
+        target: byTarget && compress.targetKb !== null ? String(compress.targetKb) : null,
+        fallback: byTarget && compress.allowFormatChange ? "jpg" : null,
       };
-    case "compress-image":
-      return { level: options.compress.level };
+    }
     case "resize-image": {
       const { resize } = options;
       const bySize = resize.mode === "dimensions";

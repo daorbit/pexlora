@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { compressTargetPath, type CompressTarget } from "@/config/compress-targets";
 import { conversionPath, type Conversion } from "@/config/conversions";
 import { getTextTool, type TextToolSlug } from "@/config/text-tools";
 import { getWorkspaceTool, type WorkspaceToolSlug } from "@/config/tools";
@@ -46,6 +47,15 @@ export function conversionMetadata(conversion: Conversion): Metadata {
     toolPageCopy.conversionMetaDescription(conversion.from, conversion.toLabel),
     conversionPath(conversion.slug),
     [`${conversion.from} to ${conversion.toLabel}`, `convert ${conversion.from} to ${conversion.toLabel}`],
+  );
+}
+
+export function compressTargetMetadata(target: CompressTarget): Metadata {
+  return pageMetadata(
+    toolPageCopy.compressTargetTitle(target.label),
+    toolPageCopy.compressTargetMetaDescription(target.label),
+    compressTargetPath(target.slug),
+    toolPageCopy.compressTargetKeywords(target.label),
   );
 }
 

@@ -1,5 +1,5 @@
 import type { OutputFormat } from "@/lib/image/formats";
-import type { CompressionLevel, MetadataFields, ResizeOptions } from "@/lib/image/options";
+import type { CompressOptions, MetadataFields, ResizeOptions } from "@/lib/image/options";
 import type { ImageDimensions, MetadataReport, ProcessedFile } from "@/lib/metadata/types";
 import { apiRequest } from "@/services/api-client";
 
@@ -41,16 +41,22 @@ export async function cleanImage(file: File) {
   return toProcessedFile(await post("/api/images/clean", file), file.name);
 }
 
-export async function convertImage(file: File, format: OutputFormat, quality: number) {
-  const response = await post("/api/images/convert", file, {
-    format,
-    quality: String(quality),
-  });
-  return toProcessedFile(response, file.name);
+export async function convertImage(file: File, format: OutputFormat) {
+  return toProcessedFile(await post("/api/images/convert", file, { format }), file.name);
 }
 
-export async function compressImage(file: File, level: CompressionLevel) {
-  return toProcessedFile(await post("/api/images/compress", file, { level }), file.name);
+export async function compressImage(file: File, options: CompressOptions) {
+  if (options.mode === "level") {
+    return toProcessedFile(await post("/api/images/compress", file, { level: options.level }), file.name);
+  }
+
+  const targetKb = options.targetKb ?? 0;
+  const response = await post("/api/images/compress", file, {
+    targetKb: String(targetKb),
+    allowFormatChange: String(options.allowFormatChange),
+  });
+  const processed = await toProcessedFile(response, file.name);
+  return { ...processed, target: { bytes: targetKb * 1024, met: response.headers.get("X-Target-Met") === "true" } };
 }
 
 export async function editImageMetadata(file: File, fields: MetadataFields) {

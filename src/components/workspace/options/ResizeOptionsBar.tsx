@@ -4,6 +4,7 @@ import { MAX_RESIZE_DIMENSION, RESIZE_PERCENT_RANGE } from "@/config/limits";
 import { optionsCopy } from "@/content/workspace";
 import { getResizeError, RESIZE_MODES, type ResizeMode, type ResizeOptions } from "@/lib/image/options";
 import { Segmented } from "@/components/ui/Segmented";
+import { CheckboxOption } from "@/components/workspace/options/CheckboxOption";
 import { NumberOption } from "@/components/workspace/options/NumberOption";
 import { OptionGroup, OptionHint, OptionsBar } from "@/components/workspace/options/OptionsBar";
 import { RangeOption } from "@/components/workspace/options/RangeOption";
@@ -57,16 +58,12 @@ export function ResizeOptionsBar({ options, onChange, disabled }: OptionsBarProp
             disabled={disabled}
             onChange={(height) => set({ height })}
           />
-          <label className="inline-flex items-center gap-2 text-[13px] font-medium text-secondary">
-            <input
-              type="checkbox"
-              checked={options.keepAspect}
-              disabled={disabled}
-              onChange={(event) => set({ keepAspect: event.target.checked })}
-              className="size-4 cursor-pointer accent-foreground disabled:cursor-not-allowed"
-            />
-            {optionsCopy.keepAspect}
-          </label>
+          <CheckboxOption
+            label={optionsCopy.keepAspect}
+            checked={options.keepAspect}
+            disabled={disabled}
+            onChange={(keepAspect) => set({ keepAspect })}
+          />
         </div>
       )}
     </OptionsBar>

@@ -18,7 +18,7 @@ export const moduleTips: Record<WorkspaceToolSlug, { title: string; tips: string
     tips: [
       "WebP is a good default for the web",
       "AVIF gives the smallest files for photos",
-      "PNG output is lossless, so quality doesn't apply",
+      "Images convert at full quality; use the compressor to shrink them",
       "Metadata is removed from every converted file",
     ],
   },
@@ -28,6 +28,7 @@ export const moduleTips: Record<WorkspaceToolSlug, { title: string; tips: string
       "Balanced is a good default for websites",
       "Light keeps every detail for print or editing",
       "Strong is best for thumbnails and email",
+      "Target Size gets each file under a limit, like 100 KB for forms",
       "The file format stays the same",
       "Metadata is removed from every compressed file",
     ],

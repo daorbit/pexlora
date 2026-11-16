@@ -43,7 +43,7 @@ export function FeaturesSection() {
           icon={FileImage}
           label="Convert Images"
           title="Modern formats, smaller files."
-          body="Turn JPG and PNG into WebP or AVIF with full quality control. Every file comes out clean."
+          body="Turn JPG and PNG into WebP or AVIF at full quality. Every file comes out clean."
           primary={toolLink("convert-format")}
           secondary={{ label: "Supported formats", href: "/#formats" }}
           visual={<FormatsVisual />}

@@ -291,6 +291,6 @@ export const faqs = [
   {
     question: "Why did my file get bigger after cleaning?",
     answer:
-      "JPEG and WebP files are re-encoded at high quality to avoid visible loss, which can add a few kilobytes. Use the converter with a lower quality setting if size matters.",
+      "JPEG and WebP files are re-encoded at high quality to avoid visible loss, which can add a few kilobytes. Use the compressor if size matters.",
   },
 ];

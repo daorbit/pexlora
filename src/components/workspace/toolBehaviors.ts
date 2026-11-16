@@ -1,6 +1,6 @@
 import { ALL_KINDS, type FileKind } from "@/config/file-formats";
 import type { WorkspaceToolSlug } from "@/config/tools";
-import { getMetadataFieldsError, getResizeError, type ToolOptions } from "@/lib/image/options";
+import { getCompressError, getMetadataFieldsError, getResizeError, type ToolOptions } from "@/lib/image/options";
 import type { ProcessedFile } from "@/lib/metadata/types";
 import { generateAltText } from "@/services/ai-api";
 import { cleanFile } from "@/services/file-service";
@@ -38,7 +38,7 @@ export const toolBehaviors: Record<WorkspaceToolSlug, ToolBehavior> = {
     action: {
       label: "Convert Images",
       doneLabel: "Converted",
-      run: (file, { convert }) => convertImage(file, convert.format, convert.quality),
+      run: (file, { convert }) => convertImage(file, convert.format),
       zipName: "converted-images.zip",
     },
   },
@@ -49,7 +49,8 @@ export const toolBehaviors: Record<WorkspaceToolSlug, ToolBehavior> = {
     action: {
       label: "Compress Images",
       doneLabel: "Compressed",
-      run: (file, { compress }) => compressImage(file, compress.level),
+      run: (file, { compress }) => compressImage(file, compress),
+      validate: ({ compress }) => getCompressError(compress),
       zipName: "compressed-images.zip",
     },
   },

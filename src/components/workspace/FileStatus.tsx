@@ -1,8 +1,10 @@
-import { Check, LoaderCircle } from "lucide-react";
+import { Check, LoaderCircle, X } from "lucide-react";
 import { AiTagIcon } from "@/components/icons/AiTagIcon";
+import { resultCopy } from "@/content/workspace";
 import type { QueueItem } from "@/hooks/useFileQueue";
-import { formatBytes, sizeChangePercent } from "@/lib/utils/format-bytes";
+import { formatBytes, formatKilobytes, sizeChangePercent } from "@/lib/utils/format-bytes";
 import { Badge } from "@/components/ui/Badge";
+import { TargetMissedNote } from "@/components/workspace/TargetMissedNote";
 
 function Pending({ label }: { label: string }) {
   return (
@@ -31,7 +33,13 @@ function ReportSummary({ item }: { item: QueueItem }) {
   );
 }
 
-function doneBadgeLabel(result: NonNullable<QueueItem["result"]>, doneLabel: string) {
+type QueueResult = NonNullable<QueueItem["result"]>;
+
+function doneBadgeLabel(result: QueueResult, doneLabel: string) {
+  if (result.target) {
+    const target = formatKilobytes(result.target.bytes / 1024);
+    return result.target.met ? resultCopy.targetMet(target) : resultCopy.targetMissed(target);
+  }
   if (result.leftoverTags === null) return doneLabel;
   return result.leftoverTags === 0 ? "Clean" : `${result.leftoverTags} left`;
 }
@@ -40,11 +48,16 @@ function DoneSummary({ item, doneLabel }: { item: QueueItem; doneLabel: string }
   const result = item.result!;
   const change = sizeChangePercent(item.file.size, result.blob.size);
   const label = doneBadgeLabel(result, doneLabel);
+  const missedTarget = result.target && !result.target.met ? result.target : null;
 
   return (
     <span className="inline-flex flex-wrap items-center gap-2 motion-safe:animate-fade-up motion-safe:[animation-duration:0.4s]">
-      <Badge tone="success" className="motion-safe:animate-pop">
-        <Check className="size-3" strokeWidth={3} aria-hidden />
+      <Badge tone={missedTarget ? "danger" : "success"} className="motion-safe:animate-pop">
+        {missedTarget ? (
+          <X className="size-3" strokeWidth={3} aria-hidden />
+        ) : (
+          <Check className="size-3" strokeWidth={3} aria-hidden />
+        )}
         {label}
       </Badge>
       {result.dimensions && (
@@ -62,6 +75,7 @@ function DoneSummary({ item, doneLabel }: { item: QueueItem; doneLabel: string }
           </span>
         </span>
       )}
+      {missedTarget && <TargetMissedNote targetBytes={missedTarget.bytes} smallestBytes={result.blob.size} />}
     </span>
   );
 }
