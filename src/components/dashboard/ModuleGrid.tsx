@@ -1,5 +1,5 @@
 import { dashboardModules } from "@/config/dashboard";
-import { getWorkspaceTool, upcomingTools } from "@/config/tools";
+import { getWorkspaceTool } from "@/config/tools";
 import { ToolCard } from "@/components/tools/ToolCard";
 
 export function ModuleGrid() {
@@ -11,9 +11,6 @@ export function ModuleGrid() {
           <ToolCard key={slug} icon={tool.icon} name={tool.name} description={tool.description} href={href} />
         );
       })}
-      {upcomingTools.map((tool) => (
-        <ToolCard key={tool.slug} icon={tool.icon} name={tool.name} description={tool.description} />
-      ))}
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import type { OutputFormat } from "@/lib/image/formats";
-import type { MetadataReport, ProcessedFile } from "@/lib/metadata/types";
+import type { CompressionLevel, ResizeOptions } from "@/lib/image/options";
+import type { ImageDimensions, MetadataReport, ProcessedFile } from "@/lib/metadata/types";
 import { apiRequest } from "@/services/api-client";
 
 function post(path: string, file: File, fields: Record<string, string> = {}) {
@@ -14,6 +15,12 @@ function numberHeader(response: Response, name: string) {
   return value === null ? null : Number(value);
 }
 
+function dimensionHeaders(response: Response): ImageDimensions | null {
+  const width = numberHeader(response, "X-Image-Width");
+  const height = numberHeader(response, "X-Image-Height");
+  return width !== null && height !== null ? { width, height } : null;
+}
+
 async function toProcessedFile(response: Response, fallbackName: string): Promise<ProcessedFile> {
   const encodedName = response.headers.get("X-File-Name");
   return {
@@ -21,6 +28,7 @@ async function toProcessedFile(response: Response, fallbackName: string): Promis
     name: encodedName ? decodeURIComponent(encodedName) : fallbackName,
     leftoverTags: numberHeader(response, "X-Leftover-Tags"),
     quotaRemaining: numberHeader(response, "X-Quota-Remaining"),
+    dimensions: dimensionHeaders(response),
   };
 }
 
@@ -37,6 +45,21 @@ export async function convertImage(file: File, format: OutputFormat, quality: nu
   const response = await post("/api/images/convert", file, {
     format,
     quality: String(quality),
+  });
+  return toProcessedFile(response, file.name);
+}
+
+export async function compressImage(file: File, level: CompressionLevel) {
+  return toProcessedFile(await post("/api/images/compress", file, { level }), file.name);
+}
+
+export async function resizeImage(file: File, options: ResizeOptions) {
+  const response = await post("/api/images/resize", file, {
+    mode: options.mode,
+    percent: String(options.percent),
+    width: options.width === null ? "" : String(options.width),
+    height: options.height === null ? "" : String(options.height),
+    keepAspect: String(options.keepAspect),
   });
   return toProcessedFile(response, file.name);
 }

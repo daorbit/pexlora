@@ -11,6 +11,7 @@ type QueueToolbarProps = {
   isProcessing: boolean;
   canAddMore: boolean;
   actionLabel?: string;
+  actionDisabled?: boolean;
   downloadAllLabel: string;
   onAdd: () => void;
   onClear: () => void;
@@ -26,6 +27,7 @@ export function QueueToolbar({
   isProcessing,
   canAddMore,
   actionLabel,
+  actionDisabled = false,
   downloadAllLabel,
   onAdd,
   onClear,
@@ -52,7 +54,7 @@ export function QueueToolbar({
           </Button>
         )}
         {actionLabel && (
-          <Button onClick={onRun} disabled={!readyCount || isProcessing} className="flex-1 sm:flex-none">
+          <Button onClick={onRun} disabled={!readyCount || isProcessing || actionDisabled} className="flex-1 sm:flex-none">
             {isProcessing && <LoaderCircle className="size-4 animate-spin" aria-hidden />}
             {actionLabel}
             {readyCount > 1 && ` (${readyCount})`}

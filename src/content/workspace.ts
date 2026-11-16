@@ -1,4 +1,5 @@
 import type { FileKind } from "@/config/file-formats";
+import type { CompressionLevel, ResizeMode } from "@/lib/image/options";
 
 const onlyImages = (kinds: FileKind[]) => kinds.length === 1 && kinds[0] === "image";
 
@@ -18,6 +19,31 @@ export const saveCopy = {
   photos: "Save to Photos",
   downloadAll: "Download All",
   photosAll: "Save All to Photos",
+};
+
+export const optionsCopy = {
+  format: "Format",
+  formatLabel: "Output format",
+  quality: "Quality",
+  lossless: "Lossless",
+  level: "Level",
+  levelLabel: "Compression level",
+  levels: {
+    light: { label: "Light", hint: "Smaller file, no visible change" },
+    balanced: { label: "Balanced", hint: "Much smaller, still sharp" },
+    strong: { label: "Strong", hint: "Smallest file, some softening" },
+  } satisfies Record<CompressionLevel, { label: string; hint: string }>,
+  resizeBy: "Resize by",
+  modes: {
+    percent: "Percentage",
+    dimensions: "Dimensions",
+  } satisfies Record<ResizeMode, string>,
+  scale: "Scale",
+  width: "Width",
+  height: "Height",
+  pixels: "px",
+  auto: "Auto",
+  keepAspect: "Keep aspect ratio",
 };
 
 export const reportCopy = {

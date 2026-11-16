@@ -6,6 +6,8 @@ const toolTitles: Record<WorkspaceToolSlug, string> = {
   "remove-metadata": "Remove AI Metadata, EXIF & GPS from Images, PDF & Video Free",
   "convert-format": "Convert Images to WebP, AVIF, PNG & JPG Free",
   "view-metadata": "Metadata Viewer: See EXIF, XMP, Author & AI Tags in Any File",
+  "compress-image": "Compress JPG, PNG, WebP & AVIF Images Online Free",
+  "resize-image": "Resize Images by Pixels or Percentage Online Free",
 };
 
 function pageMetadata(title: string, description: string, path: string, keywords?: string[]): Metadata {

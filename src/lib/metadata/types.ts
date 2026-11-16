@@ -40,9 +40,12 @@ export type MetadataReport = ReportDetails & {
   aiTags: number;
 };
 
+export type ImageDimensions = { width: number; height: number };
+
 export type ProcessedFile = {
   blob: Blob;
   name: string;
   leftoverTags: number | null;
   quotaRemaining: number | null;
+  dimensions?: ImageDimensions | null;
 };

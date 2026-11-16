@@ -31,10 +31,15 @@ function ReportSummary({ item }: { item: QueueItem }) {
   );
 }
 
-function DoneSummary({ item }: { item: QueueItem }) {
+function doneBadgeLabel(result: NonNullable<QueueItem["result"]>, doneLabel: string) {
+  if (result.leftoverTags === null) return doneLabel;
+  return result.leftoverTags === 0 ? "Clean" : `${result.leftoverTags} left`;
+}
+
+function DoneSummary({ item, doneLabel }: { item: QueueItem; doneLabel: string }) {
   const result = item.result!;
   const change = sizeChangePercent(item.file.size, result.blob.size);
-  const label = result.leftoverTags === null ? "Converted" : result.leftoverTags === 0 ? "Clean" : `${result.leftoverTags} left`;
+  const label = doneBadgeLabel(result, doneLabel);
 
   return (
     <span className="inline-flex flex-wrap items-center gap-2">
@@ -42,6 +47,11 @@ function DoneSummary({ item }: { item: QueueItem }) {
         <Check className="size-3" strokeWidth={3} aria-hidden />
         {label}
       </Badge>
+      {result.dimensions && (
+        <span className="tabular-nums text-secondary">
+          {result.dimensions.width} × {result.dimensions.height}
+        </span>
+      )}
       <span className="tabular-nums text-secondary">
         {formatBytes(item.file.size)} → {formatBytes(result.blob.size)}
         <span className={change < 0 ? "text-success" : undefined}>
@@ -54,7 +64,7 @@ function DoneSummary({ item }: { item: QueueItem }) {
   );
 }
 
-export function FileStatus({ item }: { item: QueueItem }) {
+export function FileStatus({ item, doneLabel = "Done" }: { item: QueueItem; doneLabel?: string }) {
   switch (item.status) {
     case "inspecting":
       return <Pending label="Reading metadata…" />;
@@ -63,7 +73,7 @@ export function FileStatus({ item }: { item: QueueItem }) {
     case "error":
       return <span className="text-danger">{item.error}</span>;
     case "done":
-      return <DoneSummary item={item} />;
+      return <DoneSummary item={item} doneLabel={doneLabel} />;
     default:
       return <ReportSummary item={item} />;
   }

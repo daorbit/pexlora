@@ -11,7 +11,11 @@ type ToolTabsProps = {
 
 export function ToolTabs({ value, onChange }: ToolTabsProps) {
   return (
-    <div role="tablist" aria-label="Choose a tool" className={cn(segmentedTrack, "w-full sm:w-auto")}>
+    <div
+      role="tablist"
+      aria-label="Choose a tool"
+      className={cn(segmentedTrack, "scrollbar-none w-full max-w-full overflow-x-auto sm:w-auto")}
+    >
       {workspaceTools.map((tool) => {
         const Icon = tool.icon;
         return (
@@ -21,7 +25,7 @@ export function ToolTabs({ value, onChange }: ToolTabsProps) {
             role="tab"
             aria-selected={tool.slug === value}
             onClick={() => onChange(tool.slug)}
-            className={cn(segmentedItem(tool.slug === value), "flex-1 sm:flex-none")}
+            className={cn(segmentedItem(tool.slug === value), "shrink-0 grow sm:grow-0")}
           >
             <Icon className="hidden size-4 sm:block" aria-hidden />
             {tool.shortName}

@@ -1,4 +1,4 @@
-import { DAILY_LIMITS, FILE_SIZE_LIMITS_MB, MAX_FILES_PER_BATCH } from "@/config/limits";
+import { DAILY_LIMITS, FILE_SIZE_LIMITS_MB, MAX_FILES_PER_BATCH, MAX_RESIZE_DIMENSION } from "@/config/limits";
 import type { WorkspaceToolSlug } from "@/config/tools";
 import { formatMegabytes } from "@/lib/utils/format-bytes";
 
@@ -20,6 +20,26 @@ export const moduleTips: Record<WorkspaceToolSlug, { title: string; tips: string
       "AVIF gives the smallest files for photos",
       "PNG output is lossless, so quality doesn't apply",
       "Metadata is removed from every converted file",
+    ],
+  },
+  "compress-image": {
+    title: "Picking a level",
+    tips: [
+      "Balanced is a good default for websites",
+      "Light keeps every detail for print or editing",
+      "Strong is best for thumbnails and email",
+      "The file format stays the same",
+      "Metadata is removed from every compressed file",
+    ],
+  },
+  "resize-image": {
+    title: "Resizing tips",
+    tips: [
+      "Percentage keeps the shape of every image",
+      "Fill in only width or height to scale the other side",
+      "Untick aspect ratio to stretch to an exact size",
+      `Images go up to ${MAX_RESIZE_DIMENSION} px on each side`,
+      "Metadata is removed from every resized file",
     ],
   },
   "view-metadata": {

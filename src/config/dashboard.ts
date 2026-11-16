@@ -1,6 +1,6 @@
 import { LayoutGrid, Settings, type LucideIcon } from "lucide-react";
 import { routes } from "@/config/site";
-import { getWorkspaceTool, upcomingTools, type WorkspaceToolSlug } from "@/config/tools";
+import { getWorkspaceTool, type WorkspaceToolSlug } from "@/config/tools";
 
 export type DashboardNavItem = {
   label: string;
@@ -19,19 +19,14 @@ export const dashboardModules: { slug: WorkspaceToolSlug; href: string }[] = [
   { slug: "remove-metadata", href: routes.dashboardCleaner },
   { slug: "convert-format", href: routes.dashboardConverter },
   { slug: "view-metadata", href: routes.dashboardInspector },
+  { slug: "compress-image", href: routes.dashboardCompressor },
+  { slug: "resize-image", href: routes.dashboardResizer },
 ];
 
 const toolItems: DashboardNavItem[] = dashboardModules.map(({ slug, href }) => {
   const tool = getWorkspaceTool(slug);
   return { label: tool.shortName, description: tool.name, icon: tool.icon, href };
 });
-
-const upcomingItems: DashboardNavItem[] = upcomingTools.map((tool) => ({
-  label: tool.shortName,
-  description: tool.name,
-  icon: tool.icon,
-  soon: true,
-}));
 
 export const dashboardNav: DashboardNavSection[] = [
   {
@@ -45,7 +40,7 @@ export const dashboardNav: DashboardNavSection[] = [
       },
     ],
   },
-  { title: "Tools", items: [...toolItems, ...upcomingItems] },
+  { title: "Tools", items: toolItems },
   {
     title: "Account",
     items: [

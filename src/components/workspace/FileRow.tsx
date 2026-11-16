@@ -15,6 +15,7 @@ import { MetadataReport } from "@/components/workspace/MetadataReport";
 type FileRowProps = {
   item: QueueItem;
   defaultExpanded: boolean;
+  doneLabel?: string;
   onRemove: (id: string) => void;
   disabled: boolean;
 };
@@ -30,7 +31,7 @@ function fileDetails({ file, format, report }: QueueItem) {
     .join(" · ");
 }
 
-export function FileRow({ item, defaultExpanded, onRemove, disabled }: FileRowProps) {
+export function FileRow({ item, defaultExpanded, doneLabel, onRemove, disabled }: FileRowProps) {
   const [expanded, setExpanded] = useState(defaultExpanded);
   const { file, report, result } = item;
 
@@ -43,7 +44,7 @@ export function FileRow({ item, defaultExpanded, onRemove, disabled }: FileRowPr
           <p className="text-[13px] tabular-nums text-secondary">{fileDetails(item)}</p>
         </div>
         <div className="order-last w-full text-[13px] sm:order-none sm:w-auto sm:flex-1">
-          <FileStatus item={item} />
+          <FileStatus item={item} doneLabel={doneLabel} />
         </div>
         <div className="ml-auto flex items-center gap-1">
           {report && (

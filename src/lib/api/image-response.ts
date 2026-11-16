@@ -7,6 +7,8 @@ type ImageResponseOptions = {
   fileName: string;
   quotaRemaining: number | null;
   leftoverTags?: number;
+  width?: number;
+  height?: number;
 };
 
 export function imageResponse({
@@ -15,6 +17,8 @@ export function imageResponse({
   fileName,
   quotaRemaining,
   leftoverTags,
+  width,
+  height,
 }: ImageResponseOptions) {
   const headers = new Headers({
     "Content-Type": FORMAT_MIME_TYPES[format],
@@ -24,6 +28,10 @@ export function imageResponse({
 
   if (quotaRemaining !== null) headers.set("X-Quota-Remaining", String(quotaRemaining));
   if (leftoverTags !== undefined) headers.set("X-Leftover-Tags", String(leftoverTags));
+  if (width !== undefined && height !== undefined) {
+    headers.set("X-Image-Width", String(width));
+    headers.set("X-Image-Height", String(height));
+  }
 
   return new Response(new Uint8Array(buffer), { headers });
 }

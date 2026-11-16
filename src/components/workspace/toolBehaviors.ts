@@ -1,11 +1,9 @@
 import { ALL_KINDS, type FileKind } from "@/config/file-formats";
 import type { WorkspaceToolSlug } from "@/config/tools";
-import type { OutputFormat } from "@/lib/image/formats";
+import { getResizeError, type ToolOptions } from "@/lib/image/options";
 import type { ProcessedFile } from "@/lib/metadata/types";
 import { cleanFile } from "@/services/file-service";
-import { convertImage } from "@/services/image-api";
-
-export type ConvertOptions = { format: OutputFormat; quality: number };
+import { compressImage, convertImage, resizeImage } from "@/services/image-api";
 
 type ToolBehavior = {
   accepts: FileKind[];
@@ -13,7 +11,9 @@ type ToolBehavior = {
   expandReports: boolean;
   action?: {
     label: string;
-    run: (file: File, options: ConvertOptions) => Promise<ProcessedFile>;
+    doneLabel: string;
+    run: (file: File, options: ToolOptions) => Promise<ProcessedFile>;
+    validate?: (options: ToolOptions) => string | null;
     zipName: string;
   };
 };
@@ -25,6 +25,7 @@ export const toolBehaviors: Record<WorkspaceToolSlug, ToolBehavior> = {
     expandReports: false,
     action: {
       label: "Remove Metadata",
+      doneLabel: "Cleaned",
       run: (file) => cleanFile(file),
       zipName: "clean-files.zip",
     },
@@ -35,8 +36,32 @@ export const toolBehaviors: Record<WorkspaceToolSlug, ToolBehavior> = {
     expandReports: false,
     action: {
       label: "Convert Images",
-      run: (file, options) => convertImage(file, options.format, options.quality),
+      doneLabel: "Converted",
+      run: (file, { convert }) => convertImage(file, convert.format, convert.quality),
       zipName: "converted-images.zip",
+    },
+  },
+  "compress-image": {
+    accepts: ["image"],
+    inspectOnAdd: false,
+    expandReports: false,
+    action: {
+      label: "Compress Images",
+      doneLabel: "Compressed",
+      run: (file, { compress }) => compressImage(file, compress.level),
+      zipName: "compressed-images.zip",
+    },
+  },
+  "resize-image": {
+    accepts: ["image"],
+    inspectOnAdd: false,
+    expandReports: false,
+    action: {
+      label: "Resize Images",
+      doneLabel: "Resized",
+      run: (file, { resize }) => resizeImage(file, resize),
+      validate: ({ resize }) => getResizeError(resize),
+      zipName: "resized-images.zip",
     },
   },
   "view-metadata": {

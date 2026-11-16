@@ -2,7 +2,7 @@ export const siteConfig = {
   name: "Pexlora",
   tagline: "Clean your files before you share them",
   description:
-    "Remove AI tags, C2PA credentials, GPS and author details from photos, PDFs, Office documents, audio and video, or convert images between JPG, PNG, WebP and AVIF. Free, no sign-up.",
+    "Remove AI tags, C2PA credentials, GPS and author details from photos, PDFs, Office documents, audio and video, or convert, compress and resize JPG, PNG, WebP and AVIF images. Free, no sign-up.",
   googleSiteVerification: "HiZBxbDomDb7TUXm27xBbCModk82j3wdBABq0wHr5xM",
 } as const;
 
@@ -14,10 +14,14 @@ export const routes = {
   dashboardCleaner: "/dashboard/cleaner",
   dashboardConverter: "/dashboard/converter",
   dashboardInspector: "/dashboard/inspector",
+  dashboardCompressor: "/dashboard/compressor",
+  dashboardResizer: "/dashboard/resizer",
   dashboardSettings: "/dashboard/settings",
   removeMetadata: "/remove-ai-metadata",
   convert: "/convert-image",
   viewMetadata: "/metadata-viewer",
+  compress: "/compress-image",
+  resize: "/resize-image",
   faq: "/#faq",
   contact: "/contact",
   googleAuth: "/api/auth/google",

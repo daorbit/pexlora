@@ -8,7 +8,7 @@ import type { WorkspaceToolSlug } from "@/config/tools";
 import { useFileDrop } from "@/hooks/useFileDrop";
 import { useFileQueue } from "@/hooks/useFileQueue";
 import { useFilePicker } from "@/hooks/useFilePicker";
-import { DEFAULT_OUTPUT_FORMAT, DEFAULT_QUALITY } from "@/lib/image/formats";
+import { DEFAULT_TOOL_OPTIONS, type ToolOptions } from "@/lib/image/options";
 import { saveCopy } from "@/content/workspace";
 import { useCanSaveToPhotos } from "@/hooks/useCanSaveToPhotos";
 import { cn } from "@/lib/utils/cn";
@@ -16,11 +16,11 @@ import { fetchAsFile } from "@/lib/utils/fetch-file";
 import { isGalleryMedia, saveFiles } from "@/lib/utils/save-file";
 import { Alert } from "@/components/ui/Alert";
 import { ButtonLink } from "@/components/ui/Button";
-import { ConvertOptionsBar } from "@/components/workspace/ConvertOptionsBar";
 import { Dropzone } from "@/components/workspace/Dropzone";
 import { FileRow } from "@/components/workspace/FileRow";
+import { ToolOptionsBar } from "@/components/workspace/options/ToolOptionsBar";
 import { QueueToolbar } from "@/components/workspace/QueueToolbar";
-import { toolBehaviors, type ConvertOptions } from "@/components/workspace/toolBehaviors";
+import { toolBehaviors } from "@/components/workspace/toolBehaviors";
 
 type WorkspacePanelProps = {
   tool: WorkspaceToolSlug;
@@ -32,10 +32,8 @@ export function WorkspacePanel({ tool, accepts: acceptsOverride }: WorkspacePane
   const accepts = acceptsOverride ?? behavior.accepts;
   const queue = useFileQueue({ inspectOnAdd: behavior.inspectOnAdd, accepts });
   const { addFiles, resetResults, process } = queue;
-  const [options, setOptions] = useState<ConvertOptions>({
-    format: DEFAULT_OUTPUT_FORMAT,
-    quality: DEFAULT_QUALITY,
-  });
+  const [options, setOptions] = useState<ToolOptions>(DEFAULT_TOOL_OPTIONS);
+  const optionsError = behavior.action?.validate?.(options) ?? null;
 
   const accept = useMemo(() => acceptAttribute(accepts), [accepts]);
   const picker = useFilePicker(addFiles, accept);
@@ -43,7 +41,7 @@ export function WorkspacePanel({ tool, accepts: acceptsOverride }: WorkspacePane
   const hasItems = queue.items.length > 0;
 
   const changeOptions = useCallback(
-    (next: ConvertOptions) => {
+    (next: ToolOptions) => {
       setOptions(next);
       resetResults();
     },
@@ -51,8 +49,8 @@ export function WorkspacePanel({ tool, accepts: acceptsOverride }: WorkspacePane
   );
 
   const run = useCallback(() => {
-    if (behavior.action) process((file) => behavior.action!.run(file, options));
-  }, [behavior.action, options, process]);
+    if (behavior.action && !optionsError) process((file) => behavior.action!.run(file, options));
+  }, [behavior.action, optionsError, options, process]);
 
   const addSample = useCallback(
     async (sample: SampleImage) => {
@@ -72,9 +70,7 @@ export function WorkspacePanel({ tool, accepts: acceptsOverride }: WorkspacePane
     <div {...dropProps} className="relative flex flex-col gap-2.5">
       <input {...picker.inputProps} />
 
-      {tool === "convert-format" && (
-        <ConvertOptionsBar options={options} onChange={changeOptions} disabled={queue.isProcessing} />
-      )}
+      <ToolOptionsBar tool={tool} options={options} onChange={changeOptions} disabled={queue.isProcessing} />
 
       {queue.notice && (
         <Alert
@@ -102,6 +98,7 @@ export function WorkspacePanel({ tool, accepts: acceptsOverride }: WorkspacePane
                 key={item.id}
                 item={item}
                 defaultExpanded={behavior.expandReports}
+                doneLabel={behavior.action?.doneLabel}
                 onRemove={queue.remove}
                 disabled={queue.isProcessing}
               />
@@ -115,6 +112,7 @@ export function WorkspacePanel({ tool, accepts: acceptsOverride }: WorkspacePane
             isProcessing={queue.isProcessing}
             canAddMore={queue.canAddMore}
             actionLabel={behavior.action?.label}
+            actionDisabled={Boolean(optionsError)}
             onAdd={picker.open}
             onClear={queue.reset}
             onRun={run}

@@ -8,34 +8,26 @@ import {
 } from "lucide-react";
 import { routes } from "@/config/site";
 
-export type WorkspaceToolSlug = "remove-metadata" | "convert-format" | "view-metadata";
-export type ToolSlug = WorkspaceToolSlug | "compress" | "resize";
+export type WorkspaceToolSlug =
+  | "remove-metadata"
+  | "convert-format"
+  | "compress-image"
+  | "resize-image"
+  | "view-metadata";
 
-type BaseTool = {
+export type WorkspaceTool = {
+  slug: WorkspaceToolSlug;
+  href: string;
   name: string;
   shortName: string;
+  headline: string;
   description: string;
   icon: LucideIcon;
 };
 
-export type WorkspaceTool = BaseTool & {
-  slug: WorkspaceToolSlug;
-  status: "available";
-  href: string;
-  headline: string;
-};
-
-export type UpcomingTool = BaseTool & {
-  slug: Exclude<ToolSlug, WorkspaceToolSlug>;
-  status: "coming-soon";
-};
-
-export type Tool = WorkspaceTool | UpcomingTool;
-
 export const workspaceTools: WorkspaceTool[] = [
   {
     slug: "remove-metadata",
-    status: "available",
     href: routes.removeMetadata,
     icon: ShieldOff,
     name: "Remove AI Metadata",
@@ -46,7 +38,6 @@ export const workspaceTools: WorkspaceTool[] = [
   },
   {
     slug: "convert-format",
-    status: "available",
     href: routes.convert,
     icon: FileImage,
     name: "Image Converter",
@@ -57,7 +48,6 @@ export const workspaceTools: WorkspaceTool[] = [
   },
   {
     slug: "view-metadata",
-    status: "available",
     href: routes.viewMetadata,
     icon: FileSearch,
     name: "Metadata Viewer",
@@ -66,28 +56,27 @@ export const workspaceTools: WorkspaceTool[] = [
     description:
       "Read every EXIF, XMP, author, audio and video tag a file carries, with AI tags shown first.",
   },
-];
-
-export const upcomingTools: UpcomingTool[] = [
   {
-    slug: "compress",
-    status: "coming-soon",
+    slug: "compress-image",
+    href: routes.compress,
     icon: Minimize2,
     name: "Image Compressor",
     shortName: "Compressor",
-    description: "Shrink file size while keeping images sharp.",
+    headline: "Compress images without losing sharpness.",
+    description:
+      "Shrink JPG, PNG, WebP and AVIF files with three compression levels. The format stays the same and metadata is removed.",
   },
   {
-    slug: "resize",
-    status: "coming-soon",
+    slug: "resize-image",
+    href: routes.resize,
     icon: Scaling,
     name: "Image Resizer",
     shortName: "Resizer",
-    description: "Resize to exact dimensions, a percentage or common presets.",
+    headline: "Resize images to any size.",
+    description:
+      "Scale images by percentage or to an exact width and height, with or without keeping the aspect ratio. Metadata is removed.",
   },
 ];
-
-export const tools: Tool[] = [...workspaceTools, ...upcomingTools];
 
 export function getWorkspaceTool(slug: WorkspaceToolSlug) {
   return workspaceTools.find((tool) => tool.slug === slug)!;

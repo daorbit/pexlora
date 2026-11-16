@@ -6,13 +6,15 @@ import { InspectorShowcase } from "@/components/landing/InspectorShowcase";
 import { ToolsSection } from "@/components/landing/ToolsSection";
 import { ToolHero } from "@/components/tools/ToolHero";
 
+const metadataTools: WorkspaceToolSlug[] = ["remove-metadata", "view-metadata"];
+
 export function ToolPage({ slug }: { slug: WorkspaceToolSlug }) {
   const tool = getWorkspaceTool(slug);
 
   return (
     <>
       <ToolHero icon={tool.icon} headline={tool.headline} description={tool.description} tool={slug} />
-      {slug === "convert-format" ? <FeaturesSection /> : <InspectorShowcase />}
+      {metadataTools.includes(slug) ? <InspectorShowcase /> : <FeaturesSection />}
       <ToolsSection />
       <FaqSection />
       <AccountBand />

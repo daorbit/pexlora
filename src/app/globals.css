@@ -127,6 +127,14 @@
   --tone: #8a8d82;
 }
 
+@utility scrollbar-none {
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 @layer base {
   a,
   button:not(:disabled),
