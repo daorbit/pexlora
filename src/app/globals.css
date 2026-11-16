@@ -1,0 +1,215 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *, .theme-dark, .theme-dark *));
+
+:root {
+  color-scheme: light;
+  --background: #f4f3ee;
+  --surface: #ffffff;
+  --subtle: #faf9f5;
+  --fill: #f1efe8;
+  --fill-strong: #e7e5dd;
+  --foreground: #10120d;
+  --secondary: #5f6359;
+  --tertiary: #8a8d82;
+  --separator: #e7e5dd;
+  --border-strong: #d3cfc3;
+  --primary: #b9f12f;
+  --primary-hover: #a8e01e;
+  --primary-foreground: #10120d;
+  --ink: #10120d;
+  --ink-hover: #2a2d25;
+  --ink-foreground: #ffffff;
+  --ring: #10120d;
+  --accent: #b9f12f;
+  --accent-text: #3f6212;
+  --accent-soft: #ebf7c9;
+  --brand-surface: #10120d;
+  --brand-foreground: #f4f3ee;
+  --scrollbar-thumb: #d3cfc3;
+  --scrollbar-thumb-hover: #8a8d82;
+  --warning: #b4440b;
+  --warning-soft: #fdeedf;
+  --success: #17663a;
+  --success-soft: #e3f4e6;
+  --danger: #b42318;
+  --danger-soft: #fbe6e3;
+  --thumb-shadow: 0 1px 2px rgb(16 18 13 / 0.08);
+  --card-shadow: 0 1px 2px rgb(16 18 13 / 0.04), 0 12px 32px -20px rgb(16 18 13 / 0.18);
+}
+
+:root[data-theme="dark"],
+.theme-dark {
+  color-scheme: dark;
+  --background: #0c0d0a;
+  --surface: #161813;
+  --subtle: #12140f;
+  --fill: #1e201a;
+  --fill-strong: #2a2d25;
+  --foreground: #f4f3ee;
+  --secondary: #a7ab9f;
+  --tertiary: #7d8176;
+  --separator: #262921;
+  --border-strong: #3a3d34;
+  --primary: #b9f12f;
+  --primary-hover: #c8f55a;
+  --primary-foreground: #10120d;
+  --ink: #f4f3ee;
+  --ink-hover: #dedcd3;
+  --ink-foreground: #10120d;
+  --ring: #b9f12f;
+  --accent: #b9f12f;
+  --accent-text: #b9f12f;
+  --accent-soft: #1c260a;
+  --brand-surface: #161813;
+  --brand-foreground: #f4f3ee;
+  --warning: #fb923c;
+  --warning-soft: #2a1a0b;
+  --success: #4ade80;
+  --success-soft: #0f2416;
+  --danger: #f87171;
+  --danger-soft: #2b1312;
+  --thumb-shadow: 0 1px 2px rgb(0 0 0 / 0.6);
+  --card-shadow: 0 1px 2px rgb(0 0 0 / 0.4), 0 12px 32px -20px rgb(0 0 0 / 0.7);
+  --scrollbar-thumb: #3a3d34;
+  --scrollbar-thumb-hover: #7d8176;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-subtle: var(--subtle);
+  --color-fill: var(--fill);
+  --color-fill-strong: var(--fill-strong);
+  --color-foreground: var(--foreground);
+  --color-secondary: var(--secondary);
+  --color-tertiary: var(--tertiary);
+  --color-separator: var(--separator);
+  --color-border-strong: var(--border-strong);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-ink: var(--ink);
+  --color-ink-hover: var(--ink-hover);
+  --color-ink-foreground: var(--ink-foreground);
+  --color-ring: var(--ring);
+  --color-accent: var(--accent);
+  --color-accent-text: var(--accent-text);
+  --color-accent-soft: var(--accent-soft);
+  --color-brand-surface: var(--brand-surface);
+  --color-brand-foreground: var(--brand-foreground);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --shadow-thumb: var(--thumb-shadow);
+  --shadow-card: var(--card-shadow);
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", var(--font-inter), "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", var(--font-inter), "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, "SF Mono", Menlo, monospace;
+}
+
+@utility tile-tint {
+  background: color-mix(in srgb, var(--tone) 12%, var(--surface));
+}
+
+@utility tone-lime {
+  --tone: #b9f12f;
+}
+
+@utility tone-orange {
+  --tone: #f97316;
+}
+
+@utility tone-ink {
+  --tone: #8a8d82;
+}
+
+@layer base {
+  a,
+  button:not(:disabled),
+  summary,
+  select,
+  label[for],
+  [role="button"],
+  [role="radio"],
+  [role="tab"],
+  input[type="range"]:not(:disabled),
+  input[type="checkbox"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  :disabled {
+    cursor: not-allowed;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    text-wrap: balance;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+  background: var(--background);
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+::-webkit-scrollbar-corner {
+  background: var(--background);
+}
+
+::-webkit-scrollbar-button {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--scrollbar-thumb);
+  background-clip: content-box;
+  border: 3px solid transparent;
+  border-radius: 999px;
+  min-height: 48px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--scrollbar-thumb-hover);
+}
+
+@supports not selector(::-webkit-scrollbar) {
+  html {
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-thumb) var(--background);
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}

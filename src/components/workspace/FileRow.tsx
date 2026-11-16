@@ -1,0 +1,82 @@
+"use client";
+
+import { useState } from "react";
+import { ChevronDown, X } from "lucide-react";
+import type { QueueItem } from "@/hooks/useFileQueue";
+import { cn } from "@/lib/utils/cn";
+import { formatBytes } from "@/lib/utils/format-bytes";
+import { formatDuration } from "@/lib/utils/format-duration";
+import { Button } from "@/components/ui/Button";
+import { FileStatus } from "@/components/workspace/FileStatus";
+import { FileThumb } from "@/components/workspace/FileThumb";
+import { SaveFileButton } from "@/components/workspace/SaveFileButton";
+import { MetadataReport } from "@/components/workspace/MetadataReport";
+
+type FileRowProps = {
+  item: QueueItem;
+  defaultExpanded: boolean;
+  onRemove: (id: string) => void;
+  disabled: boolean;
+};
+
+function fileDetails({ file, format, report }: QueueItem) {
+  return [
+    formatBytes(file.size),
+    format.label,
+    report?.width && report.height ? `${report.width} × ${report.height}` : null,
+    report?.duration ? formatDuration(report.duration) : null,
+  ]
+    .filter(Boolean)
+    .join(" · ");
+}
+
+export function FileRow({ item, defaultExpanded, onRemove, disabled }: FileRowProps) {
+  const [expanded, setExpanded] = useState(defaultExpanded);
+  const { file, report, result } = item;
+
+  return (
+    <li className="flex flex-col">
+      <div className="flex flex-wrap items-center gap-x-3 gap-y-2.5 px-4 py-3.5 sm:flex-nowrap sm:gap-x-4 sm:px-5">
+        <FileThumb item={item} />
+        <div className="min-w-0 flex-1 basis-40">
+          <p className="truncate text-[15px] font-medium">{file.name}</p>
+          <p className="text-[13px] tabular-nums text-secondary">{fileDetails(item)}</p>
+        </div>
+        <div className="order-last w-full text-[13px] sm:order-none sm:w-auto sm:flex-1">
+          <FileStatus item={item} />
+        </div>
+        <div className="ml-auto flex items-center gap-1">
+          {report && (
+            <Button
+              variant="plain"
+              className="mr-2 text-[13px]"
+              onClick={() => setExpanded((value) => !value)}
+              aria-expanded={expanded}
+            >
+              Details
+              <ChevronDown
+                className={cn("size-3.5 transition-transform", expanded && "rotate-180")}
+                aria-hidden
+              />
+            </Button>
+          )}
+          {result && <SaveFileButton file={result} />}
+          <Button
+            variant="icon"
+            size="sm"
+            aria-label={`Remove ${file.name}`}
+            onClick={() => onRemove(item.id)}
+            disabled={disabled}
+          >
+            <X className="size-4" aria-hidden />
+          </Button>
+        </div>
+      </div>
+      {expanded && report && (
+        <div className="px-3 pb-4 sm:px-5 sm:pb-5">
+          <MetadataReport report={report} />
+        </div>
+      )}
+    </li>
+  );
+}
