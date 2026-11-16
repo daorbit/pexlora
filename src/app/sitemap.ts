@@ -10,7 +10,7 @@ import { env } from "@/lib/env";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = env.appUrl;
-  const lastModified = new Date("2026-11-15");
+  const lastModified = new Date("2026-11-16");
 
   return [
     { url: `${base}${routes.home}`, lastModified, changeFrequency: "weekly", priority: 1 },
@@ -33,7 +33,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "yearly" as const,
       priority: 0.3,
     })),
-    { url: `${base}${routes.signUp}`, lastModified, changeFrequency: "yearly", priority: 0.3 },
-    { url: `${base}${routes.signIn}`, lastModified, changeFrequency: "yearly", priority: 0.2 },
   ];
 }

@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { AccountBand } from "@/components/landing/AccountBand";
 import { FaqSection } from "@/components/landing/FaqSection";
 import { FeaturesSection } from "@/components/landing/FeaturesSection";
@@ -10,7 +11,14 @@ import { StepsSection } from "@/components/landing/StepsSection";
 import { HomeHero } from "@/components/home/HomeHero";
 import { ToolHubSection } from "@/components/home/ToolHubSection";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { seo } from "@/config/seo";
+import { pageMetadata } from "@/lib/seo/page-metadata";
 import { homeStructuredData } from "@/lib/seo/structured-data";
+
+export const metadata: Metadata = {
+  ...pageMetadata(seo.defaultTitle, seo.description, "/"),
+  title: { absolute: seo.defaultTitle },
+};
 
 export default function HomePage() {
   return (

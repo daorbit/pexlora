@@ -81,6 +81,10 @@ export function hubItemsIn(category: HubCategory) {
   return hubItems.filter((item) => item.category === category);
 }
 
+export function toolItem(key: string) {
+  return toolItems.find((item) => item.key === key);
+}
+
 export function otherTools(current: string) {
   return toolItems.filter((item) => item.key !== current);
 }

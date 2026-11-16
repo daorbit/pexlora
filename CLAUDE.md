@@ -150,7 +150,10 @@ Hero with the metadata-remover drop area → all-tools hub grid → "Stage" band
 
 - Root metadata (`src/app/layout.tsx`) uses `config/seo.ts` and `metadataBase = APP_URL`; set `APP_URL` to the production domain or canonicals and OG URLs point at localhost.
 - Tool pages use `toolMetadata(slug)` (`src/lib/seo/tool-metadata.ts`) for title, description and canonical.
-- Social preview: `app/opengraph-image.jpg` + `app/twitter-image.jpg` (1200×630, with `.alt.txt` files), cut from the source `public/social-preview.png`. Every route inherits them, so don't set `openGraph.images` in page metadata.
+- Social preview: `app/opengraph-image.jpg` + `app/twitter-image.jpg` (1200×630, with `.alt.txt` files), cut from the source `public/social-preview.png`. A page that sets `openGraph`/`twitter` replaces the parent's objects entirely (including the file-based image), so always build page metadata with `pageMetadata()` (`lib/seo/page-metadata.ts`), which spreads `openGraphDefaults`/`twitterDefaults` from `config/seo.ts` (type, site name, locale, image, card).
+- There is no sitewide canonical: each indexable page sets its own via `pageMetadata()`. Auth pages are `noindex, follow` (auth layout) and stay out of the sitemap.
+- JSON-LD for tool, guide, conversion and compress-target pages comes from `toolStructuredData()` (WebApplication + FAQPage from the FAQs shown on the page). No BreadcrumbList unless breadcrumbs are visible. Main tool page copy (intro, steps, FAQs, related guides) lives in `content/tool-guides.ts`; conversion and compress-target FAQs/steps in `content/variant-guides.ts`.
+- Privacy wording must match the code: images are uploaded and processed in memory (not saved by our code); PDF, Office, audio and video are processed in the browser; Orbit AI sends content to Cloudflare Workers AI. Avoid absolute claims like "nothing is ever stored".
 - Generated: `app/sitemap.ts`, `app/robots.ts` (blocks `/dashboard` and `/api/`), `app/manifest.ts`.
 - Home page renders JSON-LD (Organization, WebApplication, FAQPage) via `<JsonLd>` + `homeStructuredData()`; FAQ schema reads `content/landing.ts` so it stays in sync with the visible FAQ.
 - One `h1` per page; every section uses `h2`, cards use `h3`.

@@ -12,7 +12,7 @@ export const authCopy = {
   perks: {
     limit: { from: `${DAILY_LIMITS.anonymous}`, to: `${DAILY_LIMITS.user} files a day` },
     card: "No card",
-    stored: "Files never stored",
+    stored: "Files not kept",
   },
   signin: {
     title: "Welcome back",

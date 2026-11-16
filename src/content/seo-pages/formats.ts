@@ -10,10 +10,10 @@ export const formatPages: SeoPage[] = [
     kinds: ["pdf"],
     icon: fileKinds.pdf.icon,
     name: "PDF Metadata Remover",
-    title: "Remove Metadata from PDF Online Free: Author, Creator & XMP",
+    title: "Remove PDF Metadata Online: Author, Creator & XMP",
     headline: "Remove metadata from PDF files.",
     description:
-      "Strip the author, title, creator app, dates, XMP and C2PA data from PDFs. Pages, text and links stay exactly the same.",
+      "Strip the author, title, creator app, dates, XMP and C2PA data from PDFs. Pages, text and links stay the same.",
     keywords: [
       "remove metadata from pdf",
       "pdf metadata remover",
@@ -62,9 +62,9 @@ export const formatPages: SeoPage[] = [
     kinds: ["office"],
     icon: fileKinds.office.icon,
     name: "Word, Excel & PowerPoint Metadata Remover",
-    title: "Remove Metadata from Word, Excel & PowerPoint Online Free",
+    title: "Remove Metadata from Word, Excel & PowerPoint",
     headline: "Remove metadata from Word, Excel and PowerPoint.",
-    description: `Remove the author, last editor, company, comment names and hidden properties from ${extensions(["office"])} files before you send them.`,
+    description: `Remove the author, last editor, company, comment names and hidden properties from ${extensions(["office"])} files.`,
     keywords: [
       "remove metadata from word document",
       "remove author from word",
@@ -113,7 +113,7 @@ export const formatPages: SeoPage[] = [
     kinds: ["audio"],
     icon: fileKinds.audio.icon,
     name: "Audio Metadata Remover",
-    title: "Remove Metadata & ID3 Tags from MP3, WAV, FLAC & M4A Free",
+    title: "Remove MP3, WAV, FLAC & M4A Metadata and ID3 Tags",
     headline: "Remove metadata from audio files.",
     description: `Strip ID3 tags, cover art, encoder details and AI music tags from ${extensions(["audio"])} files without re-encoding.`,
     keywords: [
@@ -164,9 +164,9 @@ export const formatPages: SeoPage[] = [
     kinds: ["video"],
     icon: fileKinds.video.icon,
     name: "Video Metadata Remover",
-    title: "Remove Metadata from MP4, MOV & WebM Online Free: GPS & AI Tags",
+    title: "Remove Video Metadata from MP4, MOV & WebM Online",
     headline: "Remove metadata from videos.",
-    description: `Strip GPS location, camera details, recording dates, C2PA credentials and encoder tags from ${extensions(["video"])} files without re-encoding.`,
+    description: `Strip GPS location, recording dates, C2PA credentials and encoder tags from ${extensions(["video"])} files without re-encoding.`,
     keywords: [
       "remove metadata from video",
       "video metadata remover",

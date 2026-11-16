@@ -3,10 +3,18 @@ import { brandAssets } from "@/config/brand";
 import { seo } from "@/config/seo";
 import { siteConfig } from "@/config/site";
 import { faqs } from "@/content/landing";
-import { seoPagePath, type SeoPage } from "@/content/seo-pages";
 import { env } from "@/lib/env";
 
 type Faq = { question: string; answer: string };
+
+type ToolSchemaInput = {
+  name: string;
+  path: string;
+  description: string;
+  faqs: Faq[];
+  features?: string[];
+  category?: "UtilitiesApplication" | "MultimediaApplication";
+};
 
 const freeOffer = { "@type": "Offer", price: "0", priceCurrency: "USD" };
 
@@ -26,8 +34,15 @@ function faqPage(items: Faq[], id: string) {
   };
 }
 
-export function seoPageStructuredData(page: SeoPage) {
-  const url = `${env.appUrl}${seoPagePath(page)}`;
+export function toolStructuredData({
+  name,
+  path,
+  description,
+  faqs: items,
+  features,
+  category = "UtilitiesApplication",
+}: ToolSchemaInput) {
+  const url = `${env.appUrl}${path}`;
 
   return {
     "@context": "https://schema.org",
@@ -35,26 +50,17 @@ export function seoPageStructuredData(page: SeoPage) {
       {
         "@type": "WebApplication",
         "@id": `${url}#app`,
-        name: page.name,
+        name,
         url,
-        description: page.description,
-        applicationCategory: "UtilitiesApplication",
+        description,
+        applicationCategory: category,
         operatingSystem: "Any",
         browserRequirements: "Requires a modern web browser",
-        featureList: page.list.items,
-        keywords: page.keywords.join(", "),
+        ...(features?.length ? { featureList: features } : {}),
         offers: freeOffer,
         publisher: { "@id": organizationId() },
       },
-      faqPage(page.faqs, `${url}#faq`),
-      {
-        "@type": "BreadcrumbList",
-        "@id": `${url}#breadcrumb`,
-        itemListElement: [
-          { "@type": "ListItem", position: 1, name: siteConfig.name, item: env.appUrl },
-          { "@type": "ListItem", position: 2, name: page.name, item: url },
-        ],
-      },
+      ...(items.length ? [faqPage(items, `${url}#faq`)] : []),
     ],
   };
 }

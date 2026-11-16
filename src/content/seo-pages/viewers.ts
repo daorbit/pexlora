@@ -11,7 +11,7 @@ export const viewerPages: SeoPage[] = [
     kinds: ["image"],
     icon: FileSearch,
     name: "EXIF Viewer",
-    title: "EXIF Viewer Online: See Photo Metadata, GPS & AI Tags Free",
+    title: "EXIF Viewer Online: See Photo EXIF, GPS & AI Tags",
     headline: "View EXIF data online.",
     description:
       "See every EXIF, XMP, IPTC and GPS field a photo carries, with AI tags flagged first. Free, with no sign-up.",
@@ -104,7 +104,7 @@ export const viewerPages: SeoPage[] = [
     kinds: ["image"],
     icon: MapPinned,
     name: "Photo Location Finder",
-    title: "Where Was This Photo Taken? Find Photo Location from GPS",
+    title: "Photo Location Finder: Where Was This Photo Taken?",
     headline: "Find where a photo was taken.",
     description:
       "Read the GPS coordinates saved in a photo and open the spot on a map, if the file still has its location data.",

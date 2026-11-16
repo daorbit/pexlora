@@ -2,18 +2,14 @@ import type { Metadata } from "next";
 import { embeddedForms } from "@/config/forms";
 import { routes } from "@/config/site";
 import { contactPage } from "@/content/contact";
+import { pageMetadata } from "@/lib/seo/page-metadata";
 import { Container } from "@/components/ui/Container";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Highlight } from "@/components/ui/Highlight";
 import { ContactDetails } from "@/components/forms/ContactDetails";
 import { EmbeddedForm } from "@/components/forms/EmbeddedForm";
 
-export const metadata: Metadata = {
-  title: "Contact & Early Access for Teams",
-  description: contactPage.description,
-  alternates: { canonical: routes.contact },
-  openGraph: { title: "Get early access to Pexlora for Teams", description: contactPage.description, url: routes.contact },
-};
+export const metadata: Metadata = pageMetadata("Contact & Early Access for Teams", contactPage.description, routes.contact);
 
 export default function ContactPage() {
   return (

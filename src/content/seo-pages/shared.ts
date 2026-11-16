@@ -22,6 +22,9 @@ export const shownList = (items: string[]) => ({
   items,
 });
 
+export const imageQualityAnswer =
+  "No. For JPG, PNG and WebP, Pexlora cuts the metadata out of the file and leaves the image data untouched, so the pixels stay identical. Photos saved with a rotation flag, and AVIF, TIFF and GIF files, are re-encoded at high quality instead, and TIFF and GIF come back as PNG.";
+
 export const faqs = {
   onDevice: {
     question: "Is my file uploaded?",
@@ -31,7 +34,7 @@ export const faqs = {
   imagePrivacy: {
     question: "Are my images stored?",
     answer:
-      "No. Images are sent over HTTPS, processed in memory and discarded as soon as the clean copy is returned. Nothing is written to disk.",
+      "Pexlora doesn't save them. Images are sent over HTTPS to our server, processed in memory and returned to you. Our code doesn't write them to disk or to a database.",
   },
   free: {
     question: "Is it free?",
@@ -58,7 +61,7 @@ export const faqs = {
   imageQuality: {
     question: "Will removing metadata lower the quality?",
     answer:
-      "There's no visible change. Images keep their dimensions and are re-encoded at high quality, and PNGs stay lossless.",
+      imageQualityAnswer,
   },
   inPlaceQuality: {
     question: "Will removing metadata lower the quality?",
@@ -67,7 +70,7 @@ export const faqs = {
   mixedPrivacy: {
     question: "Are my files uploaded or stored?",
     answer:
-      "PDF, Office, audio and video files are cleaned in your browser and never uploaded. Images are sent over HTTPS, processed in memory and discarded straight away. Nothing is stored.",
+      "PDF, Office, audio and video files are cleaned in your browser and aren't uploaded. Images are sent over HTTPS to our server, processed in memory and not saved by Pexlora.",
   },
   desktopAlternative: {
     question: "Can I remove metadata without a website?",
@@ -82,7 +85,7 @@ export const supportedFormatsFaq = (kinds: FileKind[]): SeoFaq => ({
 });
 
 export const trustLine = (kinds: FileKind[]) =>
-  kinds.includes("image") ? "Free, no sign-up, nothing stored." : "Free, no sign-up, never uploaded.";
+  kinds.includes("image") ? "Free, no sign-up." : "Free, no sign-up, processed in your browser.";
 
 export const howToSteps = {
   "remove-metadata": [

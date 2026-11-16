@@ -5,6 +5,8 @@ export type SeoCategory = "ai" | "privacy" | "formats" | "viewers";
 
 export type SeoFaq = { question: string; answer: string };
 
+export type ToolStep = { title: string; body: string };
+
 export type SeoPage = {
   slug: string;
   category: SeoCategory;

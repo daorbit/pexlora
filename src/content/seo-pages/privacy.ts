@@ -113,7 +113,7 @@ export const privacyPages: SeoPage[] = [
     kinds: ["image", "video"],
     icon: Smartphone,
     name: "iPhone Photo Location Remover",
-    title: "Remove Location from iPhone Photos & Videos Before Sharing",
+    title: "Remove Location from iPhone Photos Before Sharing",
     headline: "Remove location from iPhone photos.",
     description:
       "Your iPhone saves where every photo and video was taken. Remove the location before you send, post or sell, right from Safari.",

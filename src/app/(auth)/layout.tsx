@@ -4,6 +4,9 @@ import { routes } from "@/config/site";
 import { authCopy } from "@/content/auth";
 import { AuthStage, AuthStageCompact } from "@/components/auth/AuthStage";
 import { Logo } from "@/components/layout/Logo";
+import { noIndexMetadata } from "@/lib/seo/page-metadata";
+
+export const metadata = noIndexMetadata;
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (

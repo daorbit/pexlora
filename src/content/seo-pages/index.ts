@@ -28,9 +28,13 @@ export function seoPagesIn(category: SeoCategory) {
   return seoPages.filter((page) => page.category === category);
 }
 
-export function relatedSeoPages(page: SeoPage) {
-  return page.related.flatMap((slug) => {
-    const related = getSeoPage(slug);
-    return related ? [related] : [];
+export function seoPagesBySlug(slugs: string[]) {
+  return slugs.flatMap((slug) => {
+    const page = getSeoPage(slug);
+    return page ? [page] : [];
   });
+}
+
+export function relatedSeoPages(page: SeoPage) {
+  return seoPagesBySlug(page.related);
 }

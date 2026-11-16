@@ -1,6 +1,6 @@
 import { BadgeCheck, Bot, Brush, Images, LayoutTemplate, Palette, Tags } from "lucide-react";
 import { AiTagIcon } from "@/components/icons/AiTagIcon";
-import { extensions, faqs, removedList } from "@/content/seo-pages/shared";
+import { extensions, faqs, imageQualityAnswer, removedList } from "@/content/seo-pages/shared";
 import type { SeoPage } from "@/content/seo-pages/types";
 
 export const aiPages: SeoPage[] = [
@@ -11,10 +11,10 @@ export const aiPages: SeoPage[] = [
     kinds: ["image"],
     icon: AiTagIcon,
     name: "AI Image Cleaner",
-    title: "AI Image Cleaner: Remove AI Metadata from Images Free Online",
-    headline: "AI image cleaner, free and private.",
+    title: "AI Image Cleaner: Remove AI Metadata from Images",
+    headline: "Clean AI metadata from images.",
     description:
-      "Clean AI-generated images in one click. Remove C2PA credentials, generator tags, prompts and EXIF from Midjourney, ChatGPT, Gemini, Firefly and Stable Diffusion images.",
+      "Remove C2PA credentials, generator tags, prompts and EXIF from Midjourney, ChatGPT, Gemini, Firefly and Stable Diffusion images in one click.",
     keywords: [
       "ai cleaner",
       "image ai cleaner",
@@ -107,7 +107,7 @@ export const aiPages: SeoPage[] = [
       },
       {
         question: "Will removing it lower the quality?",
-        answer: "No. The image keeps its dimensions and is re-encoded at high quality. PNGs stay lossless.",
+        answer: imageQualityAnswer,
       },
       faqs.batch,
       faqs.imagePrivacy,
@@ -210,7 +210,7 @@ export const aiPages: SeoPage[] = [
     kinds: ["image"],
     icon: AiTagIcon,
     name: "Stable Diffusion Metadata Remover",
-    title: "Remove Stable Diffusion & ComfyUI Prompt Metadata from PNG",
+    title: "Remove Stable Diffusion & ComfyUI Prompts from PNG",
     headline: "Remove Stable Diffusion prompts from PNG.",
     description:
       "Automatic1111, Forge, ComfyUI and InvokeAI save your full prompt, seed and workflow inside every PNG. Strip it before you share.",
@@ -257,7 +257,7 @@ export const aiPages: SeoPage[] = [
     kinds: ["image", "pdf", "video"],
     icon: BadgeCheck,
     name: "C2PA Remover",
-    title: "C2PA Remover: Remove Content Credentials from Images, PDF & Video",
+    title: "C2PA Remover: Remove Content Credentials Online",
     headline: "Remove C2PA Content Credentials.",
     description:
       "Strip C2PA manifests from images, PDFs and videos made with OpenAI, Adobe, Google, Microsoft and other tools that sign their output.",
@@ -440,7 +440,7 @@ export const aiPages: SeoPage[] = [
     kinds: ["image", "video"],
     icon: Tags,
     name: "Instagram AI Info Label Guide",
-    title: "Instagram “AI Info” Label: Why It Appears & Metadata Fix",
+    title: "Instagram “AI Info” Label: Why It Appears & the Fix",
     headline: "Why Instagram says “AI info”.",
     description:
       "See which hidden fields make Instagram, Facebook and Threads add an AI info label, and remove them from photos that were only edited.",

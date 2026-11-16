@@ -1,9 +1,10 @@
+import type { Metadata } from "next";
 import { siteConfig } from "@/config/site";
 
 export const seo = {
-  defaultTitle: `${siteConfig.name}: Remove Metadata, Compress, Resize & Convert Images Free`,
+  defaultTitle: `${siteConfig.name}: Free Online Metadata Remover & Image Tools`,
   description:
-    "Free online tools to remove EXIF, GPS and AI metadata from photos, PDFs, Office files, audio and video, view and edit EXIF data, and compress, resize or convert images. No sign-up.",
+    "Remove EXIF, GPS and AI metadata from photos, PDFs, Office files, audio and video, then compress, resize or convert images. Free online tools, no sign-up.",
   keywords: [
     "remove metadata from photo",
     "metadata remover",
@@ -33,3 +34,22 @@ export const seo = {
   ],
   locale: "en_US",
 };
+
+const socialImage = {
+  width: 1200,
+  height: 630,
+  type: "image/jpeg",
+  alt: `${siteConfig.name}: your files, your privacy. Remove hidden metadata from photos, documents, audio and video before you share.`,
+};
+
+export const openGraphDefaults = {
+  type: "website",
+  siteName: siteConfig.name,
+  locale: seo.locale,
+  images: [{ ...socialImage, url: "/opengraph-image.jpg" }],
+} satisfies NonNullable<Metadata["openGraph"]>;
+
+export const twitterDefaults = {
+  card: "summary_large_image",
+  images: [{ ...socialImage, url: "/twitter-image.jpg" }],
+} satisfies NonNullable<Metadata["twitter"]>;

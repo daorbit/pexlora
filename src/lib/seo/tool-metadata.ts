@@ -8,13 +8,13 @@ import { pageMetadata } from "@/lib/seo/page-metadata";
 import { seoPagePath, type SeoPage } from "@/content/seo-pages";
 
 const toolTitles: Record<WorkspaceToolSlug, string> = {
-  "remove-metadata": "Remove Metadata from Photos Online: EXIF, GPS & AI Tags Free",
-  "view-metadata": "EXIF Viewer: Check Photo Metadata & GPS Location Online Free",
-  "edit-metadata": "EXIF Editor: Add Copyright & Author to Photos Online Free",
+  "remove-metadata": "Remove Metadata from Photos, PDFs, Audio & Video",
+  "view-metadata": "Metadata Viewer: Check Photos, PDFs, Audio & Video",
+  "edit-metadata": "EXIF Editor: Add Author & Copyright to Photos Free",
   "compress-image": "Compress Image Online: Reduce JPG, PNG & WebP Size Free",
   "resize-image": "Resize Image Online in Pixels or Percentage Free",
-  "convert-format": "Image Converter: JPG to WebP, PNG to JPG & AVIF Online Free",
-  "image-alt-text": "AI Alt Text Generator: Image Descriptions & SEO File Names Free",
+  "convert-format": "Image Converter: JPG, PNG, WebP & AVIF Online Free",
+  "image-alt-text": "AI Alt Text Generator: Alt Text & SEO File Names",
 };
 
 const textToolTitles: Record<TextToolSlug, string> = {

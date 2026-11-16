@@ -18,7 +18,7 @@ export const moduleTips: Record<WorkspaceToolSlug, { title: string; tips: string
     tips: [
       "WebP is a good default for the web",
       "AVIF gives the smallest files for photos",
-      "Images convert at full quality; use the compressor to shrink them",
+      "Images convert at maximum quality; use the compressor to shrink them",
       "Metadata is removed from every converted file",
     ],
   },

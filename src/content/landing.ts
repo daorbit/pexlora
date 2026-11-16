@@ -1,3 +1,4 @@
+import { AI_NAME } from "@/config/brand";
 import { fileFormats, formatsOfKind, type FileFormat } from "@/config/file-formats";
 import { DAILY_LIMITS, FILE_SIZE_LIMITS_MB, MAX_FILES_PER_BATCH } from "@/config/limits";
 import { formatMegabytes } from "@/lib/utils/format-bytes";
@@ -6,20 +7,20 @@ const labels = (formats: FileFormat[]) => formats.map((format) => format.label);
 const limit = (kind: keyof typeof FILE_SIZE_LIMITS_MB) => formatMegabytes(FILE_SIZE_LIMITS_MB[kind]);
 
 export const heroCopy = {
-  eyebrow: "Free privacy tools",
+  eyebrow: "Free metadata remover",
   eyebrowNote: "No sign-up",
   title: "Share the photo.",
   titleLead: "Not the",
   highlight: "location.",
   description:
-    "Strip AI tags, GPS, EXIF and author details from photos, PDFs, documents, audio and video in seconds. Nothing is ever stored.",
+    "Strip AI tags, GPS, EXIF and author details from photos, PDFs, documents, audio and video in seconds. We don't keep your files.",
   shortcutsLabel: "Popular tools",
 };
 
 export const hubCopy = {
   eyebrow: "All tools",
   title: "Pick a tool and drop your files.",
-  description: "Every tool is free, works in your browser and removes hidden metadata from what you download.",
+  description: "Every tool is free, runs in your browser with nothing to install, and removes hidden metadata from what you download.",
   filterLabel: "Filter tools",
   open: "Open Tool",
 };
@@ -59,7 +60,7 @@ export const featureBands = {
     format: ".webp",
     to: "412 KB",
     title: "Modern formats, smaller files.",
-    description: "Turn JPG and PNG into WebP or AVIF at full quality. Every file comes out clean.",
+    description: "Turn JPG and PNG into WebP or AVIF at maximum quality. Every file comes out clean.",
   },
 };
 
@@ -113,9 +114,9 @@ export const metadataFeed: { key: string; value: string; tone: FeedTone }[] = [
 
 export const privacyCopy = {
   stat: "0",
-  title: "files kept. Ever.",
+  title: "files kept.",
   description:
-    "PDFs, Office files, songs and videos are cleaned inside your browser and never leave it. Images take a short trip over HTTPS, are processed in memory and are gone the moment the clean copy is back.",
+    "PDFs, Office files, songs and videos are cleaned inside your browser and never leave it. Images take a short trip over HTTPS to our server, are processed in memory and aren't saved.",
   badges: ["On your device", "Memory only for images", "HTTPS"],
 };
 
@@ -208,7 +209,7 @@ export const faqs = [
   {
     question: "What does removing AI metadata actually do?",
     answer:
-      "AI tools write tags like C2PA credentials, XMP digital source type and generation prompts into the file. We re-encode the image without any of them, so platforms that read metadata find nothing. The picture looks the same.",
+      "AI tools write tags like C2PA credentials, XMP digital source type and generation prompts into the file. We cut those tags out and give you a copy without them, so platforms that read metadata find nothing. For JPG, PNG and WebP the pixels stay exactly the same.",
   },
   {
     question: "Will this remove invisible watermarks like SynthID?",
@@ -227,7 +228,7 @@ export const faqs = [
   {
     question: "Are my files uploaded or stored?",
     answer:
-      "PDF, Office, audio and video files are cleaned in your browser and never uploaded. Images are processed in memory on our server and discarded as soon as the result is sent back.",
+      `PDF, Office, audio and video files are cleaned in your browser and never uploaded. Images are processed in memory on our server and not saved. ${AI_NAME} features work differently: they send the image or text you submit to Cloudflare Workers AI to produce the answer.`,
   },
   {
     question: "Which files can I clean?",
@@ -256,6 +257,6 @@ export const faqs = [
   {
     question: "Why did my file get bigger after cleaning?",
     answer:
-      "JPEG and WebP files are re-encoded at high quality to avoid visible loss, which can add a few kilobytes. Use the compressor if size matters.",
+      "Usually it doesn't: JPG, PNG and WebP files only lose their metadata, so they come out slightly smaller. Photos saved with a rotation flag, and AVIF, TIFF and GIF files, are re-encoded at high quality, which can add some size. Use the compressor if size matters.",
   },
 ];

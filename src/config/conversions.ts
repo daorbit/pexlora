@@ -29,7 +29,7 @@ export const conversions: Conversion[] = sources.flatMap((source) =>
     to: format,
     toLabel: FORMAT_LABELS[format],
     name: `${source.label} to ${FORMAT_LABELS[format]}`,
-    description: `Convert ${source.label} images to ${FORMAT_LABELS[format]} online at full quality, with metadata removed.`,
+    description: `Convert ${source.label} images to ${FORMAT_LABELS[format]} online at maximum quality, with metadata removed.`,
   })),
 );
 

@@ -58,7 +58,7 @@ export const workspaceTools: WorkspaceTool[] = [
     shortName: "View Metadata",
     headline: "View EXIF data and hidden metadata.",
     description:
-      "Check photo metadata online: EXIF, GPS location, camera, XMP, author and AI tags in images, PDFs, audio and video, with AI tags shown first.",
+      "See the hidden metadata in photos, PDFs, Office files, audio and video: EXIF, GPS location, camera, XMP, author and AI tags, with AI tags shown first.",
   },
   {
     slug: "edit-metadata",
@@ -102,7 +102,7 @@ export const workspaceTools: WorkspaceTool[] = [
     shortName: "Convert Image",
     headline: "Convert images to JPG, PNG, WebP or AVIF.",
     description:
-      "Convert JPG to WebP, PNG to JPG, WebP to PNG and more at full quality. Metadata is removed from every file.",
+      "Convert JPG to WebP, PNG to JPG, WebP to PNG and more at the highest quality setting. Metadata is removed from every file.",
   },
   {
     slug: "image-alt-text",

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { openGraphDefaults, twitterDefaults } from "@/config/seo";
 
 export function pageMetadata(title: string, description: string, path: string, keywords?: string[]): Metadata {
   return {
@@ -6,7 +7,11 @@ export function pageMetadata(title: string, description: string, path: string, k
     description,
     keywords,
     alternates: { canonical: path },
-    openGraph: { title, description, url: path },
-    twitter: { title, description },
+    openGraph: { ...openGraphDefaults, title, description, url: path },
+    twitter: { ...twitterDefaults, title, description },
   };
 }
+
+export const noIndexMetadata: Metadata = {
+  robots: { index: false, follow: true },
+};

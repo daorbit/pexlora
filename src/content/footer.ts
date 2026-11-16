@@ -12,7 +12,7 @@ const pageLinks = (pages: SeoPage[]) => pages.map((page) => ({ label: page.name,
 
 export const footerCopy = {
   title: "Your files. Your privacy.",
-  description: "Remove hidden metadata, then compress, resize and convert your images. Nothing is ever stored.",
+  description: "Remove hidden metadata, then compress, resize and convert your images. We don't keep your files.",
   legal: "We remove metadata only, not pixel watermarks.",
   productOf: `A product of ${company.legalName}`,
 };

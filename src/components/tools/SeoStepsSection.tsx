@@ -1,12 +1,11 @@
-import { howToSteps } from "@/content/seo-pages/shared";
-import type { SeoPage } from "@/content/seo-pages";
+import type { ToolStep } from "@/content/seo-pages/types";
 import { Section } from "@/components/ui/Section";
 
-export function SeoStepsSection({ page }: { page: SeoPage }) {
-  const steps = howToSteps[page.tool];
+type SeoStepsSectionProps = { title: string; steps: ToolStep[] };
 
+export function SeoStepsSection({ title, steps }: SeoStepsSectionProps) {
   return (
-    <Section narrow align="left" eyebrow="How it works" title={`How to use the ${page.name}`}>
+    <Section narrow align="left" eyebrow="How it works" title={title}>
       <ol className="grid grid-cols-1 gap-3 sm:grid-cols-3">
         {steps.map((step, index) => (
           <li key={step.title} className="flex flex-col gap-2 rounded-2xl bg-surface p-5 ring-1 ring-separator">

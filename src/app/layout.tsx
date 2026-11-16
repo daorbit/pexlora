@@ -3,7 +3,7 @@ import { Geist_Mono, Inter } from "next/font/google";
 import Script from "next/script";
 import { AnalyticsScript } from "@/components/layout/AnalyticsScript";
 import { brandColors } from "@/config/brand";
-import { seo } from "@/config/seo";
+import { openGraphDefaults, seo, twitterDefaults } from "@/config/seo";
 import { siteConfig } from "@/config/site";
 import { env } from "@/lib/env";
 import { sidebarInitScript } from "@/lib/sidebar";
@@ -42,21 +42,9 @@ export const metadata: Metadata = {
   keywords: seo.keywords,
   applicationName: siteConfig.name,
   category: "technology",
-  alternates: { canonical: "/" },
   robots: { index: true, follow: true },
-  openGraph: {
-    type: "website",
-    siteName: siteConfig.name,
-    locale: seo.locale,
-    url: "/",
-    title: seo.defaultTitle,
-    description: seo.description,
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: seo.defaultTitle,
-    description: seo.description,
-  },
+  openGraph: { ...openGraphDefaults, title: seo.defaultTitle, description: seo.description },
+  twitter: { ...twitterDefaults, title: seo.defaultTitle, description: seo.description },
   verification: {
     google: siteConfig.googleSiteVerification,
   },
