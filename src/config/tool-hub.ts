@@ -1,4 +1,4 @@
-import { compressTargetPath, defaultCompressTarget } from "@/config/compress-targets";
+import { compressTargetIconSrc, compressTargetPath, defaultCompressTarget } from "@/config/compress-targets";
 import { toolPageCopy } from "@/content/tool-pages";
 import { conversionIconSrc, conversionPath, popularConversions, type Conversion } from "@/config/conversions";
 import { textToolIconSrc, textTools } from "@/config/text-tools";
@@ -37,7 +37,7 @@ const compressTargetItem: HubItem = {
   name: toolPageCopy.compressTargetHub.name,
   description: toolPageCopy.compressTargetHub.description,
   href: compressTargetPath(defaultCompressTarget.slug),
-  iconSrc: toolIconSrc("compress-image"),
+  iconSrc: compressTargetIconSrc,
   category: "image",
 };
 

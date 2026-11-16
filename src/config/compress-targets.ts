@@ -21,4 +21,6 @@ export function getCompressTarget(slug: string) {
   return compressTargets.find((target) => target.slug === slug);
 }
 
-export const compressTargetPath = (slug: string) => `${routes.compressTo}/${slug}`;
+export const compressTargetIconSrc = "/icons/tools/compress-to-size.svg";
+
+export const compressTargetPath =(slug: string) => `${routes.compressTo}/${slug}`;

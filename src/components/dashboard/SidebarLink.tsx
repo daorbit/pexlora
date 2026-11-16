@@ -10,7 +10,8 @@ export function SidebarLink({ item, active }: { item: DashboardNavItem; active: 
   return (
     <Link
       href={item.href}
-      title={item.label}
+      data-tooltip={item.label}
+      data-tooltip-new={item.isNew ? "" : undefined}
       aria-current={active ? "page" : undefined}
       className={cn(
         sidebarItem,

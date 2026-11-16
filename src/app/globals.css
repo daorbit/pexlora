@@ -2,6 +2,7 @@
 
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *, .theme-dark, .theme-dark *));
 @custom-variant rail-collapsed (&:where([data-sidebar="collapsed"] .sidebar-rail, [data-sidebar="collapsed"] .sidebar-rail *));
+@custom-variant slot-collapsed (&:where([data-sidebar="collapsed"] .sidebar-slot));
 
 :root {
   color-scheme: light;

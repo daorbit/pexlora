@@ -79,6 +79,7 @@ export const shellCopy = {
   home: "Pexlora home",
   collapse: "Collapse sidebar",
   expand: "Expand sidebar",
+  keepOpen: "Keep sidebar open",
   newBadge: "New",
   searchTools: "Search tools",
   searchPlaceholder: "Search tools and pages",

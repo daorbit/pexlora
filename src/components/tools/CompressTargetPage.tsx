@@ -1,6 +1,6 @@
-import type { CompressTarget } from "@/config/compress-targets";
+import { compressTargetIconSrc, type CompressTarget } from "@/config/compress-targets";
 import { otherTools } from "@/config/tool-hub";
-import { getWorkspaceTool, toolIconSrc } from "@/config/tools";
+import { getWorkspaceTool } from "@/config/tools";
 import { toolPageCopy } from "@/content/tool-pages";
 import { DEFAULT_TOOL_OPTIONS } from "@/lib/image/options";
 import { AccountBand } from "@/components/landing/AccountBand";
@@ -15,7 +15,7 @@ export function CompressTargetPage({ target }: { target: CompressTarget }) {
     <>
       <ToolHero
         icon={getWorkspaceTool("compress-image").icon}
-        iconSrc={toolIconSrc("compress-image")}
+        iconSrc={compressTargetIconSrc}
         headline={toolPageCopy.compressTargetHeadline(target.label)}
         description={toolPageCopy.compressTargetDescription(target.label)}
         tool="compress-image"

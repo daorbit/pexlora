@@ -1,4 +1,4 @@
-import { relatedSeoPages, type SeoPage } from "@/content/seo-pages";
+import { relatedSeoPages, seoPageIconSrc, type SeoPage } from "@/content/seo-pages";
 import { seoPageStructuredData } from "@/lib/seo/structured-data";
 import { AccountBand } from "@/components/landing/AccountBand";
 import { FaqSection } from "@/components/landing/FaqSection";
@@ -14,6 +14,7 @@ export function SeoToolPage({ page }: { page: SeoPage }) {
       <JsonLd data={seoPageStructuredData(page)} />
       <ToolHero
         icon={page.icon}
+        iconSrc={seoPageIconSrc(page)}
         headline={page.headline}
         description={page.description}
         tool={page.tool}

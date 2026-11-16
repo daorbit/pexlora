@@ -1,5 +1,4 @@
-import { compressTargetPath, compressTargets } from "@/config/compress-targets";
-import { toolIconSrc } from "@/config/tools";
+import { compressTargetIconSrc, compressTargetPath, compressTargets } from "@/config/compress-targets";
 import { toolPageCopy } from "@/content/tool-pages";
 import { Section } from "@/components/ui/Section";
 import { LinkTile } from "@/components/tools/LinkTile";
@@ -12,7 +11,7 @@ export function CompressTargetLinksSection({ current }: { current?: string }) {
           <li key={target.slug}>
             <LinkTile
               href={compressTargetPath(target.slug)}
-              iconSrc={toolIconSrc("compress-image")}
+              iconSrc={compressTargetIconSrc}
               label={toolPageCopy.compressTargetLink(target.label)}
               active={target.slug === current}
             />

@@ -17,6 +17,8 @@ export const seoCategories: { id: SeoCategory; title: string }[] = [
 
 export const seoPagePath = (page: SeoPage) => `/${page.slug}`;
 
+export const seoPageIconSrc = (page: SeoPage) => `/icons/guides/${page.slug}.svg`;
+
 export function getSeoPage(slug: string) {
   return seoPages.find((page) => page.slug === slug);
 }

@@ -13,7 +13,7 @@ export async function SidebarUsage() {
   const left = Math.max(0, limit - used);
 
   return (
-    <div className={cardClasses} title={`${shellCopy.filesLeft(left)} ${shellCopy.ofToday(limit)}`}>
+    <div className={cardClasses} data-tooltip={`${shellCopy.filesLeft(left)} ${shellCopy.ofToday(limit)}`}>
       <UsageRing used={used} limit={limit} />
       <div className={cn("flex flex-col", whenCollapsed.hidden)}>
         <span className="text-sm font-semibold tabular-nums">{shellCopy.filesLeft(left)}</span>

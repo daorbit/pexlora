@@ -1,23 +1,21 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
-import type { IconComponent } from "@/components/icons/types";
+import { HubItemIcon } from "@/components/tools/HubItemIcon";
 
 type ToolLinkCardProps = {
   href: string;
-  icon: IconComponent;
+  iconSrc: string;
   name: string;
   description: string;
 };
 
-export function ToolLinkCard({ href, icon: Icon, name, description }: ToolLinkCardProps) {
+export function ToolLinkCard({ href, iconSrc, name, description }: ToolLinkCardProps) {
   return (
     <Link
       href={href}
       className="group flex items-center gap-4 rounded-2xl border border-separator bg-surface p-4 transition-colors hover:border-border-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
     >
-      <span className="inline-flex size-12 shrink-0 items-center justify-center rounded-2xl bg-ink text-primary dark:bg-primary dark:text-primary-foreground">
-        <Icon className="size-5" strokeWidth={2} aria-hidden />
-      </span>
+      <HubItemIcon src={iconSrc} size="md" />
       <span className="flex min-w-0 flex-1 flex-col">
         <span className="truncate text-[15.5px] font-semibold tracking-[-0.01em]">{name}</span>
         <span className="line-clamp-1 text-[13.5px] text-secondary">{description}</span>

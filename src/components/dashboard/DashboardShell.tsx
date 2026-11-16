@@ -19,7 +19,7 @@ export function DashboardShell({ children }: { children: ReactNode }) {
 
   return (
     <div className="flex min-h-dvh flex-1 bg-canvas lg:gap-3 lg:p-3">
-      <div className="sticky top-3 hidden h-[calc(100dvh-1.5rem)] shrink-0 lg:block">
+      <div className="sidebar-slot sticky top-3 z-40 hidden h-[calc(100dvh-1.5rem)] w-64 shrink-0 transition-[width] duration-300 slot-collapsed:w-19 lg:block">
         <AppSidebar usage={usage} account={account} />
       </div>
       <div className="flex min-w-0 flex-1 flex-col bg-background lg:rounded-[24px]">

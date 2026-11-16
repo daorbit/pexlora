@@ -15,7 +15,7 @@ export async function SidebarUser() {
   return (
     <Link
       href={routes.dashboardSettings}
-      title={shellCopy.settings}
+      data-tooltip={shellCopy.settings}
       aria-label={shellCopy.settings}
       className={cn(rowClasses, "transition-colors hover:bg-fill")}
     >

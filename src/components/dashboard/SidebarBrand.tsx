@@ -11,9 +11,12 @@ import { whenCollapsed } from "@/components/dashboard/sidebar-styles";
 
 const mark = <Image src={brandAssets.mark} alt="" width={32} height={32} className="size-8 shrink-0" />;
 
-type SidebarBrandProps = { collapsible: boolean; onToggle: () => void };
+type SidebarBrandProps = { collapsible: boolean; peeking: boolean; onToggle: () => void };
 
-export function SidebarBrand({ collapsible, onToggle }: SidebarBrandProps) {
+export function SidebarBrand({ collapsible, peeking, onToggle }: SidebarBrandProps) {
+  const ToggleIcon = peeking ? PanelLeftOpen : PanelLeftClose;
+  const toggleLabel = peeking ? shellCopy.keepOpen : shellCopy.collapse;
+
   return (
     <>
       {collapsible && (
@@ -21,7 +24,7 @@ export function SidebarBrand({ collapsible, onToggle }: SidebarBrandProps) {
           type="button"
           onClick={onToggle}
           aria-label={shellCopy.expand}
-          title={shellCopy.expand}
+          data-tooltip={shellCopy.expand}
           className={cn(
             "group/brand mx-auto mb-4 size-11 items-center justify-center rounded-xl transition-colors hover:bg-fill focus-visible:outline-2 focus-visible:outline-ring",
             "hidden rail-collapsed:inline-flex",
@@ -40,11 +43,11 @@ export function SidebarBrand({ collapsible, onToggle }: SidebarBrandProps) {
           <button
             type="button"
             onClick={onToggle}
-            aria-label={shellCopy.collapse}
-            title={shellCopy.collapse}
+            aria-label={toggleLabel}
+            title={toggleLabel}
             className="inline-flex size-9 shrink-0 items-center justify-center rounded-lg text-secondary transition-colors hover:bg-fill hover:text-foreground focus-visible:outline-2 focus-visible:outline-ring"
           >
-            <PanelLeftClose className="size-4" aria-hidden />
+            <ToggleIcon className="size-4" aria-hidden />
           </button>
         )}
       </div>
