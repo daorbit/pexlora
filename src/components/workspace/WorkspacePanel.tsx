@@ -129,7 +129,7 @@ export function WorkspacePanel({
         <input {...picker.inputProps} />
 
         <div className="flex min-w-0 flex-col gap-3">
-          <UpsellAlert message={queue.notice?.message ?? null} upsell={Boolean(queue.notice?.upsell)} />
+          <UpsellAlert message={queue.notice?.message ?? null} upsell={queue.notice?.upsell ?? null} />
           {hasItems ? (
             <FilesCard
               fileCount={queue.items.length}

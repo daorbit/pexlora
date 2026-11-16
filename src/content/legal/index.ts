@@ -1,12 +1,13 @@
 import { cookiePolicy } from "@/content/legal/cookies";
 import { privacyPolicy } from "@/content/legal/privacy";
+import { refundPolicy } from "@/content/legal/refund-policy";
 import { securityPage } from "@/content/legal/security";
 import { termsOfService } from "@/content/legal/terms";
 import type { LegalDocument } from "@/content/legal/types";
 
 export type { LegalBlock, LegalDocument } from "@/content/legal/types";
 
-export const legalDocuments: LegalDocument[] = [privacyPolicy, termsOfService, cookiePolicy, securityPage];
+export const legalDocuments: LegalDocument[] = [privacyPolicy, termsOfService, refundPolicy, cookiePolicy, securityPage];
 
 export const legalCopy = {
   eyebrow: "Legal",

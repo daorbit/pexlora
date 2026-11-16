@@ -1,11 +1,11 @@
 import { accountCopy } from "@/content/account";
 import { requireUser } from "@/lib/auth/dal";
-import { Badge } from "@/components/ui/Badge";
 import { UserAvatar } from "@/components/ui/UserAvatar";
 import { ThemeSwitcher } from "@/components/theme/ThemeSwitcher";
 import { GoogleLinkNotice } from "@/components/dashboard/account/GoogleLinkNotice";
 import { GoogleSettings } from "@/components/dashboard/account/GoogleSettings";
 import { PasswordSettings } from "@/components/dashboard/account/PasswordSettings";
+import { PlanSettings } from "@/components/dashboard/account/PlanSettings";
 import { ProfileForm } from "@/components/dashboard/account/ProfileForm";
 import { SignOutButton } from "@/components/dashboard/account/SignOutButton";
 import { SettingsPanel } from "@/components/dashboard/SettingsPanel";
@@ -42,14 +42,7 @@ export async function AccountSettings() {
         <PasswordSettings hasPassword={user.hasPassword} />
       </SettingsPanel>
 
-      <SettingsPanel title="Plan & usage">
-        <SettingsRow label="Current plan" description="All tools included.">
-          <Badge tone="success">Free</Badge>
-        </SettingsRow>
-        <SettingsRow label="Daily limit" description="Resets every day at midnight UTC.">
-          <span className="font-medium tabular-nums">{user.limits.files} files</span>
-        </SettingsRow>
-      </SettingsPanel>
+      <PlanSettings user={user} />
 
       <SettingsPanel title="Preferences">
         <SettingsRow label="Theme" description="Choose light or dark mode.">

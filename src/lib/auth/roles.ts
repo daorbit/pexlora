@@ -1,4 +1,6 @@
 import { AI_DAILY_LIMITS, DAILY_LIMITS } from "@/config/limits";
+import { PRO_LIMITS } from "@/config/plans";
+import { activePlan, type PlanSource } from "@/lib/auth/plan";
 import { isUserRole, OWNER_EMAILS, type UserRole } from "@/config/roles";
 
 type RoleSource = { email: string; role?: string | null };
@@ -24,7 +26,8 @@ export function customLimits({ limits }: LimitSource): CustomLimits {
   return { files: limits?.files ?? null, ai: limits?.ai ?? null };
 }
 
-export function effectiveLimits(user: LimitSource): UserLimits {
+export function effectiveLimits(user: LimitSource & PlanSource): UserLimits {
   const custom = customLimits(user);
-  return { files: custom.files ?? DAILY_LIMITS.user, ai: custom.ai ?? AI_DAILY_LIMITS.user };
+  const base = activePlan(user) ? PRO_LIMITS : { files: DAILY_LIMITS.user, ai: AI_DAILY_LIMITS.user };
+  return { files: custom.files ?? base.files, ai: custom.ai ?? base.ai };
 }

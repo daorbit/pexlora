@@ -1,8 +1,10 @@
 import "server-only";
 import { brandAssets } from "@/config/brand";
 import { seo } from "@/config/seo";
-import { siteConfig } from "@/config/site";
+import { PLAN_IDS, PLANS } from "@/config/plans";
+import { routes, siteConfig } from "@/config/site";
 import { faqs } from "@/content/landing";
+import { planCopy, pricingCopy } from "@/content/pricing";
 import { env } from "@/lib/env";
 
 type Faq = { question: string; answer: string };
@@ -98,6 +100,32 @@ export function homeStructuredData() {
         publisher: { "@id": organizationId() },
       },
       faqPage(faqs, `${url}/#faq`),
+    ],
+  };
+}
+
+export function pricingStructuredData() {
+  const url = `${env.appUrl}${routes.pricing}`;
+
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Product",
+        "@id": `${url}#product`,
+        name: `${siteConfig.name} Pro`,
+        description: pricingCopy.description,
+        brand: { "@id": organizationId() },
+        offers: PLAN_IDS.map((id) => ({
+          "@type": "Offer",
+          name: planCopy[id].name,
+          price: (PLANS[id].amountPaise / 100).toFixed(2),
+          priceCurrency: PLANS[id].currency,
+          availability: "https://schema.org/InStock",
+          url,
+        })),
+      },
+      faqPage(pricingCopy.faqs, `${url}#faq`),
     ],
   };
 }

@@ -1,0 +1,93 @@
+import { AI_NAME } from "@/config/brand";
+import { AI_DAILY_LIMITS, DAILY_LIMITS } from "@/config/limits";
+import { PRO_LIMITS, REFUND_WINDOW_DAYS, type PlanId } from "@/config/plans";
+
+const number = (value: number) => value.toLocaleString("en-IN");
+
+export const planCopy: Record<PlanId, { name: string; period: string; note: string; cta: string }> = {
+  "pro-30": { name: "30-Day Pass", period: "paid once", note: "For one urgent job", cta: "Get 30 Days" },
+  "pro-365": { name: "1-Year Pass", period: "paid once", note: "About ₹42 a month", cta: "Get 1 Year" },
+  "pro-lifetime": { name: "Lifetime", period: "paid once", note: "Keep Pro for good", cta: "Get Lifetime" },
+};
+
+export const pricingCopy = {
+  metaTitle: "Pricing: Pro Passes, Paid Once",
+  description: `Pexlora is free to use. Pro raises your limits to ${number(PRO_LIMITS.files)} files and ${PRO_LIMITS.ai} ${AI_NAME} requests a day with a one-time payment. No subscription, no auto-renewal.`,
+  eyebrow: "Pricing",
+  title: "Pay once.",
+  highlight: "No subscription.",
+  lead: "Every tool stays free. Pro raises your daily limits for as long as your pass lasts, and it never renews on its own.",
+  featured: "Best Value",
+  perks: [
+    `${number(PRO_LIMITS.files)} files a day`,
+    `${PRO_LIMITS.ai} ${AI_NAME} requests a day`,
+    "Every tool included",
+    "Never renews on its own",
+  ],
+  extend: "Buying again while Pro is active adds the days to your current pass.",
+  signInToBuy: "Sign In to Buy",
+  activeUntil: (date: string) => `Pro is active until ${date}.`,
+  activeLifetime: "You have Pro for life.",
+  compareTitle: "Free and Pro side by side",
+  compareColumns: ["Feature", "Signed out", "Free account", "Pro"],
+  compareRows: [
+    ["Files per day", number(DAILY_LIMITS.anonymous), number(DAILY_LIMITS.user), number(PRO_LIMITS.files)],
+    [`${AI_NAME} requests per day`, `${AI_DAILY_LIMITS.anonymous}`, `${AI_DAILY_LIMITS.user}`, `${PRO_LIMITS.ai}`],
+    ["Every tool", "Yes", "Yes", "Yes"],
+  ],
+  faqs: [
+    {
+      question: "Is this a subscription?",
+      answer: "No. You pay once and the pass simply ends when its time is up. We never charge your card or UPI again.",
+    },
+    {
+      question: "What happens when my pass ends?",
+      answer: `Your account goes back to the free limits of ${DAILY_LIMITS.user} files a day. Nothing is deleted.`,
+    },
+    {
+      question: "Can I get a refund?",
+      answer: `Yes. If Pro isn't right for you, ask within ${REFUND_WINDOW_DAYS} days of paying and we refund the full amount.`,
+    },
+    {
+      question: "How do I pay?",
+      answer: "Through Razorpay with UPI, cards, net banking or wallets. Your payment details go to Razorpay, never to us.",
+    },
+    {
+      question: "When does Pro start?",
+      answer: "Right after the payment goes through. Your new limits apply straight away.",
+    },
+  ],
+};
+
+export const checkoutCopy = {
+  description: (plan: string) => `Pexlora Pro, ${plan}`,
+  success: (until: string | null) => (until ? `Payment received. Pro is active until ${until}.` : "Payment received. You have Pro for life."),
+  failed: "Payment didn't go through. You haven't been charged.",
+  pending: "Payment received. Pro will switch on in a moment.",
+  unavailable: "Payments aren't available right now. Please try again later.",
+  loadFailed: "Couldn't open the payment window. Check your connection and try again.",
+  processing: "Opening Checkout",
+};
+
+export const upsellCopy = {
+  account: "Create Free Account",
+  pro: "Get Pro",
+};
+
+export const billingCopy = {
+  title: "Plan & billing",
+  currentPlan: "Current plan",
+  free: "Free",
+  pro: "Pro",
+  until: (date: string) => `Until ${date}`,
+  lifetime: "Lifetime",
+  upgrade: "Get Pro",
+  extend: "Extend",
+  dailyLimit: "Daily limit",
+  resets: "Resets every day at midnight UTC.",
+  files: (count: number) => `${number(count)} files`,
+  history: "Billing history",
+  historyEmpty: "No payments yet.",
+  refunded: "Refunded",
+  paid: "Paid",
+};

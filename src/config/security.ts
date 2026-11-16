@@ -15,6 +15,8 @@ export const RATE_LIMITS = {
   accountNotice: { limit: 1, windowSeconds: HOUR },
   imageApi: { limit: 60, windowSeconds: MINUTE },
   aiApi: { limit: 15, windowSeconds: MINUTE },
+  createOrder: { limit: 10, windowSeconds: HOUR },
+  verifyPayment: { limit: 30, windowSeconds: HOUR },
 } satisfies Record<string, RateLimitRule>;
 
 export type RateLimitScope = keyof typeof RATE_LIMITS;

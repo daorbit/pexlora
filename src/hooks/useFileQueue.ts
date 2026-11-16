@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { FileFormat, FileKind } from "@/config/file-formats";
 import { MAX_FILES_PER_BATCH, PARALLEL_FILE_JOBS } from "@/config/limits";
+import type { Upsell } from "@/lib/api/upsell";
 import { detectFormat, getFileError } from "@/lib/files/detect";
 import { runPool } from "@/lib/utils/run-pool";
 import type { MetadataReport, ProcessedFile } from "@/lib/metadata/types";
@@ -26,7 +27,7 @@ export type QueueItem = {
   error?: string;
 };
 
-export type QueueNotice = { message: string; upsell: boolean };
+export type QueueNotice = { message: string; upsell: Upsell };
 
 export type SavedQueueItem = {
   file: File;
@@ -124,7 +125,7 @@ export function useFileQueue({ inspectOnAdd, accepts, localCapable }: QueueOptio
         });
       });
 
-      setNotice(problems.length ? { message: problems[0], upsell: false } : null);
+      setNotice(problems.length ? { message: problems[0], upsell: null } : null);
       if (!accepted.length) return;
       setItems((current) => {
         if (!replace) return [...current, ...accepted];

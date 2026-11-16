@@ -45,6 +45,9 @@ export const routes = {
   googleCallback: "/api/auth/google/callback",
   googleOneTap: "/api/auth/google/one-tap",
   usageApi: "/api/usage",
+  pricing: "/pricing",
+  refunds: "/refund-policy",
+  verifyPaymentApi: "/api/payments/verify",
 } as const;
 
 export type NavLink = { label: string; href: string; wideOnly?: boolean };
@@ -54,10 +57,12 @@ export const navLinks: NavLink[] = [
   { label: "Compress", href: routes.compress },
   { label: "Resize", href: routes.resize, wideOnly: true },
   { label: "Convert", href: routes.convert },
+  { label: "Pricing", href: routes.pricing },
   { label: "Contact", href: routes.contact, wideOnly: true },
 ];
 
 export const infoLinks: NavLink[] = [
+  { label: "Pricing", href: routes.pricing },
   { label: "FAQ", href: routes.faq },
   { label: "Contact", href: routes.contact },
 ];

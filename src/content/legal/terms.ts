@@ -76,7 +76,7 @@ export const termsOfService: LegalDocument = {
         },
         {
           type: "p",
-          text: "We may introduce paid plans in future. Nothing will be charged without your explicit agreement, and the free tools described here won't silently become paid.",
+          text: `You can buy a Pro pass for higher daily limits. Each pass is a single payment through Razorpay that never renews on its own; refunds and delivery are covered by our Refund & Delivery Policy (${routes.refunds}). The free tools described here won't silently become paid.`,
         },
       ],
     },

@@ -47,5 +47,14 @@ export const env = {
       apiToken: required("NO_REPLY_MAIL_CLOUDFLARE_API_TOKEN"),
     };
   },
+  get razorpay() {
+    return {
+      keyId: required("RAZORPAY_KEY_ID"),
+      keySecret: required("RAZORPAY_KEY_SECRET"),
+    };
+  },
+  get razorpayWebhookSecret() {
+    return required("RAZORPAY_WEBHOOK_SECRET");
+  },
   isProduction: process.env.NODE_ENV === "production",
 };

@@ -1,8 +1,12 @@
 import { routes } from "@/config/site";
+import { upsellCopy } from "@/content/pricing";
+import type { Upsell } from "@/lib/api/upsell";
 import { Alert } from "@/components/ui/Alert";
 import { ButtonLink } from "@/components/ui/Button";
 
-export function UpsellAlert({ message, upsell }: { message: string | null; upsell: boolean }) {
+const upsellHref = { account: routes.signUp, pro: routes.pricing } as const;
+
+export function UpsellAlert({ message, upsell }: { message: string | null; upsell: Upsell }) {
   if (!message) return null;
 
   return (
@@ -10,8 +14,8 @@ export function UpsellAlert({ message, upsell }: { message: string | null; upsel
       message={message}
       action={
         upsell && (
-          <ButtonLink href={routes.signUp} size="sm">
-            Create Free Account
+          <ButtonLink href={upsellHref[upsell]} size="sm">
+            {upsellCopy[upsell]}
           </ButtonLink>
         )
       }

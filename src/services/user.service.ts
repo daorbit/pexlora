@@ -12,7 +12,7 @@ export async function findUserByIdWithPassword(id: string) {
 export async function findUserLimits(id: string) {
   if (!isValidObjectId(id)) return null;
   await connectToDatabase();
-  return User.findById(id).select("limits").lean();
+  return User.findById(id).select("limits plan").lean();
 }
 
 export async function updateUserName(id: string, name: string) {

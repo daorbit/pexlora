@@ -1,8 +1,10 @@
+import { parseUpsell, type Upsell } from "@/lib/api/upsell";
+
 export class ApiRequestError extends Error {
   constructor(
     message: string,
     public status: number,
-    public upsell = false,
+    public upsell: Upsell = null,
   ) {
     super(message);
   }
@@ -15,7 +17,7 @@ export async function apiRequest(path: string, init: RequestInit) {
 
   if (!response.ok) {
     const data = await response.json().catch(() => null);
-    throw new ApiRequestError(data?.error ?? "Something went wrong.", response.status, Boolean(data?.upsell));
+    throw new ApiRequestError(data?.error ?? "Something went wrong.", response.status, parseUpsell(data?.upsell));
   }
 
   return response;

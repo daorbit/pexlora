@@ -128,6 +128,14 @@ src/
 - The AI Humanizer was removed on purpose (reputational risk: mostly used to evade AI checks). `/humanize-ai-text` and `/dashboard/humanizer` redirect to the AI Text Detector (`config/redirects.ts`). Don't bring it back.
 - New tools: add to `config/tools.ts`, then to `dashboardHrefs` in `config/dashboard.ts`, plus a page under `(app)/dashboard/`. The sidebar, page headers and the overview grid (`dashboardToolGroups` → `HubCard`) all use the coloured tool SVGs.
 
+## Payments (Razorpay, one-time Pro passes)
+
+- Plan in `docs/plan-payments.md`. Plans, prices (paise) and `PRO_LIMITS` in `config/plans.ts`; copy in `content/pricing.ts`. No subscriptions, no Razorpay SDK (REST via `fetch` in `lib/payments/razorpay.ts`, HMAC checks with `timingSafeEqual`).
+- Flow: `createOrder` action (amount from config, rate limited) → Checkout (`useCheckout`, script loaded by `lib/payments/checkout-script.ts`) → `/api/payments/verify` (signature) and `/api/payments/webhook` (raw-body signature). Both call the idempotent `grantPurchase` in `services/payment.service.ts`; `recomputePlan` rebuilds `User.plan` from paid `Purchase`s (extensions stack, refunds revoke). Receipt email only on a fresh grant.
+- The Razorpay account is shared with Quantalog: orders carry `notes.app = "pexlora"` and the webhook ignores anything else.
+- `effectiveLimits`: admin custom limit, else Pro while `activePlan(user)`, else free. Quota errors carry `upsell: "account" | "pro" | null` (`lib/api/upsell.ts`).
+- Policy page: `/refund-policy` (`content/legal/refund-policy.ts`, Razorpay checks it).
+
 ## Next.js 16 specifics
 
 - `cacheComponents` is on: any component that reads cookies/session (e.g. `HeaderAuth`, `DashboardGreeting`) must sit inside `<Suspense>`.

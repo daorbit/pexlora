@@ -3,6 +3,8 @@ import { AI_DAILY_LIMITS, DAILY_LIMITS } from "@/config/limits";
 import type { RateLimitScope } from "@/config/security";
 import { securityCopy } from "@/content/security";
 import { ApiError } from "@/lib/api/errors";
+import type { Upsell } from "@/lib/api/upsell";
+import { activePlan } from "@/lib/auth/plan";
 import { effectiveLimits } from "@/lib/auth/roles";
 import { getSession } from "@/lib/auth/session";
 import { clientId } from "@/lib/security/client";
@@ -26,7 +28,15 @@ export async function assertApiRateLimit(request: Request, scope: RateLimitScope
 
 async function userLimit(userId: string, kind: QuotaKind) {
   const user = await findUserLimits(userId).catch(() => null);
-  return user ? effectiveLimits(user)[kind] : quotas[kind].limits.user;
+  if (!user) return { limit: quotas[kind].limits.user, pro: false };
+  return { limit: effectiveLimits(user)[kind], pro: Boolean(activePlan(user)) };
+}
+
+const anonymousLimit = (kind: QuotaKind) => ({ limit: quotas[kind].limits.anonymous, pro: false });
+
+function quotaUpsell(signedIn: boolean, pro: boolean): Upsell {
+  if (!signedIn) return "account";
+  return pro ? null : "pro";
 }
 
 async function consumeQuota(request: Request, kind: QuotaKind) {
@@ -38,11 +48,11 @@ async function consumeQuota(request: Request, kind: QuotaKind) {
   const burstCheck = assertApiRateLimit(request, burst, identity);
 
   let used: number;
-  let limit: number;
+  let allowance: { limit: number; pro: boolean };
   try {
-    [used, limit] = await Promise.all([
+    [used, allowance] = await Promise.all([
       incrementUsage(key),
-      session ? userLimit(session.userId, kind) : limits.anonymous,
+      session ? userLimit(session.userId, kind) : anonymousLimit(kind),
     ]);
   } catch (error) {
     console.warn("Usage tracking unavailable, skipping quota check", error);
@@ -51,13 +61,14 @@ async function consumeQuota(request: Request, kind: QuotaKind) {
   }
   await burstCheck;
 
+  const { limit, pro } = allowance;
   if (used > limit) {
     throw new ApiError(
       session
         ? `You've reached today's limit of ${limit} ${noun}. It resets at midnight UTC.`
         : `You've used your ${limit} free ${noun} for today. Create a free account to get up to ${limits.user} a day.`,
       429,
-      { upsell: !session },
+      { upsell: quotaUpsell(Boolean(session), pro) },
     );
   }
 

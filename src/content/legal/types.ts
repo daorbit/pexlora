@@ -9,7 +9,7 @@ export type LegalSection = { id: string; heading: string; blocks: LegalBlock[] }
 export type LegalHighlight = { title: string; body: string };
 
 export type LegalDocument = {
-  slug: "privacy" | "terms" | "cookies" | "security";
+  slug: "privacy" | "terms" | "cookies" | "security" | "refunds";
   path: string;
   navLabel: string;
   title: string;

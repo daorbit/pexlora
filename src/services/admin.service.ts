@@ -38,11 +38,11 @@ export type AdminUser = {
   custom: CustomLimits;
 };
 
-type UserRow = Pick<UserDocument, "_id" | "name" | "email" | "avatarUrl" | "googleId" | "role" | "limits" | "createdAt"> & {
+type UserRow = Pick<UserDocument, "_id" | "name" | "email" | "avatarUrl" | "googleId" | "role" | "limits" | "plan" | "createdAt"> & {
   passwordHash?: string | null;
 };
 
-const ROW_FIELDS = "name email avatarUrl googleId role limits createdAt +passwordHash";
+const ROW_FIELDS = "name email avatarUrl googleId role limits plan createdAt +passwordHash";
 
 const usageKeysFor = (id: string) => [usageKeys.user(id), aiUsageKey(usageKeys.user(id))];
 

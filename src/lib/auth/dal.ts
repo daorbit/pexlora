@@ -4,6 +4,7 @@ import { notFound, redirect } from "next/navigation";
 import type { UserRole } from "@/config/roles";
 import { routes } from "@/config/site";
 import { effectiveLimits, effectiveRole, type UserLimits } from "@/lib/auth/roles";
+import { activePlan, type ActivePlan } from "@/lib/auth/plan";
 import { getSession } from "@/lib/auth/session";
 import { findUserByIdWithPassword } from "@/services/user.service";
 
@@ -17,6 +18,7 @@ export type CurrentUser = {
   memberSince: string;
   role: UserRole;
   limits: UserLimits;
+  plan: ActivePlan | null;
 };
 
 export const getCurrentUser = cache(async (): Promise<CurrentUser | null> => {
@@ -36,6 +38,7 @@ export const getCurrentUser = cache(async (): Promise<CurrentUser | null> => {
     memberSince: new Date(user.createdAt).toISOString(),
     role: effectiveRole(user),
     limits: effectiveLimits(user),
+    plan: activePlan(user),
   };
 });
 

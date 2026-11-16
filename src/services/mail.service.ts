@@ -5,6 +5,7 @@ import { env } from "@/lib/env";
 import { accountExistsEmail } from "@/lib/mail/templates/account-exists";
 import type { EmailContent } from "@/lib/mail/templates/layout";
 import { passwordChangedEmail } from "@/lib/mail/templates/password-changed";
+import { paymentReceiptEmail } from "@/lib/mail/templates/payment-receipt";
 import { resetPasswordEmail } from "@/lib/mail/templates/reset-password";
 import { verificationCodeEmail } from "@/lib/mail/templates/verification-code";
 import { welcomeEmail } from "@/lib/mail/templates/welcome";
@@ -45,6 +46,15 @@ export function sendWelcomeEmail(user: Recipient) {
 
 export function sendAccountExistsEmail(user: Recipient) {
   return sendQuietly("account exists", () => sendMail(user.email, accountExistsEmail({ name: user.name, appUrl: env.appUrl })));
+}
+
+export function sendPaymentReceiptEmail(
+  user: Recipient,
+  receipt: { planName: string; amount: string; paymentId: string; activeUntil: string | null },
+) {
+  return sendQuietly("payment receipt", () =>
+    sendMail(user.email, paymentReceiptEmail({ name: user.name, appUrl: env.appUrl, ...receipt })),
+  );
 }
 
 export function sendPasswordChangedEmail(user: Recipient) {
