@@ -5,6 +5,8 @@ import { MobileNav } from "@/components/dashboard/MobileNav";
 import { ShellScrollArea } from "@/components/dashboard/ShellScrollArea";
 import { SidebarUsage, SidebarUsageFallback } from "@/components/dashboard/SidebarUsage";
 import { SidebarUser, SidebarUserFallback } from "@/components/dashboard/SidebarUser";
+import { SidebarAdmin } from "@/components/admin/SidebarAdmin";
+
 export function DashboardShell({ children }: { children: ReactNode }) {
   const usage = (
     <Suspense fallback={<SidebarUsageFallback />}>
@@ -17,17 +19,23 @@ export function DashboardShell({ children }: { children: ReactNode }) {
     </Suspense>
   );
 
+  const admin = (
+    <Suspense fallback={null}>
+      <SidebarAdmin />
+    </Suspense>
+  );
+
   return (
     <div className="flex min-h-dvh flex-1 bg-canvas lg:h-dvh lg:max-h-dvh lg:gap-3 lg:overflow-hidden lg:p-3">
       <div className="sidebar-slot relative z-40 hidden w-64 shrink-0 transition-[width] duration-300 slot-collapsed:w-19 lg:block">
-        <AppSidebar usage={usage} account={account} />
+        <AppSidebar usage={usage} account={account} admin={admin} />
       </div>
       <div className="flex min-h-0 min-w-0 flex-1 flex-col bg-background lg:overflow-hidden lg:rounded-[24px]">
         <ShellScrollArea className="flex min-h-0 flex-1 flex-col lg:my-2 lg:mr-1 lg:overflow-y-auto lg:overscroll-contain">
           <DashboardTopBar
             mobileNav={
               <MobileNav>
-                <AppSidebar usage={usage} account={account} collapsible={false} className="w-full" />
+                <AppSidebar usage={usage} account={account} admin={admin} collapsible={false} className="w-full" />
               </MobileNav>
             }
           />

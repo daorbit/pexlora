@@ -2,9 +2,11 @@ import "server-only";
 import { createHash } from "node:crypto";
 import { AI_DAILY_LIMITS, DAILY_LIMITS } from "@/config/limits";
 import { ApiError } from "@/lib/api/errors";
+import { effectiveLimits } from "@/lib/auth/roles";
 import { getSession } from "@/lib/auth/session";
 import { env } from "@/lib/env";
 import { incrementUsage, usageKeys } from "@/services/usage.service";
+import { findUserLimits } from "@/services/user.service";
 
 type QuotaKind = "files" | "ai";
 
@@ -22,15 +24,23 @@ function hashIp(ip: string) {
   return createHash("sha256").update(`${ip}:${env.sessionSecret}`).digest("hex");
 }
 
+async function userLimit(userId: string, kind: QuotaKind) {
+  const user = await findUserLimits(userId).catch(() => null);
+  return user ? effectiveLimits(user)[kind] : quotas[kind].limits.user;
+}
+
 async function consumeQuota(request: Request, kind: QuotaKind) {
   const { limits, noun, prefix } = quotas[kind];
   const session = await getSession();
   const key = prefix + (session ? usageKeys.user(session.userId) : usageKeys.ip(hashIp(clientIp(request))));
-  const limit = session ? limits.user : limits.anonymous;
 
   let used: number;
+  let limit: number;
   try {
-    used = await incrementUsage(key);
+    [used, limit] = await Promise.all([
+      incrementUsage(key),
+      session ? userLimit(session.userId, kind) : limits.anonymous,
+    ]);
   } catch (error) {
     console.warn("Usage tracking unavailable, skipping quota check", error);
     return null;

@@ -12,11 +12,12 @@ import { SidebarNav } from "@/components/dashboard/SidebarNav";
 type AppSidebarProps = {
   usage: ReactNode;
   account: ReactNode;
+  admin?: ReactNode;
   collapsible?: boolean;
   className?: string;
 };
 
-export function AppSidebar({ usage, account, collapsible = true, className }: AppSidebarProps) {
+export function AppSidebar({ usage, account, admin, collapsible = true, className }: AppSidebarProps) {
   const { collapsed, toggle } = useSidebarCollapsed();
   const isRail = collapsible && collapsed;
   const { peeking, start, stop } = useSidebarPeek(isRail);
@@ -49,7 +50,7 @@ export function AppSidebar({ usage, account, collapsible = true, className }: Ap
       )}
     >
       <SidebarBrand collapsible={collapsible} peeking={peeking} onToggle={togglePinned} />
-      <SidebarNav />
+      <SidebarNav extra={admin} />
       <div className="mt-auto flex flex-col gap-2 pt-6">
         {usage}
         {account}

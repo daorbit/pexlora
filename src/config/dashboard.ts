@@ -1,6 +1,7 @@
-import { LayoutGrid, Settings } from "lucide-react";
+import { LayoutGrid, Settings, ShieldCheck } from "lucide-react";
 import type { IconComponent } from "@/components/icons/types";
 import { routes } from "@/config/site";
+import { adminCopy } from "@/content/admin";
 import { textToolIconSrc, textTools } from "@/config/text-tools";
 import type { HubItem } from "@/config/tool-hub";
 import {
@@ -113,6 +114,12 @@ export const settingsNavItem: DashboardNavItem = {
   href: routes.dashboardSettings,
 };
 
+export const adminNavItem: DashboardNavItem = {
+  ...adminCopy.nav,
+  icon: ShieldCheck,
+  href: routes.dashboardAdmin,
+};
+
 export const dashboardNav: DashboardNavSection[] = [{ items: [overviewNavItem] }, ...toolCategoryOrder.map(toolSection)];
 
 export const dashboardSearchItems: DashboardNavItem[] = [
@@ -126,5 +133,5 @@ export function isNavItemActive(item: DashboardNavItem, pathname: string) {
 }
 
 export function findActiveNavItem(pathname: string) {
-  return dashboardSearchItems.find((item) => isNavItemActive(item, pathname)) ?? overviewNavItem;
+  return [...dashboardSearchItems, adminNavItem].find((item) => isNavItemActive(item, pathname)) ?? overviewNavItem;
 }

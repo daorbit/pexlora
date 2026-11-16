@@ -1,12 +1,13 @@
 "use client";
 
+import type { ReactNode } from "react";
 import { usePathname } from "next/navigation";
 import { dashboardNav, isNavItemActive } from "@/config/dashboard";
 import { cn } from "@/lib/utils/cn";
 import { SidebarLink } from "@/components/dashboard/SidebarLink";
 import { whenCollapsed } from "@/components/dashboard/sidebar-styles";
 
-export function SidebarNav() {
+export function SidebarNav({ extra }: { extra?: ReactNode }) {
   const pathname = usePathname();
 
   return (
@@ -31,6 +32,7 @@ export function SidebarNav() {
           ))}
         </div>
       ))}
+      {extra && <div className="flex flex-col gap-0.5">{extra}</div>}
     </nav>
   );
 }

@@ -1,5 +1,5 @@
 import "server-only";
-import { DAILY_LIMITS } from "@/config/limits";
+import type { CurrentUser } from "@/lib/auth/dal";
 import { getUsageToday, usageKeys } from "@/services/usage.service";
 
 export type UsageSummary = {
@@ -8,8 +8,8 @@ export type UsageSummary = {
   remaining: number;
 };
 
-export async function getUserUsage(userId: string): Promise<UsageSummary> {
-  const limit = DAILY_LIMITS.user;
-  const used = await getUsageToday(usageKeys.user(userId)).catch(() => 0);
+export async function getUserUsage(user: Pick<CurrentUser, "id" | "limits">): Promise<UsageSummary> {
+  const limit = user.limits.files;
+  const used = await getUsageToday(usageKeys.user(user.id)).catch(() => 0);
   return { used, limit, remaining: Math.max(0, limit - used) };
 }

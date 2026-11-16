@@ -9,6 +9,12 @@ export async function findUserByIdWithPassword(id: string) {
   return User.findById(id).select("+passwordHash").lean();
 }
 
+export async function findUserLimits(id: string) {
+  if (!isValidObjectId(id)) return null;
+  await connectToDatabase();
+  return User.findById(id).select("limits").lean();
+}
+
 export async function updateUserName(id: string, name: string) {
   await connectToDatabase();
   await User.updateOne({ _id: id }, { $set: { name } });

@@ -1,6 +1,5 @@
 import { LogOut } from "lucide-react";
 import { signOut } from "@/actions/auth";
-import { DAILY_LIMITS } from "@/config/limits";
 import { accountCopy } from "@/content/account";
 import { requireUser } from "@/lib/auth/dal";
 import { Badge } from "@/components/ui/Badge";
@@ -50,7 +49,7 @@ export async function AccountSettings() {
           <Badge tone="success">Free</Badge>
         </SettingsRow>
         <SettingsRow label="Daily limit" description="Resets every day at midnight UTC.">
-          <span className="font-medium tabular-nums">{DAILY_LIMITS.user} files</span>
+          <span className="font-medium tabular-nums">{user.limits.files} files</span>
         </SettingsRow>
       </SettingsPanel>
 

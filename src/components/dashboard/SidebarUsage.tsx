@@ -9,7 +9,7 @@ const cardClasses = cn("flex items-center gap-3 rounded-2xl bg-background p-3", 
 
 export async function SidebarUsage() {
   const user = await requireUser();
-  const { used, limit } = await getUserUsage(user.id);
+  const { used, limit } = await getUserUsage(user);
   const left = Math.max(0, limit - used);
 
   return (

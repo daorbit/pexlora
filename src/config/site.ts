@@ -23,6 +23,7 @@ export const routes = {
   dashboardAiDetector: "/dashboard/ai-detector",
   dashboardHumanizer: "/dashboard/humanizer",
   dashboardSettings: "/dashboard/settings",
+  dashboardAdmin: "/dashboard/admin",
   removeMetadata: "/remove-ai-metadata",
   convert: "/convert-image",
   viewMetadata: "/metadata-viewer",
