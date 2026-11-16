@@ -18,18 +18,19 @@ export default function PricingPage() {
   return (
     <>
       <JsonLd data={pricingStructuredData()} />
-      <section className="pt-4 pb-14 sm:pt-6 sm:pb-20">
-        <Container>
-          <div className="theme-invert flex flex-col gap-10 rounded-[28px] bg-background px-4 py-12 text-foreground sm:gap-14 sm:rounded-4xl sm:px-10 sm:py-16">
-            <div className="mx-auto flex max-w-2xl flex-col items-center gap-4 text-center">
-              <Eyebrow>{pricingCopy.eyebrow}</Eyebrow>
-              <h1 className="text-[36px] leading-[1.1] font-bold tracking-[-0.035em] sm:text-[52px]">
-                {pricingCopy.title} <Highlight>{pricingCopy.highlight}</Highlight>
-              </h1>
-              <p className="max-w-lg text-[17px] leading-relaxed text-secondary">{pricingCopy.lead}</p>
-            </div>
-            <PricingPlans />
-            <p className="text-center text-sm text-tertiary">{pricingCopy.extend}</p>
+      <section className="py-14 sm:py-20">
+        <Container className="flex flex-col gap-10 sm:gap-14">
+          <div className="mx-auto flex max-w-2xl flex-col items-center gap-4 text-center">
+            <Eyebrow>{pricingCopy.eyebrow}</Eyebrow>
+            <h1 className="text-[36px] leading-[1.1] font-bold tracking-[-0.035em] sm:text-[52px]">
+              {pricingCopy.title} <Highlight>{pricingCopy.highlight}</Highlight>
+            </h1>
+            <p className="max-w-lg text-[17px] leading-relaxed text-secondary">{pricingCopy.lead}</p>
+          </div>
+          <PricingPlans />
+          <div className="flex flex-col items-center gap-1.5 text-center text-[13.5px] text-tertiary">
+            <p>{pricingCopy.trust}</p>
+            <p>{pricingCopy.extend}</p>
           </div>
         </Container>
       </section>

@@ -34,3 +34,7 @@ export function isPlanId(value: unknown): value is PlanId {
 export function formatPrice(paise: number) {
   return new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 }).format(paise / 100);
 }
+
+export function formatPerDay(paise: number, days: number) {
+  return new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", minimumFractionDigits: 2 }).format(paise / 100 / days);
+}

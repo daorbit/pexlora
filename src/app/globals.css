@@ -391,22 +391,6 @@
   --tone: #8a8d82;
 }
 
-@utility tone-silver {
-  --tone: #d9d8d0;
-}
-
-@utility tone-gold {
-  --tone: #f4c34d;
-}
-
-@utility tile-fill {
-  background: var(--tone);
-}
-
-@utility ring-tone {
-  --tw-ring-color: var(--tone);
-}
-
 html.theme-reveal::view-transition-old(root),
 html.theme-reveal::view-transition-new(root) {
   animation: none;

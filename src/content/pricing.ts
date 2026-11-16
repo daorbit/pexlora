@@ -1,13 +1,18 @@
 import { AI_NAME } from "@/config/brand";
 import { AI_DAILY_LIMITS, DAILY_LIMITS } from "@/config/limits";
-import { PRO_LIMITS, REFUND_WINDOW_DAYS, type PlanId } from "@/config/plans";
+import { PLANS, PRO_LIMITS, REFUND_WINDOW_DAYS, formatPerDay, type Plan, type PlanId } from "@/config/plans";
 
 const number = (value: number) => value.toLocaleString("en-IN");
 
+const monthsPerYear = 12;
+const yearSaving = Math.round(
+  (1 - PLANS["pro-365"].amountPaise / (PLANS["pro-30"].amountPaise * monthsPerYear)) * 100,
+);
+
 export const planCopy: Record<PlanId, { name: string; period: string; note: string; cta: string }> = {
-  "pro-30": { name: "30-Day Pass", period: "paid once", note: "For one urgent job", cta: "Get 30 Days" },
-  "pro-365": { name: "1-Year Pass", period: "paid once", note: "About ₹42 a month", cta: "Get 1 Year" },
-  "pro-lifetime": { name: "Lifetime", period: "paid once", note: "Keep Pro for good", cta: "Get Lifetime" },
+  "pro-30": { name: "30-Day Pass", period: "once", note: "For one urgent job", cta: "Get 30 Days" },
+  "pro-365": { name: "1-Year Pass", period: "once", note: `Save ${yearSaving}% against monthly`, cta: "Get 1 Year" },
+  "pro-lifetime": { name: "Lifetime", period: "once", note: "Keep Pro for good", cta: "Get Lifetime" },
 };
 
 export const pricingCopy = {
@@ -22,8 +27,9 @@ export const pricingCopy = {
     `${number(PRO_LIMITS.files)} files a day`,
     `${PRO_LIMITS.ai} ${AI_NAME} requests a day`,
     "Every tool included",
-    "Never renews on its own",
   ],
+  perDay: (plan: Plan) => (plan.days === null ? "Never expires" : `${formatPerDay(plan.amountPaise, plan.days)} a day`),
+  trust: `Secure payment by Razorpay · UPI, cards, net banking · Full refund within ${REFUND_WINDOW_DAYS} days`,
   extend: "Buying again while Pro is active adds the days to your current pass.",
   signInToBuy: "Sign In to Buy",
   activeUntil: (date: string) => `Pro is active until ${date}.`,

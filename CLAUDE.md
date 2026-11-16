@@ -135,6 +135,7 @@ src/
 - The Razorpay account is shared with Quantalog: orders carry `notes.app = "pexlora"` and the webhook ignores anything else.
 - `effectiveLimits`: admin custom limit, else Pro while `activePlan(user)`, else free. Quota errors carry `upsell: "account" | "pro" | null` (`lib/api/upsell.ts`).
 - Policy page: `/refund-policy` (`content/legal/refund-policy.ts`, Razorpay checks it).
+- `/pricing` follows approved mockup B ("Ink spotlight", https://claude.ai/artifact/W2PxX4kcAwuEP76SHJHP33): two white cards with outline buttons around a `theme-invert` featured card (lime button, Best Value badge, per-day price). Plan icons are solid gradient diamonds (`PlanGemIcon`: rose, lime, amber), a deliberate exception to the no-gradient rule like the AI tool icons.
 
 ## Next.js 16 specifics
 

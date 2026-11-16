@@ -1,31 +1,37 @@
-import type { SVGProps } from "react";
+import { useId, type SVGProps } from "react";
 
-export type PlanGem = "rhombus" | "brilliant" | "crown";
+export type PlanGem = "rose" | "lime" | "amber";
 
-const facet = { fill: "none", stroke: "var(--tone)", strokeWidth: 1.4, strokeLinejoin: "round" as const };
-
-const shapes: Record<PlanGem, { body: string; facets: string }> = {
-  rhombus: {
-    body: "M12 2.5 19.5 12 12 21.5 4.5 12Z",
-    facets: "M4.5 12h15M12 2.5v19M8.25 7.25 12 12l3.75-4.75",
-  },
-  brilliant: {
-    body: "M6.5 4h11l4.5 5.5L12 21 2 9.5Z",
-    facets: "M2 9.5h20M9.5 4 7.5 9.5 12 21l4.5-11.5-2-5.5M7.5 9.5 12 4l4.5 5.5",
-  },
-  crown: {
-    body: "M3 7.5 7.75 12 12 4.5l4.25 7.5L21 7.5 19 18H5Z",
-    facets: "M5.6 15h12.8M12 4.5V15",
-  },
+const gradients: Record<PlanGem, readonly [string, string]> = {
+  rose: ["#ffb07a", "#ff2e7e"],
+  lime: ["#e4ff6a", "#14b866"],
+  amber: ["#ffe07a", "#f07000"],
 };
 
-export function PlanGemIcon({ gem, ...props }: SVGProps<SVGSVGElement> & { gem: PlanGem }) {
-  const { body, facets } = shapes[gem];
+const facetStyles = {
+  light: { stroke: "#ffffff", strokeOpacity: 0.75 },
+  dark: { stroke: "#10120d", strokeOpacity: 0.45 },
+};
+
+const OUTLINE = "M14 10h20l8 9-18 21L6 19Z";
+const FACETS = "M6 19h36M14 10l5 9 5-9 5 9 5-9M19 19l5 21M29 19l-5 21";
+
+type PlanGemIconProps = SVGProps<SVGSVGElement> & { gem: PlanGem; facets?: keyof typeof facetStyles };
+
+export function PlanGemIcon({ gem, facets = "light", ...props }: PlanGemIconProps) {
+  const gradientId = useId();
+  const [from, to] = gradients[gem];
 
   return (
-    <svg viewBox="0 0 24 24" aria-hidden {...props}>
-      <path d={body} fill="currentColor" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" />
-      <path d={facets} {...facet} />
+    <svg viewBox="0 0 48 48" aria-hidden {...props}>
+      <defs>
+        <linearGradient id={gradientId} x1="6" y1="10" x2="42" y2="40" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stopColor={from} />
+          <stop offset="1" stopColor={to} />
+        </linearGradient>
+      </defs>
+      <path d={OUTLINE} fill={`url(#${gradientId})`} />
+      <path d={FACETS} fill="none" strokeWidth="1.4" strokeLinejoin="round" {...facetStyles[facets]} />
     </svg>
   );
 }
