@@ -7,6 +7,7 @@ import { brandAssets, brandColors } from "@/config/brand";
 import type { PlanId } from "@/config/plans";
 import { routes, siteConfig } from "@/config/site";
 import { checkoutCopy, planCopy } from "@/content/pricing";
+import { checkoutReturnPath } from "@/lib/payments/checkout-intent";
 import { loadCheckoutLogo, loadRazorpayCheckout, type RazorpaySuccess } from "@/lib/payments/checkout-script";
 import { toast } from "@/lib/toast/store";
 import { withNextParam } from "@/lib/url/next-path";
@@ -73,7 +74,7 @@ export function useCheckout() {
       const result = await createOrder(plan);
       if (result.ok) return open(plan, result.order);
       setPendingPlan(null);
-      if (result.signIn) return router.push(withNextParam(result.signIn, routes.pricing));
+      if (result.signIn) return router.push(withNextParam(result.signIn, checkoutReturnPath(plan)));
       toast.error(result.message);
     },
     [open, router],

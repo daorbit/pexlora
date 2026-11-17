@@ -12,6 +12,7 @@ import { clearSignupTicket, readSignupTicket } from "@/lib/auth/signup-ticket";
 import { actionRateLimit } from "@/lib/security/action-limit";
 import { hashIdentifier } from "@/lib/security/client";
 import { setFlash } from "@/lib/toast/flash";
+import { withNextParam } from "@/lib/url/next-path";
 import { verifyCodeSchema, type AuthFormState } from "@/lib/validations/auth";
 import { sendAccountExistsEmail, sendVerificationCodeEmail, sendWelcomeEmail } from "@/services/mail.service";
 import { hitRateLimit } from "@/services/rate-limit.service";
@@ -78,6 +79,7 @@ export async function resendVerificationCode(): Promise<AuthFormState> {
 }
 
 export async function restartSignup() {
+  const ticket = await readSignupTicket();
   await clearSignupTicket();
-  redirect(routes.signUp);
+  redirect(withNextParam(routes.signUp, ticket?.next ?? null));
 }

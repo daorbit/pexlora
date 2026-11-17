@@ -5,6 +5,7 @@ import { authCopy } from "@/content/auth";
 import { maskEmail, readSignupTicket } from "@/lib/auth/signup-ticket";
 import { AuthCard } from "@/components/auth/AuthCard";
 import { AuthForm } from "@/components/auth/AuthForm";
+import { CheckoutIntentNote } from "@/components/auth/CheckoutIntentNote";
 import { verifyCodeFields } from "@/components/auth/fields";
 import { ResendCodeForm } from "@/components/auth/ResendCodeForm";
 
@@ -15,6 +16,7 @@ export async function VerifyEmailCard() {
   const copy = authCopy.verify;
   return (
     <AuthCard title={copy.title} description={copy.description(maskEmail(ticket.email))} footer={<ResendCodeForm />}>
+      <CheckoutIntentNote next={ticket.next} />
       <AuthForm action={verifyEmail} fields={verifyCodeFields} submitLabel={copy.submit} />
     </AuthCard>
   );

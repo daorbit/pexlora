@@ -1,5 +1,9 @@
+import { routes } from "@/config/site";
 import { shellCopy } from "@/content/dashboard";
+import { billingCopy } from "@/content/pricing";
 import { requireUser } from "@/lib/auth/dal";
+import { hasProPerks } from "@/lib/auth/roles";
+import { ButtonLink } from "@/components/ui/Button";
 import { getUserUsage } from "@/lib/auth/usage";
 import { cn } from "@/lib/utils/cn";
 import { UsageRing } from "@/components/dashboard/UsageRing";
@@ -13,12 +17,19 @@ export async function SidebarUsage() {
   const left = Math.max(0, limit - used);
 
   return (
-    <div className={cardClasses} data-tooltip={`${shellCopy.filesLeft(left)} ${shellCopy.ofToday(limit)}`}>
-      <UsageRing used={used} limit={limit} />
-      <div className={cn("flex flex-col", whenCollapsed.hidden)}>
-        <span className="text-sm font-semibold tabular-nums">{shellCopy.filesLeft(left)}</span>
-        <span className="text-xs text-secondary">{shellCopy.ofToday(limit)}</span>
+    <div className="flex flex-col gap-2">
+      <div className={cardClasses} data-tooltip={`${shellCopy.filesLeft(left)} ${shellCopy.ofToday(limit)}`}>
+        <UsageRing used={used} limit={limit} />
+        <div className={cn("flex flex-col", whenCollapsed.hidden)}>
+          <span className="text-sm font-semibold tabular-nums">{shellCopy.filesLeft(left)}</span>
+          <span className="text-xs text-secondary">{shellCopy.ofToday(limit)}</span>
+        </div>
       </div>
+      {!hasProPerks(user) && (
+        <ButtonLink href={routes.pricing} variant="primary" size="sm" className={cn("w-full", whenCollapsed.hidden)}>
+          {billingCopy.upgrade}
+        </ButtonLink>
+      )}
     </div>
   );
 }

@@ -3,9 +3,11 @@
 import { LoaderCircle } from "lucide-react";
 import { PLAN_IDS, PLANS } from "@/config/plans";
 import { routes } from "@/config/site";
-import { checkoutCopy, planCopy, pricingCopy } from "@/content/pricing";
+import { checkoutCopy, planCopy } from "@/content/pricing";
 import { useCheckout } from "@/hooks/useCheckout";
+import { useResumeCheckout } from "@/hooks/useResumeCheckout";
 import { useSignedIn } from "@/hooks/useSignedIn";
+import { checkoutReturnPath } from "@/lib/payments/checkout-intent";
 import { withNextParam } from "@/lib/url/next-path";
 import { cn } from "@/lib/utils/cn";
 import { Button, ButtonLink } from "@/components/ui/Button";
@@ -14,6 +16,7 @@ import { PlanCard } from "@/components/pricing/PlanCard";
 export function PricingPlans() {
   const signedIn = useSignedIn();
   const { buy, pendingPlan } = useCheckout();
+  useResumeCheckout(buy, signedIn);
 
   return (
     <div className="grid items-center gap-4 sm:gap-5 md:grid-cols-3">
@@ -34,8 +37,8 @@ export function PricingPlans() {
             {pending ? checkoutCopy.processing : planCopy[id].cta}
           </Button>
         ) : (
-          <ButtonLink href={withNextParam(routes.signIn, routes.pricing)} variant={variant} size="xl" className={actionClass}>
-            {pricingCopy.signInToBuy}
+          <ButtonLink href={withNextParam(routes.signUp, checkoutReturnPath(id))} variant={variant} size="xl" className={actionClass}>
+            {planCopy[id].cta}
           </ButtonLink>
         );
         return <PlanCard key={id} plan={plan} action={action} />;

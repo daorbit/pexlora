@@ -54,7 +54,6 @@ export const pricingCopy = {
   ],
   extend: "Buying again while Pro is active adds the days to your current pass.",
   testMode: (amount: string) => `Test price is on: Checkout charges ${amount} for every plan. This notice never shows on the live site.`,
-  signInToBuy: "Sign In to Buy",
   activeUntil: (date: string) => `Pro is active until ${date}.`,
   activeLifetime: "You have Pro for life.",
   compareEyebrow: "Compare",
