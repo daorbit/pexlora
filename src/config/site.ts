@@ -79,13 +79,13 @@ export const routes = {
   verifyPaymentApi: "/api/payments/verify",
 } as const;
 
-export type NavLink = { label: string; href: string; shortLabel?: string; wideOnly?: boolean };
+export type NavLink = { label: string; href: string; wideOnly?: boolean };
 
 export const navLinks: NavLink[] = [
   { label: "Remove Metadata", href: routes.removeMetadata },
-  { label: "Compress Image", shortLabel: "Compress", href: routes.compress },
-  { label: "Resize Image", href: routes.resize, wideOnly: true },
-  { label: "Convert Image", shortLabel: "Convert", href: routes.convert },
+  { label: "Compress", href: routes.compress },
+  { label: "Resize", href: routes.resize, wideOnly: true },
+  { label: "Convert", href: routes.convert },
   { label: "Pricing", href: routes.pricing },
   { label: "Contact", href: routes.contact, wideOnly: true },
 ];

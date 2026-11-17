@@ -3,7 +3,6 @@ import { Suspense } from "react";
 import { navLinks } from "@/config/site";
 import { cn } from "@/lib/utils/cn";
 import { Container } from "@/components/ui/Container";
-import { ResponsiveLabel } from "@/components/ui/ResponsiveLabel";
 import { HeaderAuth, HeaderAuthFallback } from "@/components/layout/HeaderAuth";
 import { Logo } from "@/components/layout/Logo";
 import { MobileMenu } from "@/components/layout/MobileMenu";
@@ -27,7 +26,7 @@ export function SiteHeader() {
                 link.wideOnly && "hidden xl:inline",
               )}
             >
-              <ResponsiveLabel short={link.shortLabel ?? link.label} full={link.label} from="xl" />
+              {link.label}
             </Link>
           ))}
         </nav>

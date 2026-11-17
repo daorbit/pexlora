@@ -35,8 +35,10 @@ const textToolItems: HubItem[] = textTools.map((tool) => ({
   shortName: tool.shortName,
 }));
 
+export const compressTargetHubKey = "compress-to-size";
+
 const compressTargetItem: HubItem = {
-  key: "compress-to-size",
+  key: compressTargetHubKey,
   name: toolPageCopy.compressTargetHub.name,
   description: toolPageCopy.compressTargetHub.description,
   href: compressTargetPath(defaultCompressTarget.slug),

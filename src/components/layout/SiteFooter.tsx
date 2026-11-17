@@ -38,9 +38,9 @@ export function SiteFooter() {
         <HousePromoCard promo={housePromos.footer} placement="footer" className="w-full max-w-sm" />
       </Container>
 
-      <Container className="grid grid-cols-2 gap-x-6 gap-y-12 py-14 sm:grid-cols-3 sm:py-16 lg:grid-cols-6">
+      <Container className="columns-2 gap-x-6 py-14 sm:columns-3 sm:py-16 lg:columns-5 xl:columns-6">
         {footerColumns.map((column) => (
-          <div key={column.title} className="flex flex-col gap-4">
+          <div key={column.title} className="mb-10 flex break-inside-avoid flex-col gap-4 sm:mb-12">
             <p className="text-xs font-semibold tracking-[0.12em] text-primary uppercase">{column.title}</p>
             <ul className="flex flex-col gap-3">
               {column.links.map((link) => (

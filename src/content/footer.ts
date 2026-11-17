@@ -4,11 +4,17 @@ import { legalDocuments } from "@/content/legal";
 import { conversionPath, popularConversions } from "@/config/conversions";
 import { toolPageCopy } from "@/content/tool-pages";
 import { routes } from "@/config/site";
-import { textTools } from "@/config/text-tools";
-import { workspaceTools } from "@/config/tools";
+import { compressTargetHubKey, hubItemsIn, type HubCategory } from "@/config/tool-hub";
 import { seoPagePath, seoPagesIn, type SeoPage } from "@/content/seo-pages";
 
 const pageLinks = (pages: SeoPage[]) => pages.map((page) => ({ label: page.name, href: seoPagePath(page) }));
+
+const footerToolGroups: { title: string; category: HubCategory }[] = [
+  { title: "Metadata tools", category: "metadata" },
+  { title: "Image tools", category: "image" },
+  { title: "PDF tools", category: "pdf" },
+  { title: "AI tools", category: "ai" },
+];
 
 export const footerCopy = {
   title: "Your files. Your privacy.",
@@ -21,10 +27,12 @@ export const footerCopy = {
 export const footerLegalLinks = legalDocuments.map((doc) => ({ label: doc.title, href: doc.path }));
 
 export const footerColumns = [
-  {
-    title: "Tools",
-    links: [...workspaceTools, ...textTools].map((tool) => ({ label: tool.name, href: tool.href })),
-  },
+  ...footerToolGroups.map(({ title, category }) => ({
+    title,
+    links: hubItemsIn(category)
+      .filter((item) => item.key !== compressTargetHubKey)
+      .map((item) => ({ label: item.name, href: item.href })),
+  })),
   {
     title: "Convert images",
     links: popularConversions.map((conversion) => ({ label: conversion.name, href: conversionPath(conversion.slug) })),

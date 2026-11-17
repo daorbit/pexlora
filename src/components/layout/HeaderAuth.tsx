@@ -15,7 +15,7 @@ export async function HeaderAuth() {
       <ButtonLink href={routes.signIn} variant="nav" className="hidden px-3 sm:inline-flex">
         {navCopy.signIn}
       </ButtonLink>
-      <ButtonLink href={routes.signUp} variant="ink" size="md">
+      <ButtonLink href={routes.signUp} variant="ink" size="md" className="h-9 rounded-lg px-3.5 text-[13px]">
         {navCopy.getStarted}
       </ButtonLink>
     </div>

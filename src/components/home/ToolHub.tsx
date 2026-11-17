@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils/cn";
 import { staggerDelay } from "@/lib/utils/stagger";
 import { Segmented } from "@/components/ui/Segmented";
 import { SelectSheet } from "@/components/ui/SelectSheet";
-import { HubCard, hubGridClass } from "@/components/home/HubCard";
+import { HubCard, hubTileGridClass } from "@/components/home/HubCard";
 
 type Filter = HubCategory | "all";
 
@@ -36,10 +36,10 @@ export function ToolHub() {
         layout="chips"
         className="max-sm:hidden"
       />
-      <ul key={filter} className={hubGridClass}>
+      <ul key={filter} className={hubTileGridClass}>
         {items.map((item, index) => (
-          <li key={item.key} className={cn("motion-safe:animate-fade-up", staggerDelay(index))}>
-            <HubCard item={item} />
+          <li key={item.key} className={cn("min-w-0 motion-safe:animate-fade-up", staggerDelay(index))}>
+            <HubCard item={item} tile />
           </li>
         ))}
       </ul>
