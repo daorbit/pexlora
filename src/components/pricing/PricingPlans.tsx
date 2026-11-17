@@ -16,11 +16,11 @@ export function PricingPlans() {
   const { buy, pendingPlan } = useCheckout();
 
   return (
-    <div className="grid items-center gap-5 md:grid-cols-3">
+    <div className="grid items-center gap-4 sm:gap-5 md:grid-cols-3">
       {PLAN_IDS.map((id) => {
         const plan = PLANS[id];
         const variant = plan.featured ? "primary" : "outline";
-        const actionClass = cn("h-13 w-full rounded-[14px]", plan.featured ? "font-bold" : "border-[1.5px] border-foreground");
+        const actionClass = cn("h-12 w-full sm:h-13", plan.featured ? "font-bold" : "border-[1.5px] border-foreground");
         const pending = pendingPlan === id;
         const action = signedIn ? (
           <Button

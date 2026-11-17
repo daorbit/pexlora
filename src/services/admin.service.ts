@@ -10,7 +10,10 @@ import {
   type CustomLimits,
   type UserLimits,
 } from "@/lib/auth/roles";
+import { activePlan, type ActivePlan } from "@/lib/auth/plan";
 import { escapeRegex } from "@/lib/utils/escape-regex";
+import type { PlanId, PurchaseStatus } from "@/config/plans";
+import { Purchase } from "@/models/Purchase";
 import { User, type UserDocument } from "@/models/User";
 import {
   aiUsageKey,
@@ -36,6 +39,21 @@ export type AdminUser = {
   usage: UserLimits;
   limits: UserLimits;
   custom: CustomLimits;
+  plan: ActivePlan | null;
+  lapsedPlan: boolean;
+};
+
+export type AdminPurchase = {
+  id: string;
+  plan: PlanId;
+  amount: number;
+  currency: string;
+  status: PurchaseStatus;
+  orderId: string;
+  paymentId: string | null;
+  createdAt: string;
+  paidAt: string | null;
+  refundedAt: string | null;
 };
 
 type UserRow = Pick<UserDocument, "_id" | "name" | "email" | "avatarUrl" | "googleId" | "role" | "limits" | "plan" | "createdAt"> & {
@@ -62,6 +80,8 @@ function toAdminUser(user: UserRow, usage: Map<string, number>): AdminUser {
     usage: { files: usage.get(filesKey) ?? 0, ai: usage.get(aiKey) ?? 0 },
     limits: effectiveLimits(user),
     custom: customLimits(user),
+    plan: activePlan(user),
+    lapsedPlan: user.plan?.tier === "pro" && !activePlan(user),
   };
 }
 
@@ -103,16 +123,64 @@ export async function getAdminUser(id: string) {
   return adminUser ?? null;
 }
 
+export async function listAdminPurchases(userId: string): Promise<AdminPurchase[]> {
+  if (!isValidObjectId(userId)) return [];
+  await connectToDatabase();
+  const purchases = await Purchase.find({ userId }).sort({ createdAt: -1 }).limit(100).lean();
+  return purchases.map((purchase) => ({
+    id: purchase._id.toString(),
+    plan: purchase.plan,
+    amount: purchase.amount,
+    currency: purchase.currency,
+    status: purchase.status,
+    orderId: purchase.razorpayOrderId,
+    paymentId: purchase.razorpayPaymentId ?? null,
+    createdAt: new Date(purchase.createdAt).toISOString(),
+    paidAt: purchase.paidAt ? new Date(purchase.paidAt).toISOString() : null,
+    refundedAt: purchase.refundedAt ? new Date(purchase.refundedAt).toISOString() : null,
+  }));
+}
+
+async function getRevenueTotals() {
+  const [totals] = await Purchase.aggregate<{ revenue: number; paid: number; refunded: number }>([
+    { $match: { status: { $in: ["paid", "refunded"] } } },
+    {
+      $group: {
+        _id: null,
+        revenue: { $sum: { $cond: [{ $eq: ["$status", "paid"] }, "$amount", 0] } },
+        paid: { $sum: { $cond: [{ $eq: ["$status", "paid"] }, 1, 0] } },
+        refunded: { $sum: { $cond: [{ $eq: ["$status", "refunded"] }, 1, 0] } },
+      },
+    },
+  ]);
+  return totals ?? { revenue: 0, paid: 0, refunded: 0 };
+}
+
 export async function getAdminStats() {
   await connectToDatabase();
-  const [totalUsers, newThisWeek, superAdmins, usage] = await Promise.all([
+  const now = new Date();
+  const [totalUsers, newThisWeek, superAdmins, proMembers, revenue, usage] = await Promise.all([
     User.countDocuments(),
-    User.countDocuments({ createdAt: { $gte: new Date(Date.now() - WEEK_MS) } }),
+    User.countDocuments({ createdAt: { $gte: new Date(now.getTime() - WEEK_MS) } }),
     User.countDocuments({ $or: [{ role: "super_admin" }, { email: { $in: OWNER_EMAILS } }] }),
+    User.countDocuments({ "plan.tier": "pro", $or: [{ "plan.expiresAt": null }, { "plan.expiresAt": { $gt: now } }] }),
+    getRevenueTotals(),
     getUsageTotalsToday(),
   ]);
-  return { totalUsers, newThisWeek, superAdmins, filesToday: usage.files, aiToday: usage.ai };
+  return {
+    totalUsers,
+    newThisWeek,
+    superAdmins,
+    proMembers,
+    revenue: revenue.revenue,
+    paidPurchases: revenue.paid,
+    refundedPurchases: revenue.refunded,
+    filesToday: usage.files,
+    aiToday: usage.ai,
+  };
 }
+
+export type AdminStatsData = Awaited<ReturnType<typeof getAdminStats>>;
 
 export async function setUserRole(id: string, role: UserRole) {
   await connectToDatabase();

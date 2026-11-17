@@ -1,11 +1,12 @@
 import { AI_NAME } from "@/config/brand";
 import { AI_DAILY_LIMITS, DAILY_LIMITS } from "@/config/limits";
+import { PRO_LIMITS } from "@/config/plans";
 
 export const adminCopy = {
   nav: {
     label: "Admin",
     description: "Admin",
-    subtitle: "Users, roles and limits",
+    subtitle: "Users, roles, plans and limits",
   },
   stats: {
     totalUsers: "Total users",
@@ -15,6 +16,35 @@ export const adminCopy = {
     filesHint: "All visitors, signed in or not",
     aiToday: `${AI_NAME} requests today`,
     aiHint: "Resets at midnight UTC",
+    proMembers: "Active Pro members",
+    proHint: "Passes and lifetime",
+    revenue: "Revenue",
+    revenueHint: (paid: number, refunded: number) => `${paid} paid · ${refunded} refunded`,
+  },
+  plan: {
+    title: "Plan & purchases",
+    description: "Pro status, the perks it unlocks, and every Razorpay order this user created.",
+    current: "Current plan",
+    free: "Free",
+    lapsed: "Pass ended",
+    until: (date: string) => `Until ${date}`,
+    lifetime: "Lifetime",
+    perks: "Workspace perks",
+    perksPro: "Pro perks",
+    perksFree: "Free limits",
+    perksAdmin: "Pro perks (super admin)",
+    perBatch: (count: number) => `${count} files per batch`,
+    parallel: (count: number) => `${count} files at once`,
+    sizes: (image: string, pdf: string, audio: string, video: string) =>
+      `Up to ${image} photos, ${pdf} PDF/Office, ${audio} audio, ${video} video (in-browser tools)`,
+    purchases: "Purchases",
+    empty: "No purchases yet.",
+    order: "Order",
+    payment: "Payment",
+    created: "Created",
+    paid: "Paid",
+    refunded: "Refunded",
+    status: { created: "Started", paid: "Paid", failed: "Failed", refunded: "Refunded" },
   },
   users: {
     title: "Users",
@@ -24,7 +54,7 @@ export const adminCopy = {
     clear: "Clear",
     empty: "No users match your search.",
     count: (total: number) => `${total.toLocaleString("en-US")} ${total === 1 ? "user" : "users"}`,
-    columns: { user: "User", role: "Role", signIn: "Sign-in", files: "Files today", ai: "AI today", joined: "Joined" },
+    columns: { user: "User", role: "Role", plan: "Plan", signIn: "Sign-in", files: "Files today", ai: "AI today", joined: "Joined" },
     previous: "Previous",
     next: "Next",
     page: (page: number, count: number) => `Page ${page} of ${count}`,
@@ -50,7 +80,7 @@ export const adminCopy = {
   },
   limits: {
     title: "Daily limits",
-    description: `Leave a field empty to use the default: ${DAILY_LIMITS.user} files and ${AI_DAILY_LIMITS.user} ${AI_NAME} requests a day.`,
+    description: `Leave a field empty to use the default: ${DAILY_LIMITS.user} files and ${AI_DAILY_LIMITS.user} ${AI_NAME} requests a day, or ${PRO_LIMITS.files.toLocaleString("en-IN")} and ${PRO_LIMITS.ai} while Pro is active. Custom limits override Pro.`,
     files: "Files per day",
     ai: `${AI_NAME} requests per day`,
     save: "Save Limits",

@@ -42,7 +42,3 @@ export const FILE_SIZE_LIMITS_MB: Record<FileKind, number> = {
 
 export const MAX_IMAGE_SIZE_MB = FILE_SIZE_LIMITS_MB.image;
 export const MAX_IMAGE_SIZE = MAX_IMAGE_SIZE_MB * 1024 * 1024;
-
-export function maxFileSize(kind: FileKind) {
-  return FILE_SIZE_LIMITS_MB[kind] * 1024 * 1024;
-}

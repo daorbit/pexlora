@@ -1,5 +1,11 @@
 import { WorkspacePanel, type WorkspacePanelProps } from "@/components/workspace/WorkspacePanel";
+import { PlanPerksLoader } from "@/components/plan/PlanPerksLoader";
 
 export function ToolWorkspace(props: WorkspacePanelProps) {
-  return <WorkspacePanel {...props} />;
+  return (
+    <>
+      <PlanPerksLoader />
+      <WorkspacePanel {...props} />
+    </>
+  );
 }

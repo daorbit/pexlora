@@ -3,9 +3,9 @@
 import type { MouseEvent } from "react";
 import { Upload } from "lucide-react";
 import type { FileKind } from "@/config/file-formats";
-import { MAX_FILES_PER_BATCH } from "@/config/limits";
 import type { SampleImage } from "@/config/samples";
 import { dropzoneCopy } from "@/content/workspace";
+import { useWorkspacePerks } from "@/hooks/useWorkspacePerks";
 import { describeAccepted } from "@/lib/files/detect";
 import { cn } from "@/lib/utils/cn";
 import { Button } from "@/components/ui/Button";
@@ -25,6 +25,7 @@ function isOwnControl(target: EventTarget) {
 }
 
 export function Dropzone({ accepts, localCapable, isDragging, onBrowse, onSample, compact = false }: DropzoneProps) {
+  const perks = useWorkspacePerks();
   const onClick = (event: MouseEvent<HTMLDivElement>) => {
     if (!isOwnControl(event.target)) onBrowse();
   };
@@ -48,8 +49,8 @@ export function Dropzone({ accepts, localCapable, isDragging, onBrowse, onSample
             <span className="hidden sm:inline">{isDragging ? dropzoneCopy.dragging : dropzoneCopy.browseTitle(accepts)}</span>
           </p>
           <p className="font-mono text-[10.5px] leading-relaxed tracking-[0.06em] text-tertiary uppercase sm:text-[11.5px]">
-            {describeAccepted(accepts, localCapable)}
-            <span className="hidden sm:inline"> · {MAX_FILES_PER_BATCH} at a time</span>
+            {describeAccepted(accepts, localCapable, perks)}
+            <span className="hidden sm:inline"> · {perks.filesPerBatch} at a time</span>
           </p>
         </div>
       </div>

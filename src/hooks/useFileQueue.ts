@@ -2,9 +2,9 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { FileFormat, FileKind } from "@/config/file-formats";
-import { MAX_FILES_PER_BATCH, PARALLEL_FILE_JOBS } from "@/config/limits";
 import type { Upsell } from "@/lib/api/upsell";
 import { detectFormat, getFileError } from "@/lib/files/detect";
+import type { WorkspacePerks } from "@/lib/plan/perks";
 import { runPool } from "@/lib/utils/run-pool";
 import type { MetadataReport, ProcessedFile } from "@/lib/metadata/types";
 import { ApiRequestError } from "@/services/api-client";
@@ -63,7 +63,7 @@ type Combiner = (files: File[]) => Promise<ProcessedFile>;
 
 export type BatchSummary = { done: number; failed: number };
 
-type QueueOptions = { inspectOnAdd: boolean; accepts: FileKind[]; localCapable: boolean };
+type QueueOptions = { inspectOnAdd: boolean; accepts: FileKind[]; localCapable: boolean; perks: WorkspacePerks };
 
 function errorMessage(error: unknown) {
   return error instanceof Error ? error.message : "Something went wrong.";
@@ -74,7 +74,8 @@ function revoke(item: QueueItem) {
   if (item.result) URL.revokeObjectURL(item.result.url);
 }
 
-export function useFileQueue({ inspectOnAdd, accepts, localCapable }: QueueOptions) {
+export function useFileQueue({ inspectOnAdd, accepts, localCapable, perks }: QueueOptions) {
+  const { filesPerBatch, parallelJobs } = perks;
   const [items, setItems] = useState<QueueItem[]>([]);
   const [notice, setNotice] = useState<QueueNotice | null>(null);
   const [quotaRemaining, setQuotaRemaining] = useState<number | null>(null);
@@ -107,15 +108,15 @@ export function useFileQueue({ inspectOnAdd, accepts, localCapable }: QueueOptio
 
   const addFiles = useCallback(
     (files: File[], { replace = false }: { replace?: boolean } = {}) => {
-      const slots = MAX_FILES_PER_BATCH - (replace ? 0 : itemsRef.current.length);
+      const slots = filesPerBatch - (replace ? 0 : itemsRef.current.length);
       const problems: string[] = [];
       const accepted: QueueItem[] = [];
 
       files.forEach((file) => {
-        const fileError = getFileError(file, accepts, localCapable);
+        const fileError = getFileError(file, accepts, localCapable, perks);
         if (fileError) return problems.push(`${file.name}: ${fileError}`);
         if (accepted.length >= slots) {
-          return problems.push(`You can add up to ${MAX_FILES_PER_BATCH} files at a time.`);
+          return problems.push(`You can add up to ${filesPerBatch} files at a time.`);
         }
         const format = detectFormat(file)!;
         accepted.push({
@@ -136,7 +137,7 @@ export function useFileQueue({ inspectOnAdd, accepts, localCapable }: QueueOptio
       });
       if (inspectOnAdd) accepted.forEach(inspect);
     },
-    [accepts, inspect, inspectOnAdd, localCapable],
+    [accepts, filesPerBatch, inspect, inspectOnAdd, localCapable, perks],
   );
 
   const process = useCallback(
@@ -147,7 +148,7 @@ export function useFileQueue({ inspectOnAdd, accepts, localCapable }: QueueOptio
       setIsProcessing(true);
       setNotice(null);
 
-      await runPool(pending, PARALLEL_FILE_JOBS, async (item, stop) => {
+      await runPool(pending, parallelJobs, async (item, stop) => {
         update(item.id, { status: "processing", error: undefined });
         try {
           const { quotaRemaining: remaining, ...processed } = await run(item.file);
@@ -176,7 +177,7 @@ export function useFileQueue({ inspectOnAdd, accepts, localCapable }: QueueOptio
       setIsProcessing(false);
       return summary;
     },
-    [update],
+    [parallelJobs, update],
   );
 
   const combine = useCallback(async (run: Combiner): Promise<BatchSummary> => {
@@ -294,7 +295,7 @@ export function useFileQueue({ inspectOnAdd, accepts, localCapable }: QueueOptio
     isProcessing,
     readyCount: items.filter((item) => item.status === "ready").length,
     doneItems: items.filter((item) => item.status === "done"),
-    canAddMore: items.length < MAX_FILES_PER_BATCH,
+    canAddMore: items.length < filesPerBatch,
     addFiles,
     process,
     combine,

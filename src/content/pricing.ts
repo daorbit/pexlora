@@ -1,8 +1,21 @@
 import { AI_NAME } from "@/config/brand";
-import { AI_DAILY_LIMITS, DAILY_LIMITS } from "@/config/limits";
-import { PLANS, PRO_LIMITS, REFUND_WINDOW_DAYS, formatPerDay, type Plan, type PlanId } from "@/config/plans";
+import { AI_DAILY_LIMITS, DAILY_LIMITS, FILE_SIZE_LIMITS_MB, MAX_FILES_PER_BATCH } from "@/config/limits";
+import {
+  PLANS,
+  PRO_FILES_PER_BATCH,
+  PRO_LIMITS,
+  PRO_LOCAL_FILE_SIZE_LIMITS_MB,
+  REFUND_WINDOW_DAYS,
+  formatPerDay,
+  type Plan,
+  type PlanId,
+} from "@/config/plans";
+import { formatMegabytes } from "@/lib/utils/format-bytes";
 
 const number = (value: number) => value.toLocaleString("en-IN");
+
+const freeSize = (kind: keyof typeof FILE_SIZE_LIMITS_MB) => formatMegabytes(FILE_SIZE_LIMITS_MB[kind]);
+const proSize = (kind: keyof typeof PRO_LOCAL_FILE_SIZE_LIMITS_MB) => formatMegabytes(PRO_LOCAL_FILE_SIZE_LIMITS_MB[kind]);
 
 const monthsPerYear = 12;
 const yearSaving = Math.round(
@@ -23,25 +36,71 @@ export const pricingCopy = {
   highlight: "No subscription.",
   lead: "Every tool stays free. Pro raises your daily limits for as long as your pass lasts, and it never renews on its own.",
   featured: "Best Value",
+  perksTitle: "Everything in Free, plus",
   perks: [
     `${number(PRO_LIMITS.files)} files a day`,
+    `${PRO_FILES_PER_BATCH} files per batch`,
+    `Photos up to ${proSize("image")}, PDFs up to ${proSize("pdf")}`,
+    "Faster batch processing",
     `${PRO_LIMITS.ai} ${AI_NAME} requests a day`,
-    "Every tool included",
   ],
   perDay: (plan: Plan) => (plan.days === null ? "Never expires" : `${formatPerDay(plan.amountPaise, plan.days)} a day`),
-  trust: `Secure payment by Razorpay · UPI, cards, net banking · Full refund within ${REFUND_WINDOW_DAYS} days`,
+  guaranteesLabel: "What every pass includes",
+  guarantees: [
+    { id: "once", title: "Pay once", body: "No mandate, no auto-renewal. It just ends." },
+    { id: "instant", title: "Instant access", body: "Pro switches on the moment you pay." },
+    { id: "refund", title: `${REFUND_WINDOW_DAYS}-day refund`, body: "Not right for you? Get the full amount back." },
+    { id: "secure", title: "Razorpay checkout", body: "UPI, cards, net banking and wallets." },
+  ],
   extend: "Buying again while Pro is active adds the days to your current pass.",
   testMode: (amount: string) => `Test price is on: Checkout charges ${amount} for every plan. This notice never shows on the live site.`,
   signInToBuy: "Sign In to Buy",
   activeUntil: (date: string) => `Pro is active until ${date}.`,
   activeLifetime: "You have Pro for life.",
+  compareEyebrow: "Compare",
   compareTitle: "Free and Pro side by side",
-  compareColumns: ["Feature", "Signed out", "Free account", "Pro"],
-  compareRows: [
-    ["Files per day", number(DAILY_LIMITS.anonymous), number(DAILY_LIMITS.user), number(PRO_LIMITS.files)],
-    [`${AI_NAME} requests per day`, `${AI_DAILY_LIMITS.anonymous}`, `${AI_DAILY_LIMITS.user}`, `${PRO_LIMITS.ai}`],
-    ["Every tool", "Yes", "Yes", "Yes"],
+  compareDescription: "Every tool works on every plan. Pro raises the limits and makes big batches faster.",
+  compareColumns: [
+    { label: "Signed out", short: "Guest" },
+    { label: "Free account", short: "Free" },
+    { label: "Pro", short: "Pro" },
   ],
+  compareGroups: [
+    {
+      title: "Daily limits",
+      rows: [
+        { label: "Files per day", values: [number(DAILY_LIMITS.anonymous), number(DAILY_LIMITS.user), number(PRO_LIMITS.files)] },
+        { label: "Files per batch", values: [`${MAX_FILES_PER_BATCH}`, `${MAX_FILES_PER_BATCH}`, `${PRO_FILES_PER_BATCH}`] },
+        { label: "Faster batch processing", values: [false, false, true] },
+      ],
+    },
+    {
+      title: "File size, in-browser tools",
+      rows: [
+        { label: "Photos", values: [freeSize("image"), freeSize("image"), proSize("image")] },
+        { label: "PDF and Office", values: [freeSize("pdf"), freeSize("pdf"), proSize("pdf")] },
+        { label: "Audio", values: [freeSize("audio"), freeSize("audio"), proSize("audio")] },
+      ],
+    },
+    {
+      title: AI_NAME,
+      rows: [
+        { label: "Requests per day", values: [`${AI_DAILY_LIMITS.anonymous}`, `${AI_DAILY_LIMITS.user}`, `${PRO_LIMITS.ai}`] },
+      ],
+    },
+    {
+      title: "Always included",
+      rows: [
+        { label: "Every tool", values: [true, true, true] },
+        { label: "No ads", values: [true, true, true] },
+        { label: "Results kept on this device for 24 hours", values: [true, true, true] },
+      ],
+    },
+  ] satisfies { title: string; rows: { label: string; values: (string | boolean)[] }[] }[],
+  freeTitle: "Not ready to pay?",
+  freeBody: `Every tool stays free. Create an account for ${number(DAILY_LIMITS.user)} files a day, no card needed.`,
+  freeCta: "Browse Free Tools",
+  faqDescription: "Payments, refunds and what happens when a pass ends.",
   faqs: [
     {
       question: "Is this a subscription?",

@@ -5,7 +5,7 @@ import type { AdminUser } from "@/services/admin.service";
 import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
 import { UserAvatar } from "@/components/ui/UserAvatar";
-import { RoleBadge, SignInMethods } from "@/components/admin/UserBadges";
+import { PlanBadge, RoleBadge, SignInMethods } from "@/components/admin/UserBadges";
 
 function Fact({ label, children }: { label: string; children: ReactNode }) {
   return (
@@ -29,9 +29,12 @@ export function AdminUserHeader({ user, isSelf }: { user: AdminUser; isSelf: boo
           <p className="truncate text-sm text-secondary">{user.email}</p>
         </div>
       </div>
-      <dl className="grid grid-cols-2 gap-x-6 gap-y-4 border-t border-separator pt-5 sm:grid-cols-3 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-10">
+      <dl className="grid grid-cols-2 gap-x-6 gap-y-4 border-t border-separator pt-5 sm:grid-cols-4 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-10">
         <Fact label={adminCopy.role.title}>
           <RoleBadge role={user.role} owner={user.owner} />
+        </Fact>
+        <Fact label={adminCopy.plan.current}>
+          <PlanBadge plan={user.plan} lapsed={user.lapsedPlan} />
         </Fact>
         <Fact label={adminCopy.profile.joined}>{formatDate(user.joined, "long")}</Fact>
         <Fact label={adminCopy.profile.signIn}>

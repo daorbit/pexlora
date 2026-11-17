@@ -7,16 +7,17 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 
 type FaqSectionProps = {
   items?: { question: string; answer: string }[];
+  description?: string;
 };
 
-export function FaqSection({ items = faqs }: FaqSectionProps) {
+export function FaqSection({ items = faqs, description = faqCopy.description }: FaqSectionProps) {
   return (
     <Section id="faq">
       <div className="grid grid-cols-1 gap-6 sm:gap-12 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-20">
         <SectionHeading
           eyebrow={faqCopy.eyebrow}
           title={faqCopy.title}
-          description={faqCopy.description}
+          description={description}
           className="items-start lg:sticky lg:top-28 lg:self-start"
         >
           <ButtonLink href={routes.contact} variant="secondary" className="mt-1 max-sm:hidden sm:mt-3">

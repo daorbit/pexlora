@@ -6,6 +6,7 @@ import { adminCopy } from "@/content/admin";
 import { requireSuperAdmin } from "@/lib/auth/dal";
 import { getAdminUser } from "@/services/admin.service";
 import { SettingsPanel } from "@/components/dashboard/SettingsPanel";
+import { AdminPlanPanel } from "@/components/admin/AdminPlanPanel";
 import { AdminUserHeader } from "@/components/admin/AdminUserHeader";
 import { DeleteUserForm } from "@/components/admin/DeleteUserForm";
 import { LimitsForm } from "@/components/admin/LimitsForm";
@@ -48,6 +49,7 @@ export async function AdminUserView({ searchParams }: { searchParams: AdminUserS
           <SettingsPanel title={adminCopy.limits.title} description={adminCopy.limits.description}>
             <LimitsForm userId={user.id} custom={user.custom} />
           </SettingsPanel>
+          <AdminPlanPanel user={user} />
         </div>
 
         <div className="flex flex-col gap-4 sm:gap-5">

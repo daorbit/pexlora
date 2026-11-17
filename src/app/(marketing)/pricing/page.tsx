@@ -9,9 +9,11 @@ import { Alert } from "@/components/ui/Alert";
 import { Container } from "@/components/ui/Container";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Highlight } from "@/components/ui/Highlight";
-import { SectionHeading } from "@/components/ui/SectionHeading";
+import { Section } from "@/components/ui/Section";
 import { FaqSection } from "@/components/landing/FaqSection";
 import { PricingCompare } from "@/components/pricing/PricingCompare";
+import { PricingFreeNote } from "@/components/pricing/PricingFreeNote";
+import { PricingGuarantees } from "@/components/pricing/PricingGuarantees";
 import { PricingPlans } from "@/components/pricing/PricingPlans";
 import { JsonLd } from "@/components/seo/JsonLd";
 
@@ -23,30 +25,32 @@ export default function PricingPage() {
   return (
     <>
       <JsonLd data={pricingStructuredData()} />
-      <section className="py-14 sm:py-20">
-        <Container className="flex flex-col gap-10 sm:gap-14">
-          <div className="mx-auto flex max-w-2xl flex-col items-center gap-4 text-center">
+      <section>
+        <Container className="flex flex-col gap-8 pt-10 pb-4 sm:gap-12 sm:pt-20 sm:pb-6">
+          <div className="mx-auto flex max-w-3xl flex-col items-center gap-3 text-center sm:gap-4">
             <Eyebrow>{pricingCopy.eyebrow}</Eyebrow>
-            <h1 className="text-[36px] leading-[1.1] font-bold tracking-[-0.035em] sm:text-[52px]">
+            <h1 className="text-[34px] leading-[1.1] font-bold tracking-[-0.035em] sm:text-[56px]">
               {pricingCopy.title} <Highlight>{pricingCopy.highlight}</Highlight>
             </h1>
-            <p className="max-w-lg text-[17px] leading-relaxed text-secondary">{pricingCopy.lead}</p>
+            <p className="max-w-lg text-[15px] leading-relaxed text-secondary sm:text-[17px]">{pricingCopy.lead}</p>
           </div>
           {testAmount !== null && <Alert message={pricingCopy.testMode(formatPrice(testAmount))} />}
           <PricingPlans />
-          <div className="flex flex-col items-center gap-1.5 text-center text-[13.5px] text-tertiary">
-            <p>{pricingCopy.trust}</p>
-            <p>{pricingCopy.extend}</p>
-          </div>
+          <PricingGuarantees />
         </Container>
       </section>
-      <section className="pb-6">
-        <Container size="narrow" className="flex flex-col gap-8">
-          <SectionHeading title={pricingCopy.compareTitle} centered className="mx-auto" />
+      <Section
+        tone="surface"
+        eyebrow={pricingCopy.compareEyebrow}
+        title={pricingCopy.compareTitle}
+        description={pricingCopy.compareDescription}
+      >
+        <div className="mx-auto flex w-full max-w-5xl flex-col gap-4 sm:gap-5">
           <PricingCompare />
-        </Container>
-      </section>
-      <FaqSection items={pricingCopy.faqs} />
+          <PricingFreeNote />
+        </div>
+      </Section>
+      <FaqSection items={pricingCopy.faqs} description={pricingCopy.faqDescription} />
     </>
   );
 }

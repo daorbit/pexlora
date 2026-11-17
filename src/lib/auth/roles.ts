@@ -22,6 +22,10 @@ export function isSuperAdmin(user: RoleSource) {
   return effectiveRole(user) === "super_admin";
 }
 
+export function hasProPerks(user: { role: UserRole; plan: unknown }) {
+  return user.role === "super_admin" || Boolean(user.plan);
+}
+
 export function customLimits({ limits }: LimitSource): CustomLimits {
   return { files: limits?.files ?? null, ai: limits?.ai ?? null };
 }

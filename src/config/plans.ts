@@ -1,4 +1,6 @@
-export const PLAN_IDS = ["pro-30", "pro-365", "pro-lifetime"] as const;
+import type { FileKind } from "@/config/file-formats";
+
+export const PLAN_IDS =["pro-30", "pro-365", "pro-lifetime"] as const;
 export type PlanId = (typeof PLAN_IDS)[number];
 
 export type Plan = {
@@ -15,7 +17,19 @@ export const PLANS: Record<PlanId, Plan> = {
   "pro-lifetime": { id: "pro-lifetime", amountPaise: 149_900, currency: "INR", days: null },
 };
 
-export const PRO_LIMITS = { files: 2_000, ai: 300 } as const;
+export const PRO_LIMITS = { files: 2_000, ai: 100 } as const;
+
+export const PRO_FILES_PER_BATCH = 50;
+
+export const PRO_PARALLEL_FILE_JOBS = 6;
+
+export const PRO_LOCAL_FILE_SIZE_LIMITS_MB: Record<FileKind, number> = {
+  image: 20,
+  pdf: 500,
+  office: 500,
+  audio: 1024,
+  video: 2048,
+};
 
 export const PLAN_TIERS = ["pro"] as const;
 export type PlanTier = (typeof PLAN_TIERS)[number];

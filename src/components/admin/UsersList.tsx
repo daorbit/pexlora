@@ -7,7 +7,7 @@ import type { AdminUser } from "@/services/admin.service";
 import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
 import { UserAvatar } from "@/components/ui/UserAvatar";
-import { RoleBadge, SignInMethods, UsageCount } from "@/components/admin/UserBadges";
+import { PlanBadge, RoleBadge, SignInMethods, UsageCount } from "@/components/admin/UserBadges";
 
 type UsersListProps = { users: AdminUser[]; currentUserId: string };
 
@@ -39,6 +39,7 @@ function MobileUserCard({ user, isYou }: { user: AdminUser; isYou: boolean }) {
       </span>
       <span className="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-[13px] text-secondary">
         <RoleBadge role={user.role} owner={user.owner} />
+        <PlanBadge plan={user.plan} lapsed={user.lapsedPlan} />
         <span>
           {columns.files}: <UsageCount used={user.usage.files} limit={user.limits.files} />
         </span>
@@ -71,6 +72,7 @@ export function UsersList({ users, currentUserId }: UsersListProps) {
           <tr>
             <th scope="col" className="px-5 py-3 font-medium">{columns.user}</th>
             <th scope="col" className="px-3 py-3 font-medium">{columns.role}</th>
+            <th scope="col" className="px-3 py-3 font-medium">{columns.plan}</th>
             <th scope="col" className="hidden px-3 py-3 font-medium xl:table-cell">{columns.signIn}</th>
             <th scope="col" className="px-3 py-3 font-medium">{columns.files}</th>
             <th scope="col" className="px-3 py-3 font-medium">{columns.ai}</th>
@@ -88,6 +90,9 @@ export function UsersList({ users, currentUserId }: UsersListProps) {
               </td>
               <td className="px-3 py-3">
                 <RoleBadge role={user.role} owner={user.owner} />
+              </td>
+              <td className="px-3 py-3">
+                <PlanBadge plan={user.plan} lapsed={user.lapsedPlan} />
               </td>
               <td className="hidden px-3 py-3 xl:table-cell">
                 <SignInMethods hasGoogle={user.hasGoogle} hasPassword={user.hasPassword} />

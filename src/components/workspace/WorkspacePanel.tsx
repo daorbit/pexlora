@@ -16,6 +16,7 @@ import { useFileDrop } from "@/hooks/useFileDrop";
 import { useFileQueue } from "@/hooks/useFileQueue";
 import { useFilePicker } from "@/hooks/useFilePicker";
 import { useToolOptions } from "@/hooks/useToolOptions";
+import { useWorkspacePerks } from "@/hooks/useWorkspacePerks";
 import { useWorkspaceSession } from "@/hooks/useWorkspaceSession";
 import type { MetadataFields, ToolOptions } from "@/lib/image/options";
 import { fetchAsFile } from "@/lib/utils/fetch-file";
@@ -55,10 +56,12 @@ export function WorkspacePanel({
   const action = behavior.action;
   const accepts = acceptsOverride ?? behavior.accepts;
   const { localCapable } = behavior;
+  const perks = useWorkspacePerks();
   const queue = useFileQueue({
     inspectOnAdd: behavior.inspectOnAdd,
     accepts,
     localCapable,
+    perks,
   });
   const { addFiles, resetResults } = queue;
   const [options, setOptions, patchOptions] = useToolOptions(tool, initialOptions);

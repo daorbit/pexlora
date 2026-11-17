@@ -1,6 +1,13 @@
 import { ROLE_LABELS, type UserRole } from "@/config/roles";
 import { adminCopy } from "@/content/admin";
+import type { ActivePlan } from "@/lib/auth/plan";
 import { Badge } from "@/components/ui/Badge";
+import { ProBadge } from "@/components/plan/ProBadge";
+
+export function PlanBadge({ plan, lapsed }: { plan: ActivePlan | null; lapsed: boolean }) {
+  if (plan) return <ProBadge plan={plan} />;
+  return <Badge>{lapsed ? adminCopy.plan.lapsed : adminCopy.plan.free}</Badge>;
+}
 
 export function RoleBadge({ role, owner }: { role: UserRole; owner?: boolean }) {
   return (
