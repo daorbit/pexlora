@@ -4,6 +4,7 @@ export const brandAssets = {
   iconDark: "/brand/icon-dark-512.png",
   appleTouchIcon: "/brand/apple-touch-icon.png",
   emailIcon: "/brand/icon-light-64.png",
+  emailIconDark: "/brand/icon-dark-64.png",
   orbitLight: "/brand/orbit-ai-light.webp",
   orbitDark: "/brand/orbit-ai-dark.webp",
 } as const;

@@ -33,7 +33,7 @@ async function sendQuietly(label: string, task: () => Promise<void>) {
 }
 
 export async function sendVerificationCodeEmail(email: string, code: string, expiresInMinutes: number) {
-  await sendMail(email, verificationCodeEmail({ appUrl: env.appUrl, code, expiresInMinutes }), { unique: true });
+  await sendMail(email, verificationCodeEmail({ appUrl: env.appUrl, email, code, expiresInMinutes }), { unique: true });
 }
 
 export async function sendPasswordResetEmail(user: Recipient, resetUrl: string, expiresInMinutes: number) {
