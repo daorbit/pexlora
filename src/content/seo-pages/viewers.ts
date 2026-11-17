@@ -47,7 +47,7 @@ export const viewerPages: SeoPage[] = [
       },
       faqs.imagePrivacy,
     ],
-    related: ["photo-location-finder", "ai-metadata-checker", "remove-exif-data", "remove-gps-from-photo"],
+    related: ["photo-location-finder", "ai-metadata-checker", "remove-exif-data"],
   },
   {
     slug: "ai-metadata-checker",
@@ -95,7 +95,7 @@ export const viewerPages: SeoPage[] = [
       },
       faqs.inspectFree,
     ],
-    related: ["ai-image-cleaner", "remove-c2pa-content-credentials", "exif-viewer", "remove-audio-metadata"],
+    related: ["ai-image-cleaner", "remove-c2pa-content-credentials", "exif-viewer"],
   },
   {
     slug: "photo-location-finder",
@@ -142,6 +142,6 @@ export const viewerPages: SeoPage[] = [
         answer: "Yes. Open Remove Metadata to download a copy with no GPS data or other metadata.",
       },
     ],
-    related: ["remove-gps-from-photo", "remove-location-from-iphone-photos", "exif-viewer", "remove-exif-data"],
+    related: ["remove-gps-from-photo", "remove-location-from-iphone-photos", "exif-viewer"],
   },
 ];

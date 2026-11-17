@@ -6,6 +6,12 @@ import { MAX_FILES_PER_BATCH } from "@/config/limits";
 import { serverImageLimit } from "@/content/seo-pages/shared";
 import type { SeoFaq, ToolStep } from "@/content/seo-pages/types";
 
+export const conversionGuides = ["remove-exif-data", "remove-gps-from-photo", "remove-c2pa-content-credentials", "ai-metadata-checker"];
+
+export const compressTargetGuides = ["remove-exif-data", "remove-gps-from-photo", "ai-image-cleaner", "exif-viewer"];
+
+export const formPresetGuides = ["remove-exif-data", "remove-location-from-iphone-photos", "remove-gps-from-photo", "photo-location-finder"];
+
 const keepsTransparency = (format: Conversion["to"]) => format !== "jpeg";
 
 function transparencyFaq({ from, to, toLabel }: Conversion): SeoFaq {

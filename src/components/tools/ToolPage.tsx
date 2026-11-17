@@ -47,7 +47,7 @@ export function ToolPage({ slug }: { slug: WorkspaceToolSlug }) {
       <SeoStepsSection title={`How to use the ${tool.name}`} steps={guide.steps} />
       {metadataTools.includes(slug) ? <InspectorShowcase /> : tool.category !== "pdf" && <FeaturesSection />}
       <FaqSection items={guide.faqs} />
-      {guide.relatedGuides && <RelatedToolsSection pages={seoPagesBySlug(guide.relatedGuides)} />}
+      <RelatedToolsSection pages={seoPagesBySlug(guide.relatedGuides)} />
       <HubGridSection {...toolPageCopy.moreTools} items={otherTools(slug)} />
       <AccountBand />
     </>

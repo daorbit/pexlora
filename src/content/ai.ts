@@ -65,6 +65,10 @@ export const textToolCopy = {
     "In today's fast-paced digital landscape, it is important to note that effective communication plays a crucial role in the success of any organization. Moreover, by leveraging innovative strategies and fostering a culture of collaboration, teams can unlock their full potential and navigate the complexities of the modern workplace. Furthermore, embracing continuous learning allows individuals to elevate their skills and remain competitive. In conclusion, organizations that prioritize these elements will be well-positioned to thrive in an ever-evolving environment.",
 };
 
+export const aiToolRelatedGuides = {
+  "ai-text-detector": ["ai-metadata-checker", "ai-image-cleaner", "remove-chatgpt-image-metadata", "remove-c2pa-content-credentials"],
+};
+
 export const aiToolFaqs = {
   "ai-text-detector": [
     {

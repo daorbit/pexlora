@@ -33,7 +33,7 @@ export function SeoToolPage({ page }: { page: SeoPage }) {
       <SeoStepsSection title={`How to use the ${page.name}`} steps={howToSteps[page.tool]} />
       <ChecklistSection eyebrow={page.list.eyebrow} title={page.list.title} items={page.list.items} />
       <FaqSection items={page.faqs} />
-      <RelatedToolsSection leading={toolItem(page.tool)} pages={relatedSeoPages(page).slice(0, 3)} />
+      <RelatedToolsSection leading={toolItem(page.tool)} pages={relatedSeoPages(page)} />
       <AccountBand />
     </>
   );

@@ -19,8 +19,10 @@ export type ToolGuide = {
   intro: { heading: string; paragraphs: string[] };
   steps: ToolStep[];
   faqs: SeoFaq[];
-  relatedGuides?: string[];
+  relatedGuides: string[];
 };
+
+const pdfGuides = ["remove-pdf-metadata", "remove-office-metadata", "remove-exif-data", "ai-metadata-checker"];
 
 const imageFormats = extensions(["image"], false);
 const allImageFormats = extensions(["image"]);
@@ -194,6 +196,7 @@ export const toolGuides: Record<WorkspaceToolSlug, ToolGuide> = {
       mostlyInBrowser,
       dailyLimit,
     ],
+    relatedGuides: ["remove-exif-data", "remove-gps-from-photo", "ai-image-cleaner", "exif-viewer"],
   },
   "resize-image": {
     intro: {
@@ -222,6 +225,7 @@ export const toolGuides: Record<WorkspaceToolSlug, ToolGuide> = {
       mostlyInBrowser,
       dailyLimit,
     ],
+    relatedGuides: ["remove-exif-data", "remove-location-from-iphone-photos", "ai-image-cleaner", "photo-location-finder"],
   },
   "convert-format": {
     intro: {
@@ -250,6 +254,7 @@ export const toolGuides: Record<WorkspaceToolSlug, ToolGuide> = {
       imageUpload,
       serverDailyLimit,
     ],
+    relatedGuides: ["remove-exif-data", "remove-c2pa-content-credentials", "remove-stable-diffusion-metadata", "ai-metadata-checker"],
   },
   "image-alt-text": {
     intro: {
@@ -280,6 +285,7 @@ export const toolGuides: Record<WorkspaceToolSlug, ToolGuide> = {
       },
       aiLimit,
     ],
+    relatedGuides: ["ai-metadata-checker", "remove-ai-info-label-instagram", "remove-microsoft-designer-metadata", "remove-grok-image-metadata"],
   },
   "heic-to-jpg": {
     intro: {
@@ -312,6 +318,7 @@ export const toolGuides: Record<WorkspaceToolSlug, ToolGuide> = {
       inBrowser,
       dailyLimit,
     ],
+    relatedGuides: ["remove-location-from-iphone-photos", "remove-gps-from-photo", "photo-location-finder", "remove-exif-data"],
   },
   "svg-to-image": {
     intro: {
@@ -351,6 +358,7 @@ export const toolGuides: Record<WorkspaceToolSlug, ToolGuide> = {
         answer: `SVG files can be up to ${sizeLimit("vector")} each, and you can add ${MAX_FILES_PER_BATCH} at a time. ${dailyCounts}`,
       },
     ],
+    relatedGuides: ["remove-exif-data", "remove-pdf-metadata", "remove-office-metadata", "ai-metadata-checker"],
   },
   "image-to-svg": {
     intro: {
@@ -388,6 +396,7 @@ export const toolGuides: Record<WorkspaceToolSlug, ToolGuide> = {
       inBrowser,
       dailyLimit,
     ],
+    relatedGuides: ["remove-exif-data", "remove-office-metadata", "remove-pdf-metadata", "ai-image-cleaner"],
   },
   "form-photo": {
     intro: {
@@ -414,6 +423,7 @@ export const toolGuides: Record<WorkspaceToolSlug, ToolGuide> = {
       inBrowser,
       dailyLimit,
     ],
+    relatedGuides: ["remove-exif-data", "remove-gps-from-photo", "remove-location-from-iphone-photos", "exif-viewer"],
   },
   "crop-image": {
     intro: {
@@ -440,6 +450,7 @@ export const toolGuides: Record<WorkspaceToolSlug, ToolGuide> = {
       inBrowser,
       dailyLimit,
     ],
+    relatedGuides: ["remove-exif-data", "remove-gps-from-photo", "remove-ai-info-label-instagram", "photo-location-finder"],
   },
   "passport-photo": {
     intro: {
@@ -471,6 +482,7 @@ export const toolGuides: Record<WorkspaceToolSlug, ToolGuide> = {
       inBrowser,
       dailyLimit,
     ],
+    relatedGuides: ["remove-exif-data", "remove-location-from-iphone-photos", "remove-gps-from-photo", "exif-viewer"],
   },
   "organize-pdf": {
     intro: {
@@ -498,7 +510,7 @@ export const toolGuides: Record<WorkspaceToolSlug, ToolGuide> = {
       passwordPdf,
       pdfLimit,
     ],
-    relatedGuides: ["remove-pdf-metadata"],
+    relatedGuides: pdfGuides,
   },
   "pdf-page-numbers": {
     intro: {
@@ -526,7 +538,7 @@ export const toolGuides: Record<WorkspaceToolSlug, ToolGuide> = {
       passwordPdf,
       pdfLimit,
     ],
-    relatedGuides: ["remove-pdf-metadata"],
+    relatedGuides: pdfGuides,
   },
   "pdf-watermark": {
     intro: {
@@ -555,7 +567,7 @@ export const toolGuides: Record<WorkspaceToolSlug, ToolGuide> = {
       passwordPdf,
       pdfLimit,
     ],
-    relatedGuides: ["remove-pdf-metadata"],
+    relatedGuides: pdfGuides,
   },
   "merge-pdf": {
     intro: {
@@ -579,7 +591,7 @@ export const toolGuides: Record<WorkspaceToolSlug, ToolGuide> = {
       passwordPdf,
       pdfLimit,
     ],
-    relatedGuides: ["remove-pdf-metadata"],
+    relatedGuides: pdfGuides,
   },
   "split-pdf": {
     intro: {
@@ -603,7 +615,7 @@ export const toolGuides: Record<WorkspaceToolSlug, ToolGuide> = {
       passwordPdf,
       pdfLimit,
     ],
-    relatedGuides: ["remove-pdf-metadata"],
+    relatedGuides: pdfGuides,
   },
   "rotate-pdf": {
     intro: {
@@ -627,7 +639,7 @@ export const toolGuides: Record<WorkspaceToolSlug, ToolGuide> = {
       passwordPdf,
       pdfLimit,
     ],
-    relatedGuides: ["remove-pdf-metadata"],
+    relatedGuides: pdfGuides,
   },
   "jpg-to-pdf": {
     intro: {
@@ -654,6 +666,7 @@ export const toolGuides: Record<WorkspaceToolSlug, ToolGuide> = {
       inBrowser,
       dailyLimit,
     ],
+    relatedGuides: pdfGuides,
   },
   "pdf-to-jpg": {
     intro: {
@@ -677,6 +690,6 @@ export const toolGuides: Record<WorkspaceToolSlug, ToolGuide> = {
       passwordPdf,
       pdfLimit,
     ],
-    relatedGuides: ["remove-pdf-metadata"],
+    relatedGuides: pdfGuides,
   },
 };

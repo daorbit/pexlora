@@ -1,13 +1,15 @@
 import { formPresetOptions, formPresetPath, type FormPreset } from "@/config/form-presets";
 import { otherTools } from "@/config/tool-hub";
 import { formPresetCopy, toolPageCopy } from "@/content/tool-pages";
-import { formPresetFaqs, formPresetSteps } from "@/content/variant-guides";
+import { seoPagesBySlug } from "@/content/seo-pages";
+import { formPresetFaqs, formPresetGuides, formPresetSteps } from "@/content/variant-guides";
 import { toolStructuredData } from "@/lib/seo/structured-data";
 import { AccountBand } from "@/components/landing/AccountBand";
 import { FaqSection } from "@/components/landing/FaqSection";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { FormPresetLinksSection } from "@/components/tools/FormPresetLinksSection";
 import { HubGridSection } from "@/components/tools/HubGridSection";
+import { RelatedToolsSection } from "@/components/tools/RelatedToolsSection";
 import { SeoStepsSection } from "@/components/tools/SeoStepsSection";
 import { ToolHero } from "@/components/tools/ToolHero";
 
@@ -35,6 +37,7 @@ export function FormPresetPage({ preset }: { preset: FormPreset }) {
       <SeoStepsSection title={formPresetCopy.stepsTitle(preset)} steps={formPresetSteps(preset)} />
       <FormPresetLinksSection current={preset.slug} />
       <FaqSection items={faqs} />
+      <RelatedToolsSection pages={seoPagesBySlug(formPresetGuides)} />
       <HubGridSection {...toolPageCopy.moreTools} items={otherTools("form-photo")} />
       <AccountBand />
     </>

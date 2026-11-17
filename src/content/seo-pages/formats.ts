@@ -53,7 +53,7 @@ export const formatPages: SeoPage[] = [
         answer: `Up to ${sizeLimit("pdf")} per file, and up to 10 files at a time.`,
       },
     ],
-    related: ["remove-office-metadata", "remove-c2pa-content-credentials", "ai-metadata-checker", "remove-exif-data"],
+    related: ["remove-office-metadata", "remove-audio-metadata", "remove-c2pa-content-credentials"],
   },
   {
     slug: "remove-office-metadata",
@@ -104,7 +104,7 @@ export const formatPages: SeoPage[] = [
         answer: `Up to ${sizeLimit("office")} per file, and up to 10 files at a time.`,
       },
     ],
-    related: ["remove-pdf-metadata", "ai-metadata-checker", "remove-exif-data", "remove-audio-metadata"],
+    related: ["remove-pdf-metadata", "remove-audio-metadata", "remove-exif-data"],
   },
   {
     slug: "remove-audio-metadata",
@@ -155,7 +155,7 @@ export const formatPages: SeoPage[] = [
         answer: `Up to ${sizeLimit("audio")} per file, and up to 10 files at a time.`,
       },
     ],
-    related: ["remove-video-metadata", "ai-metadata-checker", "remove-pdf-metadata", "remove-office-metadata"],
+    related: ["remove-video-metadata", "remove-office-metadata", "ai-metadata-checker"],
   },
   {
     slug: "remove-video-metadata",
@@ -204,6 +204,6 @@ export const formatPages: SeoPage[] = [
       },
       faqs.watermarks,
     ],
-    related: ["remove-gps-from-photo", "remove-c2pa-content-credentials", "remove-audio-metadata", "ai-metadata-checker"],
+    related: ["remove-audio-metadata", "remove-gps-from-photo", "remove-c2pa-content-credentials"],
   },
 ];

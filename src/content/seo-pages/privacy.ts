@@ -55,7 +55,7 @@ export const privacyPages: SeoPage[] = [
       },
       faqs.imagePrivacy,
     ],
-    related: ["remove-gps-from-photo", "exif-viewer", "ai-image-cleaner", "remove-video-metadata"],
+    related: ["remove-gps-from-photo", "exif-viewer", "remove-video-metadata"],
   },
   {
     slug: "remove-gps-from-photo",
@@ -104,7 +104,7 @@ export const privacyPages: SeoPage[] = [
         answer: "That stops new photos being tagged. Cleaning removes location from photos and videos you've already taken.",
       },
     ],
-    related: ["remove-location-from-iphone-photos", "photo-location-finder", "remove-exif-data", "remove-video-metadata"],
+    related: ["remove-location-from-iphone-photos", "photo-location-finder", "remove-exif-data"],
   },
   {
     slug: "remove-location-from-iphone-photos",
@@ -156,6 +156,6 @@ export const privacyPages: SeoPage[] = [
         answer: "Tap Save and choose Save Image in the share sheet. The clean copy lands in your Photos library.",
       },
     ],
-    related: ["remove-gps-from-photo", "photo-location-finder", "remove-exif-data", "remove-video-metadata"],
+    related: ["remove-gps-from-photo", "photo-location-finder", "remove-exif-data"],
   },
 ];

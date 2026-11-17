@@ -57,14 +57,7 @@ export const aiPages: SeoPage[] = [
       faqs.watermarks,
       faqs.free,
     ],
-    related: [
-      "remove-midjourney-metadata",
-      "remove-chatgpt-image-metadata",
-      "remove-adobe-firefly-metadata",
-      "remove-ai-info-label-instagram",
-      "remove-c2pa-content-credentials",
-      "ai-metadata-checker",
-    ],
+    related: ["remove-midjourney-metadata", "remove-stable-diffusion-metadata", "remove-grok-image-metadata"],
   },
   {
     slug: "remove-midjourney-metadata",
@@ -112,7 +105,7 @@ export const aiPages: SeoPage[] = [
       faqs.batch,
       faqs.imagePrivacy,
     ],
-    related: ["ai-image-cleaner", "remove-chatgpt-image-metadata", "remove-stable-diffusion-metadata", "ai-metadata-checker"],
+    related: ["ai-image-cleaner", "remove-stable-diffusion-metadata", "remove-chatgpt-image-metadata"],
   },
   {
     slug: "remove-chatgpt-image-metadata",
@@ -159,7 +152,7 @@ export const aiPages: SeoPage[] = [
       faqs.watermarks,
       faqs.imagePrivacy,
     ],
-    related: ["ai-image-cleaner", "remove-c2pa-content-credentials", "remove-gemini-image-metadata", "ai-metadata-checker"],
+    related: ["ai-image-cleaner", "remove-gemini-image-metadata", "remove-grok-image-metadata"],
   },
   {
     slug: "remove-gemini-image-metadata",
@@ -201,7 +194,7 @@ export const aiPages: SeoPage[] = [
       },
       faqs.imagePrivacy,
     ],
-    related: ["ai-image-cleaner", "remove-chatgpt-image-metadata", "remove-c2pa-content-credentials", "remove-gps-from-photo"],
+    related: ["remove-chatgpt-image-metadata", "remove-grok-image-metadata", "remove-c2pa-content-credentials"],
   },
   {
     slug: "remove-stable-diffusion-metadata",
@@ -248,7 +241,7 @@ export const aiPages: SeoPage[] = [
       },
       faqs.batch,
     ],
-    related: ["ai-image-cleaner", "remove-midjourney-metadata", "ai-metadata-checker", "exif-viewer"],
+    related: ["remove-midjourney-metadata", "ai-image-cleaner", "ai-metadata-checker"],
   },
   {
     slug: "remove-c2pa-content-credentials",
@@ -298,7 +291,7 @@ export const aiPages: SeoPage[] = [
         answer: `Images (${extensions(["image"])}), PDF, and video (${extensions(["video"])}).`,
       },
     ],
-    related: ["remove-adobe-firefly-metadata", "remove-microsoft-designer-metadata", "remove-chatgpt-image-metadata", "ai-metadata-checker"],
+    related: ["remove-adobe-firefly-metadata", "remove-microsoft-designer-metadata", "remove-ai-info-label-instagram"],
   },
   {
     slug: "remove-adobe-firefly-metadata",
@@ -348,7 +341,7 @@ export const aiPages: SeoPage[] = [
       },
       faqs.watermarks,
     ],
-    related: ["remove-c2pa-content-credentials", "remove-ai-info-label-instagram", "ai-image-cleaner", "ai-metadata-checker"],
+    related: ["remove-c2pa-content-credentials", "remove-ai-info-label-instagram", "remove-microsoft-designer-metadata"],
   },
   {
     slug: "remove-grok-image-metadata",
@@ -389,7 +382,7 @@ export const aiPages: SeoPage[] = [
       },
       faqs.watermarks,
     ],
-    related: ["ai-image-cleaner", "remove-chatgpt-image-metadata", "remove-gemini-image-metadata", "ai-metadata-checker"],
+    related: ["ai-image-cleaner", "remove-chatgpt-image-metadata", "remove-gemini-image-metadata"],
   },
   {
     slug: "remove-microsoft-designer-metadata",
@@ -431,7 +424,7 @@ export const aiPages: SeoPage[] = [
       },
       faqs.watermarks,
     ],
-    related: ["remove-c2pa-content-credentials", "remove-chatgpt-image-metadata", "ai-image-cleaner", "ai-metadata-checker"],
+    related: ["remove-c2pa-content-credentials", "remove-adobe-firefly-metadata", "remove-chatgpt-image-metadata"],
   },
   {
     slug: "remove-ai-info-label-instagram",
@@ -485,6 +478,6 @@ export const aiPages: SeoPage[] = [
           "No. If the content is AI-generated, use Instagram's AI label. Cleaning is for photos that were only edited and are labelled wrongly.",
       },
     ],
-    related: ["remove-adobe-firefly-metadata", "remove-c2pa-content-credentials", "ai-metadata-checker", "ai-image-cleaner"],
+    related: ["remove-adobe-firefly-metadata", "remove-c2pa-content-credentials", "ai-metadata-checker"],
   },
 ];
