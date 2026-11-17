@@ -6,6 +6,7 @@ import { Container } from "@/components/ui/Container";
 import { HeaderAuth, HeaderAuthFallback } from "@/components/layout/HeaderAuth";
 import { Logo } from "@/components/layout/Logo";
 import { MobileMenu } from "@/components/layout/MobileMenu";
+import { SiteSearch } from "@/components/layout/SiteSearch";
 import { ToolsMenu } from "@/components/layout/ToolsMenu";
 
 export function SiteHeader() {
@@ -29,6 +30,7 @@ export function SiteHeader() {
           ))}
         </nav>
         <div className="flex items-center justify-end gap-2 sm:gap-3">
+          <SiteSearch />
           <Suspense fallback={<HeaderAuthFallback />}>
             <HeaderAuth />
           </Suspense>

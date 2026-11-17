@@ -34,6 +34,15 @@ export function idbGet<T>(key: string) {
   return withStore<T>("readonly", (store) => store.get(key) as IDBRequest<T>);
 }
 
+export async function idbEntries<T>() {
+  const [keys, values] = await Promise.all([
+    withStore<IDBValidKey[]>("readonly", (store) => store.getAllKeys()),
+    withStore<T[]>("readonly", (store) => store.getAll() as IDBRequest<T[]>),
+  ]);
+  if (!keys || !values) return [];
+  return keys.map((key, index) => ({ key: String(key), value: values[index] }));
+}
+
 export async function idbSet(key: string, value: unknown) {
   await withStore("readwrite", (store) => store.put(value, key));
 }

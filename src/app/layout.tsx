@@ -4,6 +4,7 @@ import Script from "next/script";
 import { Suspense } from "react";
 import { AnalyticsScript } from "@/components/layout/AnalyticsScript";
 import { Toaster } from "@/components/ui/Toaster";
+import { ServiceWorkerRegistrar } from "@/components/layout/ServiceWorkerRegistrar";
 import { brandColors } from "@/config/brand";
 import { openGraphDefaults, seo, twitterDefaults } from "@/config/seo";
 import { siteConfig } from "@/config/site";
@@ -75,6 +76,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Suspense fallback={null}>
           <Toaster />
         </Suspense>
+        <ServiceWorkerRegistrar />
       </body>
     </html>
   );

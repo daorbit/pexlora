@@ -1,4 +1,4 @@
-import { LayoutGrid, Settings, ShieldCheck } from "lucide-react";
+import { History, LayoutGrid, Settings, ShieldCheck } from "lucide-react";
 import type { IconComponent } from "@/components/icons/types";
 import { routes } from "@/config/site";
 import { adminCopy } from "@/content/admin";
@@ -106,6 +106,14 @@ export const overviewNavItem: DashboardNavItem = {
   href: routes.dashboard,
 };
 
+export const historyNavItem: DashboardNavItem = {
+  label: "History",
+  description: "History",
+  subtitle: "Files you cleaned or converted on this device in the last 24 hours",
+  icon: History,
+  href: routes.dashboardHistory,
+};
+
 export const settingsNavItem: DashboardNavItem = {
   label: "Settings",
   description: "Settings",
@@ -120,7 +128,10 @@ export const adminNavItem: DashboardNavItem = {
   href: routes.dashboardAdmin,
 };
 
-export const dashboardNav: DashboardNavSection[] = [{ items: [overviewNavItem] }, ...toolCategoryOrder.map(toolSection)];
+export const dashboardNav: DashboardNavSection[] = [
+  { items: [overviewNavItem, historyNavItem] },
+  ...toolCategoryOrder.map(toolSection),
+];
 
 export const dashboardSearchItems: DashboardNavItem[] = [
   ...dashboardNav.flatMap((section) => section.items),

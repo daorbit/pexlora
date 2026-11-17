@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { brandAssets, brandColors } from "@/config/brand";
 import { seo } from "@/config/seo";
+import { shareTarget, shareTargetAccept } from "@/config/share-target";
 import { siteConfig } from "@/config/site";
 
 export default function manifest(): MetadataRoute.Manifest {
@@ -15,6 +16,12 @@ export default function manifest(): MetadataRoute.Manifest {
     background_color: brandColors.pearl,
     theme_color: brandColors.pearl,
     categories: ["utilities", "photo", "productivity"],
+    share_target: {
+      action: shareTarget.action,
+      method: "POST",
+      enctype: "multipart/form-data",
+      params: { files: [{ name: shareTarget.field, accept: shareTargetAccept }] },
+    },
     icons: [
       { src: brandAssets.iconLight, sizes: "512x512", type: "image/png", purpose: "any" },
       { src: brandAssets.iconLight, sizes: "512x512", type: "image/png", purpose: "maskable" },

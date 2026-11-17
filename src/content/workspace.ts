@@ -39,6 +39,10 @@ export const saveCopy = {
   photos: "Save to Photos",
   downloadAll: "Download All",
   photosAll: "Save All to Photos",
+  label(count: number, toPhotos: boolean) {
+    if (count > 1) return toPhotos ? this.photosAll : this.downloadAll;
+    return toPhotos ? this.photos : this.download;
+  },
 };
 
 export const optionsCopy = {
@@ -106,6 +110,21 @@ export const resultCopy = {
   targetMissed: (target: string) => `Over ${target}`,
   targetMissedHint: (target: string, smallest: string) => `Couldn't reach ${target}, smallest is ${smallest}.`,
   tryResize: "Try resizing first",
+};
+
+export const revealCopy = {
+  title: "What this file gives away",
+  removedTitle: "Removed from this file",
+  labels: {
+    ai: "Made with",
+    camera: "Camera",
+    author: "Author",
+    date: "Taken",
+  },
+  aiTags: (count: number) => `${count} AI ${count === 1 ? "tag" : "tags"}`,
+  tagsBefore: (count: number) => `${count} ${count === 1 ? "tag" : "tags"}`,
+  tagsAfter: (after: number) => `${after} left`,
+  onDevice: "Cleaned on your device",
 };
 
 export const queueCopy = {

@@ -22,6 +22,7 @@ export const routes = {
   dashboardAltText: "/dashboard/alt-text",
   dashboardAiDetector: "/dashboard/ai-detector",
   dashboardSettings: "/dashboard/settings",
+  dashboardHistory: "/dashboard/history",
   dashboardAdmin: "/dashboard/admin",
   sessionExpired: "/api/auth/session-expired",
   verifyEmail: "/verify-email",

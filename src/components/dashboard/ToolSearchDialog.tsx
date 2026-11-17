@@ -2,6 +2,7 @@
 
 import { useMemo, useState, type KeyboardEvent } from "react";
 import { useRouter } from "next/navigation";
+import { createPortal } from "react-dom";
 import { Search } from "lucide-react";
 import { dashboardSearchItems, type DashboardNavItem } from "@/config/dashboard";
 import { shellCopy } from "@/content/dashboard";
@@ -9,15 +10,16 @@ import { cn } from "@/lib/utils/cn";
 import { matchesQuery } from "@/lib/utils/match-query";
 import { NavIcon } from "@/components/dashboard/NavIcon";
 
-function matchItems(query: string) {
-  return dashboardSearchItems.filter((item) => matchesQuery(query, [item.label, item.description]));
-}
+type ToolSearchDialogProps = { onClose: () => void; items?: DashboardNavItem[] };
 
-export function ToolSearchDialog({ onClose }: { onClose: () => void }) {
+export function ToolSearchDialog({ onClose, items = dashboardSearchItems }: ToolSearchDialogProps) {
   const router = useRouter();
   const [query, setQuery] = useState("");
   const [active, setActive] = useState(0);
-  const results = useMemo(() => matchItems(query), [query]);
+  const results = useMemo(
+    () => items.filter((item) => matchesQuery(query, [item.label, item.description])),
+    [items, query],
+  );
 
   const go = (item: DashboardNavItem) => {
     onClose();
@@ -37,7 +39,7 @@ export function ToolSearchDialog({ onClose }: { onClose: () => void }) {
     }
   };
 
-  return (
+  return createPortal(
     <div
       role="dialog"
       aria-modal="true"
@@ -92,6 +94,7 @@ export function ToolSearchDialog({ onClose }: { onClose: () => void }) {
           {!results.length && <li className="px-3 py-8 text-center text-sm text-secondary">{shellCopy.noResults}</li>}
         </ul>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }

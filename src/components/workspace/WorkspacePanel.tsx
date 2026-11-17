@@ -8,7 +8,11 @@ import type { WorkspaceToolSlug } from "@/config/tools";
 import { toastCopy } from "@/content/toasts";
 import { panelNotes, saveCopy } from "@/content/workspace";
 import { housePromos, resultsPromoTools } from "@/config/house-promos";
+import { useAutoRun } from "@/hooks/useAutoRun";
 import { useCanSaveToPhotos } from "@/hooks/useCanSaveToPhotos";
+import { useRememberTool } from "@/hooks/useRecentTools";
+import { vibrate } from "@/lib/utils/haptics";
+import { isLocalFormat } from "@/lib/files/detect";
 import { useFileDrop } from "@/hooks/useFileDrop";
 import { useFileQueue } from "@/hooks/useFileQueue";
 import { useFilePicker } from "@/hooks/useFilePicker";
@@ -62,15 +66,36 @@ export function WorkspacePanel({
   const [options, setOptions, patchOptions] = useToolOptions(tool, initialOptions);
   const optionsError = action?.validate?.(options) ?? null;
   const restoreMetadata = useCallback((metadata: MetadataFields) => patchOptions({ metadata }), [patchOptions]);
-  useWorkspaceSession(tool, queue, {
+  useRememberTool(tool);
+
+  const run = useCallback(async () => {
+    if (!action || optionsError) return;
+    const { done, failed } = await process((file) => action.run(file, options));
+    if (done) toast.success(action.doneToast?.(done) ?? toastCopy.filesDone(done, action.doneLabel));
+    if (failed) toast.error(toastCopy.filesFailed(failed));
+    if (done || failed) vibrate(failed ? "error" : "success");
+  }, [action, optionsError, options, process]);
+
+  const addFilesAndRun = useAutoRun(addFiles, {
+    enabled: Boolean(action?.autoRun),
+    canRun:
+      !queue.isProcessing &&
+      queue.readyCount > 0 &&
+      !queue.notice &&
+      !optionsError &&
+      !queue.items.some((item) => item.status === "inspecting"),
+    run,
+  });
+
+  useWorkspaceSession(tool, { ...queue, addFiles: addFilesAndRun }, {
     metadata: options.metadata,
     restoreMetadata,
     scope: conversion?.slug,
   });
 
   const accept = useMemo(() => acceptAttribute(accepts, localCapable), [accepts, localCapable]);
-  const picker = useFilePicker(addFiles, accept);
-  const { isDragging, dropProps } = useFileDrop(addFiles, !queue.isProcessing);
+  const picker = useFilePicker(addFilesAndRun, accept);
+  const { isDragging, dropProps } = useFileDrop(addFilesAndRun, !queue.isProcessing);
   const hasItems = queue.items.length > 0;
   const hasPanel = Boolean(action || panelFooter);
   const note = panelNotes[tool];
@@ -83,18 +108,11 @@ export function WorkspacePanel({
     [resetResults, setOptions],
   );
 
-  const run = useCallback(async () => {
-    if (!action || optionsError) return;
-    const { done, failed } = await process((file) => action.run(file, options));
-    if (done) toast.success(action.doneToast?.(done) ?? toastCopy.filesDone(done, action.doneLabel));
-    if (failed) toast.error(toastCopy.filesFailed(failed));
-  }, [action, optionsError, options, process]);
-
   const addSample = useCallback(
     async (sample: SampleImage) => {
-      addFiles([await fetchAsFile(sample.src, sample.fileName)]);
+      addFilesAndRun([await fetchAsFile(sample.src, sample.fileName)]);
     },
-    [addFiles],
+    [addFilesAndRun],
   );
 
   const results = useMemo(() => queue.doneItems.map((item) => item.result!), [queue.doneItems]);
@@ -116,7 +134,7 @@ export function WorkspacePanel({
         isProcessing={queue.isProcessing}
         disabled={Boolean(optionsError)}
         quotaRemaining={queue.quotaRemaining}
-        downloadAllLabel={allToPhotos ? saveCopy.photosAll : saveCopy.downloadAll}
+        downloadAllLabel={saveCopy.label(results.length, allToPhotos)}
         onRun={run}
         onDownloadAll={downloadAll}
         className={className}
@@ -148,6 +166,7 @@ export function WorkspacePanel({
                   compareOpen={index === 0}
                   onRemove={queue.remove}
                   disabled={queue.isProcessing}
+                  onDevice={localCapable && isLocalFormat(item.format)}
                 />
               ))}
             </FilesCard>
@@ -192,7 +211,7 @@ export function WorkspacePanel({
 
         {hasItems &&
           actionBar(
-            "sticky bottom-0 z-10 -mx-1 rounded-t-3xl bg-background/90 px-1 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur-md lg:hidden",
+            "sticky bottom-(--bottom-bar,0px) z-10 -mx-1 rounded-t-3xl bg-background/90 px-1 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur-md lg:hidden",
           )}
       </div>
     </DownloadGateProvider>

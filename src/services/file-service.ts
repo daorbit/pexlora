@@ -1,5 +1,5 @@
 import { fileKinds, type FileFormat } from "@/config/file-formats";
-import { detectFormat } from "@/lib/files/detect";
+import { detectFormat, isLocalFormat } from "@/lib/files/detect";
 import { loadProcessor, type LocalEngine } from "@/lib/files/processors";
 import { UnreadableFileError, type FileProcessor } from "@/lib/files/processors/types";
 import { leftoverTagCount } from "@/lib/metadata/report";
@@ -27,13 +27,13 @@ async function runLocal<T>(format: FileFormat, task: (processor: FileProcessor) 
 
 export async function inspectFile(file: File): Promise<MetadataReport> {
   const format = formatOf(file);
-  if (format.engine === "image") return inspectImage(file);
+  if (!isLocalFormat(format)) return inspectImage(file);
   return runLocal(format, (processor) => processor.inspect(file, format));
 }
 
 export async function cleanFile(file: File): Promise<ProcessedFile> {
   const format = formatOf(file);
-  if (format.engine === "image") return cleanImage(file);
+  if (!isLocalFormat(format)) return cleanImage(file);
 
   const { blob, leftoverTags } = await runLocal(format, async (processor) => {
     const cleaned = await processor.clean(file, format);

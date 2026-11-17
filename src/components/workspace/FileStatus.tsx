@@ -1,6 +1,6 @@
-import { ArrowRight, LoaderCircle, X } from "lucide-react";
+import { ArrowRight, LoaderCircle, ShieldCheck, X } from "lucide-react";
 import { AiTagIcon } from "@/components/icons/AiTagIcon";
-import { resultCopy } from "@/content/workspace";
+import { resultCopy, revealCopy } from "@/content/workspace";
 import type { QueueItem } from "@/hooks/useFileQueue";
 import { formatBytes, formatKilobytes, sizeChangePercent } from "@/lib/utils/format-bytes";
 import { Badge } from "@/components/ui/Badge";
@@ -41,10 +41,22 @@ function problemLabel(result: QueueResult) {
   return null;
 }
 
-function DoneSummary({ item }: { item: QueueItem }) {
+function TagCount({ before, after }: { before: number; after: number }) {
+  return (
+    <span className="inline-flex items-center gap-1 whitespace-nowrap tabular-nums text-secondary">
+      <span className="line-through decoration-primary decoration-2">{revealCopy.tagsBefore(before)}</span>
+      <ArrowRight className="size-3 shrink-0" aria-label="to" />
+      <span className={after ? "text-warning" : "font-medium text-success"}>{revealCopy.tagsAfter(after)}</span>
+    </span>
+  );
+}
+
+function DoneSummary({ item, onDevice }: { item: QueueItem; onDevice: boolean }) {
   const result = item.result!;
+  const tagsBefore = item.report?.totalTags ?? 0;
+  const showTagCount = tagsBefore > 0 && result.leftoverTags !== null;
   const change = sizeChangePercent(item.file.size, result.blob.size);
-  const problem = problemLabel(result);
+  const problem = showTagCount && result.leftoverTags ? null : problemLabel(result);
   const missedTarget = result.target && !result.target.met ? result.target : null;
 
   return (
@@ -53,6 +65,13 @@ function DoneSummary({ item }: { item: QueueItem }) {
         <Badge tone={missedTarget ? "danger" : "warning"} className="motion-safe:animate-pop">
           <X className="size-3" strokeWidth={3} aria-hidden />
           {problem}
+        </Badge>
+      )}
+      {showTagCount && <TagCount before={tagsBefore} after={result.leftoverTags ?? 0} />}
+      {onDevice && (
+        <Badge tone="accent">
+          <ShieldCheck className="size-3" strokeWidth={2.6} aria-hidden />
+          {revealCopy.onDevice}
         </Badge>
       )}
       {result.dimensions && (
@@ -77,7 +96,7 @@ function DoneSummary({ item }: { item: QueueItem }) {
   );
 }
 
-export function FileStatus({ item }: { item: QueueItem }) {
+export function FileStatus({ item, onDevice = false }: { item: QueueItem; onDevice?: boolean }) {
   switch (item.status) {
     case "inspecting":
       return <Pending label="Reading metadata…" />;
@@ -86,7 +105,7 @@ export function FileStatus({ item }: { item: QueueItem }) {
     case "error":
       return <span className="text-danger">{item.error}</span>;
     case "done":
-      return <DoneSummary item={item} />;
+      return <DoneSummary item={item} onDevice={onDevice} />;
     default:
       return <ReportSummary item={item} />;
   }

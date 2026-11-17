@@ -2,6 +2,7 @@ import { Suspense, type ReactNode } from "react";
 import { AppSidebar } from "@/components/dashboard/AppSidebar";
 import { DashboardTopBar } from "@/components/dashboard/DashboardTopBar";
 import { MobileNav } from "@/components/dashboard/MobileNav";
+import { MobileTabBar } from "@/components/dashboard/MobileTabBar";
 import { ShellScrollArea } from "@/components/dashboard/ShellScrollArea";
 import { SidebarUsage, SidebarUsageFallback } from "@/components/dashboard/SidebarUsage";
 import { SidebarUser, SidebarUserFallback } from "@/components/dashboard/SidebarUser";
@@ -26,7 +27,7 @@ export function DashboardShell({ children }: { children: ReactNode }) {
   );
 
   return (
-    <div className="flex min-h-dvh flex-1 bg-canvas lg:h-dvh lg:max-h-dvh lg:gap-3 lg:overflow-hidden lg:p-3">
+    <div className="flex min-h-dvh flex-1 bg-canvas [--bottom-bar:calc(4.25rem+env(safe-area-inset-bottom))] lg:h-dvh lg:[--bottom-bar:0px] lg:max-h-dvh lg:gap-3 lg:overflow-hidden lg:p-3">
       <div className="sidebar-slot relative z-40 hidden w-64 shrink-0 transition-[width] duration-300 slot-collapsed:w-19 lg:block">
         <AppSidebar usage={usage} account={account} admin={admin} />
       </div>
@@ -39,9 +40,10 @@ export function DashboardShell({ children }: { children: ReactNode }) {
               </MobileNav>
             }
           />
-          <main className="w-full flex-1 px-4 pt-4 pb-10 sm:px-8 sm:pt-[26px]">{children}</main>
+          <main className="w-full flex-1 px-4 pt-4 pb-[calc(var(--bottom-bar)+2rem)] sm:px-8 sm:pt-[26px] lg:pb-10">{children}</main>
         </ShellScrollArea>
       </div>
+      <MobileTabBar />
     </div>
   );
 }

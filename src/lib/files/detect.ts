@@ -1,4 +1,4 @@
-import { fileFormats, fileKinds, formatsOfKinds, type FileKind } from "@/config/file-formats";
+import { fileFormats, fileKinds, formatsOfKinds, type FileFormat, type FileKind } from "@/config/file-formats";
 import { FILE_SIZE_LIMITS_MB, maxFileSize } from "@/config/limits";
 import { extensionOf } from "@/lib/utils/file-name";
 import { formatMegabytes } from "@/lib/utils/format-bytes";
@@ -10,6 +10,10 @@ export function detectFormat(file: { name: string; type: string }) {
     fileFormats.find((format) => format.mimeTypes.includes(file.type)) ??
     null
   );
+}
+
+export function isLocalFormat(format: FileFormat) {
+  return format.engine !== "image";
 }
 
 export function describeFormats(kinds: FileKind[], localCapable = true) {

@@ -1,8 +1,15 @@
-import { idbClear, idbDelete, idbGet, idbSet } from "@/lib/storage/idb";
+import { idbClear, idbDelete, idbEntries, idbGet, idbSet } from "@/lib/storage/idb";
 
 const MAX_AGE_MS = 24 * 60 * 60 * 1000;
 
 type Stored<T> = { savedAt: number; value: T };
+
+export async function loadSessions<T>(prefix: string) {
+  const entries = await idbEntries<Stored<T>>();
+  return entries
+    .filter(({ key, value }) => key.startsWith(prefix) && value && Date.now() - value.savedAt <= MAX_AGE_MS)
+    .map(({ key, value }) => ({ key, savedAt: value.savedAt, value: value.value }));
+}
 
 export async function loadSession<T>(key: string): Promise<T | null> {
   const stored = await idbGet<Stored<T>>(key);

@@ -124,3 +124,18 @@ export const sharedLimits = [
   { label: "Files per batch", value: String(MAX_FILES_PER_BATCH) },
   { label: "Daily limit", value: `${DAILY_LIMITS.user} files` },
 ];
+
+export const historyCopy = {
+  empty: "Nothing here yet. Files you process stay on this device for 24 hours.",
+  clear: "Clear History",
+  cleared: "History cleared",
+  savedAt: (time: string) => `Saved ${time}`,
+};
+
+export const tabBarCopy = {
+  label: "Dashboard",
+  home: "Home",
+  tools: "Tools",
+  history: "History",
+  account: "Account",
+};

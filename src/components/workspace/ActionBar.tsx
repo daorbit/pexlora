@@ -1,6 +1,6 @@
 "use client";
 
-import { Check, LoaderCircle } from "lucide-react";
+import { Check, Download, LoaderCircle } from "lucide-react";
 import { queueCopy } from "@/content/workspace";
 import { cn } from "@/lib/utils/cn";
 import { Button } from "@/components/ui/Button";
@@ -21,6 +21,8 @@ type ActionBarProps = {
   className?: string;
 };
 
+const bigButton = "h-13 w-full rounded-2xl";
+
 export function ActionBar({
   label,
   note,
@@ -36,22 +38,32 @@ export function ActionBar({
   className,
 }: ActionBarProps) {
   const guardDownload = useDownloadGate();
+  const finished = doneCount > 0 && readyCount === 0 && !isProcessing;
+  const save = () => guardDownload(onDownloadAll, doneCount);
+
   return (
     <div className={cn("flex flex-col gap-2.5", className)}>
-      <Button
-        variant="ink"
-        size="xl"
-        arrow={!isProcessing}
-        onClick={onRun}
-        disabled={!readyCount || isProcessing || disabled}
-        className="h-13 w-full rounded-2xl"
-      >
-        {isProcessing && <LoaderCircle className="size-4 animate-spin" aria-hidden />}
-        {hasItems ? label : queueCopy.addToStart}
-        {readyCount > 1 && ` (${readyCount})`}
-      </Button>
-      {doneCount > 1 && (
-        <Button variant="secondary" size="xl" onClick={() => guardDownload(onDownloadAll, doneCount)} className="h-13 w-full rounded-2xl">
+      {finished ? (
+        <Button variant="ink" size="xl" onClick={save} className={cn(bigButton, "motion-safe:animate-pop")}>
+          <Download className="size-4.5" aria-hidden />
+          {downloadAllLabel}
+        </Button>
+      ) : (
+        <Button
+          variant="ink"
+          size="xl"
+          arrow={!isProcessing}
+          onClick={onRun}
+          disabled={!readyCount || isProcessing || disabled}
+          className={bigButton}
+        >
+          {isProcessing && <LoaderCircle className="size-4 animate-spin" aria-hidden />}
+          {hasItems ? label : queueCopy.addToStart}
+          {readyCount > 1 && ` (${readyCount})`}
+        </Button>
+      )}
+      {!finished && doneCount > 1 && (
+        <Button variant="secondary" size="xl" onClick={save} className={bigButton}>
           {downloadAllLabel}
         </Button>
       )}

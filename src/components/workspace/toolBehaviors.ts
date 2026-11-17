@@ -18,6 +18,7 @@ type ToolBehavior = {
     doneToast?: (count: number) => string;
     note?: string;
     compare?: boolean;
+    autoRun?: boolean;
     run: (file: File, options: ToolOptions) => Promise<ProcessedFile>;
     validate?: (options: ToolOptions) => string | null;
     zipName: string;
@@ -32,6 +33,7 @@ export const toolBehaviors: Record<WorkspaceToolSlug, ToolBehavior> = {
     action: {
       label: "Remove Metadata",
       doneLabel: "Cleaned",
+      autoRun: true,
       run: (file) => cleanFile(file),
       zipName: "clean-files.zip",
     },
