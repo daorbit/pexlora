@@ -125,7 +125,7 @@ export function WorkspacePanel({
 
   return (
     <DownloadGateProvider>
-      <div {...dropProps} className={cn("grid items-start gap-4", hasPanel && "lg:grid-cols-[minmax(0,1fr)_340px]")}>
+      <div {...dropProps} className={cn("grid items-start gap-3 sm:gap-4", hasPanel && "lg:grid-cols-[minmax(0,1fr)_340px]")}>
         <input {...picker.inputProps} />
 
         <div className="flex min-w-0 flex-col gap-3">
@@ -152,7 +152,7 @@ export function WorkspacePanel({
               ))}
             </FilesCard>
           ) : (
-            <div className="rounded-[22px] bg-surface p-2.5 shadow-card">
+            <div className="rounded-[20px] bg-surface p-2 shadow-card sm:rounded-[22px] sm:p-2.5">
               <Dropzone
                 accepts={accepts}
                 localCapable={localCapable}

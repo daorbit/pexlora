@@ -10,11 +10,12 @@ const onlyImages = (kinds: FileKind[]) => kinds.length === 1 && kinds[0] === "im
 export const dropzoneCopy = {
   dragging: "Release to add",
   paste: "or paste from your clipboard",
-  title: (kinds: FileKind[]) => (onlyImages(kinds) ? "Drop images here" : "Drop files here"),
-  mobileTitle: (kinds: FileKind[]) => (onlyImages(kinds) ? "Pick images to start" : "Pick files to start"),
+  browseTitle: (kinds: FileKind[]) => (onlyImages(kinds) ? "Drop images or click to browse" : "Drop files or click to browse"),
+  mobileTitle: (kinds: FileKind[]) => (onlyImages(kinds) ? "Tap to add images" : "Tap to add files"),
   button: (kinds: FileKind[]) => (onlyImages(kinds) ? "Choose Images" : "Choose Files"),
   onDevice: "JPG, PNG, WebP and HEIC photos, documents, audio and video are read and cleaned on your device. They aren't uploaded.",
   samples: "No file handy? Try a sample:",
+  samplesShort: "Try:",
 };
 
 export const signupPromptCopy = {

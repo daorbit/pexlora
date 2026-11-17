@@ -15,6 +15,19 @@ export const heroCopy = {
   description:
     "Strip AI tags, GPS, EXIF and author details from photos, PDFs, documents, audio and video in seconds. We don't keep your files.",
   shortcutsLabel: "Popular tools",
+  trustLabel: "Why Pexlora",
+  trust: [
+    { id: "free", label: "Free, no sign-up" },
+    { id: "private", label: "Files aren't saved" },
+    { id: "fast", label: "Done in seconds" },
+  ],
+  shortcutShortLabels: {
+    "remove-metadata": "Clean",
+    "compress-to-size": "Compress",
+    "resize-image": "Resize",
+    "convert-format": "Convert",
+    "image-alt-text": "Alt Text",
+  } as Record<string, string>,
 };
 
 export const hubCopy = {

@@ -28,19 +28,19 @@ export function Section({
   return (
     <section
       className={cn(
-        "scroll-mt-20 py-16 sm:py-22",
+        "scroll-mt-20 py-10 sm:py-22",
         tone === "surface" &&
-          "bg-[linear-gradient(to_bottom,var(--background),var(--surface)_120px,var(--surface)_calc(100%-120px),var(--background))]",
+          "bg-[linear-gradient(to_bottom,var(--background),var(--surface)_48px,var(--surface)_calc(100%-48px),var(--background))] sm:bg-[linear-gradient(to_bottom,var(--background),var(--surface)_120px,var(--surface)_calc(100%-120px),var(--background))]",
         className,
       )}
       {...props}
     >
-      <Container size={narrow ? "narrow" : "wide"} className="reveal flex flex-col gap-12 sm:gap-14">
+      <Container size={narrow ? "narrow" : "wide"} className="reveal flex flex-col gap-6 sm:gap-14">
         {title && (
-          <div className={cn("flex flex-wrap items-end justify-between gap-6", centered && "justify-center")}>
+          <div className={cn("flex flex-wrap items-end justify-between gap-3 sm:gap-6", centered && "justify-center")}>
             <SectionHeading eyebrow={eyebrow} title={title} centered={centered} description={centered ? description : undefined} />
             {description && !centered && (
-              <p className="max-w-sm text-base leading-relaxed text-secondary">{description}</p>
+              <p className="max-w-sm text-[15px] leading-relaxed text-secondary sm:text-base">{description}</p>
             )}
           </div>
         )}

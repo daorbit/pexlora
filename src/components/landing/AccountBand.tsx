@@ -8,7 +8,7 @@ import { ResponsiveLabel } from "@/components/ui/ResponsiveLabel";
 import { BandText } from "@/components/landing/BandText";
 import { BandTitle } from "@/components/landing/BandTitle";
 
-const buttonSize = "h-11 flex-1 text-sm sm:h-14 sm:flex-none sm:text-base";
+const buttonSize = "h-12 min-w-0 flex-1 basis-0 text-sm sm:h-14 sm:flex-none sm:basis-auto sm:text-base";
 
 export function AccountBand() {
   return (

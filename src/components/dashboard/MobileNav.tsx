@@ -2,6 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import { useState, type ReactNode } from "react";
+import { createPortal } from "react-dom";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 
@@ -22,7 +23,7 @@ export function MobileNav({ children }: { children: ReactNode }) {
       >
         <Menu className="size-5" aria-hidden />
       </Button>
-      {open && (
+      {open && createPortal(
         <div className="fixed inset-0 z-50 lg:hidden" role="dialog" aria-modal="true">
           <button
             type="button"
@@ -38,7 +39,8 @@ export function MobileNav({ children }: { children: ReactNode }) {
             </div>
             {children}
           </div>
-        </div>
+        </div>,
+        document.body,
       )}
     </>
   );

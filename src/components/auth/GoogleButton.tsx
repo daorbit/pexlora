@@ -20,7 +20,7 @@ export function GoogleButton({ label, className, variant = "secondary", size = "
       className={buttonClasses({ variant, size, arrow, className: cn("w-full", className) })}
     >
       <ButtonContent variant={variant} size={size} arrow={arrow}>
-        <GoogleIcon className="size-[18px]" />
+        <GoogleIcon className="size-5 shrink-0" />
         {label}
       </ButtonContent>
     </a>

@@ -20,11 +20,6 @@ const variants: Record<Variant, string> = {
   tile: "bg-surface text-foreground shadow-thumb hover:bg-fill",
 };
 
-const chipVariants: Partial<Record<Variant, string>> = {
-  primary: "bg-primary-foreground text-primary",
-  ink: "bg-primary text-primary-foreground",
-};
-
 const sizes: Record<Size, string> = {
   sm: "h-8 rounded-xl px-3.5 text-[13px]",
   md: "h-10 rounded-xl px-4.5 text-sm",
@@ -33,12 +28,12 @@ const sizes: Record<Size, string> = {
   "2xl": "h-14 rounded-xl px-6 text-base",
 };
 
-const arrowSizes: Record<Size, { padding: string; chip: string; icon: string }> = {
-  sm: { padding: "pr-1", chip: "size-6", icon: "size-3" },
-  md: { padding: "pr-1", chip: "size-8", icon: "size-3.5" },
-  lg: { padding: "pr-1", chip: "size-9", icon: "size-4" },
-  xl: { padding: "pr-1.5", chip: "size-9", icon: "size-4" },
-  "2xl": { padding: "pr-2", chip: "size-10", icon: "size-4" },
+const arrowSizes: Record<Size, string> = {
+  sm: "size-3.5",
+  md: "size-4",
+  lg: "size-4",
+  xl: "size-[18px]",
+  "2xl": "size-5",
 };
 
 const iconSizes: Record<Size, string> = {
@@ -61,18 +56,19 @@ export function buttonClasses({
   const textOnly = variant === "plain" || variant === "nav";
   const square = variant === "icon" || variant === "tile";
   const sizing = square ? iconSizes[size] : textOnly ? "" : sizes[size];
-  return cn(base, variants[variant], sizing, arrow && !textOnly && arrowSizes[size].padding, className);
+  return cn(base, variants[variant], sizing, arrow && !textOnly && "group/button", className);
 }
 
-export function ButtonContent({ children, variant = "primary", size = "md", arrow }: StyleProps & { children?: ReactNode }) {
+export function ButtonContent({ children, size = "md", arrow }: StyleProps & { children?: ReactNode }) {
   if (!arrow) return children;
-  const { chip, icon } = arrowSizes[size];
   return (
     <>
       {children}
-      <span className={cn("ml-1 inline-flex items-center justify-center rounded-lg", chip, chipVariants[variant])}>
-        <ArrowRight className={icon} strokeWidth={2.5} aria-hidden />
-      </span>
+      <ArrowRight
+        className={cn("shrink-0 transition-transform group-hover/button:translate-x-0.5", arrowSizes[size])}
+        strokeWidth={2.4}
+        aria-hidden
+      />
     </>
   );
 }

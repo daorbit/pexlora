@@ -5,9 +5,9 @@ import { navCopy } from "@/content/navigation";
 import { useThemeReveal } from "@/hooks/useThemeReveal";
 import { Button } from "@/components/ui/Button";
 
-type ThemeToggleProps = { variant?: "icon" | "tile"; size?: "sm" | "md" | "lg" };
+type ThemeToggleProps = { variant?: "icon" | "tile"; size?: "sm" | "md" | "lg"; className?: string };
 
-export function ThemeToggle({ variant = "icon", size = "sm" }: ThemeToggleProps) {
+export function ThemeToggle({ variant = "icon", size = "sm", className }: ThemeToggleProps) {
   const { isDark, toggleFrom } = useThemeReveal();
   const label = isDark ? navCopy.toLight : navCopy.toDark;
 
@@ -15,6 +15,7 @@ export function ThemeToggle({ variant = "icon", size = "sm" }: ThemeToggleProps)
     <Button
       variant={variant}
       size={size}
+      className={className}
       onClick={(event) => toggleFrom(event.currentTarget)}
       aria-label={label}
       title={label}

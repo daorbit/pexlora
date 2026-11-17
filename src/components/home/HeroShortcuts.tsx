@@ -2,22 +2,28 @@ import Link from "next/link";
 import { heroShortcuts } from "@/config/tool-hub";
 import { heroCopy } from "@/content/landing";
 import { HubItemIcon } from "@/components/tools/HubItemIcon";
+import { ResponsiveLabel } from "@/components/ui/ResponsiveLabel";
 
 export function HeroShortcuts() {
   return (
     <nav aria-label={heroCopy.shortcutsLabel}>
-      <ul className="scrollbar-none -mx-3 flex gap-2 overflow-x-auto px-3 sm:mx-0 sm:flex-wrap sm:justify-center sm:overflow-visible sm:px-0">
-        {heroShortcuts.map((item) => (
-          <li key={item.key} className="shrink-0">
-            <Link
-              href={item.href}
-              className="group inline-flex h-9 items-center gap-2 rounded-xl bg-fill pr-3 pl-1 text-[13px] font-semibold whitespace-nowrap transition-colors hover:bg-fill-strong focus-visible:outline-2 focus-visible:outline-ring sm:h-11 sm:gap-2.5 sm:pr-4 sm:pl-1.5 sm:text-sm"
-            >
-              <HubItemIcon src={item.iconSrc} size="xs" className="size-6 sm:size-7" />
-              {item.shortName ?? item.name}
-            </Link>
-          </li>
-        ))}
+      <ul className="grid grid-cols-5 gap-1 sm:gap-3">
+        {heroShortcuts.map((item) => {
+          const full = item.shortName ?? item.name;
+          return (
+            <li key={item.key} className="min-w-0">
+              <Link
+                href={item.href}
+                className="group flex flex-col items-center gap-2 rounded-xl py-1 text-center text-[11.5px] font-medium text-secondary transition-colors focus-visible:outline-2 focus-visible:outline-ring active:text-foreground sm:gap-2.5 sm:rounded-2xl sm:py-3 sm:text-[13px] sm:hover:bg-surface sm:hover:text-foreground"
+              >
+                <HubItemIcon src={item.iconSrc} size="md" className="size-12 sm:size-13" />
+                <span className="w-full truncate px-1">
+                  <ResponsiveLabel short={heroCopy.shortcutShortLabels[item.key] ?? full} full={full} />
+                </span>
+              </Link>
+            </li>
+          );
+        })}
       </ul>
     </nav>
   );

@@ -9,7 +9,7 @@ import { WindowFrame } from "@/components/ui/WindowFrame";
 
 function PaneHeader({ title, badge }: { title: string; badge: ReactNode }) {
   return (
-    <div className="flex items-center justify-between border-b border-separator px-5 py-3">
+    <div className="flex items-center justify-between border-b border-separator px-4 py-3 sm:px-5">
       <p className="text-[13px] font-semibold">{title}</p>
       {badge}
     </div>
@@ -27,16 +27,16 @@ export function InspectorShowcase() {
       description="Every file is read before it's cleaned, so you know exactly what was there and that nothing is left behind."
     >
       <WindowFrame title={`${showcaseFile.name} — Metadata Viewer`}>
-        <div className="grid lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)_minmax(0,0.8fr)]">
-          <div className="flex flex-col gap-3 border-b border-separator p-5 lg:border-r lg:border-b-0">
+        <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)_minmax(0,0.8fr)]">
+          <div className="flex items-center gap-3 border-b border-separator p-4 lg:flex-col lg:items-stretch lg:border-r lg:border-b-0 lg:p-5">
             <Image
               src={showcaseFile.src}
               alt="Sample AI-generated landscape"
               width={600}
               height={450}
-              className="aspect-4/3 w-full rounded-lg border border-separator object-cover"
+              className="aspect-4/3 w-20 shrink-0 rounded-lg border border-separator object-cover lg:w-full"
             />
-            <div>
+            <div className="min-w-0">
               <p className="text-[15px] font-medium">{showcaseFile.name}</p>
               <p className="text-[13px] text-secondary">{showcaseFile.details}</p>
             </div>
@@ -54,8 +54,8 @@ export function InspectorShowcase() {
             />
             <dl className="divide-y divide-separator">
               {showcaseTags.map((tag) => (
-                <div key={`${tag.group}-${tag.key}`} className="flex items-center gap-3 px-5 py-2.5">
-                  <dt className="w-36 shrink-0 truncate text-[13px] text-secondary">
+                <div key={`${tag.group}-${tag.key}`} className="flex items-center gap-3 px-4 py-2.5 sm:px-5">
+                  <dt className="w-30 shrink-0 truncate text-[12.5px] text-secondary sm:w-36 sm:text-[13px]">
                     <span className="text-[11px] uppercase tracking-wide">{tag.group}</span> {tag.key}
                   </dt>
                   <dd className="min-w-0 flex-1 truncate font-mono text-xs">{tag.value}</dd>
@@ -75,7 +75,7 @@ export function InspectorShowcase() {
                 </Badge>
               }
             />
-            <div className="flex flex-1 flex-col items-center justify-center gap-3 px-5 py-12 text-center">
+            <div className="flex flex-1 flex-col items-center justify-center gap-2 px-4 py-6 text-center sm:gap-3 sm:px-5 sm:py-12">
               <span className="inline-flex size-12 items-center justify-center rounded-full bg-success-soft text-success">
                 <Check className="size-6" strokeWidth={2.5} aria-hidden />
               </span>

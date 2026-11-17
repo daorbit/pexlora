@@ -1,7 +1,12 @@
 "use client";
 
 import { cn } from "@/lib/utils/cn";
-import { segmentedItem, segmentedTrack } from "@/components/ui/segmented-styles";
+import {
+  segmentedChip,
+  segmentedChipsTrack,
+  segmentedItem,
+  segmentedTrack,
+} from "@/components/ui/segmented-styles";
 
 type SegmentedProps<T extends string> = {
   label: string;
@@ -10,6 +15,7 @@ type SegmentedProps<T extends string> = {
   onChange: (value: T) => void;
   disabled?: boolean;
   size?: "sm" | "md";
+  layout?: "track" | "chips";
   className?: string;
 };
 
@@ -20,10 +26,13 @@ export function Segmented<T extends string>({
   onChange,
   disabled,
   size = "md",
+  layout = "track",
   className,
 }: SegmentedProps<T>) {
+  const chips = layout === "chips";
+
   return (
-    <div role="radiogroup" aria-label={label} className={cn(segmentedTrack, className)}>
+    <div role="radiogroup" aria-label={label} className={cn(chips ? segmentedChipsTrack : segmentedTrack, className)}>
       {options.map((option) => (
         <button
           key={option.value}
@@ -32,7 +41,7 @@ export function Segmented<T extends string>({
           aria-checked={option.value === value}
           disabled={disabled}
           onClick={() => onChange(option.value)}
-          className={segmentedItem(option.value === value, size)}
+          className={chips ? segmentedChip(option.value === value) : segmentedItem(option.value === value, size)}
         >
           {option.label}
         </button>

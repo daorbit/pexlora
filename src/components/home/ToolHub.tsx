@@ -6,7 +6,7 @@ import { useSearchParamState } from "@/hooks/useSearchParamState";
 import { cn } from "@/lib/utils/cn";
 import { staggerDelay } from "@/lib/utils/stagger";
 import { Segmented } from "@/components/ui/Segmented";
-import { HubCard } from "@/components/home/HubCard";
+import { HubCard, hubGridClass } from "@/components/home/HubCard";
 
 type Filter = HubCategory | "all";
 
@@ -18,15 +18,15 @@ export function ToolHub() {
   const items = filter === "all" ? hubItems : hubItems.filter((item) => item.category === filter);
 
   return (
-    <div className="flex flex-col items-center gap-8">
+    <div className="flex flex-col items-center gap-4 sm:gap-8">
       <Segmented<Filter>
         label={hubCopy.filterLabel}
         value={filter}
         options={filterOptions}
         onChange={setFilter}
-        className="scrollbar-none max-w-full overflow-x-auto"
+        layout="chips"
       />
-      <ul key={filter} className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <ul key={filter} className={hubGridClass}>
         {items.map((item, index) => (
           <li key={item.key} className={cn("motion-safe:animate-fade-up", staggerDelay(index))}>
             <HubCard item={item} />

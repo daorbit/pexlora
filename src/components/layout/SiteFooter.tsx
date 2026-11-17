@@ -5,6 +5,7 @@ import { Container } from "@/components/ui/Container";
 import { CurrentYear } from "@/components/layout/CurrentYear";
 import { Logo } from "@/components/layout/Logo";
 import { HousePromoCard } from "@/components/promo/HousePromoCard";
+import { ThemeSwitch } from "@/components/theme/ThemeSwitch";
 import { housePromos } from "@/config/house-promos";
 
 const linkClasses = "text-[15px] text-secondary transition-colors hover:text-foreground";
@@ -63,6 +64,10 @@ export function SiteFooter() {
           <p className="text-[13px] text-secondary">
             © <CurrentYear /> {siteConfig.name} · {footerCopy.productOf}. {footerCopy.legal}
           </p>
+        </div>
+        <div className="flex items-center gap-3">
+          <span className="text-[13px] font-medium text-secondary">{footerCopy.darkMode}</span>
+          <ThemeSwitch />
         </div>
       </Container>
 

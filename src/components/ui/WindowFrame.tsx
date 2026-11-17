@@ -16,7 +16,7 @@ export function WindowFrame({ title, children, className }: WindowFrameProps) {
           <span className="size-2.5 rounded-full bg-fill-strong" />
           <span className="size-2.5 rounded-full bg-fill-strong" />
         </div>
-        <p className="absolute inset-x-0 text-center font-mono text-xs text-secondary">{title}</p>
+        <p className="absolute inset-x-16 truncate text-center font-mono text-xs text-secondary">{title}</p>
       </div>
       {children}
     </div>

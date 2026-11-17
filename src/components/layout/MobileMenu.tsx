@@ -50,7 +50,7 @@ export function MobileMenu() {
           <nav
             id="mobile-menu"
             aria-label="Main"
-            className="fixed inset-x-0 top-12 bottom-0 sm:top-14 z-40 flex flex-col gap-5 overflow-y-auto border-t border-separator bg-surface px-4 pt-4 pb-[max(1.5rem,env(safe-area-inset-bottom))] text-foreground md:hidden"
+            className="fixed inset-x-0 top-14 bottom-0 z-40 flex flex-col gap-5 overflow-y-auto border-t border-separator bg-surface px-4 pt-4 pb-[max(1.5rem,env(safe-area-inset-bottom))] text-foreground md:hidden"
           >
             {menuGroups.map((group) => (
               <div key={group.id} className="flex flex-col">

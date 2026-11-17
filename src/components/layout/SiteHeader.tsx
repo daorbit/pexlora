@@ -7,12 +7,11 @@ import { HeaderAuth, HeaderAuthFallback } from "@/components/layout/HeaderAuth";
 import { Logo } from "@/components/layout/Logo";
 import { MobileMenu } from "@/components/layout/MobileMenu";
 import { ToolsMenu } from "@/components/layout/ToolsMenu";
-import { HeaderThemeSwitch } from "@/components/theme/HeaderThemeSwitch";
 
 export function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 bg-background text-foreground sm:bg-background/85 sm:backdrop-blur-md">
-      <Container className="grid h-12 grid-cols-[1fr_auto] items-center gap-3 sm:h-14 sm:gap-6 md:grid-cols-[1fr_auto_1fr]">
+      <Container className="grid h-14 grid-cols-[1fr_auto] items-center gap-3 sm:h-14 sm:gap-6 md:grid-cols-[1fr_auto_1fr]">
         <Logo size="md" />
         <nav className="hidden items-center gap-6 md:flex lg:gap-7">
           <ToolsMenu />
@@ -30,7 +29,6 @@ export function SiteHeader() {
           ))}
         </nav>
         <div className="flex items-center justify-end gap-2 sm:gap-3">
-          <HeaderThemeSwitch />
           <Suspense fallback={<HeaderAuthFallback />}>
             <HeaderAuth />
           </Suspense>

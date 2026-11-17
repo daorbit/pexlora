@@ -1,26 +1,27 @@
-import Image from "next/image";
-import Link from "next/link";
 import type { ReactNode } from "react";
-import { brandAssets } from "@/config/brand";
-import { routes } from "@/config/site";
-import { shellCopy } from "@/content/dashboard";
+import { Logo } from "@/components/layout/Logo";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
 import { ShellPageTitle } from "@/components/dashboard/ShellPageTitle";
 import { ToolSearch } from "@/components/dashboard/ToolSearch";
 
 export function DashboardTopBar({ mobileNav }: { mobileNav: ReactNode }) {
   return (
-    <header className="flex flex-wrap items-center gap-x-3.5 gap-y-5 px-4 pt-4 sm:px-8 sm:pt-[22px]">
-      {mobileNav}
-      <Link href={routes.home} aria-label={shellCopy.home} className="lg:hidden">
-        <Image src={brandAssets.mark} alt="" width={28} height={28} className="size-7" />
-      </Link>
-      <div className="order-last w-full min-w-0 lg:order-none lg:w-auto lg:flex-1">
+    <>
+      <header className="sticky top-0 z-30 flex items-center gap-2 bg-background/90 px-3 pt-[max(0.5rem,env(safe-area-inset-top))] pb-2 backdrop-blur-md sm:gap-3.5 sm:px-8 sm:pt-[22px] sm:pb-0 lg:static lg:bg-transparent lg:backdrop-blur-none">
+        {mobileNav}
+        <div className="lg:hidden">
+          <Logo size="md" />
+        </div>
+        <div className="hidden min-w-0 flex-1 lg:block">
+          <ShellPageTitle />
+        </div>
+        <span className="flex-1 lg:hidden" />
+        <ToolSearch />
+        <ThemeToggle variant="tile" size="lg" className="max-sm:size-10" />
+      </header>
+      <div className="px-4 pt-3 sm:px-8 sm:pt-5 lg:hidden">
         <ShellPageTitle />
       </div>
-      <span className="flex-1 lg:hidden" />
-      <ToolSearch />
-      <ThemeToggle variant="tile" size="lg" />
-    </header>
+    </>
   );
 }

@@ -26,7 +26,7 @@ export function OrbitPromptButton({ label, hint, pending, pendingLabel, onClick 
         <span className="text-sm font-semibold">{pending ? pendingLabel : label}</span>
         <span className="truncate text-[12.5px] text-secondary">{hint}</span>
       </span>
-      <span className="inline-flex size-8 shrink-0 items-center justify-center rounded-lg bg-primary text-primary-foreground transition-transform group-hover:translate-x-0.5">
+      <span className="inline-flex size-8 shrink-0 items-center justify-center text-foreground transition-transform group-hover:translate-x-0.5">
         {pending ? (
           <LoaderCircle className="size-4 animate-spin" aria-hidden />
         ) : (

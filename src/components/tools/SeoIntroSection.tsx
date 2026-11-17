@@ -8,10 +8,10 @@ type SeoIntroSectionProps = {
 export function SeoIntroSection({ heading, paragraphs }: SeoIntroSectionProps) {
   return (
     <Section narrow align="left" className="border-t border-separator">
-      <article className="flex flex-col gap-5">
-        <h2 className="text-[28px] leading-[1.1] font-semibold tracking-[-0.025em] sm:text-[34px]">{heading}</h2>
+      <article className="flex flex-col gap-3 sm:gap-5">
+        <h2 className="text-[22px] leading-[1.15] font-semibold tracking-[-0.025em] sm:text-[34px] sm:leading-[1.1]">{heading}</h2>
         {paragraphs.map((paragraph) => (
-          <p key={paragraph} className="text-[17px] leading-relaxed text-secondary">
+          <p key={paragraph} className="text-[15px] leading-relaxed text-secondary sm:text-[17px]">
             {paragraph}
           </p>
         ))}

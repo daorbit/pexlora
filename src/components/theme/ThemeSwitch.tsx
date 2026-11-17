@@ -5,7 +5,7 @@ import { useThemeReveal } from "@/hooks/useThemeReveal";
 import { cn } from "@/lib/utils/cn";
 import { SunMoonIcon } from "@/components/icons/SunMoonIcon";
 
-export function HeaderThemeSwitch() {
+export function ThemeSwitch() {
   const { isDark, toggleFrom } = useThemeReveal();
   const label = isDark ? navCopy.toLight : navCopy.toDark;
 

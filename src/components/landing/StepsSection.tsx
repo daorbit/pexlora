@@ -2,6 +2,7 @@ import type { ComponentType } from "react";
 import { steps, stepsCopy } from "@/content/landing";
 import { cn } from "@/lib/utils/cn";
 import { Band } from "@/components/ui/Band";
+import { MobileCarousel } from "@/components/ui/MobileCarousel";
 import { BandTitle } from "@/components/landing/BandTitle";
 import { CleanVisual, DropVisual, ReadVisual } from "@/components/landing/StepVisuals";
 
@@ -29,15 +30,21 @@ export function StepsSection() {
           ))}
           <span className="absolute top-1/2 left-1/6 -mt-1.5 -ml-1.5 size-3 rounded-full bg-primary ring-4 ring-primary/25 motion-safe:animate-rail-dot" />
         </div>
-        <ol className="grid grid-cols-1 md:grid-cols-3">
+        <MobileCarousel
+          label={stepsCopy.title}
+          until="md"
+          as="ol"
+          trackClassName="md:grid md:grid-cols-3"
+          dotsClassName="pt-0 pb-4"
+        >
           {steps.map((step, index) => {
             const Visual = visuals[index];
             return (
               <li
                 key={step.title}
                 className={cn(
-                  "flex flex-col gap-4 p-4 motion-safe:animate-stage-on sm:gap-5 sm:p-6 lg:p-8",
-                  index > 0 && "border-t border-separator md:border-t-0 md:border-l",
+                  "flex min-w-0 shrink-0 grow-0 basis-full flex-col gap-4 p-4 motion-safe:animate-stage-on sm:gap-5 sm:p-6 md:basis-auto lg:p-8",
+                  index > 0 && "border-separator md:border-l",
                   stageDelays[index],
                 )}
               >
@@ -54,7 +61,7 @@ export function StepsSection() {
               </li>
             );
           })}
-        </ol>
+        </MobileCarousel>
       </div>
     </Band>
   );

@@ -15,6 +15,7 @@ export const footerCopy = {
   description: "Remove hidden metadata, then compress, resize and convert your images. We don't keep your files.",
   legal: "We remove metadata only, not pixel watermarks.",
   productOf: `A product of ${company.legalName}`,
+  darkMode: "Dark mode",
 };
 
 export const footerLegalLinks = legalDocuments.map((doc) => ({ label: doc.title, href: doc.path }));

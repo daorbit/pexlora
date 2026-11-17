@@ -5,9 +5,7 @@
 @custom-variant slot-collapsed (&:where([data-sidebar="collapsed"] .sidebar-slot));
 @custom-variant page-dark (&:where([data-theme="dark"] *));
 
-:root,
-.theme-light,
-[data-theme="dark"] .theme-invert {
+@utility tokens-light {
   color-scheme: light;
   --background: #f4f3ee;
   --canvas: #e9e8e1;
@@ -44,9 +42,7 @@
   --card-shadow: 0 1px 2px rgb(16 18 13 / 0.04), 0 12px 32px -20px rgb(16 18 13 / 0.18);
 }
 
-:root[data-theme="dark"],
-.theme-dark,
-.theme-invert {
+@utility tokens-dark {
   color-scheme: dark;
   --background: #0c0d0a;
   --canvas: #050604;
@@ -81,6 +77,18 @@
   --card-shadow: 0 1px 2px rgb(0 0 0 / 0.4), 0 12px 32px -20px rgb(0 0 0 / 0.7);
   --scrollbar-thumb: #3a3d34;
   --scrollbar-thumb-hover: #7d8176;
+}
+
+:root,
+.theme-light,
+[data-theme="dark"] .theme-invert {
+  @apply tokens-light;
+}
+
+:root[data-theme="dark"],
+.theme-dark,
+.theme-invert {
+  @apply tokens-dark;
 }
 
 @theme inline {
@@ -366,7 +374,7 @@
 }
 
 @utility reveal {
-  @media (prefers-reduced-motion: no-preference) {
+  @media (prefers-reduced-motion: no-preference) and (min-width: 40rem) {
     @supports (animation-timeline: view()) {
       animation: reveal linear both;
       animation-timeline: view();
