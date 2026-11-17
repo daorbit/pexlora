@@ -12,6 +12,8 @@ import {
 } from "@/lib/files/containers/bmff";
 import { parseMeta, parseUserData } from "@/lib/files/tags/quicktime";
 import { addXmp } from "@/lib/files/xmp";
+import { readC2pa } from "@/lib/metadata/c2pa";
+import { addC2paEntries } from "@/lib/metadata/c2pa-report";
 import { createReport, type ReportBuilder } from "@/lib/metadata/report";
 import type { ReportDetails } from "@/lib/metadata/types";
 import { UnreadableFileError, type FileProcessor } from "@/lib/files/processors/types";
@@ -72,9 +74,7 @@ function inspectUuid(bytes: Uint8Array, box: Box, report: ReportBuilder) {
   const kind = uuidKind(bytes, box);
   const payload = bytes.subarray(box.bodyStart, box.end);
   if (kind === "xmp") addXmp(report, decodeText(payload));
-  else if (kind === "c2pa" || containsAscii(payload, "c2pa")) {
-    report.entry("c2pa", "manifest", "Content Credentials manifest embedded", true);
-  }
+  else if (kind === "c2pa" || containsAscii(payload, "c2pa")) addC2paEntries(report, readC2pa(payload, true));
 }
 
 function inspectBox(bytes: Uint8Array, box: Box, report: ReportBuilder, details: ReportDetails) {

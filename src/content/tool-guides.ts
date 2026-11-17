@@ -106,8 +106,8 @@ export const toolGuides: Record<WorkspaceToolSlug, ToolGuide> = {
     intro: {
       heading: "See what a file reveals about you",
       paragraphs: [
-        "Drop a photo, PDF, Office document, song or video to read the metadata inside it. Fields are grouped by where they are stored, such as EXIF, XMP, IPTC, GPS, C2PA and the colour profile. AI-related fields are marked in orange and listed first.",
-        `If the file has GPS coordinates, the location is shown with an optional map link that only opens when you click it. ${AI_NAME} can explain the tags in plain words if you ask it to.`,
+        "Drop a photo, PDF, Office document, song or video to read the metadata inside it. Fields are grouped by where they are stored, such as EXIF, XMP, IPTC, GPS, C2PA and the colour profile. AI-related fields are marked in orange and listed first. Search any field, show only AI or personal tags, and export the full report as JSON.",
+        `For Content Credentials (C2PA), the viewer shows the tool that made the file, its source type and the recorded edits. If the file has GPS coordinates, they're shown in decimal and degrees, with a copy button and a map link that only opens when you click it. ${AI_NAME} can explain the tags in plain words if you ask it to.`,
         "Viewing is free and doesn't count toward your daily limit. When you're done, send the file to Remove Metadata to strip what you found.",
       ],
     },

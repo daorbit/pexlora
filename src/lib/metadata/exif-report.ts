@@ -1,6 +1,7 @@
 import exifr from "exifr";
-import { containsAscii } from "@/lib/files/bytes";
 import { decodeEntities } from "@/lib/files/xml";
+import { readC2pa } from "@/lib/metadata/c2pa";
+import { addC2paEntries } from "@/lib/metadata/c2pa-report";
 import { toEntry, type ReportBuilder } from "@/lib/metadata/report";
 import type { GeoLocation, MetadataEntry, MetadataGroupId } from "@/lib/metadata/types";
 
@@ -8,7 +9,6 @@ export type ExifSegments = Record<string, Record<string, unknown>>;
 
 const EXIF_SEGMENTS = new Set(["ifd0", "exif", "interop", "makerNote", "userComment"]);
 const IGNORED_SEGMENTS = new Set(["ifd1", "thumbnail", "jfif", "ihdr", "icc"]);
-const C2PA_MARKERS = ["c2pa", "jumb"];
 
 const EXIFR_OPTIONS = {
   tiff: true,
@@ -96,9 +96,7 @@ export function orientationOf(segments: ExifSegments) {
 }
 
 export function addC2paMarker(report: ReportBuilder, bytes: Uint8Array) {
-  if (C2PA_MARKERS.some((marker) => containsAscii(bytes, marker))) {
-    report.entry("c2pa", "manifest", "Content Credentials manifest embedded", true);
-  }
+  addC2paEntries(report, readC2pa(bytes));
 }
 
 export function addColorProfile(report: ReportBuilder, hasProfile: boolean) {

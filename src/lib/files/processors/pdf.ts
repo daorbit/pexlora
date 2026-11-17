@@ -14,6 +14,8 @@ import {
 } from "pdf-lib";
 import { containsAscii, decodeText } from "@/lib/files/bytes";
 import { addXmp } from "@/lib/files/xmp";
+import { readC2pa } from "@/lib/metadata/c2pa";
+import { addC2paEntries } from "@/lib/metadata/c2pa-report";
 import { createReport } from "@/lib/metadata/report";
 import type { MetadataGroupId } from "@/lib/metadata/types";
 import { UnreadableFileError, type FileProcessor } from "@/lib/files/processors/types";
@@ -152,9 +154,8 @@ export const pdfProcessor: FileProcessor = {
     if (nested) report.entry("xmp", "Embedded object metadata", `${nested} XMP ${nested === 1 ? "packet" : "packets"}`);
 
     const specs = c2paFileSpecs(doc).length;
-    if (specs || containsAscii(new Uint8Array(await file.arrayBuffer()), "/C2PA_Manifest")) {
-      report.entry("c2pa", "manifest", "Content Credentials manifest embedded", true);
-    }
+    const bytes = new Uint8Array(await file.arrayBuffer());
+    if (specs || containsAscii(bytes, "/C2PA_Manifest")) addC2paEntries(report, readC2pa(bytes, true));
 
     return report.build({ format: format.label });
   },

@@ -378,6 +378,9 @@ export const locationCopy = {
   removed: "Location removed from the clean copy",
   viewOnMap: "View on Map",
   mapNote: "Opens OpenStreetMap in a new tab",
+  copy: "Copy",
+  copied: "Coordinates copied",
+  copyFailed: "Couldn't copy the coordinates",
 };
 
 export const resultPreviewCopy = {
@@ -438,4 +441,20 @@ export const localToolsCopy = {
 
 export const reportCopy = {
   empty: "No metadata found. This file is already clean.",
+  search: "Search tags and values",
+  filterLabel: "Show",
+  filters: {
+    all: (count: number) => `All · ${count}`,
+    ai: (count: number) => `AI · ${count}`,
+    sensitive: (count: number) => `Personal · ${count}`,
+  },
+  noMatches: "No tags match this search.",
+  exportJson: "Export JSON",
+  aiNote:
+    "No AI tags found. That doesn't prove the image wasn't made with AI: tags are easy to strip, and pixel watermarks like SynthID aren't metadata.",
+  versionsLabel: "Metadata version",
+  original: (count: number) => `Original · ${count}`,
+  cleaned: (count: number | null) => (count === null ? "Result" : `Result · ${count}`),
+  cleanedLoading: "Reading the result's metadata",
+  cleanedError: "The result's metadata couldn't be read.",
 };

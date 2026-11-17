@@ -17,7 +17,7 @@ import { LocationCard } from "@/components/workspace/LocationCard";
 import { FileThumb } from "@/components/workspace/FileThumb";
 import { ProgressBar } from "@/components/workspace/ProgressBar";
 import { SaveFileButton } from "@/components/workspace/SaveFileButton";
-import { MetadataReport } from "@/components/workspace/MetadataReport";
+import { MetadataDetails } from "@/components/workspace/report/MetadataDetails";
 import { ReorderButtons } from "@/components/workspace/ReorderButtons";
 import { RevealSummary } from "@/components/workspace/RevealSummary";
 import { RowToggle } from "@/components/workspace/RowToggle";
@@ -150,7 +150,7 @@ export function FileRow({
         <div className="flex flex-col gap-3 px-3 pb-4 sm:px-5 sm:pb-5">
           <RevealSummary report={report} removed={item.status === "done"} />
           {report.totalTags > 0 && <AiExplainPanel report={report} />}
-          <MetadataReport report={report} />
+          <MetadataDetails item={item} report={report} />
         </div>
       )}
     </li>

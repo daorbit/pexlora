@@ -11,7 +11,7 @@ const patterns: Record<Exclude<RevealKind, "ai">, RegExp> = {
   date: /^(datetimeoriginal|createdate|datecreated|creationdate|created)$/i,
 };
 
-const aiToolKeys = /^(creatortool|software|generator|c2pa.*)$/i;
+const aiToolKeys = /^(made with|creatortool|software|generator)$/i;
 
 function entries(report: MetadataReport) {
   return report.groups.flatMap((group) => group.entries);
@@ -26,7 +26,10 @@ export function revealFacts(report: MetadataReport): RevealFact[] {
   const facts: RevealFact[] = [];
 
   if (report.aiTags > 0) {
-    const tool = list.find((entry) => entry.ai && aiToolKeys.test(entry.key))?.value.trim();
+    const tool = firstValue(
+      list.filter((entry) => entry.ai),
+      aiToolKeys,
+    );
     facts.push({ kind: "ai", value: tool || revealCopy.aiTags(report.aiTags) });
   }
 
