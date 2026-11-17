@@ -8,6 +8,7 @@ import { Toaster } from "@/components/ui/Toaster";
 import { ConnectionToasts } from "@/components/layout/ConnectionToasts";
 import { ServiceWorkerRegistrar } from "@/components/layout/ServiceWorkerRegistrar";
 import { GoogleTranslate } from "@/components/language/GoogleTranslate";
+import { adSenseConfig } from "@/config/ads";
 import { brandColors } from "@/config/brand";
 import { openGraphDefaults, seo, twitterDefaults } from "@/config/seo";
 import { siteConfig } from "@/config/site";
@@ -53,6 +54,9 @@ export const metadata: Metadata = {
   twitter: { ...twitterDefaults, title: seo.defaultTitle, description: seo.description },
   verification: {
     google: siteConfig.googleSiteVerification,
+  },
+  other: {
+    "google-adsense-account": adSenseConfig.clientId,
   },
 };
 
