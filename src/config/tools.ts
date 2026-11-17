@@ -1,6 +1,6 @@
 import { AI_NAME } from "@/config/brand";
 import { routes } from "@/config/site";
-import { Combine, FileImage, IdCard, Images, RotateCw, Scissors, SwitchCamera } from "lucide-react";
+import { Combine, FileImage, IdCard, Images, PenTool, RotateCw, Scissors, SwitchCamera } from "lucide-react";
 import { AltTextIcon } from "@/components/icons/AltTextIcon";
 import { CompressImageIcon } from "@/components/icons/CompressImageIcon";
 import { ConvertImageIcon } from "@/components/icons/ConvertImageIcon";
@@ -24,7 +24,9 @@ export type WorkspaceToolSlug =
   | "split-pdf"
   | "rotate-pdf"
   | "jpg-to-pdf"
-  | "pdf-to-jpg";
+  | "pdf-to-jpg"
+  | "svg-to-image"
+  | "image-to-svg";
 
 export type ToolCategory = "metadata" | "image" | "pdf" | "ai";
 
@@ -134,6 +136,28 @@ export const workspaceTools: WorkspaceTool[] = [
     headline: "Convert iPhone HEIC photos to JPG.",
     description:
       "Turn iPhone HEIC photos into JPG or PNG right in your browser. Photos aren't uploaded and the converted files carry no EXIF or GPS data.",
+  },
+  {
+    slug: "svg-to-image",
+    category: "image",
+    href: routes.svgToImage,
+    icon: FileImage,
+    name: "SVG to PNG Converter",
+    shortName: "SVG to PNG",
+    headline: "Convert SVG to PNG, JPG or WebP.",
+    description:
+      "Turn SVG icons, logos and illustrations into sharp PNG, JPG or WebP images at 1x, 2x, 4x or an exact pixel size. Converted in your browser, nothing is uploaded.",
+  },
+  {
+    slug: "image-to-svg",
+    category: "image",
+    href: routes.imageToSvg,
+    icon: PenTool,
+    name: "PNG to SVG Converter",
+    shortName: "PNG to SVG",
+    headline: "Convert PNG and JPG to SVG vectors.",
+    description:
+      "Trace logos, icons, signatures and simple artwork from PNG, JPG or WebP into real SVG vector paths you can scale and edit. Traced in your browser, nothing is uploaded.",
   },
   {
     slug: "form-photo",

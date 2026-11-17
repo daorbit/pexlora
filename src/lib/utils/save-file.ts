@@ -7,7 +7,10 @@ export function isAppleMobile() {
   return /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
 }
 
+const NOT_GALLERY_TYPES = ["image/svg+xml"];
+
 export function isGalleryMedia(type: string) {
+  if (NOT_GALLERY_TYPES.includes(type)) return false;
   return type.startsWith("image/") || type.startsWith("video/");
 }
 

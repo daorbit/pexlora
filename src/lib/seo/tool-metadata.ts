@@ -23,6 +23,8 @@ const toolTitles: Record<WorkspaceToolSlug, string> = {
   "rotate-pdf": "Rotate PDF Online: Turn PDF Pages and Save Free",
   "jpg-to-pdf": "JPG to PDF Converter: Combine Images into One PDF",
   "pdf-to-jpg": "PDF to JPG Converter: Save PDF Pages as Images Free",
+  "svg-to-image": "SVG to PNG Converter: SVG to PNG, JPG & WebP Online Free",
+  "image-to-svg": "PNG to SVG Converter: Trace PNG & JPG into Vectors Free",
 };
 
 const textToolTitles: Record<TextToolSlug, string> = {

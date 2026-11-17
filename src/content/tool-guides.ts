@@ -313,6 +313,82 @@ export const toolGuides: Record<WorkspaceToolSlug, ToolGuide> = {
       dailyLimit,
     ],
   },
+  "svg-to-image": {
+    intro: {
+      heading: "Convert SVG to PNG, JPG or WebP",
+      paragraphs: [
+        "SVG is great for logos and icons on the web, but many apps, social networks and document editors only accept regular images. Pexlora draws your SVG at the size you pick and saves it as a sharp PNG, JPG or WebP.",
+        "Because SVG is a vector format, a larger size gives a sharper image instead of a blurry one. Pick 2x or 4x for retina screens, or an exact size like 1024 px for app icons and slides. Everything runs in your browser, so your files aren't uploaded.",
+      ],
+    },
+    steps: [
+      { title: "Add your SVG files", body: `Drop up to ${MAX_FILES_PER_BATCH} SVG files, each up to ${sizeLimit("vector")}.` },
+      { title: "Pick format and size", body: "PNG and WebP keep transparency. JPG gets a white background." },
+      { title: "Save the images", body: "Conversion starts right away. Save each image, or all of them as a zip." },
+    ],
+    faqs: [
+      {
+        question: "Will the PNG be sharp?",
+        answer:
+          "Yes. The SVG is drawn directly at the size you choose, so edges stay crisp. Pick 2x, 4x or a larger pixel size if the image looks small.",
+      },
+      {
+        question: "Is the background transparent?",
+        answer: "PNG and WebP keep transparent areas. JPG has no transparency, so the background becomes white.",
+      },
+      {
+        question: "Why does my SVG look different?",
+        answer:
+          "Web fonts and images linked from other websites aren't loaded, for your safety, so text may fall back to a font on your device. Convert text to outlines in your design app before exporting the SVG.",
+      },
+      {
+        question: "Is the SVG's metadata copied?",
+        answer: "No. Only the drawing is converted, so author, editor and description data in the SVG is not in the new image.",
+      },
+      inBrowser,
+      {
+        question: "Is there a limit?",
+        answer: `SVG files can be up to ${sizeLimit("vector")} each, and you can add ${MAX_FILES_PER_BATCH} at a time. ${dailyCounts}`,
+      },
+    ],
+  },
+  "image-to-svg": {
+    intro: {
+      heading: "Convert PNG and JPG to SVG vectors",
+      paragraphs: [
+        "Pexlora traces the shapes in your image and rebuilds them as real SVG paths, so the result scales to any size and can be edited in Figma, Illustrator or Inkscape. It's not a photo wrapped inside an SVG file.",
+        "Tracing works best on logos, icons, signatures, stamps and flat illustrations with clear edges and few colors. Photos turn into thousands of small shapes and a very large file. The tracing runs in your browser, so your images aren't uploaded.",
+      ],
+    },
+    steps: [
+      { title: "Add your images", body: `Drop up to ${MAX_FILES_PER_BATCH} PNG, JPG or WebP images.` },
+      { title: "Pick detail and colors", body: "Simple with 2 to 8 colors suits logos. Detailed with 16 or 32 colors suits illustrations." },
+      { title: "Convert and save", body: "Press Convert to SVG, compare the result, then save each SVG or all of them as a zip." },
+    ],
+    faqs: [
+      {
+        question: "Is this a real vector SVG?",
+        answer:
+          "Yes. Every shape is traced into vector paths. Some converters only put the original image inside an SVG file, which doesn't scale or edit like a vector. Pexlora doesn't do that.",
+      },
+      {
+        question: "What images work best?",
+        answer:
+          "Logos, icons, signatures, stamps, line art and flat illustrations with solid colors. For a black and white signature or stamp, choose 2 colors.",
+      },
+      {
+        question: "Can I convert a photo to SVG?",
+        answer:
+          "You can, but the result is made of thousands of shapes and looks like a painting. Photos are better kept as JPG or WebP.",
+      },
+      {
+        question: "Is metadata removed?",
+        answer: "Yes. The SVG contains only the traced shapes. No EXIF, GPS or software tags are written into it.",
+      },
+      inBrowser,
+      dailyLimit,
+    ],
+  },
   "form-photo": {
     intro: {
       heading: "Resize a photo or signature for any online form",

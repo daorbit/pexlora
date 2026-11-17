@@ -1,7 +1,17 @@
 import { COMPRESS_TARGET_KB_RANGE, FORM_PHOTO_KB_RANGE, MAX_RESIZE_DIMENSION, RESIZE_PERCENT_RANGE } from "@/config/limits";
 import type { WorkspaceToolSlug } from "@/config/tools";
 import { FORMAT_EXTENSIONS, OUTPUT_FORMATS, type OutputFormat } from "@/lib/image/formats";
-import { isCompressionLevel, isRotateAngle, type CompressOptions, type ToolOptions } from "@/lib/image/options";
+import {
+  isCompressionLevel,
+  isOneOf,
+  isRotateAngle,
+  SVG_OUTPUT_FORMATS,
+  SVG_SIZES,
+  TRACE_COLORS,
+  TRACE_DETAILS,
+  type CompressOptions,
+  type ToolOptions,
+} from "@/lib/image/options";
 import type { ParamUpdates } from "@/lib/url/search-params";
 
 const formatByExtension = Object.fromEntries(
@@ -67,6 +77,28 @@ export function optionsFromParams(tool: WorkspaceToolSlug, params: URLSearchPara
       const angle = params.get("angle");
       return { ...base, rotate: { angle: isRotateAngle(angle) ? angle : base.rotate.angle } };
     }
+    case "svg-to-image": {
+      const format = formatByExtension[params.get("format") ?? ""];
+      const size = params.get("size");
+      return {
+        ...base,
+        svg: {
+          format: isOneOf(SVG_OUTPUT_FORMATS, format) ? format : base.svg.format,
+          size: isOneOf(SVG_SIZES, size) ? size : base.svg.size,
+        },
+      };
+    }
+    case "image-to-svg": {
+      const detail = params.get("detail");
+      const colors = params.get("colors");
+      return {
+        ...base,
+        trace: {
+          detail: isOneOf(TRACE_DETAILS, detail) ? detail : base.trace.detail,
+          colors: isOneOf(TRACE_COLORS, colors) ? colors : base.trace.colors,
+        },
+      };
+    }
     case "resize-image": {
       return {
         ...base,
@@ -92,6 +124,10 @@ export function optionsToParams(tool: WorkspaceToolSlug, options: ToolOptions): 
       return { format: FORMAT_EXTENSIONS[options.heic.format] };
     case "rotate-pdf":
       return { angle: options.rotate.angle };
+    case "svg-to-image":
+      return { format: FORMAT_EXTENSIONS[options.svg.format], size: options.svg.size };
+    case "image-to-svg":
+      return { detail: options.trace.detail, colors: options.trace.colors };
     case "form-photo": {
       const { width, height, minKb, maxKb } = options.form;
       const text = (value: number | null) => (value === null ? null : String(value));

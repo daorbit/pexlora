@@ -42,11 +42,13 @@ const dashboardHrefs: Record<WorkspaceToolSlug, string> = {
   "rotate-pdf": routes.dashboardRotatePdf,
   "jpg-to-pdf": routes.dashboardJpgToPdf,
   "pdf-to-jpg": routes.dashboardPdfToJpg,
+  "svg-to-image": routes.dashboardSvgToImage,
+  "image-to-svg": routes.dashboardImageToSvg,
 };
 
 export const dashboardToolHref = (slug: WorkspaceToolSlug) => dashboardHrefs[slug];
 
-const newToolSlugs: string[] = ["compress-image"];
+const newToolSlugs: string[] = ["compress-image", "svg-to-image", "image-to-svg"];
 
 const toolCategoryOrder: ToolCategory[] = ["metadata", "image", "pdf", "ai"];
 

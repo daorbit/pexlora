@@ -42,6 +42,24 @@ export const moduleTips: Record<WorkspaceToolSlug, { title: string; tips: string
       "Other images (PNG, WebP, AVIF) can be converted too",
     ],
   },
+  "svg-to-image": {
+    title: "SVG to image",
+    tips: [
+      "Pick 2x or 4x for sharp images on retina screens",
+      "PNG and WebP keep transparency; JPG gets a white background",
+      "Web fonts aren't loaded; convert text to outlines first",
+      "Everything runs in your browser",
+    ],
+  },
+  "image-to-svg": {
+    title: "Tracing to SVG",
+    tips: [
+      "Best for logos, icons, signatures and flat artwork",
+      "Use 2 colors for black and white signatures and stamps",
+      "Fewer colors and Simple detail give smaller, cleaner SVGs",
+      "Everything runs in your browser",
+    ],
+  },
   "form-photo": {
     title: "Getting it accepted",
     tips: [

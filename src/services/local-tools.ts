@@ -1,7 +1,17 @@
 import { MAX_IMAGE_SIZE } from "@/config/limits";
 import { localToolsCopy } from "@/content/workspace";
 import { FORMAT_EXTENSIONS, FORMAT_MIME_TYPES } from "@/lib/image/formats";
-import type { CompressOptions, FormPhotoOptions, RasterFormat, ResizeOptions, RotateAngle } from "@/lib/image/options";
+import type {
+  CompressOptions,
+  FormPhotoOptions,
+  RasterFormat,
+  ResizeOptions,
+  RotateAngle,
+  SvgRasterOptions,
+  TraceOptions,
+} from "@/lib/image/options";
+import { rasterizeSvg } from "@/lib/files/vector/svg-rasterize";
+import { traceImage } from "@/lib/files/vector/trace-image";
 import { detectFormat } from "@/lib/files/detect";
 import { makeFormPhoto } from "@/lib/files/convert/form-photo";
 import { convertImage, type RasterType } from "@/lib/files/convert/image-decode";
@@ -22,6 +32,7 @@ import { baseName, withExtension } from "@/lib/utils/file-name";
 import { consumeQuota } from "@/services/usage-api";
 
 const COMBINED_PDF_NAME = "combined.pdf";
+const SVG_MIME_TYPE = "image/svg+xml";
 
 async function guard<T>(task: () => Promise<T>) {
   try {
@@ -123,6 +134,17 @@ export function compressImageFile(file: File, options: CompressOptions) {
 export function resizeImageFile(file: File, options: ResizeOptions) {
   const format = browserFormatOf(file);
   return inBrowserOrServer(file, format ? { kind: "resize", format, options } : null, () => resizeImage(file, options), () => ({}));
+}
+
+export async function svgToImageFile(file: File, options: SvgRasterOptions) {
+  const { buffer, width, height } = await guard(() => rasterizeSvg(file, options));
+  const blob = new Blob([buffer], { type: FORMAT_MIME_TYPES[options.format] });
+  return finish(blob, withExtension(file.name, FORMAT_EXTENSIONS[options.format]), { dimensions: { width, height } });
+}
+
+export async function imageToSvgFile(file: File, options: TraceOptions) {
+  const { svg, width, height } = await guard(() => traceImage(file, options));
+  return finish(new Blob([svg], { type: SVG_MIME_TYPE }), withExtension(file.name, "svg"), { dimensions: { width, height } });
 }
 
 export async function formPhotoFile(file: File, options: FormPhotoOptions) {

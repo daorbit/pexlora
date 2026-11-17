@@ -11,12 +11,14 @@ import {
   compressImageFile,
   convertHeicFile,
   formPhotoFile,
+  imageToSvgFile,
   imagesToPdfFile,
   mergePdfFiles,
   pdfToJpgFile,
   resizeImageFile,
   rotatePdfFile,
   splitPdfFile,
+  svgToImageFile,
 } from "@/services/local-tools";
 
 export type ToolAction = {
@@ -133,6 +135,32 @@ export const toolBehaviors: Record<WorkspaceToolSlug, ToolBehavior> = {
       autoRun: true,
       run: (file, { heic }) => convertHeicFile(file, heic.format),
       zipName: "converted-photos.zip",
+    },
+  },
+  "svg-to-image": {
+    accepts: ["vector"],
+    localCapable: true,
+    inspectOnAdd: false,
+    action: {
+      label: "Convert SVGs",
+      doneLabel: "Converted",
+      note: localToolsCopy.onDevice,
+      autoRun: true,
+      run: (file, { svg }) => svgToImageFile(file, svg),
+      zipName: "svg-images.zip",
+    },
+  },
+  "image-to-svg": {
+    accepts: ["image"],
+    localCapable: true,
+    inspectOnAdd: false,
+    action: {
+      label: "Convert to SVG",
+      doneLabel: "Traced",
+      note: localToolsCopy.onDevice,
+      compare: true,
+      run: (file, { trace }) => imageToSvgFile(file, trace),
+      zipName: "svg-vectors.zip",
     },
   },
   "form-photo": {

@@ -34,6 +34,7 @@ export const PDF_RENDER_MAX_SIDE = 2400;
 
 export const FILE_SIZE_LIMITS_MB: Record<FileKind, number> = {
   image: 10,
+  vector: 5,
   pdf: 100,
   office: 100,
   audio: 300,

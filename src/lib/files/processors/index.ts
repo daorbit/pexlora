@@ -1,7 +1,7 @@
 import type { FileEngine } from "@/config/file-formats";
 import type { FileProcessor } from "@/lib/files/processors/types";
 
-export type LocalEngine = Exclude<FileEngine, "image">;
+export type LocalEngine = Exclude<FileEngine, "image" | "svg">;
 
 const loaders: Record<LocalEngine, () => Promise<FileProcessor>> = {
   raster: () => import("@/lib/files/processors/raster").then((module) => module.rasterProcessor),

@@ -5,12 +5,13 @@ import {
   FileSpreadsheet,
   FileText,
   FileVideoCamera,
+  PenTool,
   type LucideIcon,
 } from "lucide-react";
 
-export type FileKind = "image" | "pdf" | "office" | "audio" | "video";
+export type FileKind = "image" | "vector" | "pdf" | "office" | "audio" | "video";
 
-export type FileEngine = "image" | "raster" | "heif" | "pdf" | "ooxml" | "id3" | "riff" | "flac" | "isobmff" | "ebml";
+export type FileEngine = "image" | "raster" | "heif" | "svg" | "pdf" | "ooxml" | "id3" | "riff" | "flac" | "isobmff" | "ebml";
 
 export type FileFormat = {
   id: string;
@@ -25,13 +26,14 @@ export type FileFormat = {
 
 export const fileKinds: Record<FileKind, { label: string; noun: string; icon: LucideIcon }> = {
   image: { label: "Images", noun: "image", icon: FileImage },
+  vector: { label: "SVG", noun: "SVG file", icon: PenTool },
   pdf: { label: "PDF", noun: "PDF", icon: FileText },
   office: { label: "Word, Excel, PowerPoint", noun: "document", icon: FileText },
   audio: { label: "Audio", noun: "audio file", icon: FileMusic },
   video: { label: "Video", noun: "video", icon: FileVideoCamera },
 };
 
-export const ALL_KINDS = Object.keys(fileKinds) as FileKind[];
+export const ALL_KINDS: FileKind[] = ["image", "pdf", "office", "audio", "video"];
 
 export const fileFormats: FileFormat[] = [
   { id: "jpeg", kind: "image", engine: "raster", label: "JPG", extensions: ["jpg", "jpeg"], mimeTypes: ["image/jpeg"], icon: FileImage },
@@ -48,6 +50,16 @@ export const fileFormats: FileFormat[] = [
     extensions: ["heic", "heif"],
     mimeTypes: ["image/heic", "image/heif"],
     icon: FileImage,
+    serverReadable: false,
+  },
+  {
+    id: "svg",
+    kind: "vector",
+    engine: "svg",
+    label: "SVG",
+    extensions: ["svg"],
+    mimeTypes: ["image/svg+xml"],
+    icon: PenTool,
     serverReadable: false,
   },
   { id: "pdf", kind: "pdf", engine: "pdf", label: "PDF", extensions: ["pdf"], mimeTypes: ["application/pdf"], icon: FileText },

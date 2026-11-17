@@ -7,6 +7,7 @@ import { getWorkspaceTool, nextStepTools, toolIconSrc, type WorkspaceToolSlug } 
 import { nextStepsCopy } from "@/content/workspace";
 import type { QueueResult } from "@/hooks/useFileQueue";
 import { handOffFiles } from "@/lib/utils/file-handoff";
+import { isGalleryMedia } from "@/lib/utils/save-file";
 import { HubItemIcon } from "@/components/tools/HubItemIcon";
 
 type NextStepsProps = { current: WorkspaceToolSlug; results: QueueResult[] };
@@ -14,7 +15,7 @@ type NextStepsProps = { current: WorkspaceToolSlug; results: QueueResult[] };
 export function NextSteps({ current, results }: NextStepsProps) {
   const router = useRouter();
   const inDashboard = usePathname().startsWith(routes.dashboard);
-  const images = results.filter((result) => result.blob.type.startsWith("image/"));
+  const images = results.filter((result) => isGalleryMedia(result.blob.type) && result.blob.type.startsWith("image/"));
   const tools = nextStepTools.filter((slug) => slug !== current);
   if (!images.length) return null;
 

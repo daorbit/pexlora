@@ -9,6 +9,8 @@ import { HeicOptionsBar } from "@/components/workspace/options/HeicOptionsBar";
 import { MetadataOptionsBar } from "@/components/workspace/options/MetadataOptionsBar";
 import { ResizeOptionsBar } from "@/components/workspace/options/ResizeOptionsBar";
 import { RotateOptionsBar } from "@/components/workspace/options/RotateOptionsBar";
+import { SvgOptionsBar } from "@/components/workspace/options/SvgOptionsBar";
+import { TraceOptionsBar } from "@/components/workspace/options/TraceOptionsBar";
 
 type ToolOptionsBarProps = {
   tool: WorkspaceToolSlug;
@@ -60,6 +62,12 @@ export function ToolOptionsBar({ tool, options, onChange, disabled, sourceFile }
     case "form-photo":
       return (
         <FormPhotoOptionsBar options={options.form} onChange={(form) => onChange({ ...options, form })} disabled={disabled} />
+      );
+    case "svg-to-image":
+      return <SvgOptionsBar options={options.svg} onChange={(svg) => onChange({ ...options, svg })} disabled={disabled} />;
+    case "image-to-svg":
+      return (
+        <TraceOptionsBar options={options.trace} onChange={(trace) => onChange({ ...options, trace })} disabled={disabled} />
       );
     case "rotate-pdf":
       return (

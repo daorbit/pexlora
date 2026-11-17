@@ -29,9 +29,23 @@ export type RasterFormat = (typeof RASTER_FORMATS)[number];
 export const ROTATE_ANGLES = ["90", "180", "270"] as const;
 export type RotateAngle = (typeof ROTATE_ANGLES)[number];
 
+export const SVG_OUTPUT_FORMATS = ["png", "jpeg", "webp"] as const;
+export type SvgOutputFormat = (typeof SVG_OUTPUT_FORMATS)[number];
+
+export const SVG_SIZES = ["1x", "2x", "4x", "512", "1024", "2048"] as const;
+export type SvgSize = (typeof SVG_SIZES)[number];
+
+export const TRACE_DETAILS = ["simple", "balanced", "detailed"] as const;
+export type TraceDetail = (typeof TRACE_DETAILS)[number];
+
+export const TRACE_COLORS = ["2", "4", "8", "16", "32"] as const;
+export type TraceColors = (typeof TRACE_COLORS)[number];
+
 export type ConvertOptions = { format: OutputFormat };
 export type HeicOptions = { format: RasterFormat };
 export type RotateOptions = { angle: RotateAngle };
+export type SvgRasterOptions = { format: SvgOutputFormat; size: SvgSize };
+export type TraceOptions = { detail: TraceDetail; colors: TraceColors };
 export type FormPhotoOptions = { width: number | null; height: number | null; minKb: number | null; maxKb: number | null };
 export type CompressOptions = {
   mode: CompressMode;
@@ -59,6 +73,8 @@ export type ToolOptions = {
   heic: HeicOptions;
   rotate: RotateOptions;
   form: FormPhotoOptions;
+  svg: SvgRasterOptions;
+  trace: TraceOptions;
 };
 
 export const DEFAULT_TOOL_OPTIONS: ToolOptions = {
@@ -69,7 +85,13 @@ export const DEFAULT_TOOL_OPTIONS: ToolOptions = {
   heic: { format: "jpeg" },
   rotate: { angle: "90" },
   form: { width: null, height: null, minKb: null, maxKb: 50 },
+  svg: { format: "png", size: "2x" },
+  trace: { detail: "balanced", colors: "8" },
 };
+
+export function isOneOf<T extends string>(values: readonly T[], value: unknown): value is T {
+  return values.includes(value as T);
+}
 
 export function getMetadataFieldsError(fields: MetadataFields) {
   const values = METADATA_FIELDS.map((field) => fields[field].trim());

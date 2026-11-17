@@ -1,4 +1,4 @@
-import { fileFormats } from "@/config/file-formats";
+import { ALL_KINDS, formatsOfKinds } from "@/config/file-formats";
 
 export const shareTarget = {
   action: "/share-target",
@@ -8,4 +8,4 @@ export const shareTarget = {
   tool: "remove-metadata",
 } as const;
 
-export const shareTargetAccept = [...new Set(fileFormats.flatMap((format) => format.mimeTypes))];
+export const shareTargetAccept = [...new Set(formatsOfKinds(ALL_KINDS).flatMap((format) => format.mimeTypes))];

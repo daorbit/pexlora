@@ -3,16 +3,33 @@ import { AI_DAILY_LIMITS, DAILY_LIMITS } from "@/config/limits";
 import type { FileKind } from "@/config/file-formats";
 import type { WorkspaceToolSlug } from "@/config/tools";
 import type { OutputFormat } from "@/lib/image/formats";
-import type { CompressionLevel, CompressMode, MetadataField, RasterFormat, ResizeMode, RotateAngle } from "@/lib/image/options";
+import type {
+  CompressionLevel,
+  CompressMode,
+  MetadataField,
+  RasterFormat,
+  ResizeMode,
+  RotateAngle,
+  SvgOutputFormat,
+  SvgSize,
+  TraceColors,
+  TraceDetail,
+} from "@/lib/image/options";
 
-const onlyImages = (kinds: FileKind[]) => kinds.length === 1 && kinds[0] === "image";
+const singleKindNouns: Partial<Record<FileKind, { lower: string; title: string }>> = {
+  image: { lower: "images", title: "Images" },
+  vector: { lower: "SVG files", title: "SVG Files" },
+};
+
+const nounFor = (kinds: FileKind[]) =>
+  (kinds.length === 1 ? singleKindNouns[kinds[0]] : undefined) ?? { lower: "files", title: "Files" };
 
 export const dropzoneCopy = {
   dragging: "Release to add",
   paste: "or paste from your clipboard",
-  browseTitle: (kinds: FileKind[]) => (onlyImages(kinds) ? "Drop images or click to browse" : "Drop files or click to browse"),
-  mobileTitle: (kinds: FileKind[]) => (onlyImages(kinds) ? "Tap to add images" : "Tap to add files"),
-  button: (kinds: FileKind[]) => (onlyImages(kinds) ? "Choose Images" : "Choose Files"),
+  browseTitle: (kinds: FileKind[]) => `Drop ${nounFor(kinds).lower} or click to browse`,
+  mobileTitle: (kinds: FileKind[]) => `Tap to add ${nounFor(kinds).lower}`,
+  button: (kinds: FileKind[]) => `Choose ${nounFor(kinds).title}`,
   onDevice: "JPG, PNG, WebP and HEIC photos, documents, audio and video are read and cleaned on your device. They aren't uploaded.",
   samples: "No file handy? Try a sample:",
   samplesShort: "Try:",
@@ -54,6 +71,38 @@ export const optionsCopy = {
     jpeg: "Smaller, opens everywhere",
     png: "Lossless, bigger files",
   } satisfies Record<RasterFormat, string>,
+  svgFormatHints: {
+    png: "Sharp, keeps transparency",
+    jpeg: "White background, opens everywhere",
+    webp: "Small, keeps transparency",
+  } satisfies Record<SvgOutputFormat, string>,
+  svgSize: "Size",
+  svgSizeLabel: "Output size",
+  svgSizes: {
+    "1x": { label: "1×", hint: "The SVG's own size" },
+    "2x": { label: "2×", hint: "Sharp on retina screens" },
+    "4x": { label: "4×", hint: "Extra large" },
+    "512": { label: "512 px", hint: "Longest side" },
+    "1024": { label: "1024 px", hint: "Longest side" },
+    "2048": { label: "2048 px", hint: "Longest side" },
+  } satisfies Record<SvgSize, { label: string; hint: string }>,
+  traceDetail: "Detail",
+  traceDetailLabel: "Tracing detail",
+  traceDetails: {
+    simple: { label: "Simple", hint: "Logos and icons, fewest paths" },
+    balanced: { label: "Balanced", hint: "Clean edges, good default" },
+    detailed: { label: "Detailed", hint: "Illustrations, more paths" },
+  } satisfies Record<TraceDetail, { label: string; hint: string }>,
+  traceColors: "Colors",
+  traceColorsLabel: "Number of colors",
+  traceColorLabels: {
+    "2": "2 (B&W)",
+    "4": "4",
+    "8": "8",
+    "16": "16",
+    "32": "32",
+  } satisfies Record<TraceColors, string>,
+  traceHint: "Best for logos, icons, signatures and flat artwork. Photos turn into thousands of shapes.",
   rotate: "Rotate pages",
   rotateLabel: "Rotation",
   rotateAngles: {

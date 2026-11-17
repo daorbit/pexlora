@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { FileFormat, FileKind } from "@/config/file-formats";
 import type { Upsell } from "@/lib/api/upsell";
-import { detectFormat, getFileError } from "@/lib/files/detect";
+import { detectFormat, getFileError, hasPreview } from "@/lib/files/detect";
 import type { WorkspacePerks } from "@/lib/plan/perks";
 import { runPool } from "@/lib/utils/run-pool";
 import type { MetadataReport, ProcessedFile } from "@/lib/metadata/types";
@@ -123,7 +123,7 @@ export function useFileQueue({ inspectOnAdd, accepts, localCapable, perks }: Que
           id: crypto.randomUUID(),
           file,
           format,
-          previewUrl: format.kind === "image" ? URL.createObjectURL(file) : null,
+          previewUrl: hasPreview(format) ? URL.createObjectURL(file) : null,
           status: inspectOnAdd ? "inspecting" : "ready",
         });
       });
@@ -260,7 +260,7 @@ export function useFileQueue({ inspectOnAdd, accepts, localCapable, perks }: Que
             id: crypto.randomUUID(),
             file: entry.file,
             format,
-            previewUrl: format.kind === "image" ? URL.createObjectURL(entry.file) : null,
+            previewUrl: hasPreview(format) ? URL.createObjectURL(entry.file) : null,
             status: entry.status,
             report: entry.report,
             error: entry.error,

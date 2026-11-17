@@ -25,6 +25,7 @@ export const PRO_PARALLEL_FILE_JOBS = 6;
 
 export const PRO_LOCAL_FILE_SIZE_LIMITS_MB: Record<FileKind, number> = {
   image: 20,
+  vector: 20,
   pdf: 500,
   office: 500,
   audio: 1024,

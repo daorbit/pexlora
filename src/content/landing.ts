@@ -1,5 +1,5 @@
 import { AI_NAME } from "@/config/brand";
-import { fileFormats, formatsOfKind, type FileFormat } from "@/config/file-formats";
+import { ALL_KINDS, formatsOfKind, formatsOfKinds, type FileFormat } from "@/config/file-formats";
 import { DAILY_LIMITS, FILE_SIZE_LIMITS_MB, MAX_FILES_PER_BATCH } from "@/config/limits";
 import { formatMegabytes } from "@/lib/utils/format-bytes";
 
@@ -38,6 +38,8 @@ export const heroCopy = {
     "rotate-pdf": "Rotate",
     "jpg-to-pdf": "To PDF",
     "pdf-to-jpg": "To JPG",
+    "svg-to-image": "SVG",
+    "image-to-svg": "To SVG",
   } as Record<string, string>,
 };
 
@@ -151,7 +153,7 @@ export const formatsCopy = {
   description: `Images up to ${limit("image")}, documents ${limit("pdf")}, audio ${limit("audio")}, video ${limit("video")}. Converted images always come out clean.`,
 };
 
-export const formatExtensions = fileFormats.map((format) => `.${format.extensions[0]}`);
+export const formatExtensions = formatsOfKinds(ALL_KINDS).map((format) => `.${format.extensions[0]}`);
 
 export const popularToolsCopy = {
   title: "Type the app. Get the tool.",
