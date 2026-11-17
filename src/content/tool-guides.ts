@@ -12,7 +12,7 @@ import {
 } from "@/config/limits";
 import type { WorkspaceToolSlug } from "@/config/tools";
 import { COMPRESSION_QUALITY } from "@/lib/image/options";
-import { extensions, faqs, howToSteps, imageQualityAnswer, sizeLimit } from "@/content/seo-pages/shared";
+import { extensions, faqs, howToSteps, imageQualityAnswer, serverImageLimit, sizeLimit } from "@/content/seo-pages/shared";
 import type { SeoFaq, ToolStep } from "@/content/seo-pages/types";
 
 export type ToolGuide = {
@@ -36,9 +36,22 @@ const animatedGif: SeoFaq = {
   answer: "No. Only the first frame of an animated GIF is used, so the result is a still image.",
 };
 
+const dailyCounts = `You can process ${DAILY_LIMITS.anonymous} files a day without an account, or ${DAILY_LIMITS.user} with a free account.`;
+
 const dailyLimit: SeoFaq = {
   question: "Is there a limit?",
-  answer: `Images can be up to ${sizeLimit("image")} each, and you can add ${MAX_FILES_PER_BATCH} at a time. You can process ${DAILY_LIMITS.anonymous} files a day without an account, or ${DAILY_LIMITS.user} with a free account.`,
+  answer: `JPG, PNG, WebP and HEIC images can be up to ${sizeLimit("image")} each (AVIF, TIFF and GIF up to ${serverImageLimit}), and you can add ${MAX_FILES_PER_BATCH} at a time. ${dailyCounts}`,
+};
+
+const serverDailyLimit: SeoFaq = {
+  question: "Is there a limit?",
+  answer: `Images can be up to ${serverImageLimit} each, and you can add ${MAX_FILES_PER_BATCH} at a time. ${dailyCounts}`,
+};
+
+const mostlyInBrowser: SeoFaq = {
+  question: "Are my images uploaded?",
+  answer:
+    "JPG, PNG, WebP and HEIC images are processed in your browser, so they stay on your device. AVIF, TIFF and GIF are sent over HTTPS to our server, processed in memory and returned to you. Pexlora doesn't save them.",
 };
 
 const inBrowser: SeoFaq = {
@@ -146,7 +159,7 @@ export const toolGuides: Record<WorkspaceToolSlug, ToolGuide> = {
           "Not for JPG, PNG and WebP: the new fields are added without re-encoding, so the pixels stay identical. Photos saved with a rotation flag, and AVIF, TIFF and GIF files, are re-encoded at high quality, and TIFF and GIF come back as PNG.",
       },
       imageUpload,
-      dailyLimit,
+      serverDailyLimit,
     ],
     relatedGuides: ["exif-viewer", "remove-exif-data", "remove-gps-from-photo", "ai-image-cleaner"],
   },
@@ -178,7 +191,7 @@ export const toolGuides: Record<WorkspaceToolSlug, ToolGuide> = {
         answer: "Only in Target Size mode, and only if you allow it. JPG is usually much smaller for photos, but it drops transparency.",
       },
       animatedGif,
-      imageUpload,
+      mostlyInBrowser,
       dailyLimit,
     ],
   },
@@ -206,7 +219,7 @@ export const toolGuides: Record<WorkspaceToolSlug, ToolGuide> = {
         answer: `Yes, up to ${RESIZE_PERCENT_RANGE.max}% or ${MAX_RESIZE_DIMENSION} px per side. Enlarging can't add detail, so big upscales look soft.`,
       },
       animatedGif,
-      imageUpload,
+      mostlyInBrowser,
       dailyLimit,
     ],
   },
@@ -235,7 +248,7 @@ export const toolGuides: Record<WorkspaceToolSlug, ToolGuide> = {
       },
       animatedGif,
       imageUpload,
-      dailyLimit,
+      serverDailyLimit,
     ],
   },
   "image-alt-text": {

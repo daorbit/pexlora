@@ -161,7 +161,7 @@ export function WorkspacePanel({
                   compareOpen={index === 0}
                   onRemove={queue.remove}
                   disabled={queue.isProcessing}
-                  onDevice={localCapable && isLocalFormat(item.format)}
+                  onDevice={localCapable && isLocalFormat(item.format) && !item.result?.uploaded}
                   onMove={action?.orderable && queue.items.length > 1 ? queue.move : undefined}
                   position={{ first: index === 0, last: index === queue.items.length - 1 }}
                 />

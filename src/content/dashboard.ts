@@ -1,5 +1,11 @@
 import { AI_NAME } from "@/config/brand";
-import { DAILY_LIMITS, FILE_SIZE_LIMITS_MB, MAX_FILES_PER_BATCH, MAX_RESIZE_DIMENSION } from "@/config/limits";
+import {
+  DAILY_LIMITS,
+  FILE_SIZE_LIMITS_MB,
+  MAX_FILES_PER_BATCH,
+  MAX_RESIZE_DIMENSION,
+  SERVER_IMAGE_SIZE_MB,
+} from "@/config/limits";
 import type { WorkspaceToolSlug } from "@/config/tools";
 import { formatMegabytes } from "@/lib/utils/format-bytes";
 
@@ -182,6 +188,7 @@ export const shellCopy = {
 
 export const sharedLimits = [
   { label: "Images", value: formatMegabytes(FILE_SIZE_LIMITS_MB.image) },
+  { label: "Convert, Edit Metadata, AVIF, TIFF, GIF", value: formatMegabytes(SERVER_IMAGE_SIZE_MB) },
   { label: "PDF and Office", value: formatMegabytes(FILE_SIZE_LIMITS_MB.pdf) },
   { label: "Audio", value: formatMegabytes(FILE_SIZE_LIMITS_MB.audio) },
   { label: "Video", value: formatMegabytes(FILE_SIZE_LIMITS_MB.video) },

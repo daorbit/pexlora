@@ -3,7 +3,7 @@ import type { Conversion } from "@/config/conversions";
 import type { FormPreset } from "@/config/form-presets";
 import { formPresetCopy } from "@/content/tool-pages";
 import { MAX_FILES_PER_BATCH } from "@/config/limits";
-import { sizeLimit } from "@/content/seo-pages/shared";
+import { serverImageLimit } from "@/content/seo-pages/shared";
 import type { SeoFaq, ToolStep } from "@/content/seo-pages/types";
 
 const keepsTransparency = (format: Conversion["to"]) => format !== "jpeg";
@@ -29,9 +29,9 @@ function qualityFaq({ from, to, toLabel }: Conversion): SeoFaq {
 
 export function conversionSteps({ from, toLabel }: Conversion): ToolStep[] {
   return [
-    { title: `Add ${from} images`, body: `Drop up to ${MAX_FILES_PER_BATCH} ${from} files, each up to ${sizeLimit("image")}.` },
+    { title: `Add ${from} images`, body: `Drop up to ${MAX_FILES_PER_BATCH} ${from} files, each up to ${serverImageLimit}.` },
     { title: `Convert to ${toLabel}`, body: `Press Convert. Each image is saved as ${toLabel} with its metadata removed.` },
-    { title: "Download", body: "Compare before and after, then download one by one or as a zip." },
+    { title: "Download", body: "Download one by one or as a zip." },
   ];
 }
 
@@ -57,7 +57,7 @@ export function conversionFaqs(conversion: Conversion): SeoFaq[] {
 
 export function compressTargetSteps({ label }: CompressTarget): ToolStep[] {
   return [
-    { title: "Add your images", body: `Drop up to ${MAX_FILES_PER_BATCH} JPG, PNG, WebP or AVIF images.` },
+    { title: "Add your images", body: `Drop up to ${MAX_FILES_PER_BATCH} JPG, PNG, WebP, HEIC or AVIF images.` },
     { title: `Keep the ${label} target`, body: "The target is already set. Change it if your form asks for a different size." },
     { title: "Download", body: `Each image is checked against ${label}, then you can download one by one or as a zip.` },
   ];
@@ -75,7 +75,8 @@ export function compressTargetFaqs({ label }: CompressTarget): SeoFaq[] {
     },
     {
       question: "Does the format change?",
-      answer: "No. JPG, PNG, WebP and AVIF keep their format. A PNG becomes a JPG only if you allow it, which helps a lot with photos.",
+      answer:
+        "No. JPG, PNG, WebP and AVIF keep their format, and iPhone HEIC photos come out as JPG. A PNG becomes a JPG only if you allow it, which helps a lot with photos.",
     },
     {
       question: "Is metadata removed?",

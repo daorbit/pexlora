@@ -1,7 +1,18 @@
+import { MAX_IMAGE_SIZE } from "@/config/limits";
+import { localToolsCopy } from "@/content/workspace";
 import { FORMAT_EXTENSIONS, FORMAT_MIME_TYPES } from "@/lib/image/formats";
-import type { FormPhotoOptions, RasterFormat, RotateAngle } from "@/lib/image/options";
+import type { CompressOptions, FormPhotoOptions, RasterFormat, ResizeOptions, RotateAngle } from "@/lib/image/options";
+import { detectFormat } from "@/lib/files/detect";
 import { makeFormPhoto } from "@/lib/files/convert/form-photo";
 import { convertImage, type RasterType } from "@/lib/files/convert/image-decode";
+import { processInBrowser } from "@/lib/files/raster/browser-raster";
+import {
+  BrowserRasterUnavailableError,
+  type BrowserFormat,
+  type RasterJob,
+  type RasterResult,
+} from "@/lib/files/raster/types";
+import { compressImage, resizeImage } from "@/services/image-api";
 import { pdfToImages } from "@/lib/files/pdf/pdf-render";
 import { imagesToPdf, mergePdfs, rotatePdf, splitPdf, type NamedBlob } from "@/lib/files/pdf/pdf-tools";
 import { UnreadableFileError } from "@/lib/files/processors/types";
@@ -61,6 +72,57 @@ export async function mergePdfFiles(files: File[]) {
 export async function imagesToPdfFile(files: File[]) {
   const blob = await guard(() => imagesToPdf(files));
   return finish(blob, combinedName(files));
+}
+
+const BROWSER_FORMATS: Partial<Record<string, BrowserFormat>> = { jpeg: "jpeg", png: "png", webp: "webp", heic: "jpeg" };
+
+function browserFormatOf(file: File) {
+  const id = detectFormat(file)?.id;
+  return id ? BROWSER_FORMATS[id] : undefined;
+}
+
+function canUseServer(file: File) {
+  const format = detectFormat(file);
+  return Boolean(format && format.serverReadable !== false && file.size <= MAX_IMAGE_SIZE);
+}
+
+async function inBrowserOrServer(
+  file: File,
+  job: RasterJob | null,
+  server: () => Promise<ProcessedFile>,
+  describe: (result: RasterResult) => Partial<ProcessedFile>,
+) {
+  if (!job) return server();
+  let result: RasterResult;
+  try {
+    result = await processInBrowser(file, job);
+  } catch (error) {
+    if (error instanceof BrowserRasterUnavailableError && canUseServer(file)) return server();
+    if (error instanceof BrowserRasterUnavailableError) throw new UnreadableFileError(localToolsCopy.tooLargeForBrowser);
+    throw error;
+  }
+  const blob = new Blob([result.buffer], { type: FORMAT_MIME_TYPES[result.format] });
+  return finish(blob, withExtension(file.name, FORMAT_EXTENSIONS[result.format]), {
+    dimensions: { width: result.width, height: result.height },
+    ...describe(result),
+  });
+}
+
+export function compressImageFile(file: File, options: CompressOptions) {
+  const format = browserFormatOf(file);
+  return inBrowserOrServer(
+    file,
+    format ? { kind: "compress", format, options } : null,
+    () => compressImage(file, options),
+    ({ targetMet }) => ({
+      target: options.mode === "target" ? { bytes: (options.targetKb ?? 0) * 1024, met: Boolean(targetMet) } : null,
+    }),
+  );
+}
+
+export function resizeImageFile(file: File, options: ResizeOptions) {
+  const format = browserFormatOf(file);
+  return inBrowserOrServer(file, format ? { kind: "resize", format, options } : null, () => resizeImage(file, options), () => ({}));
 }
 
 export async function formPhotoFile(file: File, options: FormPhotoOptions) {

@@ -57,4 +57,5 @@ export type ProcessedFile = {
   dimensions?: ImageDimensions | null;
   target?: SizeTarget | null;
   insights?: ImageInsights;
+  uploaded?: boolean;
 };

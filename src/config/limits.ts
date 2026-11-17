@@ -33,12 +33,18 @@ export const PDF_PAGE_LIMIT = 200;
 export const PDF_RENDER_MAX_SIDE = 2400;
 
 export const FILE_SIZE_LIMITS_MB: Record<FileKind, number> = {
-  image: 4,
+  image: 10,
   pdf: 100,
   office: 100,
   audio: 300,
   video: 2048,
 };
 
-export const MAX_IMAGE_SIZE_MB = FILE_SIZE_LIMITS_MB.image;
+export const SERVER_IMAGE_SIZE_MB = 4;
+
+export const MAX_IMAGE_SIZE_MB = SERVER_IMAGE_SIZE_MB;
 export const MAX_IMAGE_SIZE = MAX_IMAGE_SIZE_MB * 1024 * 1024;
+
+export const BROWSER_MAX_PIXELS = 40_000_000;
+
+export const BROWSER_COMPRESS_TIME_BUDGET_MS = 20_000;

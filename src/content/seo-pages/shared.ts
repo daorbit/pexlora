@@ -1,5 +1,5 @@
 import { fileKinds, formatsOfKinds, type FileKind } from "@/config/file-formats";
-import { DAILY_LIMITS, FILE_SIZE_LIMITS_MB, MAX_FILES_PER_BATCH } from "@/config/limits";
+import { DAILY_LIMITS, FILE_SIZE_LIMITS_MB, MAX_FILES_PER_BATCH, SERVER_IMAGE_SIZE_MB } from "@/config/limits";
 import { formatMegabytes } from "@/lib/utils/format-bytes";
 import type { SeoFaq } from "@/content/seo-pages/types";
 
@@ -9,6 +9,8 @@ export const extensions = (kinds: FileKind[], localCapable = true) =>
     .join(", ");
 
 export const sizeLimit = (kind: FileKind) => formatMegabytes(FILE_SIZE_LIMITS_MB[kind]);
+
+export const serverImageLimit = formatMegabytes(SERVER_IMAGE_SIZE_MB);
 
 export const removedList = (items: string[]) => ({
   eyebrow: "What's removed",

@@ -10,6 +10,8 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@jsquash/jpeg": "^1.6.0",
+    "@jsquash/webp": "^1.5.0",
     "bcryptjs": "^3.0.3",
     "clsx": "^2.1.1",
     "embla-carousel-autoplay": "^8.6.0",
@@ -29,6 +31,7 @@
     "server-only": "^0.0.1",
     "sharp": "^0.35.5",
     "tailwind-merge": "^3.3.1",
+    "upng-js": "^2.1.0",
     "zod": "^4.6.7"
   },
   "devDependencies": {
@@ -37,6 +40,7 @@
     "@types/nodemailer": "^8.0.2",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/upng-js": "^2.1.5",
     "eslint": "^9",
     "eslint-config-next": "16.4.6",
     "tailwindcss": "4.3.3",

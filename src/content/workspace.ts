@@ -191,6 +191,8 @@ export const panelNotes: Partial<Record<WorkspaceToolSlug, { title: string; item
 
 export const localToolsCopy = {
   onDevice: "Runs in your browser · nothing uploaded",
+  mostlyOnDevice: "JPG, PNG, WebP and HEIC run in your browser",
+  tooLargeForBrowser: "This image is too large for your browser to process. Try a smaller image or another browser.",
   orderHint: "Files are combined in the order shown",
   moveUp: (name: string) => `Move ${name} up`,
   moveDown: (name: string) => `Move ${name} down`,

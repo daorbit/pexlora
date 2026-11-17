@@ -29,6 +29,7 @@ async function toProcessedFile(response: Response, fallbackName: string): Promis
     leftoverTags: numberHeader(response, "X-Leftover-Tags"),
     quotaRemaining: numberHeader(response, "X-Quota-Remaining"),
     dimensions: dimensionHeaders(response),
+    uploaded: true,
   };
 }
 

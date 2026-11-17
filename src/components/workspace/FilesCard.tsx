@@ -45,7 +45,7 @@ export function FilesCard({ fileCount, totalBytes, isDragging, canAddMore, disab
           {queueCopy.addFiles}
         </Button>
       </div>
-      <ul className="flex flex-col gap-1 px-2.5">{children}</ul>
+      <ul className={cn("flex flex-col gap-1 px-2.5", !canAddMore && "pb-2.5")}>{children}</ul>
       {canAddMore && (
         <button
           type="button"

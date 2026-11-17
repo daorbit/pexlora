@@ -153,7 +153,7 @@ Existing buyers keep what they paid for; passes never renew, so there is nothing
 | Every tool, no ads | Yes | Yes | Yes |
 | Files per day | 10 | 100 | 2,000 |
 | Files per batch | 10 | 10 | **50** |
-| File size, in-browser tools | Photos 4 MB, PDF/Office 100 MB, audio 300 MB, video 2 GB | Same | **Photos 20 MB, PDF/Office 500 MB, audio 1 GB** (video stays 2 GB, the browser's memory limit) |
+| File size, in-browser tools (incl. Compress and Resize for JPG/PNG/WebP/HEIC) | Photos 10 MB, PDF/Office 100 MB, audio 300 MB, video 2 GB | Same | **Photos 20 MB, PDF/Office 500 MB, audio 1 GB** (video stays 2 GB, the browser's memory limit) |
 | File size, server tools | 4 MB | 4 MB | 4 MB |
 | Files processed at once | `PARALLEL_FILE_JOBS` | `PARALLEL_FILE_JOBS` | **Higher** (faster batches) |
 | Orbit AI per day (included in the plan) | 5 | 30 | **100** (section 12) |

@@ -6,13 +6,15 @@ import { getCompressError, getFormPhotoError, getMetadataFieldsError, getResizeE
 import type { ProcessedFile } from "@/lib/metadata/types";
 import { generateAltText } from "@/services/ai-api";
 import { cleanFile } from "@/services/file-service";
-import { compressImage, convertImage, editImageMetadata, resizeImage } from "@/services/image-api";
+import { convertImage, editImageMetadata } from "@/services/image-api";
 import {
+  compressImageFile,
   convertHeicFile,
   formPhotoFile,
   imagesToPdfFile,
   mergePdfFiles,
   pdfToJpgFile,
+  resizeImageFile,
   rotatePdfFile,
   splitPdfFile,
 } from "@/services/local-tools";
@@ -59,33 +61,34 @@ export const toolBehaviors: Record<WorkspaceToolSlug, ToolBehavior> = {
       label: "Convert Images",
       doneLabel: "Converted",
       note: optionsCopy.fullQuality,
-      compare: true,
       run: (file, { convert }) => convertImage(file, convert.format),
       zipName: "converted-images.zip",
     },
   },
   "compress-image": {
     accepts: ["image"],
-    localCapable: false,
+    localCapable: true,
     inspectOnAdd: false,
     action: {
       label: "Compress Images",
       doneLabel: "Compressed",
+      note: localToolsCopy.mostlyOnDevice,
       compare: true,
-      run: (file, { compress }) => compressImage(file, compress),
+      run: (file, { compress }) => compressImageFile(file, compress),
       validate: ({ compress }) => getCompressError(compress),
       zipName: "compressed-images.zip",
     },
   },
   "resize-image": {
     accepts: ["image"],
-    localCapable: false,
+    localCapable: true,
     inspectOnAdd: false,
     action: {
       label: "Resize Images",
       doneLabel: "Resized",
+      note: localToolsCopy.mostlyOnDevice,
       compare: true,
-      run: (file, { resize }) => resizeImage(file, resize),
+      run: (file, { resize }) => resizeImageFile(file, resize),
       validate: ({ resize }) => getResizeError(resize),
       zipName: "resized-images.zip",
     },

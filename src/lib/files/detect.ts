@@ -1,5 +1,5 @@
 import { fileFormats, fileKinds, formatsOfKinds, type FileFormat, type FileKind } from "@/config/file-formats";
-import { FILE_SIZE_LIMITS_MB } from "@/config/limits";
+import { SERVER_IMAGE_SIZE_MB } from "@/config/limits";
 import { FREE_PERKS, type WorkspacePerks } from "@/lib/plan/perks";
 import { extensionOf } from "@/lib/utils/file-name";
 import { formatMegabytes } from "@/lib/utils/format-bytes";
@@ -22,7 +22,7 @@ function runsInBrowser(format: FileFormat, localCapable: boolean) {
 }
 
 export function sizeLimitMb(format: FileFormat, localCapable: boolean, perks: WorkspacePerks = FREE_PERKS) {
-  return runsInBrowser(format, localCapable) ? perks.localSizeLimitsMb[format.kind] : FILE_SIZE_LIMITS_MB[format.kind];
+  return runsInBrowser(format, localCapable) ? perks.localSizeLimitsMb[format.kind] : SERVER_IMAGE_SIZE_MB;
 }
 
 function kindSizeLimitMb(kind: FileKind, localCapable: boolean, perks: WorkspacePerks) {
