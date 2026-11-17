@@ -1,6 +1,5 @@
 export const statusCopy = {
   notFound: {
-    code: "Error 404",
     title: "This page doesn't exist",
     body: "The link may be old or mistyped. Every tool is still one click away.",
     home: "Go to Homepage",

@@ -29,7 +29,11 @@ export function RouteError({ error, retry, homeHref, homeLabel, className }: Rou
 
   return (
     <StatusScreen
-      icon={TriangleAlert}
+      visual={
+        <span className="inline-flex size-16 items-center justify-center rounded-full bg-surface shadow-card motion-safe:animate-pop">
+          <TriangleAlert className="size-7 stroke-[1.6] text-foreground" aria-hidden />
+        </span>
+      }
       eyebrow={copy.code}
       title={copy.title}
       body={copy.body}

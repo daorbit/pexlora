@@ -42,11 +42,12 @@ export function emailLabel(text: string, color: string = emailColors.muted) {
 }
 
 export function brandLink(appUrl: string, tone: "light" | "ink" = "light") {
-  const onInk = tone === "ink";
-  const icon = onInk ? brandAssets.emailIconDark : brandAssets.emailIcon;
-  return `<a href="${escapeHtml(appUrl)}" style="text-decoration:none;color:${onInk ? emailColors.pearl : emailColors.ink};font-size:16px;line-height:24px;font-weight:700;">
-    <img src="${escapeHtml(appUrl)}${icon}" width="24" height="24" alt="" style="vertical-align:middle;margin-right:8px;border-radius:6px;border:0;" />${escapeHtml(siteConfig.name)}
-  </a>`;
+  const color = tone === "ink" ? emailColors.pearl : emailColors.ink;
+  const href = escapeHtml(appUrl);
+  return `<table role="presentation" cellpadding="0" cellspacing="0"><tr>
+    <td valign="middle" style="padding-right:10px;"><a href="${href}"><img src="${href}${brandAssets.emailMark}" width="32" height="32" alt="" style="display:block;border:0;" /></a></td>
+    <td valign="middle"><a href="${href}" style="text-decoration:none;font-size:20px;line-height:24px;font-weight:700;letter-spacing:-0.4px;color:${color};">${escapeHtml(siteConfig.name)}</a></td>
+  </tr></table>`;
 }
 
 export function emailButton({ label, url }: { label: string; url: string }, variant: "ink" | "lime" = "ink") {

@@ -38,7 +38,7 @@ function codeHtml(code: string) {
 
 export function renderEmail({ appUrl, preheader, heading, paragraphs, code, cta, note, reason }: EmailLayoutOptions) {
   const content = `
-    <p style="margin:0;padding:0 6px 18px;">${brandLink(appUrl)}</p>
+    <div style="padding:0 6px 18px;">${brandLink(appUrl)}</div>
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:separate;">
       <tr>
         <td class="pad" style="background:${emailColors.card};border:1px solid ${emailColors.border};border-radius:18px;padding:34px 30px 18px;">
