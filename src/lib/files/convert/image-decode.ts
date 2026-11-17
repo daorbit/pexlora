@@ -33,12 +33,12 @@ export async function bitmapToBlob(bitmap: ImageBitmap, type: RasterType) {
   return canvasToBlob(canvas, type);
 }
 
-export function canvasToBlob(canvas: HTMLCanvasElement, type: RasterType) {
+export function canvasToBlob(canvas: HTMLCanvasElement, type: RasterType, quality = JPEG_QUALITY) {
   return new Promise<Blob>((resolve, reject) => {
     canvas.toBlob(
       (blob) => (blob ? resolve(blob) : reject(new UnreadableFileError("Your browser couldn't export this image."))),
       type,
-      type === "image/jpeg" ? JPEG_QUALITY : undefined,
+      type === "image/jpeg" ? quality : undefined,
     );
   });
 }

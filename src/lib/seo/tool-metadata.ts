@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import { compressTargetPath, type CompressTarget } from "@/config/compress-targets";
 import { conversionPath, type Conversion } from "@/config/conversions";
+import { formPresetPath, type FormPreset } from "@/config/form-presets";
 import { getTextTool, type TextToolSlug } from "@/config/text-tools";
 import { getWorkspaceTool, type WorkspaceToolSlug } from "@/config/tools";
-import { toolPageCopy } from "@/content/tool-pages";
+import { formPresetCopy, toolPageCopy } from "@/content/tool-pages";
 import { pageMetadata } from "@/lib/seo/page-metadata";
 import { seoPagePath, type SeoPage } from "@/content/seo-pages";
 
@@ -16,6 +17,7 @@ const toolTitles: Record<WorkspaceToolSlug, string> = {
   "convert-format": "Image Converter: JPG, PNG, WebP & AVIF Online Free",
   "image-alt-text": "AI Alt Text Generator: Alt Text & SEO File Names",
   "heic-to-jpg": "HEIC to JPG Converter: Convert iPhone Photos Free",
+  "form-photo": "Photo & Signature Resizer for Online Forms (KB & Pixels)",
   "merge-pdf": "Merge PDF Online: Combine PDF Files Free",
   "split-pdf": "Split PDF Online: Separate PDF Pages Free",
   "rotate-pdf": "Rotate PDF Online: Turn PDF Pages and Save Free",
@@ -57,4 +59,13 @@ export function compressTargetMetadata(target: CompressTarget): Metadata {
 export function toolMetadata(slug: WorkspaceToolSlug): Metadata {
   const tool = getWorkspaceTool(slug);
   return pageMetadata(toolTitles[slug], tool.description, tool.href);
+}
+
+export function formPresetMetadata(preset: FormPreset): Metadata {
+  return pageMetadata(
+    formPresetCopy.title(preset),
+    formPresetCopy.metaDescription(preset),
+    formPresetPath(preset.slug),
+    formPresetCopy.keywords(preset),
+  );
 }

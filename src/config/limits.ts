@@ -24,6 +24,8 @@ export const RESIZE_PERCENT_RANGE = { min: 10, max: 200, step: 5 } as const;
 
 export const COMPRESS_TARGET_KB_RANGE = { min: 5, max: 4096 } as const;
 
+export const FORM_PHOTO_KB_RANGE = { min: 2, max: 2048 } as const;
+
 export const MAX_METADATA_TEXT_LENGTH = 300;
 
 export const PDF_PAGE_LIMIT = 200;

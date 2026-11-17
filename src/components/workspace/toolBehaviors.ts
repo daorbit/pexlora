@@ -2,13 +2,14 @@ import { ALL_KINDS, type FileKind } from "@/config/file-formats";
 import type { WorkspaceToolSlug } from "@/config/tools";
 import { aiCopy } from "@/content/ai";
 import { localToolsCopy, optionsCopy } from "@/content/workspace";
-import { getCompressError, getMetadataFieldsError, getResizeError, type ToolOptions } from "@/lib/image/options";
+import { getCompressError, getFormPhotoError, getMetadataFieldsError, getResizeError, type ToolOptions } from "@/lib/image/options";
 import type { ProcessedFile } from "@/lib/metadata/types";
 import { generateAltText } from "@/services/ai-api";
 import { cleanFile } from "@/services/file-service";
 import { compressImage, convertImage, editImageMetadata, resizeImage } from "@/services/image-api";
 import {
   convertHeicFile,
+  formPhotoFile,
   imagesToPdfFile,
   mergePdfFiles,
   pdfToJpgFile,
@@ -129,6 +130,20 @@ export const toolBehaviors: Record<WorkspaceToolSlug, ToolBehavior> = {
       autoRun: true,
       run: (file, { heic }) => convertHeicFile(file, heic.format),
       zipName: "converted-photos.zip",
+    },
+  },
+  "form-photo": {
+    accepts: ["image"],
+    localCapable: true,
+    inspectOnAdd: false,
+    action: {
+      label: "Resize for Form",
+      doneLabel: "Ready",
+      note: localToolsCopy.onDevice,
+      compare: true,
+      run: (file, { form }) => formPhotoFile(file, form),
+      validate: ({ form }) => getFormPhotoError(form),
+      zipName: "form-photos.zip",
     },
   },
   "merge-pdf": {

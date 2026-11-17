@@ -300,6 +300,32 @@ export const toolGuides: Record<WorkspaceToolSlug, ToolGuide> = {
       dailyLimit,
     ],
   },
+  "form-photo": {
+    intro: {
+      heading: "Resize a photo or signature for any online form",
+      paragraphs: [
+        "Exam, bank and government forms reject photos that are a few pixels or kilobytes off. Type in the width, height and KB range from the notice, or pick a ready-made preset for IBPS, SSC, UPSC, NEET, PAN or a passport photo, and get a JPG that fits.",
+        "The photo is centre-cropped to the exact shape and saved at the highest quality that stays inside the KB range. It all happens in your browser, so your photo isn't uploaded, and the JPG carries no EXIF or GPS data.",
+      ],
+    },
+    steps: [
+      { title: "Add your photo or signature", body: `Pick up to ${MAX_FILES_PER_BATCH} images. JPG, PNG, WebP and iPhone HEIC photos work.` },
+      { title: "Enter the size", body: "Copy the pixels and the smallest and largest KB from your form, or open a preset below." },
+      { title: "Download the JPG", body: "Each file is resized and compressed to fit, ready to upload." },
+    ],
+    faqs: [
+      {
+        question: "Where do I find the right size?",
+        answer: "In the form's official notice or on the upload page itself. Our presets use the sizes most notices list, but always check the latest notice.",
+      },
+      {
+        question: "Why is my photo cropped?",
+        answer: "When both width and height are set, the photo is fitted to that exact shape and the edges are trimmed. Leave one of them empty to keep the original shape.",
+      },
+      inBrowser,
+      dailyLimit,
+    ],
+  },
   "merge-pdf": {
     intro: {
       heading: "Merge PDF files into one document",

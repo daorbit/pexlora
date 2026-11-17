@@ -1,5 +1,7 @@
 import type { CompressTarget } from "@/config/compress-targets";
 import type { Conversion } from "@/config/conversions";
+import type { FormPreset } from "@/config/form-presets";
+import { formPresetCopy } from "@/content/tool-pages";
 import { MAX_FILES_PER_BATCH } from "@/config/limits";
 import { sizeLimit } from "@/content/seo-pages/shared";
 import type { SeoFaq, ToolStep } from "@/content/seo-pages/types";
@@ -78,6 +80,39 @@ export function compressTargetFaqs({ label }: CompressTarget): SeoFaq[] {
     {
       question: "Is metadata removed?",
       answer: "Yes. The compressed copy has no EXIF, GPS, XMP, IPTC or C2PA data, which also saves a few kilobytes.",
+    },
+  ];
+}
+
+export function formPresetSteps(preset: FormPreset): ToolStep[] {
+  const noun = formPresetCopy.noun(preset);
+  return [
+    { title: `Add your ${noun}`, body: `Pick a clear ${noun} from your phone or computer. HEIC photos from iPhones work too.` },
+    { title: "Check the size", body: `It's set to ${formPresetCopy.specs(preset)}. Change any number if your notice says something different.` },
+    { title: "Download the JPG", body: "Tap Resize for Form, then save the file and upload it to the form." },
+  ];
+}
+
+export function formPresetFaqs(preset: FormPreset): SeoFaq[] {
+  const noun = formPresetCopy.noun(preset);
+  return [
+    {
+      question: `What size does ${preset.exam} ask for?`,
+      answer: `This page uses ${formPresetCopy.specs(preset)}, the size most notices list. Rules can change between years, so compare it with the official notice and edit the numbers if needed.`,
+    },
+    {
+      question: `Will my ${noun} be cropped?`,
+      answer: preset.width && preset.height
+        ? "Yes, if its shape is different. The middle of the picture is kept, so keep your face or signature centred."
+        : "No. The shape stays the same; only the file size is changed.",
+    },
+    {
+      question: "What if the file is still too big or too small?",
+      answer: "Quality is adjusted step by step to land inside the KB range. If a target can't be reached, you'll see a note, and a clearer or larger source picture usually fixes it.",
+    },
+    {
+      question: `Is my ${noun} uploaded?`,
+      answer: "No. Resizing happens in your browser, so the file stays on your device. The JPG also has no EXIF or GPS data.",
     },
   ];
 }

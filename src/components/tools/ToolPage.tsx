@@ -10,6 +10,7 @@ import { FeaturesSection } from "@/components/landing/FeaturesSection";
 import { InspectorShowcase } from "@/components/landing/InspectorShowcase";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { CompressTargetLinksSection } from "@/components/tools/CompressTargetLinksSection";
+import { FormPresetLinksSection } from "@/components/tools/FormPresetLinksSection";
 import { ConversionLinksSection } from "@/components/tools/ConversionLinksSection";
 import { HubGridSection } from "@/components/tools/HubGridSection";
 import { RelatedToolsSection } from "@/components/tools/RelatedToolsSection";
@@ -41,6 +42,7 @@ export function ToolPage({ slug }: { slug: WorkspaceToolSlug }) {
       />
       {slug === "convert-format" && <ConversionLinksSection />}
       {slug === "compress-image" && <CompressTargetLinksSection />}
+      {slug === "form-photo" && <FormPresetLinksSection />}
       <SeoIntroSection heading={guide.intro.heading} paragraphs={guide.intro.paragraphs} />
       <SeoStepsSection title={`How to use the ${tool.name}`} steps={guide.steps} />
       {metadataTools.includes(slug) ? <InspectorShowcase /> : tool.category !== "pdf" && <FeaturesSection />}

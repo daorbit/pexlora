@@ -17,11 +17,11 @@ export function HomeHero() {
             <span className="hidden h-px w-9 bg-primary sm:block" aria-hidden />
             <span className="hidden sm:inline">{heroCopy.eyebrowNote}</span>
           </span>
-          <span className="block max-w-4xl text-[28px] leading-[1.15] font-bold tracking-[-0.035em] motion-safe:animate-fade-up motion-safe:[animation-delay:80ms] sm:text-[52px] sm:leading-[1.08] sm:tracking-[-0.045em] lg:text-[68px]">
+          <span className="block max-w-4xl text-[28px] leading-[1.15] font-bold tracking-[-0.035em] motion-safe:animate-fade-up motion-safe:[animation-delay:80ms] translated:leading-[1.35] translated:tracking-normal sm:text-[52px] sm:leading-[1.08] sm:tracking-[-0.045em] sm:translated:leading-[1.3] sm:translated:tracking-normal lg:text-[68px]">
             {heroCopy.title}
             <br />
             {heroCopy.titleLead}{" "}
-            <span className="rounded-md bg-primary px-1 text-primary-foreground sm:rounded-xl sm:px-2.5 lg:rounded-2xl">
+            <span className="rounded-md bg-primary px-1 text-primary-foreground translated:bg-transparent translated:px-0 translated:text-inherit sm:rounded-xl sm:px-2.5 sm:translated:px-0 lg:rounded-2xl">
               {heroCopy.highlight}
             </span>
           </span>

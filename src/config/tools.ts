@@ -1,6 +1,6 @@
 import { AI_NAME } from "@/config/brand";
 import { routes } from "@/config/site";
-import { Combine, FileImage, Images, RotateCw, Scissors, SwitchCamera } from "lucide-react";
+import { Combine, FileImage, IdCard, Images, RotateCw, Scissors, SwitchCamera } from "lucide-react";
 import { AltTextIcon } from "@/components/icons/AltTextIcon";
 import { CompressImageIcon } from "@/components/icons/CompressImageIcon";
 import { ConvertImageIcon } from "@/components/icons/ConvertImageIcon";
@@ -19,6 +19,7 @@ export type WorkspaceToolSlug =
   | "edit-metadata"
   | "image-alt-text"
   | "heic-to-jpg"
+  | "form-photo"
   | "merge-pdf"
   | "split-pdf"
   | "rotate-pdf"
@@ -133,6 +134,17 @@ export const workspaceTools: WorkspaceTool[] = [
     headline: "Convert iPhone HEIC photos to JPG.",
     description:
       "Turn iPhone HEIC photos into JPG or PNG right in your browser. Photos aren't uploaded and the converted files carry no EXIF or GPS data.",
+  },
+  {
+    slug: "form-photo",
+    category: "image",
+    href: routes.formPhoto,
+    icon: IdCard,
+    name: "Photo & Signature Resizer",
+    shortName: "Form Photo",
+    headline: "Resize photos and signatures for online forms.",
+    description:
+      "Get a photo or signature to the exact pixel size and KB range an exam, bank or government form asks for. Done in your browser, saved as JPG.",
   },
   {
     slug: "merge-pdf",

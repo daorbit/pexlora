@@ -1,5 +1,5 @@
 import { company } from "@/config/company";
-import { compressTargetPath, compressTargets } from "@/config/compress-targets";
+import { compressTargetPath, featuredCompressTargets } from "@/config/compress-targets";
 import { legalDocuments } from "@/content/legal";
 import { conversionPath, popularConversions } from "@/config/conversions";
 import { toolPageCopy } from "@/content/tool-pages";
@@ -31,7 +31,7 @@ export const footerColumns = [
   },
   {
     title: "Compress to size",
-    links: compressTargets.map((target) => ({
+    links: featuredCompressTargets.map((target) => ({
       label: toolPageCopy.compressTargetName(target.label),
       href: compressTargetPath(target.slug),
     })),

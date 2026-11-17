@@ -2,6 +2,7 @@ import { DEFAULT_COMPRESS_TARGET_KB } from "@/config/compress-targets";
 import {
   COMPRESS_TARGET_KB_RANGE,
   MAX_METADATA_TEXT_LENGTH,
+  FORM_PHOTO_KB_RANGE,
   MAX_RESIZE_DIMENSION,
   RESIZE_PERCENT_RANGE,
 } from "@/config/limits";
@@ -31,6 +32,7 @@ export type RotateAngle = (typeof ROTATE_ANGLES)[number];
 export type ConvertOptions = { format: OutputFormat };
 export type HeicOptions = { format: RasterFormat };
 export type RotateOptions = { angle: RotateAngle };
+export type FormPhotoOptions = { width: number | null; height: number | null; minKb: number | null; maxKb: number | null };
 export type CompressOptions = {
   mode: CompressMode;
   level: CompressionLevel;
@@ -56,6 +58,7 @@ export type ToolOptions = {
   metadata: MetadataFields;
   heic: HeicOptions;
   rotate: RotateOptions;
+  form: FormPhotoOptions;
 };
 
 export const DEFAULT_TOOL_OPTIONS: ToolOptions = {
@@ -65,6 +68,7 @@ export const DEFAULT_TOOL_OPTIONS: ToolOptions = {
   metadata: { author: "", copyright: "", description: "", keywords: "" },
   heic: { format: "jpeg" },
   rotate: { angle: "90" },
+  form: { width: null, height: null, minKb: null, maxKb: 50 },
 };
 
 export function getMetadataFieldsError(fields: MetadataFields) {
@@ -125,4 +129,16 @@ export function getResizeError(options: ResizeOptions) {
 
 export function isRotateAngle(value: unknown): value is RotateAngle {
   return ROTATE_ANGLES.includes(value as RotateAngle);
+}
+
+export function getFormPhotoError({ width, height, minKb, maxKb }: FormPhotoOptions) {
+  if (!maxKb) return "Set the largest file size the form accepts.";
+  if (maxKb < FORM_PHOTO_KB_RANGE.min || maxKb > FORM_PHOTO_KB_RANGE.max) {
+    return `Pick a size between ${FORM_PHOTO_KB_RANGE.min} and ${FORM_PHOTO_KB_RANGE.max} KB.`;
+  }
+  if (minKb !== null && minKb >= maxKb) return "The smallest size must be below the largest size.";
+  if ([width, height].some((side) => side !== null && (side < 1 || side > MAX_RESIZE_DIMENSION))) {
+    return `Width and height must be between 1 and ${MAX_RESIZE_DIMENSION} pixels.`;
+  }
+  return null;
 }

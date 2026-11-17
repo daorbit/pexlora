@@ -5,6 +5,7 @@ import { Suspense } from "react";
 import { AnalyticsScript } from "@/components/layout/AnalyticsScript";
 import { Toaster } from "@/components/ui/Toaster";
 import { ServiceWorkerRegistrar } from "@/components/layout/ServiceWorkerRegistrar";
+import { GoogleTranslate } from "@/components/language/GoogleTranslate";
 import { brandColors } from "@/config/brand";
 import { openGraphDefaults, seo, twitterDefaults } from "@/config/seo";
 import { siteConfig } from "@/config/site";
@@ -77,6 +78,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Toaster />
         </Suspense>
         <ServiceWorkerRegistrar />
+        <GoogleTranslate />
       </body>
     </html>
   );

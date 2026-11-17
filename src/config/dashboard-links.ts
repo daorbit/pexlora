@@ -1,4 +1,4 @@
-import { compressTargetIconSrc, compressTargets } from "@/config/compress-targets";
+import { compressTargetIconSrc, featuredCompressTargets } from "@/config/compress-targets";
 import { routes } from "@/config/site";
 import { toolIconSrc } from "@/config/tools";
 import { overviewCopy } from "@/content/dashboard";
@@ -23,7 +23,7 @@ export const dashboardShortcutGroups: ShortcutGroup[] = [
     id: "compress",
     ...overviewCopy.compress,
     iconSrc: compressTargetIconSrc,
-    links: compressTargets.map((target) => ({
+    links: featuredCompressTargets.map((target) => ({
       key: target.slug,
       value: target.label,
       href: `${routes.dashboardCompressor}?target=${target.kb}`,

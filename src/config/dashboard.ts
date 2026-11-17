@@ -36,6 +36,7 @@ const dashboardHrefs: Record<WorkspaceToolSlug, string> = {
   "convert-format": routes.dashboardConverter,
   "image-alt-text": routes.dashboardAltText,
   "heic-to-jpg": routes.dashboardHeicToJpg,
+  "form-photo": routes.dashboardFormPhoto,
   "merge-pdf": routes.dashboardMergePdf,
   "split-pdf": routes.dashboardSplitPdf,
   "rotate-pdf": routes.dashboardRotatePdf,

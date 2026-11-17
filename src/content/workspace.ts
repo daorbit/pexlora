@@ -46,6 +46,10 @@ export const saveCopy = {
 };
 
 export const optionsCopy = {
+  formMinKb: "Smallest",
+  formMaxKb: "Largest",
+  kilobytesUnit: "KB",
+  formHint: "Leave width and height empty to keep the photo's shape. Check your form's notice for the exact size.",
   heicHints: {
     jpeg: "Smaller, opens everywhere",
     png: "Lossless, bigger files",

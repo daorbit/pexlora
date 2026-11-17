@@ -36,6 +36,15 @@ export const moduleTips: Record<WorkspaceToolSlug, { title: string; tips: string
       "Other images (PNG, WebP, AVIF) can be converted too",
     ],
   },
+  "form-photo": {
+    title: "Getting it accepted",
+    tips: [
+      "Copy the width, height and KB range from your form's notice",
+      "Use a front-facing photo with the face in the middle; it's centre-cropped",
+      "Scan signatures on white paper with dark ink",
+      "Everything runs in your browser",
+    ],
+  },
   "merge-pdf": {
     title: "Merging PDFs",
     tips: [

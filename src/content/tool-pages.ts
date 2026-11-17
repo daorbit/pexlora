@@ -1,4 +1,42 @@
+import type { FormPreset, FormPresetKind } from "@/config/form-presets";
 import { MAX_FILES_PER_BATCH } from "@/config/limits";
+
+const presetNouns: Record<FormPresetKind, string> = {
+  photo: "photo",
+  signature: "signature",
+  thumb: "thumb impression",
+  declaration: "declaration",
+};
+
+function presetDimensions({ width, height }: FormPreset) {
+  if (width && height) return `${width} × ${height} px`;
+  if (width) return `${width} px wide`;
+  if (height) return `${height} px tall`;
+  return "original shape";
+}
+
+function presetKilobytes({ minKb, maxKb }: FormPreset) {
+  return minKb ? `${minKb}–${maxKb} KB` : `under ${maxKb} KB`;
+}
+
+export const formPresetCopy = {
+  noun: (preset: FormPreset) => presetNouns[preset.kind],
+  specs: (preset: FormPreset) => `${presetDimensions(preset)} · ${presetKilobytes(preset)} · JPG`,
+  section: { eyebrow: "Form presets", title: "Ready-made sizes for popular forms." },
+  headline: (preset: FormPreset) => `${preset.name} resizer.`,
+  description: (preset: FormPreset) =>
+    `Set to ${presetDimensions(preset)} and ${presetKilobytes(preset)} for ${preset.exam}. Drop your ${presetNouns[preset.kind]} and download a JPG that fits, made in your browser.`,
+  title: (preset: FormPreset) => `${preset.name} Resizer: ${presetDimensions(preset)}, ${presetKilobytes(preset)}`,
+  metaDescription: (preset: FormPreset) =>
+    `Resize your ${presetNouns[preset.kind]} for ${preset.exam}: ${presetDimensions(preset)}, ${presetKilobytes(preset)}, JPG. Free, no upload, no sign-up.`,
+  keywords: (preset: FormPreset) => [
+    `${preset.name.toLowerCase()} size`,
+    `${preset.name.toLowerCase()} resize`,
+    `${preset.name.toLowerCase()} kb`,
+    `${presetNouns[preset.kind]} resizer for ${preset.exam.split(" ")[0].toLowerCase()}`,
+  ],
+  stepsTitle: (preset: FormPreset) => `How to resize your ${preset.name.toLowerCase()}`,
+};
 
 export const toolPageCopy = {
   moreTools: { eyebrow: "More tools", title: "Do more with your files." },

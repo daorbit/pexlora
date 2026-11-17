@@ -162,6 +162,15 @@ src/
 - Rotation output goes through `pdfProcessor.clean`, so document metadata is removed; new PDFs are created with `updateMetadata: false`. PDF tool pages skip the image `FeaturesSection`.
 - Icons: PDF tools use the `#C8312B` tile, HEIC to JPG the amber `#E8A80C` of the conversion icons.
 
+## Form photo presets and landing pages
+
+- `form-photo` tool (`/photo-resizer`, "Photo & Signature Resizer"): browser-only (`lib/files/convert/form-photo.ts`): centre-crop to exact width x height (or keep shape when one/both are empty), then the highest JPEG quality inside the KB range (`FormPhotoOptions`, URL params `w`, `h`, `min`, `max`). Presets in `config/form-presets.ts` power `/photo-resizer/[preset]` (`FormPresetPage`, copy in `formPresetCopy` + `formPresetSteps/Faqs`). Official specs differ between sources and years: use values most notices agree on, pick conservative ranges that pass every variant, keep every number editable, and always tell users to check the latest notice. SSC, UPSC and NEET photos are often captured live now; don't promise acceptance.
+- Compress-to-size pages: `COMPRESS_TARGET_PAGES_KB` (13 sizes) drives `/compress-image-to/[size]`; the options chips, footer and dashboard keep the short `COMPRESS_TARGET_PRESETS_KB` / `featuredCompressTargets`.
+
+## Translation
+
+- Google Website Translator, ported from quantalog-lp: `GoogleTranslate` (root layout) loads Google's script only when a `googtrans` cookie picks a language; `LanguageMenu` (footer bottom row only, next to Dark mode; a dropdown that opens upward with a search box, never a modal and never in the header or mobile menu) sets the cookie and reloads (`lib/translate/googtrans.ts`). `patchDomForTranslate` stops React crashing when Google rewrites text nodes. Google's banner and tooltips are hidden in `globals.css`. Languages in `config/languages.ts` (Indian languages first). Mark brand names, file names and metadata values with `translate="no"` + `notranslate`. This translates for visitors only; it doesn't create indexable Hindi pages. Google translates whole sentences, so partial highlights break: the `translated:` variant (`html.translated-ltr/-rtl`) removes the lime marker on translated pages (`HomeHero`, `Highlight`, `AccountBand`; add it to any new partial-sentence marker), and `globals.css` resets letter-spacing on translated text because negative tracking squeezes Devanagari and other scripts.
+
 ## Image pipeline
 
 - Remove Metadata and Metadata Viewer process JPG/PNG/WebP (`raster` engine) and HEIC (`heif` engine) in the browser through `lib/files/processors` (`raster.ts`, `heif.ts`); files never leave the device. They share the stripper/injector code with the server and the exifr parsing in `lib/metadata/exif-report.ts`. Rotated photos keep a minimal EXIF with only Orientation (`lib/image/orientation.ts`), which `leftoverTagCount` ignores.

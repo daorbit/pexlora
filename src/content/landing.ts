@@ -32,6 +32,7 @@ export const heroCopy = {
     "convert-format": "Convert",
     "image-alt-text": "Alt Text",
     "heic-to-jpg": "HEIC",
+    "form-photo": "Form",
     "merge-pdf": "Merge",
     "split-pdf": "Split",
     "rotate-pdf": "Rotate",

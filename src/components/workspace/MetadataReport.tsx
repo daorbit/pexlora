@@ -16,7 +16,7 @@ export function MetadataReport({ report }: { report: Report }) {
           <h4 className="px-3 text-[11px] font-medium uppercase tracking-wide text-secondary">
             {group.label} · {group.entries.length}
           </h4>
-          <dl className="divide-y divide-separator overflow-hidden rounded-xl bg-surface">
+          <dl translate="no" className="notranslate divide-y divide-separator overflow-hidden rounded-xl bg-surface">
             {group.entries.map((entry, index) => (
               <div
                 key={`${entry.key}-${index}`}

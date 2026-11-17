@@ -11,8 +11,18 @@ type GoogleIdConfiguration = {
   context?: "signin" | "signup" | "use";
 };
 
+type TranslateElementOptions = {
+  pageLanguage: string;
+  includedLanguages: string;
+  autoDisplay: boolean;
+};
+
 interface Window {
+  googleTranslateElementInit?: () => void;
   google?: {
+    translate?: {
+      TranslateElement: new (options: TranslateElementOptions, elementId: string) => unknown;
+    };
     accounts: {
       id: {
         initialize: (config: GoogleIdConfiguration) => void;

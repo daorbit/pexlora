@@ -1,5 +1,6 @@
 import { FORMAT_EXTENSIONS, FORMAT_MIME_TYPES } from "@/lib/image/formats";
-import type { RasterFormat, RotateAngle } from "@/lib/image/options";
+import type { FormPhotoOptions, RasterFormat, RotateAngle } from "@/lib/image/options";
+import { makeFormPhoto } from "@/lib/files/convert/form-photo";
 import { convertImage, type RasterType } from "@/lib/files/convert/image-decode";
 import { pdfToImages } from "@/lib/files/pdf/pdf-render";
 import { imagesToPdf, mergePdfs, rotatePdf, splitPdf, type NamedBlob } from "@/lib/files/pdf/pdf-tools";
@@ -21,8 +22,8 @@ async function guard<T>(task: () => Promise<T>) {
   }
 }
 
-async function finish(blob: Blob, name: string): Promise<ProcessedFile> {
-  return { blob, name, leftoverTags: null, quotaRemaining: await consumeQuota() };
+async function finish(blob: Blob, name: string, extra: Partial<ProcessedFile> = {}): Promise<ProcessedFile> {
+  return { blob, name, leftoverTags: null, ...extra, quotaRemaining: await consumeQuota() };
 }
 
 async function bundle(parts: NamedBlob[], source: File, suffix: string) {
@@ -60,4 +61,12 @@ export async function mergePdfFiles(files: File[]) {
 export async function imagesToPdfFile(files: File[]) {
   const blob = await guard(() => imagesToPdf(files));
   return finish(blob, combinedName(files));
+}
+
+export async function formPhotoFile(file: File, options: FormPhotoOptions) {
+  const { blob, width, height, met } = await guard(() => makeFormPhoto(file, options));
+  return finish(blob, withExtension(file.name, "jpg", `-${width}x${height}`), {
+    dimensions: { width, height },
+    target: options.maxKb ? { bytes: options.maxKb * 1024, met } : null,
+  });
 }

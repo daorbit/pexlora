@@ -69,7 +69,7 @@ export function FileRow({
       >
         <FileThumb item={item} />
         <div className="flex min-w-0 flex-1 basis-40 flex-col gap-1">
-          <p className="truncate text-[15px] font-medium">{file.name}</p>
+          <p translate="no" className="notranslate truncate text-[15px] font-medium">{file.name}</p>
           <p className="text-[13px] tabular-nums text-secondary">{fileDetails(item)}</p>
           <div className="text-[13px]">
             <FileStatus item={item} onDevice={onDevice && item.status === "done"} />

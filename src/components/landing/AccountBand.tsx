@@ -15,7 +15,7 @@ export function AccountBand() {
     <Band tone="pearl" className="lg:pb-40" containerClassName="flex flex-col gap-6 sm:gap-10">
       <BandTitle size="giant">
         {accountCopy.title}{" "}
-        <span className="inline-block rounded-xl bg-primary px-[0.12em] text-primary-foreground lg:rounded-[22px]">
+        <span className="inline-block rounded-xl bg-primary px-[0.12em] text-primary-foreground translated:bg-transparent translated:px-0 translated:text-inherit lg:rounded-[22px]">
           {accountCopy.highlight}
         </span>
       </BandTitle>

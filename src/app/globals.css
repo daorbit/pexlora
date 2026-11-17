@@ -4,6 +4,7 @@
 @custom-variant rail-collapsed (&:where([data-sidebar="collapsed"] .sidebar-rail, [data-sidebar="collapsed"] .sidebar-rail *));
 @custom-variant slot-collapsed (&:where([data-sidebar="collapsed"] .sidebar-slot));
 @custom-variant page-dark (&:where([data-theme="dark"] *));
+@custom-variant translated (&:where(.translated-ltr *, .translated-rtl *));
 
 @utility tokens-light {
   color-scheme: light;
@@ -525,4 +526,30 @@ body {
   html {
     scroll-behavior: auto;
   }
+}
+
+.skiptranslate iframe,
+iframe.skiptranslate,
+.goog-te-banner-frame,
+.goog-te-balloon-frame,
+.goog-tooltip,
+#goog-gt-tt,
+.VIpgJd-ZVi9od-ORHb-OEVmcd,
+.VIpgJd-ZVi9od-aZ2wEe-wOHMyf,
+.VIpgJd-yAWNEb-L7lbkb {
+  display: none !important;
+}
+
+body {
+  top: 0 !important;
+}
+
+.goog-text-highlight {
+  background: none !important;
+  box-shadow: none !important;
+}
+
+.translated-ltr :is(h1, h2, h3, p, span),
+.translated-rtl :is(h1, h2, h3, p, span) {
+  letter-spacing: normal;
 }

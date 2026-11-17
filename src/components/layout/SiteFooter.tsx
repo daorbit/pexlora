@@ -5,6 +5,7 @@ import { Container } from "@/components/ui/Container";
 import { CurrentYear } from "@/components/layout/CurrentYear";
 import { Logo } from "@/components/layout/Logo";
 import { HousePromoCard } from "@/components/promo/HousePromoCard";
+import { LanguageMenu } from "@/components/language/LanguageMenu";
 import { ThemeSwitch } from "@/components/theme/ThemeSwitch";
 import { housePromos } from "@/config/house-promos";
 
@@ -65,9 +66,12 @@ export function SiteFooter() {
             © <CurrentYear /> {siteConfig.name} · {footerCopy.productOf}. {footerCopy.legal}
           </p>
         </div>
-        <div className="flex items-center gap-3">
-          <span className="text-[13px] font-medium text-secondary">{footerCopy.darkMode}</span>
-          <ThemeSwitch />
+        <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
+          <LanguageMenu className="-ml-2.5" />
+          <div className="flex items-center gap-3">
+            <span className="text-[13px] font-medium text-secondary">{footerCopy.darkMode}</span>
+            <ThemeSwitch />
+          </div>
         </div>
       </Container>
 

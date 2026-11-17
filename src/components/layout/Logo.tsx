@@ -18,7 +18,8 @@ export function Logo({ size = "md" }: { size?: Size }) {
   return (
     <Link
       href={routes.home}
-      className={cn("inline-flex items-center font-display font-semibold tracking-[-0.02em]", text)}
+      translate="no"
+      className={cn("notranslate inline-flex items-center font-display font-semibold tracking-[-0.02em]", text)}
     >
       <Image src={brandAssets.mark} alt="" width={pixels} height={pixels} priority className={mark} />
       {siteConfig.name}
