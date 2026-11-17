@@ -235,7 +235,7 @@ Hero with the metadata-remover drop area → all-tools hub grid → "Stage" band
 - There is no sitewide canonical: each indexable page sets its own via `pageMetadata()`. Auth pages are `noindex, follow` (auth layout) and stay out of the sitemap.
 - JSON-LD for tool, guide, conversion and compress-target pages comes from `toolStructuredData()` (WebApplication + FAQPage from the FAQs shown on the page). No BreadcrumbList unless breadcrumbs are visible. Main tool page copy (intro, steps, FAQs, related guides) lives in `content/tool-guides.ts`; conversion and compress-target FAQs/steps in `content/variant-guides.ts`.
 - Privacy wording must match the code: images are uploaded and processed in memory (not saved by our code); PDF, Office, audio and video are processed in the browser; Orbit AI sends content to Cloudflare Workers AI. Avoid absolute claims like "nothing is ever stored".
-- Generated: `app/sitemap.ts`, `app/robots.ts` (blocks `/dashboard` and `/api/`), `app/manifest.ts`.
+- Generated: `app/sitemap.ts`, `app/robots.ts` (blocks `/dashboard` and `/api/`; AI crawlers are allowed), `app/manifest.ts`, `app/llms.txt` (built by `lib/seo/llms-text.ts` from config: key facts from `content/llms.ts`, every tool, conversion, compress target, form preset, guide and legal page). Keep the facts in `content/llms.ts` in line with the privacy wording below when processing changes.
 - Home page renders JSON-LD (Organization, WebApplication, FAQPage) via `<JsonLd>` + `homeStructuredData()`; FAQ schema reads `content/landing.ts` so it stays in sync with the visible FAQ.
 - One `h1` per page; every section uses `h2`, cards use `h3`.
 
