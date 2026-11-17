@@ -39,9 +39,15 @@ export function describeFormats(kinds: FileKind[], localCapable = true) {
     .join(", ");
 }
 
-export function describeAccepted(kinds: FileKind[], localCapable = true, perks: WorkspacePerks = FREE_PERKS) {
+export function describeAccepted(
+  kinds: FileKind[],
+  localCapable = true,
+  perks: WorkspacePerks = FREE_PERKS,
+  formatsLabel?: string,
+) {
   if (kinds.length === 1) {
-    return `${describeFormats(kinds, localCapable)} · up to ${formatMegabytes(kindSizeLimitMb(kinds[0], localCapable, perks))}`;
+    const formats = formatsLabel ?? describeFormats(kinds, localCapable);
+    return `${formats} · up to ${formatMegabytes(kindSizeLimitMb(kinds[0], localCapable, perks))}`;
   }
   return kinds.map((kind) => fileKinds[kind].label).join(", ");
 }

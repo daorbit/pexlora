@@ -5,11 +5,13 @@ import { loadPdf, pdfProcessor } from "@/lib/files/processors/pdf";
 import { UnreadableFileError } from "@/lib/files/processors/types";
 import { fileFormats } from "@/config/file-formats";
 import { PDF_PAGE_LIMIT } from "@/config/limits";
+import { resolvePages } from "@/lib/files/pdf/page-spec";
 import { baseName } from "@/lib/utils/file-name";
 
 export type NamedBlob = { blob: Blob; name: string };
 
 const PDF_TYPE = "application/pdf";
+const POINTS_PER_INCH = 72;
 const pdfFormat = fileFormats.find((format) => format.id === "pdf")!;
 const A4 = { width: 595.28, height: 841.89 };
 const PAGE_MARGIN = 24;
@@ -24,6 +26,16 @@ function newDocument() {
 
 function checkPageCount(count: number) {
   if (count > PDF_PAGE_LIMIT) throw new UnreadableFileError(`PDFs over ${PDF_PAGE_LIMIT} pages aren't supported yet.`);
+}
+
+export async function saveClean(doc: PDFDocument) {
+  return pdfProcessor.clean(pdfBlob(await doc.save()), pdfFormat);
+}
+
+export async function loadPagedPdf(file: File) {
+  const doc = await loadPdf(file);
+  checkPageCount(doc.getPageCount());
+  return doc;
 }
 
 export async function mergePdfs(files: File[]) {
@@ -55,8 +67,26 @@ export async function splitPdf(file: File): Promise<NamedBlob[]> {
 export async function rotatePdf(file: File, angle: number) {
   const doc = await loadPdf(file);
   doc.getPages().forEach((page) => page.setRotation(degrees((page.getRotation().angle + angle) % 360)));
-  const rotated = pdfBlob(await doc.save());
-  return pdfProcessor.clean(rotated, pdfFormat);
+  return saveClean(doc);
+}
+
+export async function organizePdf(file: File, spec: string) {
+  const source = await loadPagedPdf(file);
+  const pages = resolvePages(spec, source.getPageCount());
+  if (!pages.length) throw new UnreadableFileError("None of the chosen pages are in this PDF.");
+  const organized = await newDocument();
+  const copies = await organized.copyPages(source, pages.map((page) => page - 1));
+  copies.forEach((page) => organized.addPage(page));
+  return pdfBlob(await organized.save());
+}
+
+export async function jpegToPdfPage(jpeg: Blob, sizeMm: { width: number; height: number }) {
+  const doc = await newDocument();
+  const image = await doc.embedJpg(await jpeg.arrayBuffer());
+  const width = (sizeMm.width / 25.4) * POINTS_PER_INCH;
+  const height = (sizeMm.height / 25.4) * POINTS_PER_INCH;
+  doc.addPage([width, height]).drawImage(image, { x: 0, y: 0, width, height });
+  return pdfBlob(await doc.save());
 }
 
 async function embedImage(doc: PDFDocument, file: File): Promise<PDFImage> {

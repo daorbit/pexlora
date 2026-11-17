@@ -1,6 +1,20 @@
 import { AI_NAME } from "@/config/brand";
 import { routes } from "@/config/site";
-import { Combine, FileImage, IdCard, Images, PenTool, RotateCw, Scissors, SwitchCamera } from "lucide-react";
+import {
+  Combine,
+  Crop,
+  FileImage,
+  IdCard,
+  Images,
+  Layers,
+  ListOrdered,
+  PenTool,
+  RotateCw,
+  Scissors,
+  SquareUser,
+  Stamp,
+  SwitchCamera,
+} from "lucide-react";
 import { AltTextIcon } from "@/components/icons/AltTextIcon";
 import { CompressImageIcon } from "@/components/icons/CompressImageIcon";
 import { ConvertImageIcon } from "@/components/icons/ConvertImageIcon";
@@ -26,7 +40,12 @@ export type WorkspaceToolSlug =
   | "jpg-to-pdf"
   | "pdf-to-jpg"
   | "svg-to-image"
-  | "image-to-svg";
+  | "image-to-svg"
+  | "crop-image"
+  | "passport-photo"
+  | "organize-pdf"
+  | "pdf-page-numbers"
+  | "pdf-watermark";
 
 export type ToolCategory = "metadata" | "image" | "pdf" | "ai";
 
@@ -105,6 +124,17 @@ export const workspaceTools: WorkspaceTool[] = [
       "Change image size to an exact width and height in pixels or scale by percentage, with or without keeping the aspect ratio.",
   },
   {
+    slug: "crop-image",
+    category: "image",
+    href: routes.cropImage,
+    icon: Crop,
+    name: "Crop Image",
+    shortName: "Crop Image",
+    headline: "Crop images to square, 4:5, 16:9 and more.",
+    description:
+      "Crop JPG, PNG, WebP and HEIC images to a square, a 4:5 portrait post, a 9:16 story or a 16:9 widescreen frame. Cropped in your browser, nothing is uploaded.",
+  },
+  {
     slug: "convert-format",
     category: "image",
     href: routes.convert,
@@ -171,6 +201,17 @@ export const workspaceTools: WorkspaceTool[] = [
       "Get a photo or signature to the exact pixel size and KB range an exam, bank or government form asks for. Done in your browser, saved as JPG.",
   },
   {
+    slug: "passport-photo",
+    category: "image",
+    href: routes.passportPhoto,
+    icon: SquareUser,
+    name: "Passport Photo Maker",
+    shortName: "Passport Photo",
+    headline: "Make a printable sheet of passport photos.",
+    description:
+      "Turn one photo into a 4 × 6 in or A4 print sheet of 35 × 45 mm, 2 × 2 in or stamp-size passport photos with cut lines. Made in your browser at 300 DPI.",
+  },
+  {
     slug: "merge-pdf",
     category: "pdf",
     href: routes.mergePdf,
@@ -202,6 +243,39 @@ export const workspaceTools: WorkspaceTool[] = [
     headline: "Rotate PDF pages and save them.",
     description:
       "Turn every page of a PDF by 90 or 180 degrees and save it. Author, title and other document metadata are removed at the same time.",
+  },
+  {
+    slug: "organize-pdf",
+    category: "pdf",
+    href: routes.organizePdf,
+    icon: Layers,
+    name: "Organize PDF",
+    shortName: "Organize PDF",
+    headline: "Delete, reorder and extract PDF pages.",
+    description:
+      "Remove pages from a PDF, change their order or pull out just the ones you need, with a preview of every page. Runs in your browser, nothing is uploaded.",
+  },
+  {
+    slug: "pdf-page-numbers",
+    category: "pdf",
+    href: routes.pdfPageNumbers,
+    icon: ListOrdered,
+    name: "Add Page Numbers to PDF",
+    shortName: "Page Numbers",
+    headline: "Add page numbers to a PDF.",
+    description:
+      "Number every page of a PDF at the top or bottom, as 1, Page 1 or Page 1 of 9, with the option to skip the cover. Added in your browser, nothing is uploaded.",
+  },
+  {
+    slug: "pdf-watermark",
+    category: "pdf",
+    href: routes.pdfWatermark,
+    icon: Stamp,
+    name: "Add Watermark to PDF",
+    shortName: "Watermark PDF",
+    headline: "Add a text watermark to a PDF.",
+    description:
+      "Stamp CONFIDENTIAL, DRAFT, COPY or your own text across every page of a PDF, diagonal, straight or tiled. Added in your browser, nothing is uploaded.",
   },
   {
     slug: "jpg-to-pdf",

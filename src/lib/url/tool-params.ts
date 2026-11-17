@@ -2,9 +2,19 @@ import { COMPRESS_TARGET_KB_RANGE, FORM_PHOTO_KB_RANGE, MAX_RESIZE_DIMENSION, RE
 import type { WorkspaceToolSlug } from "@/config/tools";
 import { FORMAT_EXTENSIONS, OUTPUT_FORMATS, type OutputFormat } from "@/lib/image/formats";
 import {
+  CROP_ANCHORS,
+  CROP_RATIOS,
   isCompressionLevel,
   isOneOf,
   isRotateAngle,
+  PAGE_NUMBER_POSITIONS,
+  PAGE_NUMBER_STYLES,
+  PASSPORT_COPIES,
+  PASSPORT_OUTPUTS,
+  PASSPORT_SIZES,
+  PRINT_SHEETS,
+  WATERMARK_LAYOUTS,
+  WATERMARK_OPACITIES,
   SVG_OUTPUT_FORMATS,
   SVG_SIZES,
   TRACE_COLORS,
@@ -35,6 +45,11 @@ function readKeepAspect(params: URLSearchParams, fallback: boolean) {
   if (ratio === "free") return false;
   if (ratio === "keep") return true;
   return fallback;
+}
+
+function readOneOf<T extends string>(params: URLSearchParams, key: string, values: readonly T[], fallback: T) {
+  const value = params.get(key);
+  return isOneOf(values, value) ? value : fallback;
 }
 
 function readCompressOptions(params: URLSearchParams, base: CompressOptions): CompressOptions {
@@ -99,6 +114,44 @@ export function optionsFromParams(tool: WorkspaceToolSlug, params: URLSearchPara
         },
       };
     }
+    case "crop-image":
+      return {
+        ...base,
+        crop: {
+          ratio: readOneOf(params, "ratio", CROP_RATIOS, base.crop.ratio),
+          anchor: readOneOf(params, "keep", CROP_ANCHORS, base.crop.anchor),
+        },
+      };
+    case "passport-photo":
+      return {
+        ...base,
+        passport: {
+          size: readOneOf(params, "size", PASSPORT_SIZES, base.passport.size),
+          sheet: readOneOf(params, "sheet", PRINT_SHEETS, base.passport.sheet),
+          copies: readOneOf(params, "copies", PASSPORT_COPIES, base.passport.copies),
+          output: readOneOf(params, "output", PASSPORT_OUTPUTS, base.passport.output),
+        },
+      };
+    case "pdf-page-numbers": {
+      const cover = params.get("cover");
+      return {
+        ...base,
+        pageNumbers: {
+          position: readOneOf(params, "position", PAGE_NUMBER_POSITIONS, base.pageNumbers.position),
+          style: readOneOf(params, "style", PAGE_NUMBER_STYLES, base.pageNumbers.style),
+          skipFirst: cover === null ? base.pageNumbers.skipFirst : cover === "skip",
+        },
+      };
+    }
+    case "pdf-watermark":
+      return {
+        ...base,
+        watermark: {
+          ...base.watermark,
+          layout: readOneOf(params, "layout", WATERMARK_LAYOUTS, base.watermark.layout),
+          opacity: readOneOf(params, "strength", WATERMARK_OPACITIES, base.watermark.opacity),
+        },
+      };
     case "resize-image": {
       return {
         ...base,
@@ -128,6 +181,18 @@ export function optionsToParams(tool: WorkspaceToolSlug, options: ToolOptions): 
       return { format: FORMAT_EXTENSIONS[options.svg.format], size: options.svg.size };
     case "image-to-svg":
       return { detail: options.trace.detail, colors: options.trace.colors };
+    case "crop-image":
+      return { ratio: options.crop.ratio, keep: options.crop.anchor };
+    case "passport-photo": {
+      const { size, sheet, copies, output } = options.passport;
+      return { size, sheet, copies, output };
+    }
+    case "pdf-page-numbers": {
+      const { position, style, skipFirst } = options.pageNumbers;
+      return { position, style, cover: skipFirst ? "skip" : null };
+    }
+    case "pdf-watermark":
+      return { layout: options.watermark.layout, strength: options.watermark.opacity };
     case "form-photo": {
       const { width, height, minKb, maxKb } = options.form;
       const text = (value: number | null) => (value === null ? null : String(value));

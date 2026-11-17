@@ -1,15 +1,22 @@
 import { MAX_IMAGE_SIZE } from "@/config/limits";
-import { localToolsCopy } from "@/content/workspace";
+import { localToolsCopy, optionsCopy } from "@/content/workspace";
 import { FORMAT_EXTENSIONS, FORMAT_MIME_TYPES } from "@/lib/image/formats";
 import type {
   CompressOptions,
+  CropOptions,
   FormPhotoOptions,
+  OrganizeOptions,
+  PageNumberOptions,
+  PassportOptions,
   RasterFormat,
   ResizeOptions,
   RotateAngle,
   SvgRasterOptions,
   TraceOptions,
+  WatermarkOptions,
 } from "@/lib/image/options";
+import { makePassportSheet } from "@/lib/files/convert/passport-sheet";
+import { addPageNumbers, addWatermark } from "@/lib/files/pdf/pdf-stamp";
 import { rasterizeSvg } from "@/lib/files/vector/svg-rasterize";
 import { traceImage } from "@/lib/files/vector/trace-image";
 import { detectFormat } from "@/lib/files/detect";
@@ -24,7 +31,15 @@ import {
 } from "@/lib/files/raster/types";
 import { compressImage, resizeImage } from "@/services/image-api";
 import { pdfToImages } from "@/lib/files/pdf/pdf-render";
-import { imagesToPdf, mergePdfs, rotatePdf, splitPdf, type NamedBlob } from "@/lib/files/pdf/pdf-tools";
+import {
+  imagesToPdf,
+  jpegToPdfPage,
+  mergePdfs,
+  organizePdf,
+  rotatePdf,
+  splitPdf,
+  type NamedBlob,
+} from "@/lib/files/pdf/pdf-tools";
 import { UnreadableFileError } from "@/lib/files/processors/types";
 import type { ProcessedFile } from "@/lib/metadata/types";
 import { createZip } from "@/lib/utils/download";
@@ -100,15 +115,18 @@ function canUseServer(file: File) {
 async function inBrowserOrServer(
   file: File,
   job: RasterJob | null,
-  server: () => Promise<ProcessedFile>,
+  server: (() => Promise<ProcessedFile>) | null,
   describe: (result: RasterResult) => Partial<ProcessedFile>,
 ) {
-  if (!job) return server();
+  if (!job) {
+    if (server) return server();
+    throw new UnreadableFileError(localToolsCopy.browserFormatsOnly);
+  }
   let result: RasterResult;
   try {
     result = await processInBrowser(file, job);
   } catch (error) {
-    if (error instanceof BrowserRasterUnavailableError && canUseServer(file)) return server();
+    if (error instanceof BrowserRasterUnavailableError && server && canUseServer(file)) return server();
     if (error instanceof BrowserRasterUnavailableError) throw new UnreadableFileError(localToolsCopy.tooLargeForBrowser);
     throw error;
   }
@@ -134,6 +152,34 @@ export function compressImageFile(file: File, options: CompressOptions) {
 export function resizeImageFile(file: File, options: ResizeOptions) {
   const format = browserFormatOf(file);
   return inBrowserOrServer(file, format ? { kind: "resize", format, options } : null, () => resizeImage(file, options), () => ({}));
+}
+
+export function cropImageFile(file: File, options: CropOptions) {
+  const format = browserFormatOf(file);
+  return inBrowserOrServer(file, format ? { kind: "crop", format, options } : null, null, () => ({}));
+}
+
+export async function passportSheetFile(file: File, options: PassportOptions) {
+  const { blob, layout, width, height } = await guard(() => makePassportSheet(file, options));
+  const output = options.output === "pdf" ? await guard(() => jpegToPdfPage(blob, layout.sheet)) : blob;
+  return finish(output, withExtension(file.name, options.output === "pdf" ? "pdf" : "jpg", "-passport-sheet"), {
+    dimensions: { width, height },
+  });
+}
+
+export async function pageNumbersFile(file: File, options: PageNumberOptions) {
+  const blob = await guard(() => addPageNumbers(file, options, optionsCopy.pageNumberLabels[options.style]));
+  return finish(blob, withExtension(file.name, "pdf", "-numbered"));
+}
+
+export async function watermarkPdfFile(file: File, options: WatermarkOptions) {
+  const blob = await guard(() => addWatermark(file, options));
+  return finish(blob, withExtension(file.name, "pdf", "-watermarked"));
+}
+
+export async function organizePdfFile(file: File, options: OrganizeOptions) {
+  const blob = await guard(() => organizePdf(file, options.pages));
+  return finish(blob, withExtension(file.name, "pdf", "-organized"));
 }
 
 export async function svgToImageFile(file: File, options: SvgRasterOptions) {

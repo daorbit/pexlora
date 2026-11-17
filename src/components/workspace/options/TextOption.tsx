@@ -10,17 +10,18 @@ type TextOptionProps = {
   value: string;
   placeholder: string;
   disabled?: boolean;
+  maxLength?: number;
   onChange: (value: string) => void;
 };
 
-export function TextOption({ label, value, placeholder, disabled, onChange }: TextOptionProps) {
+export function TextOption({ label, value, placeholder, disabled, maxLength = MAX_METADATA_TEXT_LENGTH, onChange }: TextOptionProps) {
   return (
     <OptionGroup as="label" label={label} className="min-w-0">
       <input
         type="text"
         value={value}
         placeholder={placeholder}
-        maxLength={MAX_METADATA_TEXT_LENGTH}
+        maxLength={maxLength}
         disabled={disabled}
         onChange={(event) => onChange(event.target.value)}
         className={cn(optionFieldShell, optionFieldInput, "w-full min-w-0 px-3.5")}

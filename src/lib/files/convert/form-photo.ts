@@ -1,5 +1,5 @@
+import { drawCovered } from "@/lib/files/convert/canvas-cover";
 import { canvasToBlob, decodeImage } from "@/lib/files/convert/image-decode";
-import { UnreadableFileError } from "@/lib/files/processors/types";
 import type { FormPhotoOptions } from "@/lib/image/options";
 
 const FREE_MAX_SIDE = 1600;
@@ -19,22 +19,6 @@ function targetSize(source: Size, { width, height }: FormPhotoOptions): Size {
   if (height) return { width: Math.round((source.width * height) / source.height), height };
   const scale = Math.min(1, FREE_MAX_SIDE / Math.max(source.width, source.height));
   return { width: Math.round(source.width * scale), height: Math.round(source.height * scale) };
-}
-
-function drawCovered(bitmap: ImageBitmap, size: Size) {
-  const canvas = document.createElement("canvas");
-  canvas.width = size.width;
-  canvas.height = size.height;
-  const context = canvas.getContext("2d");
-  if (!context) throw new UnreadableFileError("Your browser couldn't prepare this image.");
-  const scale = Math.max(size.width / bitmap.width, size.height / bitmap.height);
-  const drawWidth = bitmap.width * scale;
-  const drawHeight = bitmap.height * scale;
-  context.fillStyle = "#ffffff";
-  context.fillRect(0, 0, size.width, size.height);
-  context.imageSmoothingQuality = "high";
-  context.drawImage(bitmap, (size.width - drawWidth) / 2, (size.height - drawHeight) / 2, drawWidth, drawHeight);
-  return canvas;
 }
 
 const encode = (canvas: HTMLCanvasElement, quality: number) => canvasToBlob(canvas, "image/jpeg", quality);

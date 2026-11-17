@@ -415,6 +415,148 @@ export const toolGuides: Record<WorkspaceToolSlug, ToolGuide> = {
       dailyLimit,
     ],
   },
+  "crop-image": {
+    intro: {
+      heading: "Crop images to the exact shape you need",
+      paragraphs: [
+        "Profile pictures want a square, feed posts look best at 4:5, stories and Reels need 9:16 and video thumbnails 16:9. Pick the shape, choose whether to keep the top, the centre or the bottom of the picture, and crop a whole batch in one go.",
+        "Cropping runs in your browser, so your photos aren't uploaded. JPG stays JPG, PNG stays PNG and WebP stays WebP, iPhone HEIC photos come out as JPG, and EXIF and GPS data are left out of the cropped copy.",
+      ],
+    },
+    steps: [
+      { title: "Add your images", body: `Pick up to ${MAX_FILES_PER_BATCH} JPG, PNG, WebP or HEIC images.` },
+      { title: "Choose the shape", body: "Pick an aspect ratio and which part of the picture to keep. The preview shows the crop." },
+      { title: "Crop and save", body: "Every image is cropped the same way and ready to download." },
+    ],
+    faqs: [
+      {
+        question: "Can I crop to a custom size in pixels?",
+        answer: "This tool crops to a shape. To get an exact pixel size afterwards, send the cropped images to the Image Resizer.",
+      },
+      {
+        question: "Does cropping lower the quality?",
+        answer: "No pixels are scaled, only trimmed. PNG is saved losslessly and JPG and WebP at a high quality setting.",
+      },
+      inBrowser,
+      dailyLimit,
+    ],
+  },
+  "passport-photo": {
+    intro: {
+      heading: "Print passport photos at home or at a photo shop",
+      paragraphs: [
+        "Turn one photo into a full sheet of passport photos. Pick 35 × 45 mm for Indian, UK and most European passports and visas, 2 × 2 inches for US passports and OCI, or stamp size for forms, then print the sheet on 4 × 6 inch photo paper or A4.",
+        "The photo is centre-cropped to the passport shape and repeated as many times as fit, with light grey lines to cut along. The sheet is built in your browser at 300 DPI, so your photo isn't uploaded.",
+      ],
+    },
+    steps: [
+      { title: "Add your photo", body: "Use a front-facing photo on a plain, light background. JPG, PNG, WebP and HEIC work." },
+      { title: "Pick size and sheet", body: "Choose the photo size, the paper and how many copies you want." },
+      { title: "Print at actual size", body: "Save the JPG or PDF and print it at 100%, not fit to page, then cut along the lines." },
+    ],
+    faqs: [
+      {
+        question: "How many photos fit on a 4 × 6 inch print?",
+        answer: "Eight 35 × 45 mm photos, two 2 × 2 inch photos, or twenty stamp-size photos. An A4 sheet holds thirty-two 35 × 45 mm photos.",
+      },
+      {
+        question: "Will my photo be accepted?",
+        answer:
+          "That depends on the photo itself: lighting, background, expression and head size. This tool gets the size and print layout right; check your passport office's rules before you print.",
+      },
+      {
+        question: "JPG or PDF?",
+        answer: "Photo shops usually want a JPG. The PDF has the exact paper size built in, so it prints at the right size from a home printer.",
+      },
+      inBrowser,
+      dailyLimit,
+    ],
+  },
+  "organize-pdf": {
+    intro: {
+      heading: "Delete, reorder and extract PDF pages",
+      paragraphs: [
+        "Drop a blank page, move an appendix to the end or pull a few pages out of a long document. Every page is shown as a thumbnail: remove pages with one tap, move them with the arrows, or type ranges like 1-3, 7, 10-12.",
+        "Everything happens in your browser, so the document never leaves your device. Pages are copied exactly as they are, without re-compressing text or images, and the new PDF doesn't carry the original's author or title information.",
+      ],
+    },
+    steps: [
+      { title: "Add a PDF", body: "Choose the PDF you want to organize. Page thumbnails appear on the right." },
+      { title: "Remove and reorder", body: "Tap the cross to remove a page and the arrows to move it, or type the page order." },
+      { title: "Save the PDF", body: "Get a new PDF with only the pages you kept, in your order." },
+    ],
+    faqs: [
+      {
+        question: "How do I extract pages from a PDF?",
+        answer: "Type the pages you want, like 2-4, 9, in the page order box. Only those pages are saved, in that order.",
+      },
+      {
+        question: "Can I reverse the page order?",
+        answer: "Yes. Tap Reverse, or type a backwards range like 12-1.",
+      },
+      inBrowser,
+      passwordPdf,
+      pdfLimit,
+    ],
+    relatedGuides: ["remove-pdf-metadata"],
+  },
+  "pdf-page-numbers": {
+    intro: {
+      heading: "Add page numbers to a PDF",
+      paragraphs: [
+        "Number the pages of a report, thesis or scanned document in seconds. Put the numbers at the top or bottom, left, centre or right, and choose between 1, Page 1, Page 1 of 9 or 1 / 9.",
+        "Numbers are added in your browser, so the PDF isn't uploaded. Sideways pages get upright numbers, nothing else on the page is re-compressed, and the saved copy has its document metadata removed.",
+      ],
+    },
+    steps: [
+      { title: "Add your PDFs", body: `Choose up to ${MAX_FILES_PER_BATCH} PDF files.` },
+      { title: "Pick position and format", body: "Choose where the number goes and how it reads. Skip the cover if you need to." },
+      { title: "Save the PDF", body: "Every page gets its number and the new PDF is ready to download." },
+    ],
+    faqs: [
+      {
+        question: "Can I leave the first page without a number?",
+        answer: "Yes. Tick Skip the first page and the cover stays clean. The other pages keep their real page numbers, so the second page shows 2.",
+      },
+      {
+        question: "Does it work with landscape or rotated pages?",
+        answer: "Yes. Numbers are placed on the page as you see it, so they're upright on landscape and rotated pages too.",
+      },
+      inBrowser,
+      passwordPdf,
+      pdfLimit,
+    ],
+    relatedGuides: ["remove-pdf-metadata"],
+  },
+  "pdf-watermark": {
+    intro: {
+      heading: "Add a text watermark to a PDF",
+      paragraphs: [
+        "Mark a document as CONFIDENTIAL, DRAFT or a copy for one person before you send it. Type your text, pick a diagonal, straight or tiled layout and choose how strong it looks.",
+        "The watermark is added in your browser, so the PDF isn't uploaded. Text and images underneath stay sharp, and the saved copy has its document metadata removed.",
+      ],
+    },
+    steps: [
+      { title: "Add your PDFs", body: `Choose up to ${MAX_FILES_PER_BATCH} PDF files.` },
+      { title: "Type the watermark", body: "Enter the text and pick the layout and strength." },
+      { title: "Save the PDF", body: "The watermark goes on every page and the new PDF is ready to download." },
+    ],
+    faqs: [
+      {
+        question: "Can the watermark be removed?",
+        answer:
+          "A text watermark makes copying and forwarding obvious, but someone with a PDF editor can remove it. Tiled watermarks are the hardest to crop out of screenshots.",
+      },
+      {
+        question: "Can I write the watermark in Hindi or another script?",
+        answer: "Not yet. Watermarks use English letters, numbers and common symbols for now.",
+      },
+      inBrowser,
+      passwordPdf,
+      pdfLimit,
+    ],
+    relatedGuides: ["remove-pdf-metadata"],
+  },
   "merge-pdf": {
     intro: {
       heading: "Merge PDF files into one document",

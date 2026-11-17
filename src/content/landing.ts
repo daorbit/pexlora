@@ -40,6 +40,11 @@ export const heroCopy = {
     "pdf-to-jpg": "To JPG",
     "svg-to-image": "SVG",
     "image-to-svg": "To SVG",
+    "crop-image": "Crop",
+    "passport-photo": "Passport",
+    "organize-pdf": "Organize",
+    "pdf-page-numbers": "Numbers",
+    "pdf-watermark": "Watermark",
   } as Record<string, string>,
 };
 

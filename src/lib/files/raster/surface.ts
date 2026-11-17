@@ -2,7 +2,7 @@ const STEP_DOWN = 0.5;
 
 type Drawable = ImageBitmap | OffscreenCanvas;
 
-function createSurface(width: number, height: number) {
+export function createSurface(width: number, height: number) {
   const canvas = new OffscreenCanvas(width, height);
   const context = canvas.getContext("2d");
   if (!context) throw new Error("This browser couldn't prepare the image.");

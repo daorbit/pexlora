@@ -4,8 +4,10 @@ import {
   MAX_METADATA_TEXT_LENGTH,
   FORM_PHOTO_KB_RANGE,
   MAX_RESIZE_DIMENSION,
+  MAX_WATERMARK_LENGTH,
   RESIZE_PERCENT_RANGE,
 } from "@/config/limits";
+import { parsePageSpec } from "@/lib/files/pdf/page-spec";
 import { DEFAULT_OUTPUT_FORMAT, type OutputFormat } from "@/lib/image/formats";
 
 export const COMPRESSION_LEVELS = ["light", "balanced", "strong"] as const;
@@ -41,7 +43,48 @@ export type TraceDetail = (typeof TRACE_DETAILS)[number];
 export const TRACE_COLORS = ["2", "4", "8", "16", "32"] as const;
 export type TraceColors = (typeof TRACE_COLORS)[number];
 
+export const CROP_RATIOS = ["1x1", "4x5", "9x16", "16x9", "3x2", "4x3"] as const;
+export type CropRatio = (typeof CROP_RATIOS)[number];
+
+export const CROP_ANCHORS = ["start", "center", "end"] as const;
+export type CropAnchor = (typeof CROP_ANCHORS)[number];
+
+export const PASSPORT_SIZES = ["35x45", "51x51", "20x25"] as const;
+export type PassportSize = (typeof PASSPORT_SIZES)[number];
+
+export const PRINT_SHEETS = ["4x6", "a4"] as const;
+export type PrintSheet = (typeof PRINT_SHEETS)[number];
+
+export const PASSPORT_COPIES = ["fill", "2", "4", "6"] as const;
+export type PassportCopies = (typeof PASSPORT_COPIES)[number];
+
+export const PASSPORT_OUTPUTS = ["jpeg", "pdf"] as const;
+export type PassportOutput = (typeof PASSPORT_OUTPUTS)[number];
+
+export const PAGE_NUMBER_POSITIONS = ["top-left", "top-center", "top-right", "bottom-left", "bottom-center", "bottom-right"] as const;
+export type PageNumberPosition = (typeof PAGE_NUMBER_POSITIONS)[number];
+
+export const PAGE_NUMBER_STYLES = ["number", "page", "page-of", "fraction"] as const;
+export type PageNumberStyle = (typeof PAGE_NUMBER_STYLES)[number];
+
+export const WATERMARK_LAYOUTS = ["diagonal", "horizontal", "tiled"] as const;
+export type WatermarkLayout = (typeof WATERMARK_LAYOUTS)[number];
+
+export const WATERMARK_OPACITIES = ["light", "medium", "strong"] as const;
+export type WatermarkOpacity = (typeof WATERMARK_OPACITIES)[number];
+
+export const WATERMARK_OPACITY_VALUES: Record<WatermarkOpacity, number> = {
+  light: 0.15,
+  medium: 0.3,
+  strong: 0.5,
+};
+
 export type ConvertOptions = { format: OutputFormat };
+export type CropOptions = { ratio: CropRatio; anchor: CropAnchor };
+export type PassportOptions = { size: PassportSize; sheet: PrintSheet; copies: PassportCopies; output: PassportOutput };
+export type PageNumberOptions = { position: PageNumberPosition; style: PageNumberStyle; skipFirst: boolean };
+export type WatermarkOptions = { text: string; layout: WatermarkLayout; opacity: WatermarkOpacity };
+export type OrganizeOptions = { pages: string };
 export type HeicOptions = { format: RasterFormat };
 export type RotateOptions = { angle: RotateAngle };
 export type SvgRasterOptions = { format: SvgOutputFormat; size: SvgSize };
@@ -75,6 +118,11 @@ export type ToolOptions = {
   form: FormPhotoOptions;
   svg: SvgRasterOptions;
   trace: TraceOptions;
+  crop: CropOptions;
+  passport: PassportOptions;
+  pageNumbers: PageNumberOptions;
+  watermark: WatermarkOptions;
+  organize: OrganizeOptions;
 };
 
 export const DEFAULT_TOOL_OPTIONS: ToolOptions = {
@@ -87,6 +135,11 @@ export const DEFAULT_TOOL_OPTIONS: ToolOptions = {
   form: { width: null, height: null, minKb: null, maxKb: 50 },
   svg: { format: "png", size: "2x" },
   trace: { detail: "balanced", colors: "8" },
+  crop: { ratio: "1x1", anchor: "center" },
+  passport: { size: "35x45", sheet: "4x6", copies: "fill", output: "jpeg" },
+  pageNumbers: { position: "bottom-center", style: "number", skipFirst: false },
+  watermark: { text: "Confidential", layout: "diagonal", opacity: "medium" },
+  organize: { pages: "" },
 };
 
 export function isOneOf<T extends string>(values: readonly T[], value: unknown): value is T {
@@ -151,6 +204,20 @@ export function getResizeError(options: ResizeOptions) {
 
 export function isRotateAngle(value: unknown): value is RotateAngle {
   return ROTATE_ANGLES.includes(value as RotateAngle);
+}
+
+const WATERMARK_CHARACTERS = /^[\x20-\x7E -ÿ]+$/;
+
+export function getWatermarkError({ text }: WatermarkOptions) {
+  const value = text.trim();
+  if (!value) return "Type the watermark text.";
+  if (value.length > MAX_WATERMARK_LENGTH) return `Keep the watermark under ${MAX_WATERMARK_LENGTH} characters.`;
+  if (!WATERMARK_CHARACTERS.test(value)) return "Use English letters, numbers and common symbols. Other scripts aren't supported yet.";
+  return null;
+}
+
+export function getOrganizeError({ pages }: OrganizeOptions) {
+  return parsePageSpec(pages) ? null : "Use page numbers and ranges like 1-3, 5, 8.";
 }
 
 export function getFormPhotoError({ width, height, minKb, maxKb }: FormPhotoOptions) {

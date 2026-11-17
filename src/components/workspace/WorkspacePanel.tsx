@@ -5,7 +5,7 @@ import type { Conversion } from "@/config/conversions";
 import { acceptAttribute, type FileKind } from "@/config/file-formats";
 import type { SampleImage } from "@/config/samples";
 import type { WorkspaceToolSlug } from "@/config/tools";
-import { panelNotes, saveCopy } from "@/content/workspace";
+import { dropzoneOverrides, panelNotes, saveCopy } from "@/content/workspace";
 import { housePromos, resultsPromoTools } from "@/config/house-promos";
 import { useAutoRun } from "@/hooks/useAutoRun";
 import { useToolRunner } from "@/hooks/useToolRunner";
@@ -36,6 +36,7 @@ import { PanelChecklist } from "@/components/workspace/PanelChecklist";
 import { ResultSummary } from "@/components/workspace/ResultSummary";
 import { SettingsPanel } from "@/components/workspace/SettingsPanel";
 import { toolBehaviors } from "@/components/workspace/toolBehaviors";
+import { alwaysStagedTools, ToolStage } from "@/components/workspace/stage/ToolStage";
 
 export type WorkspacePanelProps = {
   tool: WorkspaceToolSlug;
@@ -94,6 +95,7 @@ export function WorkspacePanel({
   const hasItems = queue.items.length > 0;
   const hasPanel = Boolean(action || panelFooter);
   const note = panelNotes[tool];
+  const staged = alwaysStagedTools.includes(tool);
 
   const changeOptions = useCallback(
     (next: ToolOptions) => {
@@ -141,7 +143,7 @@ export function WorkspacePanel({
       <div {...dropProps} className={cn("grid items-start gap-3 sm:gap-4", hasPanel && "lg:grid-cols-[minmax(0,1fr)_340px]")}>
         <input {...picker.inputProps} />
 
-        <div className="flex min-w-0 flex-col gap-3">
+        <div className="flex min-w-0 flex-col gap-3 lg:self-stretch">
           <UpsellAlert message={queue.notice?.message ?? null} upsell={queue.notice?.upsell ?? null} />
           {hasItems ? (
             <FilesCard
@@ -168,15 +170,32 @@ export function WorkspacePanel({
               ))}
             </FilesCard>
           ) : (
-            <div className="rounded-[20px] bg-surface p-2 shadow-card sm:rounded-[22px] sm:p-2.5">
+            <div
+              className={cn(
+                "flex flex-col rounded-[20px] bg-surface p-2 shadow-card sm:rounded-[22px] sm:p-2.5",
+                !staged && hasPanel && "lg:flex-1",
+              )}
+            >
               <Dropzone
                 accepts={accepts}
                 localCapable={localCapable}
                 isDragging={isDragging}
                 onBrowse={picker.open}
                 onSample={addSample}
+                override={dropzoneOverrides[tool]}
+                short={staged}
+                className="lg:flex-1"
               />
             </div>
+          )}
+          {!conversion && (
+            <ToolStage
+              tool={tool}
+              options={options}
+              onChange={changeOptions}
+              disabled={queue.isProcessing}
+              sourceFile={queue.items[0]?.file}
+            />
           )}
         </div>
 
@@ -190,7 +209,7 @@ export function WorkspacePanel({
                 options={options}
                 onChange={changeOptions}
                 disabled={queue.isProcessing}
-                sourceFile={queue.items.find((item) => item.format.kind === "image")?.file}
+                sourceFile={queue.items[0]?.file}
               />
             )}
             {note && <PanelChecklist title={note.title} items={note.items} />}

@@ -28,6 +28,10 @@ export const FORM_PHOTO_KB_RANGE = { min: 2, max: 2048 } as const;
 
 export const MAX_METADATA_TEXT_LENGTH = 300;
 
+export const MAX_WATERMARK_LENGTH = 50;
+
+export const PDF_THUMBNAIL_SIDE = 180;
+
 export const PDF_PAGE_LIMIT = 200;
 
 export const PDF_RENDER_MAX_SIDE = 2400;

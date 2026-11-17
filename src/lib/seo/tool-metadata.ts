@@ -25,6 +25,11 @@ const toolTitles: Record<WorkspaceToolSlug, string> = {
   "pdf-to-jpg": "PDF to JPG Converter: Save PDF Pages as Images Free",
   "svg-to-image": "SVG to PNG Converter: SVG to PNG, JPG & WebP Online Free",
   "image-to-svg": "PNG to SVG Converter: Trace PNG & JPG into Vectors Free",
+  "crop-image": "Crop Image Online: Square, 4:5, 9:16 & 16:9 Free",
+  "passport-photo": "Passport Photo Maker: Print Sheet 4x6 & A4, 35x45 mm Free",
+  "organize-pdf": "Organize PDF: Delete, Reorder & Extract PDF Pages Free",
+  "pdf-page-numbers": "Add Page Numbers to PDF Online Free",
+  "pdf-watermark": "Add Watermark to PDF Online: Text Watermark Free",
 };
 
 const textToolTitles: Record<TextToolSlug, string> = {

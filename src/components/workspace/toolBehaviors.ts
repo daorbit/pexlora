@@ -2,7 +2,15 @@ import { ALL_KINDS, type FileKind } from "@/config/file-formats";
 import type { WorkspaceToolSlug } from "@/config/tools";
 import { aiCopy } from "@/content/ai";
 import { localToolsCopy, optionsCopy } from "@/content/workspace";
-import { getCompressError, getFormPhotoError, getMetadataFieldsError, getResizeError, type ToolOptions } from "@/lib/image/options";
+import {
+  getCompressError,
+  getFormPhotoError,
+  getMetadataFieldsError,
+  getOrganizeError,
+  getResizeError,
+  getWatermarkError,
+  type ToolOptions,
+} from "@/lib/image/options";
 import type { ProcessedFile } from "@/lib/metadata/types";
 import { generateAltText } from "@/services/ai-api";
 import { cleanFile } from "@/services/file-service";
@@ -10,15 +18,20 @@ import { convertImage, editImageMetadata } from "@/services/image-api";
 import {
   compressImageFile,
   convertHeicFile,
+  cropImageFile,
   formPhotoFile,
   imageToSvgFile,
   imagesToPdfFile,
   mergePdfFiles,
+  organizePdfFile,
+  pageNumbersFile,
+  passportSheetFile,
   pdfToJpgFile,
   resizeImageFile,
   rotatePdfFile,
   splitPdfFile,
   svgToImageFile,
+  watermarkPdfFile,
 } from "@/services/local-tools";
 
 export type ToolAction = {
@@ -175,6 +188,69 @@ export const toolBehaviors: Record<WorkspaceToolSlug, ToolBehavior> = {
       run: (file, { form }) => formPhotoFile(file, form),
       validate: ({ form }) => getFormPhotoError(form),
       zipName: "form-photos.zip",
+    },
+  },
+  "crop-image": {
+    accepts: ["image"],
+    localCapable: true,
+    inspectOnAdd: false,
+    action: {
+      label: "Crop Images",
+      doneLabel: "Cropped",
+      note: localToolsCopy.onDevice,
+      compare: true,
+      run: (file, { crop }) => cropImageFile(file, crop),
+      zipName: "cropped-images.zip",
+    },
+  },
+  "passport-photo": {
+    accepts: ["image"],
+    localCapable: true,
+    inspectOnAdd: false,
+    action: {
+      label: "Make Photo Sheet",
+      doneLabel: "Ready",
+      note: localToolsCopy.onDevice,
+      run: (file, { passport }) => passportSheetFile(file, passport),
+      zipName: "passport-photo-sheets.zip",
+    },
+  },
+  "organize-pdf": {
+    accepts: ["pdf"],
+    localCapable: true,
+    inspectOnAdd: false,
+    action: {
+      label: "Save PDF",
+      doneLabel: "Saved",
+      note: localToolsCopy.onDevice,
+      run: (file, { organize }) => organizePdfFile(file, organize),
+      validate: ({ organize }) => getOrganizeError(organize),
+      zipName: "organized-pdfs.zip",
+    },
+  },
+  "pdf-page-numbers": {
+    accepts: ["pdf"],
+    localCapable: true,
+    inspectOnAdd: false,
+    action: {
+      label: "Add Page Numbers",
+      doneLabel: "Numbered",
+      note: localToolsCopy.onDevice,
+      run: (file, { pageNumbers }) => pageNumbersFile(file, pageNumbers),
+      zipName: "numbered-pdfs.zip",
+    },
+  },
+  "pdf-watermark": {
+    accepts: ["pdf"],
+    localCapable: true,
+    inspectOnAdd: false,
+    action: {
+      label: "Add Watermark",
+      doneLabel: "Watermarked",
+      note: localToolsCopy.onDevice,
+      run: (file, { watermark }) => watermarkPdfFile(file, watermark),
+      validate: ({ watermark }) => getWatermarkError(watermark),
+      zipName: "watermarked-pdfs.zip",
     },
   },
   "merge-pdf": {

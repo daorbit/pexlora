@@ -44,11 +44,16 @@ const dashboardHrefs: Record<WorkspaceToolSlug, string> = {
   "pdf-to-jpg": routes.dashboardPdfToJpg,
   "svg-to-image": routes.dashboardSvgToImage,
   "image-to-svg": routes.dashboardImageToSvg,
+  "crop-image": routes.dashboardCropImage,
+  "passport-photo": routes.dashboardPassportPhoto,
+  "organize-pdf": routes.dashboardOrganizePdf,
+  "pdf-page-numbers": routes.dashboardPdfPageNumbers,
+  "pdf-watermark": routes.dashboardPdfWatermark,
 };
 
 export const dashboardToolHref = (slug: WorkspaceToolSlug) => dashboardHrefs[slug];
 
-const newToolSlugs: string[] = ["compress-image", "svg-to-image", "image-to-svg"];
+const newToolSlugs: string[] = ["crop-image", "passport-photo", "organize-pdf", "pdf-page-numbers", "pdf-watermark"];
 
 const toolCategoryOrder: ToolCategory[] = ["metadata", "image", "pdf", "ai"];
 

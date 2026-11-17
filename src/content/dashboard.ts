@@ -114,6 +114,56 @@ export const moduleTips: Record<WorkspaceToolSlug, { title: string; tips: string
       "Everything runs in your browser",
     ],
   },
+  "crop-image": {
+    title: "Cropping tips",
+    tips: [
+      "Pick the shape first, then where to keep the picture",
+      "1:1 and 4:5 suit profile photos and feed posts",
+      "9:16 fits stories and Reels, 16:9 fits video thumbnails",
+      "The format stays the same and metadata is removed",
+      "Everything runs in your browser",
+    ],
+  },
+  "passport-photo": {
+    title: "Printing passport photos",
+    tips: [
+      "Use a front-facing photo on a plain light background",
+      "Print at 100% or actual size, never fit to page",
+      "A 4 × 6 in print from a photo shop is the cheapest option",
+      "Check your country's rules before you print",
+      "Everything runs in your browser",
+    ],
+  },
+  "organize-pdf": {
+    title: "Organizing pages",
+    tips: [
+      "Tap the cross on a page to remove it",
+      "Use the arrows to move a page earlier or later",
+      "Type ranges like 1-3, 5 to extract pages from long PDFs",
+      "The same order applies to every PDF in the list",
+      "Everything runs in your browser",
+    ],
+  },
+  "pdf-page-numbers": {
+    title: "Page numbers",
+    tips: [
+      "Bottom centre is the most common position",
+      "Skip the cover so numbering looks right on reports",
+      "Rotated pages get upright numbers",
+      "Document metadata is removed from the saved copy",
+      "Everything runs in your browser",
+    ],
+  },
+  "pdf-watermark": {
+    title: "Watermarking PDFs",
+    tips: [
+      "Diagonal is the classic look for CONFIDENTIAL or DRAFT",
+      "Tiled is harder to crop out of screenshots",
+      "Light keeps the text underneath easy to read",
+      "Keep your original: the watermark is part of the saved copy",
+      "Everything runs in your browser",
+    ],
+  },
   "remove-metadata": {
     title: "What gets removed",
     tips: [

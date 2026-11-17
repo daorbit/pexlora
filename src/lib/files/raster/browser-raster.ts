@@ -9,7 +9,7 @@ function supportsBrowserRaster() {
 }
 
 function outputPixels(job: RasterJob, bitmap: ImageBitmap) {
-  if (job.kind === "compress") return bitmap.width * bitmap.height;
+  if (job.kind !== "resize") return bitmap.width * bitmap.height;
   const { width, height } = resizedSize(job.options, bitmap);
   return width * height;
 }

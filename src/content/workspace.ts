@@ -6,7 +6,15 @@ import type { OutputFormat } from "@/lib/image/formats";
 import type {
   CompressionLevel,
   CompressMode,
+  CropAnchor,
+  CropRatio,
   MetadataField,
+  PageNumberPosition,
+  PageNumberStyle,
+  PassportCopies,
+  PassportOutput,
+  PassportSize,
+  PrintSheet,
   RasterFormat,
   ResizeMode,
   RotateAngle,
@@ -14,6 +22,8 @@ import type {
   SvgSize,
   TraceColors,
   TraceDetail,
+  WatermarkLayout,
+  WatermarkOpacity,
 } from "@/lib/image/options";
 
 const singleKindNouns: Partial<Record<FileKind, { lower: string; title: string }>> = {
@@ -33,6 +43,43 @@ export const dropzoneCopy = {
   onDevice: "JPG, PNG, WebP and HEIC photos, documents, audio and video are read and cleaned on your device. They aren't uploaded.",
   samples: "No file handy? Try a sample:",
   samplesShort: "Try:",
+};
+
+export type DropzoneOverride = {
+  title?: string;
+  mobileTitle?: string;
+  formats?: string;
+  note?: string;
+  samples?: boolean;
+};
+
+const browserPhotoFormats = "JPG, PNG, WebP, HEIC";
+
+const pdfDrop: DropzoneOverride = {
+  title: "Drop PDFs or click to browse",
+  mobileTitle: "Tap to add PDFs",
+  note: "Your PDFs are processed in your browser and never uploaded.",
+};
+
+export const dropzoneOverrides: Partial<Record<WorkspaceToolSlug, DropzoneOverride>> = {
+  "crop-image": {
+    formats: browserPhotoFormats,
+    note: "Photos are cropped in your browser and never uploaded.",
+  },
+  "passport-photo": {
+    title: "Drop a photo of your face",
+    mobileTitle: "Tap to add your photo",
+    formats: browserPhotoFormats,
+    note: "Front-facing, plain light background, good light. It stays on your device.",
+    samples: false,
+  },
+  "merge-pdf": pdfDrop,
+  "split-pdf": pdfDrop,
+  "rotate-pdf": pdfDrop,
+  "pdf-to-jpg": pdfDrop,
+  "organize-pdf": { ...pdfDrop, title: "Drop a PDF or click to browse", mobileTitle: "Tap to add a PDF" },
+  "pdf-page-numbers": pdfDrop,
+  "pdf-watermark": pdfDrop,
 };
 
 export const signupPromptCopy = {
@@ -164,6 +211,126 @@ export const optionsCopy = {
     keywords: { label: "Keywords", placeholder: "sunset, beach, travel" },
   } satisfies Record<MetadataField, { label: string; placeholder: string }>,
   metadataNote: "Your details are written to every image. GPS, camera, AI and other existing tags are removed.",
+  cropRatio: "Aspect ratio",
+  cropRatioLabel: "Crop aspect ratio",
+  cropRatios: {
+    "1x1": { label: "1:1", hint: "Square, profile" },
+    "4x5": { label: "4:5", hint: "Portrait post" },
+    "9x16": { label: "9:16", hint: "Story, Reels" },
+    "16x9": { label: "16:9", hint: "Widescreen" },
+    "3x2": { label: "3:2", hint: "Photo print" },
+    "4x3": { label: "4:3", hint: "Classic" },
+  } satisfies Record<CropRatio, { label: string; hint: string }>,
+  cropAnchor: "Keep",
+  cropAnchorLabel: "Crop position",
+  cropAnchors: {
+    start: { label: "Top / Left", hint: "Trim the end" },
+    center: { label: "Centre", hint: "Trim both sides" },
+    end: { label: "Bottom / Right", hint: "Trim the start" },
+  } satisfies Record<CropAnchor, { label: string; hint: string }>,
+  cropPreview: "Crop preview of the first image",
+  cropHint: "Every image in the list is cropped the same way. The format stays the same and metadata is removed.",
+  passportSize: "Photo size",
+  passportSizeLabel: "Passport photo size",
+  passportSizes: {
+    "35x45": { label: "35×45 mm", hint: "India, UK, EU" },
+    "51x51": { label: "2×2 in", hint: "US, OCI" },
+    "20x25": { label: "20×25 mm", hint: "Stamp size" },
+  } satisfies Record<PassportSize, { label: string; hint: string }>,
+  passportPreview: "Preview of the printed photo sheet",
+  passportCount: (count: number, sheet: string) => `${count} ${count === 1 ? "photo" : "photos"} on one ${sheet} sheet`,
+  passportPrintHint: "Print at 100% (actual size), not fit to page, then cut along the grey lines.",
+  passportSheet: "Print on",
+  passportSheetLabel: "Sheet size",
+  passportSheets: {
+    "4x6": { label: "4 × 6 in", hint: "Photo print" },
+    a4: { label: "A4", hint: "Home printer" },
+  } satisfies Record<PrintSheet, { label: string; hint: string }>,
+  passportCopies: "Copies",
+  passportCopiesLabel: "Number of copies",
+  passportCopyLabels: {
+    fill: "Fill",
+    "2": "2",
+    "4": "4",
+    "6": "6",
+  } satisfies Record<PassportCopies, string>,
+  passportOutput: "Save as",
+  passportOutputLabel: "Output file",
+  passportOutputs: {
+    jpeg: { label: "JPG", hint: "For photo shops, 300 DPI" },
+    pdf: { label: "PDF", hint: "Prints at the exact size" },
+  } satisfies Record<PassportOutput, { label: string; hint: string }>,
+  passportNoFit: "This photo size doesn't fit on the chosen sheet.",
+  pageNumberPosition: "Position",
+  pageNumberPositionLabel: "Page number position",
+  pageNumberPositions: {
+    "top-left": { label: "Top Left" },
+    "top-center": { label: "Top Centre" },
+    "top-right": { label: "Top Right" },
+    "bottom-left": { label: "Bottom Left" },
+    "bottom-center": { label: "Bottom Centre" },
+    "bottom-right": { label: "Bottom Right" },
+  } satisfies Record<PageNumberPosition, { label: string }>,
+  pageNumberStyle: "Format",
+  pageNumberStyleLabel: "Page number format",
+  pageNumberStyles: {
+    number: { label: "1", hint: "Just the number" },
+    page: { label: "Page 1", hint: "With the word Page" },
+    "page-of": { label: "Page 1 of 9", hint: "With the total" },
+    fraction: { label: "1 / 9", hint: "Short, with the total" },
+  } satisfies Record<PageNumberStyle, { label: string; hint: string }>,
+  pageNumberLabels: {
+    number: (page: number) => String(page),
+    page: (page: number) => `Page ${page}`,
+    "page-of": (page: number, total: number) => `Page ${page} of ${total}`,
+    fraction: (page: number, total: number) => `${page} / ${total}`,
+  } satisfies Record<PageNumberStyle, (page: number, total: number) => string>,
+  skipFirstPage: "Skip the first page (cover)",
+  pageNumberPickHint: "Tap a spot on the page to place the number",
+  pageNumberPositionNow: (position: string) => `Position: ${position}. Change it on the page preview.`,
+  watermarkPreview: "Preview of the watermark on a page",
+  watermarkText: "Watermark text",
+  watermarkPlaceholder: "Confidential",
+  watermarkLayout: "Layout",
+  watermarkLayoutLabel: "Watermark layout",
+  watermarkLayouts: {
+    diagonal: { label: "Diagonal", hint: "Across the page" },
+    horizontal: { label: "Straight", hint: "Centred" },
+    tiled: { label: "Tiled", hint: "Repeated" },
+  } satisfies Record<WatermarkLayout, { label: string; hint: string }>,
+  watermarkOpacity: "Strength",
+  watermarkOpacityLabel: "Watermark opacity",
+  watermarkOpacities: {
+    light: { label: "Light", hint: "Barely there" },
+    medium: { label: "Medium", hint: "Easy to read" },
+    strong: { label: "Strong", hint: "Hard to miss" },
+  } satisfies Record<WatermarkOpacity, { label: string; hint: string }>,
+  watermarkHint: "The same text goes on every page of every PDF in the list.",
+  organizePages: "Page order",
+  organizePlaceholder: "All pages, e.g. 1-3, 5",
+  organizeHint: "Applies to every PDF in the list. Ranges can run backwards, like 9-1.",
+};
+
+export const stageCopy = {
+  preview: "Preview",
+  pages: "Pages",
+  placeNumber: "Page number position",
+  samplePage: "Sample page. Your PDF keeps its own content.",
+  firstImage: "First image in the list. Every image is cropped the same way.",
+};
+
+export const organizeCopy = {
+  title: "Pages",
+  kept: (kept: number, total: number) => `${kept} of ${total} pages kept`,
+  reverse: "Reverse",
+  reset: "Reset",
+  loading: "Loading pages",
+  removed: "Removed",
+  pageLabel: (page: number) => `Page ${page}`,
+  remove: (page: number) => `Remove page ${page}`,
+  restore: (page: number) => `Put page ${page} back`,
+  moveEarlier: (page: number) => `Move page ${page} earlier`,
+  moveLater: (page: number) => `Move page ${page} later`,
 };
 
 export const resultCopy = {
@@ -242,6 +409,7 @@ export const localToolsCopy = {
   onDevice: "Runs in your browser · nothing uploaded",
   mostlyOnDevice: "JPG, PNG, WebP and HEIC run in your browser",
   tooLargeForBrowser: "This image is too large for your browser to process. Try a smaller image or another browser.",
+  browserFormatsOnly: "This tool works with JPG, PNG, WebP and HEIC images.",
   orderHint: "Files are combined in the order shown",
   moveUp: (name: string) => `Move ${name} up`,
   moveDown: (name: string) => `Move ${name} down`,
