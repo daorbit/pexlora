@@ -386,6 +386,12 @@ export const resultPreviewCopy = {
   pages: (count: number) => `${count} ${count === 1 ? "page" : "pages"}`,
   openFull: "Open Full Size",
   page: (page: number) => `Page ${page}`,
+  imageSize: (width: number, height: number, size: string) => `${width} × ${height} · ${size}`,
+  cantPlay: "Your browser can't play this format here. Save the file to check it.",
+  noPreview: "This file type can't be previewed in the browser. Save it to open it.",
+  zipFiles: (count: number) => `${count} ${count === 1 ? "file" : "files"} in this ZIP`,
+  zipEmpty: "This ZIP is empty.",
+  zipError: "This ZIP couldn't be opened for a preview. Save it to check the files.",
 };
 
 export const compareCopy = {

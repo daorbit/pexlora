@@ -13,7 +13,7 @@ export function ProGem({ plan, className }: { plan: ActivePlan; className?: stri
     <span
       tabIndex={0}
       aria-label={`${memberCopy.label(planName)}. ${validity}`}
-      className={cn("group relative inline-flex rounded-lg p-1 outline-ring focus-visible:outline-2", className)}
+      className={cn("group relative inline-flex cursor-pointer rounded-lg p-1 outline-ring focus-visible:outline-2", className)}
     >
       <PlanGemIcon gem={planGems[plan.id]} facets="dark" className="size-8" />
       <span
