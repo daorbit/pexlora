@@ -1,6 +1,7 @@
 import "server-only";
 import { openImage } from "@/lib/image/open";
 import { describeImage, generateJson } from "@/lib/ai/cloudflare";
+import { AI_MODELS } from "@/lib/ai/models";
 import type { ImageInsights } from "@/lib/ai/types";
 
 const VISION_PROMPT =
@@ -53,6 +54,7 @@ export async function imageInsights(previewUrl: string): Promise<ImageInsights> 
     ],
     schema,
     400,
+    AI_MODELS.structure,
   );
 
   return {

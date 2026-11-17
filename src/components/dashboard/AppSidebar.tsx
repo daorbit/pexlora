@@ -42,7 +42,7 @@ export function AppSidebar({ usage, account, admin, collapsible = true, classNam
       onFocus={onFocus}
       onBlur={hide}
       className={cn(
-        "theme-dark flex h-full w-64 flex-col overflow-x-hidden overflow-y-auto rounded-[24px] bg-surface p-3 text-foreground transition-[width,box-shadow] duration-300",
+        "theme-dark flex h-full w-64 flex-col overflow-hidden rounded-[24px] bg-surface p-3 text-foreground transition-[width,box-shadow] duration-300",
         collapsible && "absolute inset-y-0 left-0 z-40",
         collapsible && !peeking && "sidebar-rail rail-collapsed:w-19",
         peeking && "shadow-[0_24px_60px_-12px_rgb(0_0_0/0.45)]",
@@ -50,8 +50,10 @@ export function AppSidebar({ usage, account, admin, collapsible = true, classNam
       )}
     >
       <SidebarBrand collapsible={collapsible} peeking={peeking} onToggle={togglePinned} />
-      <SidebarNav extra={admin} />
-      <div className="mt-auto flex flex-col gap-2 pt-6">
+      <div className="scrollbar-none -mx-3 min-h-0 flex-1 overflow-x-hidden overflow-y-auto px-3 pb-4">
+        <SidebarNav extra={admin} />
+      </div>
+      <div className="flex shrink-0 flex-col gap-2 border-t border-separator pt-3">
         {usage}
         {account}
       </div>

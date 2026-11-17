@@ -1,5 +1,6 @@
 import "server-only";
 import { generateJson } from "@/lib/ai/cloudflare";
+import { AI_MODELS } from "@/lib/ai/models";
 import type { MetadataExplanation } from "@/lib/ai/types";
 import type { MetadataReport } from "@/lib/metadata/types";
 
@@ -50,6 +51,7 @@ export async function explainMetadata(report: MetadataReport): Promise<MetadataE
     ],
     schema,
     700,
+    AI_MODELS.structure,
   );
 
   return {

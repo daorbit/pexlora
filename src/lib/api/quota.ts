@@ -1,6 +1,7 @@
 import "server-only";
 import { AI_DAILY_LIMITS, DAILY_LIMITS } from "@/config/limits";
 import type { RateLimitScope } from "@/config/security";
+import { aiCopy } from "@/content/ai";
 import { securityCopy } from "@/content/security";
 import { ApiError } from "@/lib/api/errors";
 import type { Upsell } from "@/lib/api/upsell";
@@ -8,6 +9,7 @@ import { activePlan } from "@/lib/auth/plan";
 import { effectiveLimits } from "@/lib/auth/roles";
 import { getSession } from "@/lib/auth/session";
 import { clientId } from "@/lib/security/client";
+import { hasAiBudget } from "@/services/ai-budget.service";
 import { hitRateLimit } from "@/services/rate-limit.service";
 import { incrementUsage, usageKeys } from "@/services/usage.service";
 import { findUserLimits } from "@/services/user.service";
@@ -40,6 +42,7 @@ function quotaUpsell(signedIn: boolean, pro: boolean): Upsell {
 }
 
 async function consumeQuota(request: Request, kind: QuotaKind) {
+  if (kind === "ai" && !(await hasAiBudget())) throw new ApiError(aiCopy.resting, 503);
   const { limits, noun, prefix, burst } = quotas[kind];
   const session = await getSession();
   const identity = session ? usageKeys.user(session.userId) : usageKeys.ip(clientId(request.headers));

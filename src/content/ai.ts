@@ -3,6 +3,7 @@ import { AI_DAILY_LIMITS, AI_TEXT_LIMITS } from "@/config/limits";
 import type { FindingLevel, TextVerdict } from "@/lib/ai/types";
 
 export const aiCopy = {
+  resting: `${AI_NAME} has used today's free capacity. It's back after midnight UTC (5:30 AM IST). Every other tool still works.`,
   copy: "Copy",
   copied: "Copied",
   fillWithAi: `Fill with ${AI_NAME}`,

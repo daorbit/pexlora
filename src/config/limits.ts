@@ -10,6 +10,8 @@ export const AI_DAILY_LIMITS = {
   user: 30,
 } as const;
 
+export const AI_DAILY_NEURON_BUDGET = 9_500;
+
 export const AI_TEXT_LIMITS = { minWords: 40, maxCharacters: 6000 } as const;
 
 export const MAX_FILES_PER_BATCH = 10;
