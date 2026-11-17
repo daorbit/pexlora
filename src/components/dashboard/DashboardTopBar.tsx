@@ -1,8 +1,9 @@
-import type { ReactNode } from "react";
+import { Suspense, type ReactNode } from "react";
 import { Logo } from "@/components/layout/Logo";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
 import { ShellPageTitle } from "@/components/dashboard/ShellPageTitle";
 import { ToolSearch } from "@/components/dashboard/ToolSearch";
+import { TopBarPlanGem } from "@/components/dashboard/TopBarPlanGem";
 
 export function DashboardTopBar({ mobileNav }: { mobileNav: ReactNode }) {
   return (
@@ -17,6 +18,9 @@ export function DashboardTopBar({ mobileNav }: { mobileNav: ReactNode }) {
         </div>
         <span className="flex-1 lg:hidden" />
         <ToolSearch />
+        <Suspense fallback={null}>
+          <TopBarPlanGem />
+        </Suspense>
         <ThemeToggle variant="tile" size="lg" className="max-sm:size-10" />
       </header>
       <div className="px-4 pt-3 sm:px-8 sm:pt-5 lg:hidden">

@@ -5,7 +5,6 @@ import { shellCopy } from "@/content/dashboard";
 import { requireUser } from "@/lib/auth/dal";
 import { cn } from "@/lib/utils/cn";
 import { PlanAvatar } from "@/components/plan/PlanAvatar";
-import { ProBadge } from "@/components/plan/ProBadge";
 import { whenCollapsed } from "@/components/dashboard/sidebar-styles";
 
 const rowClasses = cn("flex items-center gap-2.5 rounded-xl p-1.5", whenCollapsed.centered);
@@ -22,10 +21,7 @@ export async function SidebarUser() {
     >
       <PlanAvatar name={user.name} avatarUrl={user.avatarUrl} plan={user.plan} size="sm" />
       <span className={cn("min-w-0 flex-1", whenCollapsed.hidden)}>
-        <span className="flex items-center gap-1.5">
-          <span className="truncate text-sm font-semibold">{user.name}</span>
-          {user.plan && <ProBadge plan={user.plan} />}
-        </span>
+        <span className="block truncate text-sm font-semibold">{user.name}</span>
         <span className="block truncate text-xs text-secondary">{user.email}</span>
       </span>
       <Settings className={cn("size-4 shrink-0 text-secondary", whenCollapsed.hidden)} aria-hidden />

@@ -105,6 +105,12 @@ export const dashboardToolGroups = toolCategoryOrder.map((category) => ({
   ),
 }));
 
+const overviewColumnLayout: ToolCategory[][] = [["metadata", "ai"], ["image"], ["pdf"]];
+
+export const overviewToolColumns = overviewColumnLayout.map((column) =>
+  column.flatMap((category) => dashboardToolGroups.filter((group) => group.category === category)),
+);
+
 export const overviewNavItem: DashboardNavItem = {
   label: "Overview",
   description: "Overview",
