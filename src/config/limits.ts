@@ -24,6 +24,10 @@ export const COMPRESS_TARGET_KB_RANGE = { min: 5, max: 4096 } as const;
 
 export const MAX_METADATA_TEXT_LENGTH = 300;
 
+export const PDF_PAGE_LIMIT = 200;
+
+export const PDF_RENDER_MAX_SIDE = 2400;
+
 export const FILE_SIZE_LIMITS_MB: Record<FileKind, number> = {
   image: 4,
   pdf: 100,

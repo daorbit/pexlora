@@ -35,13 +35,19 @@ const dashboardHrefs: Record<WorkspaceToolSlug, string> = {
   "resize-image": routes.dashboardResizer,
   "convert-format": routes.dashboardConverter,
   "image-alt-text": routes.dashboardAltText,
+  "heic-to-jpg": routes.dashboardHeicToJpg,
+  "merge-pdf": routes.dashboardMergePdf,
+  "split-pdf": routes.dashboardSplitPdf,
+  "rotate-pdf": routes.dashboardRotatePdf,
+  "jpg-to-pdf": routes.dashboardJpgToPdf,
+  "pdf-to-jpg": routes.dashboardPdfToJpg,
 };
 
 export const dashboardToolHref = (slug: WorkspaceToolSlug) => dashboardHrefs[slug];
 
 const newToolSlugs: string[] = ["compress-image"];
 
-const toolCategoryOrder: ToolCategory[] = ["metadata", "image", "ai"];
+const toolCategoryOrder: ToolCategory[] = ["metadata", "image", "pdf", "ai"];
 
 type DashboardTool = {
   slug: string;

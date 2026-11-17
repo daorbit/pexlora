@@ -27,6 +27,60 @@ export const greetingCopy = {
 };
 
 export const moduleTips: Record<WorkspaceToolSlug, { title: string; tips: string[] }> = {
+  "heic-to-jpg": {
+    title: "Good to know",
+    tips: [
+      "Photos are converted in your browser and never uploaded",
+      "JPG is smaller and opens everywhere; PNG is lossless",
+      "EXIF, GPS and camera details are not copied over",
+      "Other images (PNG, WebP, AVIF) can be converted too",
+    ],
+  },
+  "merge-pdf": {
+    title: "Merging PDFs",
+    tips: [
+      "Use the arrows to set the page order before merging",
+      "Old titles, authors and XMP data are not carried over",
+      "Password-protected PDFs need the password removed first",
+      "Everything runs in your browser",
+    ],
+  },
+  "split-pdf": {
+    title: "Splitting PDFs",
+    tips: [
+      "Every page becomes its own PDF",
+      "Several pages download together as a ZIP",
+      "Starts as soon as you add a file",
+      "Everything runs in your browser",
+    ],
+  },
+  "rotate-pdf": {
+    title: "Rotating PDFs",
+    tips: [
+      "Every page turns by the angle you pick",
+      "Document metadata is removed from the saved copy",
+      "Text and images aren't re-compressed",
+      "Everything runs in your browser",
+    ],
+  },
+  "jpg-to-pdf": {
+    title: "Images to PDF",
+    tips: [
+      "One image per A4 page, fitted and centred",
+      "Use the arrows to set the page order",
+      "JPG, PNG, WebP and HEIC all work",
+      "Photo EXIF and GPS data are not copied into the PDF",
+    ],
+  },
+  "pdf-to-jpg": {
+    title: "PDF pages to JPG",
+    tips: [
+      "Every page is saved as a sharp JPG",
+      "Several pages download together as a ZIP",
+      "Starts as soon as you add a file",
+      "Everything runs in your browser",
+    ],
+  },
   "remove-metadata": {
     title: "What gets removed",
     tips: [

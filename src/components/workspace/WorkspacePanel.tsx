@@ -5,13 +5,12 @@ import type { Conversion } from "@/config/conversions";
 import { acceptAttribute, type FileKind } from "@/config/file-formats";
 import type { SampleImage } from "@/config/samples";
 import type { WorkspaceToolSlug } from "@/config/tools";
-import { toastCopy } from "@/content/toasts";
 import { panelNotes, saveCopy } from "@/content/workspace";
 import { housePromos, resultsPromoTools } from "@/config/house-promos";
 import { useAutoRun } from "@/hooks/useAutoRun";
+import { useToolRunner } from "@/hooks/useToolRunner";
 import { useCanSaveToPhotos } from "@/hooks/useCanSaveToPhotos";
 import { useRememberTool } from "@/hooks/useRecentTools";
-import { vibrate } from "@/lib/utils/haptics";
 import { isLocalFormat } from "@/lib/files/detect";
 import { useFileDrop } from "@/hooks/useFileDrop";
 import { useFileQueue } from "@/hooks/useFileQueue";
@@ -22,7 +21,6 @@ import type { MetadataFields, ToolOptions } from "@/lib/image/options";
 import { fetchAsFile } from "@/lib/utils/fetch-file";
 import { isGalleryMedia, saveFiles } from "@/lib/utils/save-file";
 import { cn } from "@/lib/utils/cn";
-import { toast } from "@/lib/toast/store";
 import { UpsellAlert } from "@/components/ui/UpsellAlert";
 import { ActionBar } from "@/components/workspace/ActionBar";
 import { ConversionSummary } from "@/components/workspace/ConversionSummary";
@@ -62,19 +60,13 @@ export function WorkspacePanel({
     accepts,
     localCapable,
   });
-  const { addFiles, resetResults, process } = queue;
+  const { addFiles, resetResults } = queue;
   const [options, setOptions, patchOptions] = useToolOptions(tool, initialOptions);
   const optionsError = action?.validate?.(options) ?? null;
   const restoreMetadata = useCallback((metadata: MetadataFields) => patchOptions({ metadata }), [patchOptions]);
   useRememberTool(tool);
 
-  const run = useCallback(async () => {
-    if (!action || optionsError) return;
-    const { done, failed } = await process((file) => action.run(file, options));
-    if (done) toast.success(action.doneToast?.(done) ?? toastCopy.filesDone(done, action.doneLabel));
-    if (failed) toast.error(toastCopy.filesFailed(failed));
-    if (done || failed) vibrate(failed ? "error" : "success");
-  }, [action, optionsError, options, process]);
+  const run = useToolRunner(action, options, Boolean(optionsError), queue);
 
   const addFilesAndRun = useAutoRun(addFiles, {
     enabled: Boolean(action?.autoRun),
@@ -167,6 +159,8 @@ export function WorkspacePanel({
                   onRemove={queue.remove}
                   disabled={queue.isProcessing}
                   onDevice={localCapable && isLocalFormat(item.format)}
+                  onMove={action?.orderable && queue.items.length > 1 ? queue.move : undefined}
+                  position={{ first: index === 0, last: index === queue.items.length - 1 }}
                 />
               ))}
             </FilesCard>

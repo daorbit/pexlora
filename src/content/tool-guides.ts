@@ -6,6 +6,8 @@ import {
   MAX_FILES_PER_BATCH,
   MAX_METADATA_TEXT_LENGTH,
   MAX_RESIZE_DIMENSION,
+  PDF_PAGE_LIMIT,
+  PDF_RENDER_MAX_SIDE,
   RESIZE_PERCENT_RANGE,
 } from "@/config/limits";
 import type { WorkspaceToolSlug } from "@/config/tools";
@@ -37,6 +39,22 @@ const animatedGif: SeoFaq = {
 const dailyLimit: SeoFaq = {
   question: "Is there a limit?",
   answer: `Images can be up to ${sizeLimit("image")} each, and you can add ${MAX_FILES_PER_BATCH} at a time. You can process ${DAILY_LIMITS.anonymous} files a day without an account, or ${DAILY_LIMITS.user} with a free account.`,
+};
+
+const inBrowser: SeoFaq = {
+  question: "Are my files uploaded?",
+  answer:
+    "No. This tool runs entirely in your browser, so the files stay on your device. Pexlora only counts how many files you process each day.",
+};
+
+const pdfLimit: SeoFaq = {
+  question: "Is there a limit?",
+  answer: `PDFs can be up to ${sizeLimit("pdf")} and ${PDF_PAGE_LIMIT} pages each, and you can add ${MAX_FILES_PER_BATCH} files at a time. You can process ${DAILY_LIMITS.anonymous} files a day without an account, or ${DAILY_LIMITS.user} with a free account.`,
+};
+
+const passwordPdf: SeoFaq = {
+  question: "Can I use a password-protected PDF?",
+  answer: "Not yet. Remove the password in your PDF reader first, then add the file again.",
 };
 
 const aiLimit: SeoFaq = {
@@ -249,5 +267,159 @@ export const toolGuides: Record<WorkspaceToolSlug, ToolGuide> = {
       },
       aiLimit,
     ],
+  },
+  "heic-to-jpg": {
+    intro: {
+      heading: "Convert iPhone HEIC photos to JPG",
+      paragraphs: [
+        "iPhones save photos as HEIC, which many websites, Windows apps and older Android phones can't open. Pexlora turns them into JPG, which opens everywhere, or PNG if you want a lossless copy.",
+        "The conversion happens in your browser, so your photos aren't uploaded. The new files contain only the picture: the EXIF data, GPS location and camera details from the original are not copied over.",
+      ],
+    },
+    steps: [
+      { title: "Add your HEIC photos", body: `Pick up to ${MAX_FILES_PER_BATCH} photos, or drop them on the page.` },
+      { title: "Choose JPG or PNG", body: "JPG is smaller and works everywhere. PNG keeps every pixel." },
+      { title: "Save the photos", body: "Conversion starts right away. Save each photo, or all of them at once." },
+    ],
+    faqs: [
+      {
+        question: "Why can't I open HEIC files?",
+        answer:
+          "HEIC is Apple's photo format. It saves space, but Windows, many websites and some Android phones don't support it without extra software. Converting to JPG fixes that.",
+      },
+      {
+        question: "Will the photo lose quality?",
+        answer:
+          "JPG is saved at high quality, so the difference is very hard to see. Choose PNG if you need a copy with no compression at all.",
+      },
+      {
+        question: "Is my location removed?",
+        answer: "Yes. Only the picture is converted, so the GPS position, date and camera details are not in the new file.",
+      },
+      inBrowser,
+      dailyLimit,
+    ],
+  },
+  "merge-pdf": {
+    intro: {
+      heading: "Merge PDF files into one document",
+      paragraphs: [
+        "Combine contracts, scans or reports into a single PDF. Add the files, set the order with the arrows and merge them in one step.",
+        "Merging runs in your browser, so the documents never leave your device. The merged file starts fresh: titles, authors and other document information from the originals are not carried over.",
+      ],
+    },
+    steps: [
+      { title: "Add your PDFs", body: `Choose up to ${MAX_FILES_PER_BATCH} PDF files.` },
+      { title: "Set the order", body: "Use the arrows on each file to move it up or down." },
+      { title: "Merge and save", body: "Get one PDF with every page in the order you chose." },
+    ],
+    faqs: [
+      {
+        question: "Can I change the page order?",
+        answer: "Yes, file by file. Move each PDF up or down before merging; the pages inside each file keep their order.",
+      },
+      inBrowser,
+      passwordPdf,
+      pdfLimit,
+    ],
+    relatedGuides: ["remove-pdf-metadata"],
+  },
+  "split-pdf": {
+    intro: {
+      heading: "Split a PDF into separate pages",
+      paragraphs: [
+        "Need one page from a long document, or every page as its own file? Pexlora splits a PDF into single-page PDFs and gives you all of them in one ZIP.",
+        "Splitting runs in your browser, so your document isn't uploaded. Each new file contains only its page, without the original's author or title information.",
+      ],
+    },
+    steps: [
+      { title: "Add a PDF", body: "Choose the PDF you want to split." },
+      { title: "Wait a moment", body: "Every page is saved as its own PDF right away." },
+      { title: "Download the ZIP", body: "Unzip it to get one file per page." },
+    ],
+    faqs: [
+      {
+        question: "Can I split several PDFs at once?",
+        answer: `Yes. Add up to ${MAX_FILES_PER_BATCH} files and each one becomes its own ZIP of pages.`,
+      },
+      inBrowser,
+      passwordPdf,
+      pdfLimit,
+    ],
+    relatedGuides: ["remove-pdf-metadata"],
+  },
+  "rotate-pdf": {
+    intro: {
+      heading: "Rotate PDF pages and save the result",
+      paragraphs: [
+        "Scans and phone photos often end up sideways or upside down. Turn every page by 90 or 180 degrees and save a PDF that opens the right way everywhere.",
+        "Rotation runs in your browser and doesn't re-compress text or images. The saved copy also has its document metadata removed, so the author and editing software aren't shared.",
+      ],
+    },
+    steps: [
+      { title: "Add your PDFs", body: `Choose up to ${MAX_FILES_PER_BATCH} PDF files.` },
+      { title: "Pick the angle", body: "90° right, 180° or 90° left." },
+      { title: "Rotate and save", body: "Every page turns, and you can save the new PDF." },
+    ],
+    faqs: [
+      {
+        question: "Does rotating change the quality?",
+        answer: "No. Only the page orientation changes; the text and images inside stay exactly as they were.",
+      },
+      inBrowser,
+      passwordPdf,
+      pdfLimit,
+    ],
+    relatedGuides: ["remove-pdf-metadata"],
+  },
+  "jpg-to-pdf": {
+    intro: {
+      heading: "Turn images into a single PDF",
+      paragraphs: [
+        "Put receipts, scans or photos into one PDF that's easy to email or upload. Each image gets its own A4 page, fitted and centred, in the order you choose.",
+        `JPG, PNG, WebP and HEIC images up to ${sizeLimit("image")} each work. The PDF is built in your browser, and photo metadata such as GPS location isn't copied into it.`,
+      ],
+    },
+    steps: [
+      { title: "Add your images", body: `Choose up to ${MAX_FILES_PER_BATCH} images.` },
+      { title: "Set the order", body: "Use the arrows to move images up or down." },
+      { title: "Create the PDF", body: "Save one PDF with an image on each page." },
+    ],
+    faqs: [
+      {
+        question: "What page size is used?",
+        answer: "A4. Portrait images get portrait pages and landscape images get landscape pages, with a small margin.",
+      },
+      {
+        question: "Is my location included in the PDF?",
+        answer: "No. Only the pixels are placed on the page, so EXIF and GPS data from your photos aren't in the PDF.",
+      },
+      inBrowser,
+      dailyLimit,
+    ],
+  },
+  "pdf-to-jpg": {
+    intro: {
+      heading: "Save PDF pages as JPG images",
+      paragraphs: [
+        "Turn each page of a PDF into a JPG you can post, send in a chat or drop into a presentation. Pages are rendered sharply, and several pages come together in one ZIP.",
+        "Rendering happens in your browser with the same engine Firefox uses to show PDFs, so your document isn't uploaded.",
+      ],
+    },
+    steps: [
+      { title: "Add a PDF", body: `Choose up to ${MAX_FILES_PER_BATCH} PDF files.` },
+      { title: "Wait a moment", body: "Every page is rendered to a JPG right away." },
+      { title: "Download the images", body: "One page gives a JPG; more pages come as a ZIP." },
+    ],
+    faqs: [
+      {
+        question: "What resolution are the images?",
+        answer: `Pages are rendered at twice their normal size, up to ${PDF_RENDER_MAX_SIDE} pixels on the longest side, which is sharp enough for screens and most printing.`,
+      },
+      inBrowser,
+      passwordPdf,
+      pdfLimit,
+    ],
+    relatedGuides: ["remove-pdf-metadata"],
   },
 };

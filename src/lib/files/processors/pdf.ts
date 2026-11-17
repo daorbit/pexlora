@@ -42,12 +42,12 @@ const INFO_GROUPS: Record<string, MetadataGroupId> = {
 
 const DATE_PATTERN = /^D:(\d{4})(\d{2})?(\d{2})?(\d{2})?(\d{2})?(\d{2})?/;
 
-async function load(file: Blob) {
+export async function loadPdf(file: Blob) {
   try {
     return await PDFDocument.load(await file.arrayBuffer(), { updateMetadata: false });
   } catch (error) {
     if (error instanceof EncryptedPDFError) {
-      throw new UnreadableFileError("Password-protected PDFs can't be cleaned. Remove the password first.");
+      throw new UnreadableFileError("Password-protected PDFs can't be opened here. Remove the password first.");
     }
     throw new UnreadableFileError("This PDF couldn't be read. It may be damaged.");
   }
@@ -131,7 +131,7 @@ function removeC2pa(doc: PDFDocument) {
 
 export const pdfProcessor: FileProcessor = {
   async inspect(file, format) {
-    const doc = await load(file);
+    const doc = await loadPdf(file);
     const report = createReport();
 
     const info = doc.context.lookup(doc.context.trailerInfo.Info);
@@ -160,7 +160,7 @@ export const pdfProcessor: FileProcessor = {
   },
 
   async clean(file) {
-    const doc = await load(file);
+    const doc = await loadPdf(file);
     const { context } = doc;
 
     const info = context.trailerInfo.Info;

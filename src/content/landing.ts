@@ -31,6 +31,12 @@ export const heroCopy = {
     "resize-image": "Resize",
     "convert-format": "Convert",
     "image-alt-text": "Alt Text",
+    "heic-to-jpg": "HEIC",
+    "merge-pdf": "Merge",
+    "split-pdf": "Split",
+    "rotate-pdf": "Rotate",
+    "jpg-to-pdf": "To PDF",
+    "pdf-to-jpg": "To JPG",
   } as Record<string, string>,
 };
 

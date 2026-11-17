@@ -20,6 +20,7 @@ export const hubCategories: { id: HubCategory | "all"; label: string }[] = [
   { id: "all", label: "All Tools" },
   { id: "metadata", label: "Metadata" },
   { id: "image", label: "Edit Images" },
+  { id: "pdf", label: "PDF" },
   { id: "ai", label: "AI Tools" },
   { id: "convert", label: "Convert" },
 ];

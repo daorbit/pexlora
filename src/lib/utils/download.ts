@@ -19,10 +19,14 @@ function uniqueName(name: string, used: Set<string>) {
   return candidate;
 }
 
-export async function downloadZip(files: { blob: Blob; name: string }[], zipName: string) {
+export async function createZip(files: { blob: Blob; name: string }[]) {
   const { default: JSZip } = await import("jszip");
   const zip = new JSZip();
   const used = new Set<string>();
   files.forEach((file) => zip.file(uniqueName(file.name, used), file.blob));
-  downloadBlob(await zip.generateAsync({ type: "blob" }), zipName);
+  return zip.generateAsync({ type: "blob", mimeType: "application/zip" });
+}
+
+export async function downloadZip(files: { blob: Blob; name: string }[], zipName: string) {
+  downloadBlob(await createZip(files), zipName);
 }

@@ -15,6 +15,12 @@ const toolTitles: Record<WorkspaceToolSlug, string> = {
   "resize-image": "Resize Image Online in Pixels or Percentage Free",
   "convert-format": "Image Converter: JPG, PNG, WebP & AVIF Online Free",
   "image-alt-text": "AI Alt Text Generator: Alt Text & SEO File Names",
+  "heic-to-jpg": "HEIC to JPG Converter: Convert iPhone Photos Free",
+  "merge-pdf": "Merge PDF Online: Combine PDF Files Free",
+  "split-pdf": "Split PDF Online: Separate PDF Pages Free",
+  "rotate-pdf": "Rotate PDF Online: Turn PDF Pages and Save Free",
+  "jpg-to-pdf": "JPG to PDF Converter: Combine Images into One PDF",
+  "pdf-to-jpg": "PDF to JPG Converter: Save PDF Pages as Images Free",
 };
 
 const textToolTitles: Record<TextToolSlug, string> = {

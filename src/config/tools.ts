@@ -1,5 +1,6 @@
 import { AI_NAME } from "@/config/brand";
 import { routes } from "@/config/site";
+import { Combine, FileImage, Images, RotateCw, Scissors, SwitchCamera } from "lucide-react";
 import { AltTextIcon } from "@/components/icons/AltTextIcon";
 import { CompressImageIcon } from "@/components/icons/CompressImageIcon";
 import { ConvertImageIcon } from "@/components/icons/ConvertImageIcon";
@@ -16,9 +17,15 @@ export type WorkspaceToolSlug =
   | "resize-image"
   | "view-metadata"
   | "edit-metadata"
-  | "image-alt-text";
+  | "image-alt-text"
+  | "heic-to-jpg"
+  | "merge-pdf"
+  | "split-pdf"
+  | "rotate-pdf"
+  | "jpg-to-pdf"
+  | "pdf-to-jpg";
 
-export type ToolCategory = "metadata" | "image" | "ai";
+export type ToolCategory = "metadata" | "image" | "pdf" | "ai";
 
 export type WorkspaceTool = {
   slug: WorkspaceToolSlug;
@@ -34,6 +41,7 @@ export type WorkspaceTool = {
 export const toolCategories: Record<ToolCategory, string> = {
   metadata: "Metadata tools",
   image: "Image tools",
+  pdf: "PDF tools",
   ai: "AI tools",
 };
 
@@ -114,6 +122,72 @@ export const workspaceTools: WorkspaceTool[] = [
     headline: `Generate alt text and SEO file names with ${AI_NAME}.`,
     description:
       `${AI_NAME} looks at each image and writes accessible alt text, a short description, keywords and an SEO-friendly file name you can download.`,
+  },
+  {
+    slug: "heic-to-jpg",
+    category: "image",
+    href: routes.heicToJpg,
+    icon: SwitchCamera,
+    name: "HEIC to JPG Converter",
+    shortName: "HEIC to JPG",
+    headline: "Convert iPhone HEIC photos to JPG.",
+    description:
+      "Turn iPhone HEIC photos into JPG or PNG right in your browser. Photos aren't uploaded and the converted files carry no EXIF or GPS data.",
+  },
+  {
+    slug: "merge-pdf",
+    category: "pdf",
+    href: routes.mergePdf,
+    icon: Combine,
+    name: "Merge PDF",
+    shortName: "Merge PDF",
+    headline: "Merge PDF files into one.",
+    description:
+      "Combine several PDFs into a single file in the order you choose. It runs in your browser, so your documents aren't uploaded.",
+  },
+  {
+    slug: "split-pdf",
+    category: "pdf",
+    href: routes.splitPdf,
+    icon: Scissors,
+    name: "Split PDF",
+    shortName: "Split PDF",
+    headline: "Split a PDF into separate pages.",
+    description:
+      "Turn every page of a PDF into its own file and download them together as a ZIP. Processed in your browser, nothing is uploaded.",
+  },
+  {
+    slug: "rotate-pdf",
+    category: "pdf",
+    href: routes.rotatePdf,
+    icon: RotateCw,
+    name: "Rotate PDF",
+    shortName: "Rotate PDF",
+    headline: "Rotate PDF pages and save them.",
+    description:
+      "Turn every page of a PDF by 90 or 180 degrees and save it. Author, title and other document metadata are removed at the same time.",
+  },
+  {
+    slug: "jpg-to-pdf",
+    category: "pdf",
+    href: routes.jpgToPdf,
+    icon: FileImage,
+    name: "JPG to PDF",
+    shortName: "JPG to PDF",
+    headline: "Turn images into one PDF.",
+    description:
+      "Combine JPG, PNG, WebP and HEIC images into a single PDF with one image per page. Converted in your browser, with no photo metadata inside.",
+  },
+  {
+    slug: "pdf-to-jpg",
+    category: "pdf",
+    href: routes.pdfToJpg,
+    icon: Images,
+    name: "PDF to JPG",
+    shortName: "PDF to JPG",
+    headline: "Convert PDF pages to JPG images.",
+    description:
+      "Save every page of a PDF as a sharp JPG image and download them together as a ZIP. Rendered in your browser, nothing is uploaded.",
   },
 ];
 

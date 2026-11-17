@@ -16,6 +16,7 @@ import { FileThumb } from "@/components/workspace/FileThumb";
 import { ProgressBar } from "@/components/workspace/ProgressBar";
 import { SaveFileButton } from "@/components/workspace/SaveFileButton";
 import { MetadataReport } from "@/components/workspace/MetadataReport";
+import { ReorderButtons } from "@/components/workspace/ReorderButtons";
 import { RevealSummary } from "@/components/workspace/RevealSummary";
 import { RowToggle } from "@/components/workspace/RowToggle";
 import { useSwipeToDismiss } from "@/hooks/useSwipeToDismiss";
@@ -27,6 +28,8 @@ type FileRowProps = {
   onRemove: (id: string) => void;
   disabled: boolean;
   onDevice?: boolean;
+  onMove?: (id: string, offset: number) => void;
+  position?: { first: boolean; last: boolean };
 };
 
 function fileDetails({ file, format, report }: QueueItem) {
@@ -40,7 +43,16 @@ function fileDetails({ file, format, report }: QueueItem) {
     .join(" · ");
 }
 
-export function FileRow({ item, comparable = false, compareOpen = false, onRemove, disabled, onDevice = false }: FileRowProps) {
+export function FileRow({
+  item,
+  comparable = false,
+  compareOpen = false,
+  onRemove,
+  disabled,
+  onDevice = false,
+  onMove,
+  position = { first: true, last: true },
+}: FileRowProps) {
   const [expanded, setExpanded] = useState(true);
   const { ref: swipeRef, swipeProps } = useSwipeToDismiss<HTMLDivElement>(() => onRemove(item.id), !disabled);
   const [comparing, setComparing] = useState(compareOpen);
@@ -64,6 +76,16 @@ export function FileRow({ item, comparable = false, compareOpen = false, onRemov
           </div>
         </div>
         <div className="ml-auto flex items-center gap-1">
+          {onMove && item.status === "ready" && (
+            <ReorderButtons
+              id={item.id}
+              name={file.name}
+              first={position.first}
+              last={position.last}
+              disabled={disabled}
+              onMove={onMove}
+            />
+          )}
           {canCompare && (
             <RowToggle
               label={compareCopy.toggle}

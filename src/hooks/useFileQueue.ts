@@ -59,6 +59,8 @@ export function snapshotQueue(items: QueueItem[]): SavedQueueItem[] {
 
 type Runner = (file: File) => Promise<ProcessedFile>;
 
+type Combiner = (files: File[]) => Promise<ProcessedFile>;
+
 export type BatchSummary = { done: number; failed: number };
 
 type QueueOptions = { inspectOnAdd: boolean; accepts: FileKind[]; localCapable: boolean };
@@ -177,6 +179,60 @@ export function useFileQueue({ inspectOnAdd, accepts, localCapable }: QueueOptio
     [update],
   );
 
+  const combine = useCallback(async (run: Combiner): Promise<BatchSummary> => {
+    const pending = itemsRef.current.filter((item) => item.status === "ready");
+    if (!pending.length) return { done: 0, failed: 0 };
+    const ids = new Set(pending.map((item) => item.id));
+    setIsProcessing(true);
+    setNotice(null);
+    setItems((current) => current.map((item) => (ids.has(item.id) ? { ...item, status: "processing", error: undefined } : item)));
+
+    try {
+      const { quotaRemaining: remaining, ...processed } = await run(pending.map((item) => item.file));
+      const file = new File([processed.blob], processed.name, { type: processed.blob.type });
+      const format = detectFormat(file);
+      const combined: QueueItem | null = format
+        ? {
+            id: crypto.randomUUID(),
+            file,
+            format,
+            previewUrl: null,
+            status: "done",
+            result: { ...processed, url: URL.createObjectURL(processed.blob) },
+          }
+        : null;
+      if (remaining !== null) setQuotaRemaining(remaining);
+      setItems((current) => {
+        current.forEach(revoke);
+        return combined ? [combined] : [];
+      });
+      return { done: 1, failed: 0 };
+    } catch (error) {
+      if (error instanceof ApiRequestError && error.status === 429) {
+        setNotice({ message: error.message, upsell: error.upsell });
+        setQuotaRemaining(0);
+        setItems((current) => current.map((item) => (ids.has(item.id) ? { ...item, status: "ready" } : item)));
+        return { done: 0, failed: 0 };
+      }
+      setNotice({ message: errorMessage(error), upsell: null });
+      setItems((current) => current.map((item) => (ids.has(item.id) ? { ...item, status: "ready" } : item)));
+      return { done: 0, failed: 1 };
+    } finally {
+      setIsProcessing(false);
+    }
+  }, []);
+
+  const move = useCallback((id: string, offset: number) => {
+    setItems((current) => {
+      const from = current.findIndex((item) => item.id === id);
+      const to = from + offset;
+      if (from < 0 || to < 0 || to >= current.length) return current;
+      const next = [...current];
+      [next[from], next[to]] = [next[to], next[from]];
+      return next;
+    });
+  }, []);
+
   const remove = useCallback((id: string) => {
     setItems((current) => {
       const target = current.find((item) => item.id === id);
@@ -241,6 +297,8 @@ export function useFileQueue({ inspectOnAdd, accepts, localCapable }: QueueOptio
     canAddMore: items.length < MAX_FILES_PER_BATCH,
     addFiles,
     process,
+    combine,
+    move,
     remove,
     reset,
     resetResults,

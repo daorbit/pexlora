@@ -22,7 +22,15 @@ export type CompressMode = (typeof COMPRESS_MODES)[number];
 export const RESIZE_MODES = ["percent", "dimensions"] as const;
 export type ResizeMode = (typeof RESIZE_MODES)[number];
 
+export const RASTER_FORMATS = ["jpeg", "png"] as const;
+export type RasterFormat = (typeof RASTER_FORMATS)[number];
+
+export const ROTATE_ANGLES = ["90", "180", "270"] as const;
+export type RotateAngle = (typeof ROTATE_ANGLES)[number];
+
 export type ConvertOptions = { format: OutputFormat };
+export type HeicOptions = { format: RasterFormat };
+export type RotateOptions = { angle: RotateAngle };
 export type CompressOptions = {
   mode: CompressMode;
   level: CompressionLevel;
@@ -46,6 +54,8 @@ export type ToolOptions = {
   compress: CompressOptions;
   resize: ResizeOptions;
   metadata: MetadataFields;
+  heic: HeicOptions;
+  rotate: RotateOptions;
 };
 
 export const DEFAULT_TOOL_OPTIONS: ToolOptions = {
@@ -53,6 +63,8 @@ export const DEFAULT_TOOL_OPTIONS: ToolOptions = {
   compress: { mode: "level", level: "balanced", targetKb: DEFAULT_COMPRESS_TARGET_KB, allowFormatChange: false },
   resize: { mode: "percent", percent: 50, width: null, height: null, keepAspect: true },
   metadata: { author: "", copyright: "", description: "", keywords: "" },
+  heic: { format: "jpeg" },
+  rotate: { angle: "90" },
 };
 
 export function getMetadataFieldsError(fields: MetadataFields) {
@@ -109,4 +121,8 @@ export function getResizeError(options: ResizeOptions) {
     return `Width and height must be between 1 and ${MAX_RESIZE_DIMENSION} px.`;
   }
   return null;
+}
+
+export function isRotateAngle(value: unknown): value is RotateAngle {
+  return ROTATE_ANGLES.includes(value as RotateAngle);
 }

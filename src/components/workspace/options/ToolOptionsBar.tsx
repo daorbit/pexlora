@@ -4,8 +4,10 @@ import type { WorkspaceToolSlug } from "@/config/tools";
 import type { ToolOptions } from "@/lib/image/options";
 import { CompressOptionsBar } from "@/components/workspace/options/CompressOptionsBar";
 import { ConvertOptionsBar } from "@/components/workspace/options/ConvertOptionsBar";
+import { HeicOptionsBar } from "@/components/workspace/options/HeicOptionsBar";
 import { MetadataOptionsBar } from "@/components/workspace/options/MetadataOptionsBar";
 import { ResizeOptionsBar } from "@/components/workspace/options/ResizeOptionsBar";
+import { RotateOptionsBar } from "@/components/workspace/options/RotateOptionsBar";
 
 type ToolOptionsBarProps = {
   tool: WorkspaceToolSlug;
@@ -48,6 +50,18 @@ export function ToolOptionsBar({ tool, options, onChange, disabled, sourceFile }
           onChange={(metadata) => onChange({ ...options, metadata })}
           disabled={disabled}
           sourceFile={sourceFile}
+        />
+      );
+    case "heic-to-jpg":
+      return (
+        <HeicOptionsBar options={options.heic} onChange={(heic) => onChange({ ...options, heic })} disabled={disabled} />
+      );
+    case "rotate-pdf":
+      return (
+        <RotateOptionsBar
+          options={options.rotate}
+          onChange={(rotate) => onChange({ ...options, rotate })}
+          disabled={disabled}
         />
       );
     default:

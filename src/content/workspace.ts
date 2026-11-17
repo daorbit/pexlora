@@ -3,7 +3,7 @@ import { AI_DAILY_LIMITS, DAILY_LIMITS } from "@/config/limits";
 import type { FileKind } from "@/config/file-formats";
 import type { WorkspaceToolSlug } from "@/config/tools";
 import type { OutputFormat } from "@/lib/image/formats";
-import type { CompressionLevel, CompressMode, MetadataField, ResizeMode } from "@/lib/image/options";
+import type { CompressionLevel, CompressMode, MetadataField, RasterFormat, ResizeMode, RotateAngle } from "@/lib/image/options";
 
 const onlyImages = (kinds: FileKind[]) => kinds.length === 1 && kinds[0] === "image";
 
@@ -46,6 +46,17 @@ export const saveCopy = {
 };
 
 export const optionsCopy = {
+  heicHints: {
+    jpeg: "Smaller, opens everywhere",
+    png: "Lossless, bigger files",
+  } satisfies Record<RasterFormat, string>,
+  rotate: "Rotate pages",
+  rotateLabel: "Rotation",
+  rotateAngles: {
+    "90": { label: "90° right", hint: "Quarter turn clockwise" },
+    "180": { label: "180°", hint: "Upside down" },
+    "270": { label: "90° left", hint: "Quarter turn anticlockwise" },
+  } satisfies Record<RotateAngle, { label: string; hint: string }>,
   format: "Convert to",
   formatLabel: "Output format",
   formatHints: {
@@ -124,7 +135,7 @@ export const revealCopy = {
   aiTags: (count: number) => `${count} AI ${count === 1 ? "tag" : "tags"}`,
   tagsBefore: (count: number) => `${count} ${count === 1 ? "tag" : "tags"}`,
   tagsAfter: (after: number) => `${after} left`,
-  onDevice: "Cleaned on your device",
+  onDevice: "Processed on your device",
 };
 
 export const queueCopy = {
@@ -164,6 +175,21 @@ export const panelNotes: Partial<Record<WorkspaceToolSlug, { title: string; item
     title: "What you get",
     items: ["Alt text and a short description", "Keywords for search", "An SEO-friendly file name"],
   },
+  "merge-pdf": {
+    title: "How it works",
+    items: ["Add two or more PDFs", "Use the arrows to set the order", "Get one PDF without the old document info"],
+  },
+  "jpg-to-pdf": {
+    title: "How it works",
+    items: ["One image per A4 page, fitted and centred", "Use the arrows to set the page order", "No EXIF or GPS data inside the PDF"],
+  },
+};
+
+export const localToolsCopy = {
+  onDevice: "Runs in your browser · nothing uploaded",
+  orderHint: "Files are combined in the order shown",
+  moveUp: (name: string) => `Move ${name} up`,
+  moveDown: (name: string) => `Move ${name} down`,
 };
 
 export const reportCopy = {

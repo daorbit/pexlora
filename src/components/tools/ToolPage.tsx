@@ -31,7 +31,7 @@ export function ToolPage({ slug }: { slug: WorkspaceToolSlug }) {
           path: tool.href,
           description: tool.description,
           faqs: guide.faqs,
-          category: metadataTools.includes(slug) ? "UtilitiesApplication" : "MultimediaApplication",
+          category: metadataTools.includes(slug) || tool.category === "pdf" ? "UtilitiesApplication" : "MultimediaApplication",
         })}
       />
       <ToolHero
@@ -43,7 +43,7 @@ export function ToolPage({ slug }: { slug: WorkspaceToolSlug }) {
       {slug === "compress-image" && <CompressTargetLinksSection />}
       <SeoIntroSection heading={guide.intro.heading} paragraphs={guide.intro.paragraphs} />
       <SeoStepsSection title={`How to use the ${tool.name}`} steps={guide.steps} />
-      {metadataTools.includes(slug) ? <InspectorShowcase /> : <FeaturesSection />}
+      {metadataTools.includes(slug) ? <InspectorShowcase /> : tool.category !== "pdf" && <FeaturesSection />}
       <FaqSection items={guide.faqs} />
       {guide.relatedGuides && <RelatedToolsSection pages={seoPagesBySlug(guide.relatedGuides)} />}
       <HubGridSection {...toolPageCopy.moreTools} items={otherTools(slug)} />

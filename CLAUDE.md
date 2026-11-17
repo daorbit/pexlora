@@ -153,6 +153,14 @@ src/
 - Use `after()` from `next/server` for work after the response (e.g. the welcome email).
 - Read `node_modules/next/dist/docs/` before using unfamiliar APIs.
 
+## Browser-only tools (HEIC + PDF)
+
+- Tools: `heic-to-jpg` (image category) and the `pdf` category: `merge-pdf`, `split-pdf`, `rotate-pdf`, `jpg-to-pdf`, `pdf-to-jpg`. Each is a normal workspace tool (config/tools, toolBehaviors, tool-guides, moduleTips, toolTitles, dashboardHrefs, a marketing page and a dashboard page). They run entirely in the browser through `services/local-tools.ts` (which calls `consumeQuota()` per file so daily limits still apply) and never upload files.
+- Libraries: `pdf-lib` (merge, split, rotate, images to PDF; `lib/files/pdf/pdf-tools.ts`), `pdfjs-dist` 5.4 for rendering pages to JPG (`lib/files/pdf/pdf-render.ts`, worker via `new URL("pdfjs-dist/build/pdf.worker.min.mjs", import.meta.url)`), `heic-to/next` for HEIC decoding (`lib/files/convert/image-decode.ts`, LGPL-3.0, dynamically imported). Load PDFs with `loadPdf` (password and damaged-file errors). Limits: `PDF_PAGE_LIMIT`, `PDF_RENDER_MAX_SIDE` in `config/limits.ts`.
+- Combine tools (`combine` instead of `run` in `ToolAction`, plus `orderable`): `useFileQueue.combine` replaces the source files with one finished item; `ReorderButtons` move files up/down before merging. Multi-page outputs (split, PDF to JPG) come back as one ZIP per file (`createZip` in `lib/utils/download.ts`).
+- Rotation output goes through `pdfProcessor.clean`, so document metadata is removed; new PDFs are created with `updateMetadata: false`. PDF tool pages skip the image `FeaturesSection`.
+- Icons: PDF tools use the `#C8312B` tile, HEIC to JPG the amber `#E8A80C` of the conversion icons.
+
 ## Image pipeline
 
 - Remove Metadata and Metadata Viewer process JPG/PNG/WebP (`raster` engine) and HEIC (`heif` engine) in the browser through `lib/files/processors` (`raster.ts`, `heif.ts`); files never leave the device. They share the stripper/injector code with the server and the exifr parsing in `lib/metadata/exif-report.ts`. Rotated photos keep a minimal EXIF with only Orientation (`lib/image/orientation.ts`), which `leftoverTagCount` ignores.

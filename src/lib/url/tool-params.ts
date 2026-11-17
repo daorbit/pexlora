@@ -1,7 +1,7 @@
 import { COMPRESS_TARGET_KB_RANGE, MAX_RESIZE_DIMENSION, RESIZE_PERCENT_RANGE } from "@/config/limits";
 import type { WorkspaceToolSlug } from "@/config/tools";
 import { FORMAT_EXTENSIONS, OUTPUT_FORMATS, type OutputFormat } from "@/lib/image/formats";
-import { isCompressionLevel, type CompressOptions, type ToolOptions } from "@/lib/image/options";
+import { isCompressionLevel, isRotateAngle, type CompressOptions, type ToolOptions } from "@/lib/image/options";
 import type { ParamUpdates } from "@/lib/url/search-params";
 
 const formatByExtension = Object.fromEntries(
@@ -49,6 +49,14 @@ export function optionsFromParams(tool: WorkspaceToolSlug, params: URLSearchPara
     }
     case "compress-image":
       return { ...base, compress: readCompressOptions(params, base.compress) };
+    case "heic-to-jpg": {
+      const format = params.get("format");
+      return { ...base, heic: { format: format === "png" ? "png" : format === "jpg" ? "jpeg" : base.heic.format } };
+    }
+    case "rotate-pdf": {
+      const angle = params.get("angle");
+      return { ...base, rotate: { angle: isRotateAngle(angle) ? angle : base.rotate.angle } };
+    }
     case "resize-image": {
       return {
         ...base,
@@ -70,6 +78,10 @@ export function optionsToParams(tool: WorkspaceToolSlug, options: ToolOptions): 
   switch (tool) {
     case "convert-format":
       return { format: FORMAT_EXTENSIONS[options.convert.format] };
+    case "heic-to-jpg":
+      return { format: FORMAT_EXTENSIONS[options.heic.format] };
+    case "rotate-pdf":
+      return { angle: options.rotate.angle };
     case "compress-image": {
       const { compress } = options;
       const byTarget = compress.mode === "target";
