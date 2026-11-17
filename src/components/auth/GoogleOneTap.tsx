@@ -10,5 +10,5 @@ export function GoogleOneTap({ clientId }: { clientId: string }) {
   const [scriptReady, setScriptReady] = useState(false);
   useGoogleOneTap(clientId, scriptReady);
 
-  return <Script src={GOOGLE_IDENTITY_SCRIPT} strategy="afterInteractive" onReady={() => setScriptReady(true)} />;
+  return <Script src={GOOGLE_IDENTITY_SCRIPT} strategy="lazyOnload" onReady={() => setScriptReady(true)} />;
 }

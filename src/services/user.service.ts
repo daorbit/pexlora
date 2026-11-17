@@ -9,6 +9,14 @@ export async function findUserByIdWithPassword(id: string) {
   return User.findById(id).select("+passwordHash").lean();
 }
 
+const SESSION_USER_FIELDS = "name email avatarUrl googleId passwordHash createdAt role limits plan sessionVersion";
+
+export async function findSessionUser(id: string) {
+  if (!isValidObjectId(id)) return null;
+  await connectToDatabase();
+  return User.findById(id).select(SESSION_USER_FIELDS).lean();
+}
+
 export async function findUserLimits(id: string) {
   if (!isValidObjectId(id)) return null;
   await connectToDatabase();

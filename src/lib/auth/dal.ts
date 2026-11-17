@@ -6,7 +6,7 @@ import { routes } from "@/config/site";
 import { effectiveLimits, effectiveRole, type UserLimits } from "@/lib/auth/roles";
 import { activePlan, type ActivePlan } from "@/lib/auth/plan";
 import { getSession } from "@/lib/auth/session";
-import { findUserByIdWithPassword } from "@/services/user.service";
+import { findSessionUser } from "@/services/user.service";
 
 export type CurrentUser = {
   id: string;
@@ -25,7 +25,7 @@ export const getCurrentUser = cache(async (): Promise<CurrentUser | null> => {
   const session = await getSession();
   if (!session) return null;
 
-  const user = await findUserByIdWithPassword(session.userId);
+  const user = await findSessionUser(session.userId);
   if (!user || (user.sessionVersion ?? 0) !== (session.version ?? 0)) return null;
 
   return {

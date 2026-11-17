@@ -1,21 +1,23 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import type { WorkspaceToolSlug } from "@/config/tools";
 import type { ToolOptions } from "@/lib/image/options";
-import { CompressOptionsBar } from "@/components/workspace/options/CompressOptionsBar";
-import { ConvertOptionsBar } from "@/components/workspace/options/ConvertOptionsBar";
-import { CropOptionsBar } from "@/components/workspace/options/CropOptionsBar";
-import { FormPhotoOptionsBar } from "@/components/workspace/options/FormPhotoOptionsBar";
-import { HeicOptionsBar } from "@/components/workspace/options/HeicOptionsBar";
-import { MetadataOptionsBar } from "@/components/workspace/options/MetadataOptionsBar";
-import { OrganizeOptionsBar } from "@/components/workspace/options/OrganizeOptionsBar";
-import { PageNumberOptionsBar } from "@/components/workspace/options/PageNumberOptionsBar";
-import { PassportOptionsBar } from "@/components/workspace/options/PassportOptionsBar";
-import { ResizeOptionsBar } from "@/components/workspace/options/ResizeOptionsBar";
-import { RotateOptionsBar } from "@/components/workspace/options/RotateOptionsBar";
-import { SvgOptionsBar } from "@/components/workspace/options/SvgOptionsBar";
-import { TraceOptionsBar } from "@/components/workspace/options/TraceOptionsBar";
-import { WatermarkOptionsBar } from "@/components/workspace/options/WatermarkOptionsBar";
+
+const CompressOptionsBar = dynamic(() => import("@/components/workspace/options/CompressOptionsBar").then((module) => module.CompressOptionsBar));
+const ConvertOptionsBar = dynamic(() => import("@/components/workspace/options/ConvertOptionsBar").then((module) => module.ConvertOptionsBar));
+const CropOptionsBar = dynamic(() => import("@/components/workspace/options/CropOptionsBar").then((module) => module.CropOptionsBar));
+const FormPhotoOptionsBar = dynamic(() => import("@/components/workspace/options/FormPhotoOptionsBar").then((module) => module.FormPhotoOptionsBar));
+const HeicOptionsBar = dynamic(() => import("@/components/workspace/options/HeicOptionsBar").then((module) => module.HeicOptionsBar));
+const MetadataOptionsBar = dynamic(() => import("@/components/workspace/options/MetadataOptionsBar").then((module) => module.MetadataOptionsBar));
+const OrganizeOptionsBar = dynamic(() => import("@/components/workspace/options/OrganizeOptionsBar").then((module) => module.OrganizeOptionsBar));
+const PageNumberOptionsBar = dynamic(() => import("@/components/workspace/options/PageNumberOptionsBar").then((module) => module.PageNumberOptionsBar));
+const PassportOptionsBar = dynamic(() => import("@/components/workspace/options/PassportOptionsBar").then((module) => module.PassportOptionsBar));
+const ResizeOptionsBar = dynamic(() => import("@/components/workspace/options/ResizeOptionsBar").then((module) => module.ResizeOptionsBar));
+const RotateOptionsBar = dynamic(() => import("@/components/workspace/options/RotateOptionsBar").then((module) => module.RotateOptionsBar));
+const SvgOptionsBar = dynamic(() => import("@/components/workspace/options/SvgOptionsBar").then((module) => module.SvgOptionsBar));
+const TraceOptionsBar = dynamic(() => import("@/components/workspace/options/TraceOptionsBar").then((module) => module.TraceOptionsBar));
+const WatermarkOptionsBar = dynamic(() => import("@/components/workspace/options/WatermarkOptionsBar").then((module) => module.WatermarkOptionsBar));
 
 type ToolOptionsBarProps = {
   tool: WorkspaceToolSlug;

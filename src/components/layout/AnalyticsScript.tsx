@@ -6,7 +6,7 @@ export function AnalyticsScript() {
     <Script
       src={analyticsConfig.trackerSrc}
       data-site={analyticsConfig.siteId}
-      strategy="afterInteractive"
+      strategy="lazyOnload"
     />
   );
 }

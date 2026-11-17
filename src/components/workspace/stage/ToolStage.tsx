@@ -1,15 +1,17 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import type { WorkspaceToolSlug } from "@/config/tools";
 import { optionsCopy, stageCopy } from "@/content/workspace";
 import { sheetLayout } from "@/lib/files/convert/sheet-layout";
 import type { ToolOptions } from "@/lib/image/options";
-import { PdfPagePicker } from "@/components/workspace/organize/PdfPagePicker";
-import { CropPreview } from "@/components/workspace/stage/CropPreview";
-import { PagePositionPicker } from "@/components/workspace/stage/PagePositionPicker";
-import { SheetPreview } from "@/components/workspace/stage/SheetPreview";
 import { StageCard } from "@/components/workspace/stage/StageCard";
-import { WatermarkPreview } from "@/components/workspace/stage/WatermarkPreview";
+
+const PdfPagePicker = dynamic(() => import("@/components/workspace/organize/PdfPagePicker").then((module) => module.PdfPagePicker));
+const CropPreview = dynamic(() => import("@/components/workspace/stage/CropPreview").then((module) => module.CropPreview));
+const PagePositionPicker = dynamic(() => import("@/components/workspace/stage/PagePositionPicker").then((module) => module.PagePositionPicker));
+const SheetPreview = dynamic(() => import("@/components/workspace/stage/SheetPreview").then((module) => module.SheetPreview));
+const WatermarkPreview = dynamic(() => import("@/components/workspace/stage/WatermarkPreview").then((module) => module.WatermarkPreview));
 
 export const alwaysStagedTools: WorkspaceToolSlug[] = ["passport-photo", "pdf-page-numbers", "pdf-watermark"];
 
