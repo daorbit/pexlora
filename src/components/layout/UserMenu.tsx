@@ -2,16 +2,15 @@
 
 import { useRef } from "react";
 import Link from "next/link";
-import { LayoutDashboard, LoaderCircle, LogOut, Settings, type LucideIcon } from "lucide-react";
+import { LayoutDashboard, Settings, type LucideIcon } from "lucide-react";
 import { routes } from "@/config/site";
-import { accountCopy } from "@/content/account";
 import { accountMenuCopy } from "@/content/navigation";
 import { useHoverMenu } from "@/hooks/useHoverMenu";
-import { useSignOut } from "@/hooks/useSignOut";
 import type { ActivePlan } from "@/lib/auth/plan";
 import { cn } from "@/lib/utils/cn";
 import { UserAvatar } from "@/components/ui/UserAvatar";
 import { ProGem } from "@/components/plan/ProGem";
+import { SignOutMenuItem } from "@/components/auth/SignOutMenuItem";
 
 type UserMenuProps = { name: string; email: string; avatarUrl?: string; plan: ActivePlan | null };
 
@@ -27,7 +26,6 @@ const items: { href: string; label: string; icon: LucideIcon }[] = [
 export function UserMenu({ name, email, avatarUrl, plan }: UserMenuProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const { open, hide, toggle, hoverProps } = useHoverMenu(containerRef);
-  const { signOut, pending } = useSignOut();
 
   return (
     <div className="flex items-center gap-2 sm:gap-3">
@@ -72,19 +70,7 @@ export function UserMenu({ name, email, avatarUrl, plan }: UserMenuProps) {
                 ))}
               </ul>
               <div className="my-1.5 h-px bg-separator" aria-hidden />
-              <button
-                type="button"
-                onClick={signOut}
-                disabled={pending}
-                className={cn(itemClass, "text-danger hover:bg-danger-soft focus-visible:bg-danger-soft disabled:opacity-60")}
-              >
-                {pending ? (
-                  <LoaderCircle className="size-4 animate-spin" aria-hidden />
-                ) : (
-                  <LogOut className="size-4" aria-hidden />
-                )}
-                {accountCopy.signOut}
-              </button>
+              <SignOutMenuItem className={itemClass} confirmClassName="px-2.5 pt-1 pb-1.5" />
             </nav>
           </div>
         )}

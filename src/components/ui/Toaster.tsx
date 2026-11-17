@@ -9,6 +9,7 @@ import { dismissToast, type Toast, type ToastTone } from "@/lib/toast/store";
 import { cn } from "@/lib/utils/cn";
 
 const DISMISS_AFTER_MS = 4500;
+const ACTION_DISMISS_AFTER_MS = 7000;
 
 const toneStyles: Record<ToastTone, { disc: string; Icon: typeof Check }> = {
   success: { disc: "bg-primary text-primary-foreground", Icon: Check },
@@ -19,10 +20,17 @@ const toneStyles: Record<ToastTone, { disc: string; Icon: typeof Check }> = {
 function ToastCard({ item }: { item: Toast }) {
   const { disc, Icon } = toneStyles[item.tone];
 
+  const { action } = item;
+
   useEffect(() => {
-    const timer = window.setTimeout(() => dismissToast(item.id), DISMISS_AFTER_MS);
+    const timer = window.setTimeout(() => dismissToast(item.id), action ? ACTION_DISMISS_AFTER_MS : DISMISS_AFTER_MS);
     return () => window.clearTimeout(timer);
-  }, [item.id]);
+  }, [item.id, action]);
+
+  const runAction = () => {
+    dismissToast(item.id);
+    action?.onAction();
+  };
 
   return (
     <li
@@ -33,6 +41,15 @@ function ToastCard({ item }: { item: Toast }) {
         <Icon className="size-3.5" strokeWidth={3} aria-hidden />
       </span>
       <p className="min-w-0 flex-1 text-sm font-medium">{item.message}</p>
+      {action && (
+        <button
+          type="button"
+          onClick={runAction}
+          className="inline-flex h-8 shrink-0 items-center rounded-lg bg-primary px-3 text-[13px] font-semibold text-primary-foreground transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-ring"
+        >
+          {action.label}
+        </button>
+      )}
       <button
         type="button"
         onClick={() => dismissToast(item.id)}

@@ -1,3 +1,4 @@
+import { connectionCopy } from "@/content/toasts";
 import { parseUpsell, type Upsell } from "@/lib/api/upsell";
 
 export class ApiRequestError extends Error {
@@ -11,8 +12,12 @@ export class ApiRequestError extends Error {
 }
 
 export async function apiRequest(path: string, init: RequestInit) {
+  if (typeof navigator !== "undefined" && !navigator.onLine) {
+    throw new ApiRequestError(connectionCopy.requestOffline, 0);
+  }
+
   const response = await fetch(path, init).catch(() => {
-    throw new ApiRequestError("Network error. Check your connection and try again.", 0);
+    throw new ApiRequestError(navigator.onLine ? connectionCopy.network : connectionCopy.requestOffline, 0);
   });
 
   if (!response.ok) {

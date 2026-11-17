@@ -3,7 +3,9 @@ import { Geist_Mono, Inter } from "next/font/google";
 import { Suspense } from "react";
 import { AnalyticsScript } from "@/components/layout/AnalyticsScript";
 import { BlockingScript } from "@/components/layout/BlockingScript";
+import { ConfettiHost } from "@/components/ui/ConfettiHost";
 import { Toaster } from "@/components/ui/Toaster";
+import { ConnectionToasts } from "@/components/layout/ConnectionToasts";
 import { ServiceWorkerRegistrar } from "@/components/layout/ServiceWorkerRegistrar";
 import { GoogleTranslate } from "@/components/language/GoogleTranslate";
 import { brandColors } from "@/config/brand";
@@ -73,6 +75,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Suspense fallback={null}>
           <Toaster />
         </Suspense>
+        <ConfettiHost />
+        <ConnectionToasts />
         <ServiceWorkerRegistrar />
         <GoogleTranslate />
       </body>

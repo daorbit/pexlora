@@ -126,12 +126,23 @@ export const pricingCopy = {
 
 export const checkoutCopy = {
   description: (plan: string) => `Pexlora Pro, ${plan}`,
-  success: (until: string | null) => (until ? `Payment received. Pro is active until ${until}.` : "Payment received. You have Pro for life."),
   failed: "Payment didn't go through. You haven't been charged.",
   pending: "Payment received. Pro will switch on in a moment.",
   unavailable: "Payments aren't available right now. Please try again later.",
   loadFailed: "Couldn't open the payment window. Check your connection and try again.",
   processing: "Opening Checkout",
+};
+
+export const proWelcomeCopy = {
+  eyebrow: "Payment received",
+  highlight: "You're Pro",
+  title: "now.",
+  until: (plan: string, date: string) => `Your ${plan} is active until ${date}.`,
+  lifetime: "Pro is yours for life. It never expires.",
+  perksTitle: "Unlocked just now",
+  start: "Start Using Pro",
+  billing: "View Billing",
+  close: "Close",
 };
 
 export const memberCopy = {

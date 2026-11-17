@@ -2,6 +2,8 @@ export const accountCopy = {
   unavailable: "We couldn't reach the database. Please try again in a moment.",
   signedOut: "Your session has ended. Sign in again.",
   signOut: "Sign Out",
+  signOutWarning: "Signing out removes the files saved on this device. Download anything you need first.",
+  cancel: "Cancel",
   profile: {
     title: "Profile",
     description: "Your account details.",

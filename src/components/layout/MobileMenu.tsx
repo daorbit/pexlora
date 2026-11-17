@@ -4,13 +4,13 @@ import Link from "next/link";
 import { useCallback, useState } from "react";
 import { createPortal } from "react-dom";
 import { Menu, X } from "lucide-react";
-import { infoLinks, routes } from "@/config/site";
+import { infoLinks } from "@/config/site";
 import { menuGroups } from "@/config/tool-hub";
 import { navCopy } from "@/content/navigation";
 import { useOverlayLock } from "@/hooks/useOverlayLock";
-import { cn } from "@/lib/utils/cn";
 import { Button } from "@/components/ui/Button";
 import { MenuGroupLabel, ToolMenuLink } from "@/components/layout/ToolMenuLink";
+import { MobileMenuAccount } from "@/components/layout/MobileMenuAccount";
 
 const linkClass = "flex h-12 items-center gap-3 rounded-2xl px-3 text-[16px] font-semibold active:bg-fill";
 
@@ -52,10 +52,8 @@ export function MobileMenu() {
                   {link.label}
                 </Link>
               ))}
-              <Link href={routes.signIn} onClick={close} className={cn(linkClass, "text-secondary")}>
-                {navCopy.signIn}
-              </Link>
             </div>
+            <MobileMenuAccount linkClass={linkClass} onSelect={close} />
           </nav>,
           document.body,
         )}

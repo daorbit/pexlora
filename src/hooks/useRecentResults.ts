@@ -1,11 +1,13 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { clearAllSessions } from "@/lib/storage/session-store";
-import { loadRecentResults, type RecentResult } from "@/lib/storage/workspace-sessions";
+import { clearAllSessions, restoreSessions, snapshotSessions, type SessionSnapshot } from "@/lib/storage/session-store";
+import { loadRecentResults, removeRecentResult, type RecentResult } from "@/lib/storage/workspace-sessions";
 
 export function useRecentResults() {
   const [results, setResults] = useState<RecentResult[] | null>(null);
+
+  const reload = useCallback(() => loadRecentResults().then(setResults), []);
 
   useEffect(() => {
     let cancelled = false;
@@ -18,9 +20,28 @@ export function useRecentResults() {
   }, []);
 
   const clear = useCallback(async () => {
+    const snapshot = await snapshotSessions();
     await clearAllSessions();
     setResults([]);
+    return snapshot;
   }, []);
 
-  return { results, clear };
+  const remove = useCallback(
+    async (result: RecentResult) => {
+      const snapshot = await removeRecentResult(result);
+      await reload();
+      return snapshot;
+    },
+    [reload],
+  );
+
+  const restore = useCallback(
+    async (snapshot: SessionSnapshot) => {
+      await restoreSessions(snapshot);
+      await reload();
+    },
+    [reload],
+  );
+
+  return { results, clear, remove, restore };
 }

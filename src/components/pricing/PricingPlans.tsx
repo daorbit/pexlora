@@ -12,10 +12,11 @@ import { withNextParam } from "@/lib/url/next-path";
 import { cn } from "@/lib/utils/cn";
 import { Button, ButtonLink } from "@/components/ui/Button";
 import { PlanCard } from "@/components/pricing/PlanCard";
+import { ProWelcomeDialog } from "@/components/pricing/ProWelcomeDialog";
 
 export function PricingPlans() {
   const signedIn = useSignedIn();
-  const { buy, pendingPlan } = useCheckout();
+  const { buy, pendingPlan, welcome, closeWelcome } = useCheckout();
   useResumeCheckout(buy, signedIn);
 
   return (
@@ -43,6 +44,7 @@ export function PricingPlans() {
         );
         return <PlanCard key={id} plan={plan} action={action} />;
       })}
+      {welcome && <ProWelcomeDialog {...welcome} onClose={closeWelcome} />}
     </div>
   );
 }

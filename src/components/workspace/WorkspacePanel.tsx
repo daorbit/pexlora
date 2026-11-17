@@ -5,9 +5,12 @@ import type { Conversion } from "@/config/conversions";
 import { acceptAttribute, type FileKind } from "@/config/file-formats";
 import type { SampleImage } from "@/config/samples";
 import type { WorkspaceToolSlug } from "@/config/tools";
-import { dropzoneOverrides, panelNotes, saveCopy } from "@/content/workspace";
+import { batchTitleCopy, dropzoneOverrides, panelNotes, saveCopy } from "@/content/workspace";
 import { housePromos, resultsPromoTools } from "@/config/house-promos";
 import { useAutoRun } from "@/hooks/useAutoRun";
+import { useBatchTitle } from "@/hooks/useBatchTitle";
+import { useClearWithUndo } from "@/hooks/useClearWithUndo";
+import { useLeaveGuard } from "@/hooks/useLeaveGuard";
 import { useToolRunner } from "@/hooks/useToolRunner";
 import { useCanSaveToPhotos } from "@/hooks/useCanSaveToPhotos";
 import { useRememberTool } from "@/hooks/useRecentTools";
@@ -93,6 +96,10 @@ export function WorkspacePanel({
   const picker = useFilePicker(addFilesAndRun, accept);
   const { isDragging, dropProps } = useFileDrop(addFilesAndRun, !queue.isProcessing);
   const hasItems = queue.items.length > 0;
+  const batchTotal = queue.items.filter((item) => item.status !== "error").length;
+  const clearAll = useClearWithUndo(queue);
+  useBatchTitle({ isProcessing: queue.isProcessing, done: queue.doneItems.length, total: batchTotal });
+  useLeaveGuard(queue.isProcessing);
   const hasPanel = Boolean(action || panelFooter);
   const note = panelNotes[tool];
   const staged = alwaysStagedTools.includes(tool);
@@ -142,6 +149,9 @@ export function WorkspacePanel({
     <DownloadGateProvider>
       <div {...dropProps} className={cn("grid items-start gap-3 sm:gap-4", hasPanel && "lg:grid-cols-[minmax(0,1fr)_340px]")}>
         <input {...picker.inputProps} />
+        <p role="status" className="sr-only">
+          {queue.isProcessing ? batchTitleCopy.working(batchTotal) : ""}
+        </p>
 
         <div className="flex min-w-0 flex-col gap-3 lg:self-stretch">
           <UpsellAlert message={queue.notice?.message ?? null} upsell={queue.notice?.upsell ?? null} />
@@ -153,7 +163,7 @@ export function WorkspacePanel({
               canAddMore={queue.canAddMore}
               disabled={queue.isProcessing}
               onAdd={picker.open}
-              onClear={queue.reset}
+              onClear={clearAll}
             >
               {queue.items.map((item, index) => (
                 <FileRow

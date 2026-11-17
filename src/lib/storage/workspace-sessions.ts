@@ -1,7 +1,7 @@
 import { workspaceTools, type WorkspaceToolSlug } from "@/config/tools";
 import type { SavedQueueItem } from "@/hooks/useFileQueue";
 import type { MetadataFields } from "@/lib/image/options";
-import { loadSessions } from "@/lib/storage/session-store";
+import { loadSessions, snapshotSessions, updateSession, type SessionSnapshot } from "@/lib/storage/session-store";
 
 const PREFIX = "workspace:";
 
@@ -9,6 +9,8 @@ export type WorkspaceSession = { items: SavedQueueItem[]; metadata?: MetadataFie
 
 export type RecentResult = {
   id: string;
+  sessionKey: string;
+  index: number;
   tool: WorkspaceToolSlug;
   name: string;
   blob: Blob;
@@ -32,9 +34,18 @@ export async function loadRecentResults(): Promise<RecentResult[]> {
       if (!tool) return [];
       return value.items.flatMap((item, index) =>
         item.status === "done" && item.result
-          ? [{ id: `${key}:${index}`, tool, name: item.result.name, blob: item.result.blob, savedAt }]
+          ? [{ id: `${key}:${index}`, sessionKey: key, index, tool, name: item.result.name, blob: item.result.blob, savedAt }]
           : [],
       );
     })
     .sort((a, b) => b.savedAt - a.savedAt);
+}
+
+export async function removeRecentResult({ sessionKey, index }: RecentResult): Promise<SessionSnapshot> {
+  const snapshot = (await snapshotSessions(sessionKey)).filter(({ key }) => key === sessionKey);
+  await updateSession<WorkspaceSession>(sessionKey, (session) => {
+    const items = session.items.filter((_, position) => position !== index);
+    return items.length ? { ...session, items } : null;
+  });
+  return snapshot;
 }

@@ -1,4 +1,5 @@
 import { routes } from "@/config/site";
+import { navCopy } from "@/content/navigation";
 import { getCurrentUser } from "@/lib/auth/dal";
 import { ButtonLink } from "@/components/ui/Button";
 import { UserMenu } from "@/components/layout/UserMenu";
@@ -12,10 +13,10 @@ export async function HeaderAuth() {
   return (
     <div className="flex items-center gap-1 sm:gap-2">
       <ButtonLink href={routes.signIn} variant="nav" className="hidden px-3 sm:inline-flex">
-        Sign In
+        {navCopy.signIn}
       </ButtonLink>
       <ButtonLink href={routes.signUp} variant="ink" size="md">
-        Get Started
+        {navCopy.getStarted}
       </ButtonLink>
     </div>
   );

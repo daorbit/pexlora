@@ -32,3 +32,26 @@ export function clearSession(key: string) {
 export function clearAllSessions() {
   return idbClear();
 }
+
+export type SessionSnapshot = { key: string; value: Stored<unknown> }[];
+
+export async function snapshotSessions(prefix = ""): Promise<SessionSnapshot> {
+  const entries = await idbEntries<Stored<unknown>>();
+  return entries.filter(({ key, value }) => key.startsWith(prefix) && value);
+}
+
+export async function restoreSessions(snapshot: SessionSnapshot) {
+  await Promise.all(snapshot.map(({ key, value }) => idbSet(key, value)));
+}
+
+export async function hasSavedSessions() {
+  return (await loadSessions<unknown>("")).length > 0;
+}
+
+export async function updateSession<T>(key: string, update: (value: T) => T | null) {
+  const stored = await idbGet<Stored<T>>(key);
+  if (!stored) return;
+  const next = update(stored.value);
+  if (next === null) return idbDelete(key);
+  return idbSet(key, { savedAt: stored.savedAt, value: next } satisfies Stored<T>);
+}

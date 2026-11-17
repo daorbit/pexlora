@@ -1,7 +1,9 @@
 export type ToastTone = "success" | "error" | "info";
-export type Toast = { id: number; tone: ToastTone; message: string };
+export type ToastAction = { label: string; onAction: () => void };
+export type Toast = { id: number; tone: ToastTone; message: string; action?: ToastAction };
 
 const MAX_TOASTS = 3;
+const UNDO_LABEL = "Undo";
 
 let toasts: Toast[] = [];
 let nextId = 1;
@@ -11,11 +13,11 @@ function emit() {
   listeners.forEach((listener) => listener());
 }
 
-function push(tone: ToastTone, message: string) {
-  const duplicate = toasts.find((item) => item.message === message && item.tone === tone);
+function push(tone: ToastTone, message: string, action?: ToastAction) {
+  const duplicate = !action && toasts.find((item) => item.message === message && item.tone === tone && !item.action);
   if (duplicate) return duplicate.id;
   const id = nextId++;
-  toasts = [...toasts, { id, tone, message }].slice(-MAX_TOASTS);
+  toasts = [...toasts, { id, tone, message, action }].slice(-MAX_TOASTS);
   emit();
   return id;
 }
@@ -46,4 +48,5 @@ export const toast = {
   success: (message: string) => push("success", message),
   error: (message: string) => push("error", message),
   info: (message: string) => push("info", message),
+  undo: (message: string, onUndo: () => void) => push("info", message, { label: UNDO_LABEL, onAction: onUndo }),
 };

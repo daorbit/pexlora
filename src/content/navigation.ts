@@ -2,6 +2,7 @@ export const navCopy = {
   allTools: "All Tools",
   viewAll: "View all tools",
   signIn: "Sign In",
+  getStarted: "Get Started",
   theme: "Theme",
   toLight: "Switch to light mode",
   toDark: "Switch to dark mode",

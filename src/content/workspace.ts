@@ -364,6 +364,13 @@ export const queueCopy = {
   dropMore: "Drop or paste more files",
   freeLeft: (count: number) => `${count} free ${count === 1 ? "file" : "files"} left today`,
   addToStart: "Add files to start",
+  cleared: (count: number) => `Cleared ${count} ${count === 1 ? "file" : "files"}`,
+};
+
+export const batchTitleCopy = {
+  progress: (done: number, total: number, title: string) => `(${done}/${total}) ${title}`,
+  done: (title: string) => `Done · ${title}`,
+  working: (total: number) => `Processing ${total} ${total === 1 ? "file" : "files"}`,
 };
 
 export const locationCopy = {

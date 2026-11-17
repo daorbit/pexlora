@@ -9,25 +9,29 @@ import { routes, siteConfig } from "@/config/site";
 import { checkoutCopy, planCopy } from "@/content/pricing";
 import { checkoutReturnPath } from "@/lib/payments/checkout-intent";
 import { loadCheckoutLogo, loadRazorpayCheckout, type RazorpaySuccess } from "@/lib/payments/checkout-script";
+import { celebrate } from "@/lib/celebrate/store";
 import { toast } from "@/lib/toast/store";
 import { withNextParam } from "@/lib/url/next-path";
-import { formatDate } from "@/lib/utils/format-date";
+import type { ProWelcome } from "@/components/pricing/ProWelcomeDialog";
 import { verifyPayment } from "@/services/payment-api";
 
 export function useCheckout() {
   const router = useRouter();
   const [pendingPlan, setPendingPlan] = useState<PlanId | null>(null);
+  const [welcome, setWelcome] = useState<ProWelcome | null>(null);
+  const closeWelcome = useCallback(() => setWelcome(null), []);
 
   const confirm = useCallback(
-    async (response: RazorpaySuccess) => {
+    async (plan: PlanId, response: RazorpaySuccess) => {
       try {
         const expiresAt = await verifyPayment({
           orderId: response.razorpay_order_id,
           paymentId: response.razorpay_payment_id,
           signature: response.razorpay_signature,
         });
-        toast.success(checkoutCopy.success(expiresAt ? formatDate(expiresAt, "long") : null));
-        router.push(routes.dashboardSettings);
+        setWelcome({ plan, expiresAt });
+        celebrate();
+        router.refresh();
       } catch {
         toast.info(checkoutCopy.pending);
         router.push(routes.dashboardSettings);
@@ -59,7 +63,7 @@ export function useCheckout() {
         image,
         prefill: order.prefill,
         theme: { color: brandColors.night },
-        handler: confirm,
+        handler: (response: RazorpaySuccess) => confirm(plan, response),
         modal: { ondismiss: () => setPendingPlan(null) },
       });
       checkout.on("payment.failed", () => toast.error(checkoutCopy.failed));
@@ -80,5 +84,5 @@ export function useCheckout() {
     [open, router],
   );
 
-  return { buy, pendingPlan };
+  return { buy, pendingPlan, welcome, closeWelcome };
 }
