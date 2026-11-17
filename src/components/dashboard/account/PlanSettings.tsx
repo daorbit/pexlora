@@ -19,7 +19,7 @@ export async function PlanSettings({ user }: { user: CurrentUser }) {
   return (
     <SettingsPanel title={billingCopy.title}>
       <SettingsRow label={billingCopy.currentPlan} description={planDescription}>
-        {plan ? <ProBadge plan={plan} className="px-2 py-1 text-xs" /> : <Badge tone="success">{billingCopy.free}</Badge>}
+        {plan ? <ProBadge plan={plan} href={routes.pricing} className="px-2 py-1 text-xs" /> : <Badge tone="success">{billingCopy.free}</Badge>}
         {!lifetime && (
           <ButtonLink href={routes.pricing} variant={plan ? "secondary" : "primary"} size="sm">
             {plan ? billingCopy.extend : billingCopy.upgrade}

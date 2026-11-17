@@ -19,7 +19,7 @@ export async function DashboardGreeting() {
             <DayGreeting />
             <span className="h-px w-10 bg-accent" aria-hidden />
           </p>
-          {user.plan && <ProBadge plan={user.plan} label={memberCopy.member} className="px-2 py-1 text-xs" />}
+          {user.plan && <ProBadge plan={user.plan} label={memberCopy.member} href={routes.pricing} className="px-2 py-1 text-xs" />}
         </div>
         <h2 className="max-w-lg text-[28px] font-bold leading-[1.1] tracking-[-0.035em] sm:text-[38px]">
           What are we cleaning today, <Highlight>{firstName}?</Highlight>

@@ -9,6 +9,7 @@ import { shellCopy } from "@/content/dashboard";
 import { cn } from "@/lib/utils/cn";
 import { matchesQuery } from "@/lib/utils/match-query";
 import { NavIcon } from "@/components/dashboard/NavIcon";
+import { SearchEmptyState } from "@/components/dashboard/SearchEmptyState";
 
 type ToolSearchDialogProps = { onClose: () => void; items?: DashboardNavItem[] };
 
@@ -69,7 +70,7 @@ export function ToolSearchDialog({ onClose, items = dashboardSearchItems }: Tool
             className="h-14 flex-1 bg-transparent text-[15px] outline-none placeholder:text-secondary"
           />
         </label>
-        <ul role="listbox" aria-label={shellCopy.searchTools} className="overflow-y-auto p-2">
+        <ul role="listbox" aria-label={shellCopy.searchTools} hidden={!results.length} className="overflow-y-auto p-2">
           {results.map((item, index) => (
             <li key={item.href}>
               <button
@@ -91,8 +92,8 @@ export function ToolSearchDialog({ onClose, items = dashboardSearchItems }: Tool
               </button>
             </li>
           ))}
-          {!results.length && <li className="px-3 py-8 text-center text-sm text-secondary">{shellCopy.noResults}</li>}
         </ul>
+        {!results.length && <SearchEmptyState query={query} items={items} onSelect={go} />}
       </div>
     </div>,
     document.body,

@@ -1,3 +1,4 @@
+import { routes } from "@/config/site";
 import { overviewCopy } from "@/content/dashboard";
 import { requireUser } from "@/lib/auth/dal";
 import { getUserUsageAll } from "@/lib/auth/usage";
@@ -18,7 +19,7 @@ export async function UsageCard() {
     <Card className="flex h-full flex-col gap-5 p-5 sm:p-6">
       <div className="flex items-center justify-between">
         <h2 className="text-[15px] font-semibold">{copy.title}</h2>
-        {user.plan ? <ProBadge plan={user.plan} /> : <Badge tone="success">{copy.plan}</Badge>}
+        {user.plan ? <ProBadge plan={user.plan} href={routes.pricing} /> : <Badge tone="success">{copy.plan}</Badge>}
       </div>
       <div className="flex items-center gap-4">
         <UsageRing used={files.used} limit={files.limit} className="size-16" />

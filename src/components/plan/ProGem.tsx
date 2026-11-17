@@ -1,3 +1,5 @@
+import Link from "next/link";
+import { routes } from "@/config/site";
 import { memberCopy, planCopy } from "@/content/pricing";
 import type { ActivePlan } from "@/lib/auth/plan";
 import { cn } from "@/lib/utils/cn";
@@ -10,10 +12,10 @@ export function ProGem({ plan, className }: { plan: ActivePlan; className?: stri
   const validity = plan.expiresAt ? memberCopy.until(formatDate(plan.expiresAt, "long")) : memberCopy.lifetime;
 
   return (
-    <span
-      tabIndex={0}
+    <Link
+      href={routes.pricing}
       aria-label={`${memberCopy.label(planName)}. ${validity}`}
-      className={cn("group relative inline-flex cursor-pointer rounded-lg p-1 outline-ring focus-visible:outline-2", className)}
+      className={cn("group relative inline-flex rounded-lg p-1 outline-ring focus-visible:outline-2", className)}
     >
       <PlanGemIcon gem={planGems[plan.id]} facets="dark" className="size-8" />
       <span
@@ -25,6 +27,6 @@ export function ProGem({ plan, className }: { plan: ActivePlan; className?: stri
         </span>
         <span className="text-[11.5px] opacity-70">{validity}</span>
       </span>
-    </span>
+    </Link>
   );
 }
