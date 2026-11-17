@@ -4,29 +4,31 @@ import { DAILY_LIMITS } from "@/config/limits";
 export type AuthMode = "signin" | "signup";
 
 export const authCopy = {
-  close: "Close and go back to Pexlora",
-  stage: {
-    eyebrow: "Location",
-    headline: "Share the photo.",
-    highlight: "Not the location.",
-  },
-  perks: {
-    limit: { from: `${DAILY_LIMITS.anonymous}`, to: `${DAILY_LIMITS.user} files a day` },
-    card: "No card",
-    stored: "Files not kept",
+  backToTools: "Back to tools",
+  entry: {
+    title: "Sign in or sign up",
+    description: "One step for both. We'll ask for a password next.",
+    google: "Continue with Google",
+    emailLabel: "Email address",
+    continue: "Continue with Email",
+    invalidEmail: "Enter a valid email address.",
+    change: "Change",
+    stepsLabel: (step: number, total: number) => `Step ${step} of ${total}`,
   },
   signin: {
     title: "Welcome back",
-    description: `Sign in to pick up your ${DAILY_LIMITS.user} files a day.`,
-    google: "Continue with Google",
+    description: "Enter your password to sign in.",
     submit: "Sign In",
     invalid: "Incorrect email or password. If you signed up with Google, use Continue with Google.",
+    switchPrompt: "New here?",
+    switchAction: "Create an account",
   },
   signup: {
     title: "Create your account",
-    description: `Free, in one click. Your limit goes from ${DAILY_LIMITS.anonymous} to ${DAILY_LIMITS.user} files a day.`,
-    google: "Continue with Google",
+    description: "Add your name and a password. We'll email you a code to confirm it's you.",
     submit: "Create Account",
+    switchPrompt: "Have an account?",
+    switchAction: "Sign in instead",
   },
   forgot: {
     title: "Forgot your password?",
@@ -60,11 +62,11 @@ export const authCopy = {
     sessionExpired: "Your sign-up session has expired. Please start again.",
     startOver: "Use a different email",
   },
-  tabs: { label: "Sign in or create account", signin: "Sign In", signup: "Sign Up" },
-  divider: "or with email",
+  divider: "or",
 };
 
 export const authLegal = {
+  freeNote: `Free: ${DAILY_LIMITS.user} files a day, no card.`,
   before: "By continuing you agree to the",
   terms: "Terms",
   and: "and",

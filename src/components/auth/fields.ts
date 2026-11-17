@@ -1,5 +1,5 @@
 import { SIGNUP_CODE } from "@/config/security";
-import { authCopy } from "@/content/auth";
+import { authCopy, type AuthMode } from "@/content/auth";
 import type { AuthField } from "@/components/auth/AuthForm";
 
 const emailField: AuthField = {
@@ -10,22 +10,21 @@ const emailField: AuthField = {
   placeholder: "you@example.com",
 };
 
-export const signInFields: AuthField[] = [
-  emailField,
-  { name: "password", label: "Password", type: "password", autoComplete: "current-password", placeholder: "Your password" },
-];
-
-export const signUpFields: AuthField[] = [
-  { name: "name", label: "Name", type: "text", autoComplete: "name", placeholder: "Your name" },
-  emailField,
-  {
-    name: "password",
-    label: "Password",
-    type: "password",
-    autoComplete: "new-password",
-    placeholder: "At least 8 characters",
-  },
-];
+export const credentialFields: Record<AuthMode, AuthField[]> = {
+  signin: [
+    { name: "password", label: "Password", type: "password", autoComplete: "current-password", placeholder: "Your password" },
+  ],
+  signup: [
+    { name: "name", label: "Name", type: "text", autoComplete: "name", placeholder: "Your name" },
+    {
+      name: "password",
+      label: "Password",
+      type: "password",
+      autoComplete: "new-password",
+      placeholder: "At least 8 characters",
+    },
+  ],
+};
 
 export const forgotPasswordFields: AuthField[] = [emailField];
 
@@ -48,6 +47,6 @@ export const verifyCodeFields: AuthField[] = [
     inputMode: "numeric",
     maxLength: SIGNUP_CODE.length,
     placeholder: "0".repeat(SIGNUP_CODE.length),
-    className: "font-mono text-[22px] tracking-[0.5em] placeholder:tracking-[0.5em]",
+    className: "text-center font-mono text-[22px] tracking-[0.5em] placeholder:tracking-[0.5em]",
   },
 ];

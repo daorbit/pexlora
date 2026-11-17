@@ -6,6 +6,7 @@ import { useSearchParamState } from "@/hooks/useSearchParamState";
 import { cn } from "@/lib/utils/cn";
 import { staggerDelay } from "@/lib/utils/stagger";
 import { Segmented } from "@/components/ui/Segmented";
+import { SelectSheet } from "@/components/ui/SelectSheet";
 import { HubCard, hubGridClass } from "@/components/home/HubCard";
 
 type Filter = HubCategory | "all";
@@ -19,12 +20,21 @@ export function ToolHub() {
 
   return (
     <div className="flex flex-col items-center gap-4 sm:gap-8">
+      <SelectSheet<Filter>
+        label={hubCopy.filterShortLabel}
+        value={filter}
+        options={filterOptions}
+        onChange={setFilter}
+        closeLabel={hubCopy.filterClose}
+        className="sm:hidden"
+      />
       <Segmented<Filter>
         label={hubCopy.filterLabel}
         value={filter}
         options={filterOptions}
         onChange={setFilter}
         layout="chips"
+        className="max-sm:hidden"
       />
       <ul key={filter} className={hubGridClass}>
         {items.map((item, index) => (

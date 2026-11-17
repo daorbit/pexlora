@@ -28,7 +28,7 @@ function FooterLink({ href, label }: { href: string; label: string }) {
 
 export function SiteFooter() {
   return (
-    <footer className="theme-dark overflow-hidden bg-background pb-[env(safe-area-inset-bottom)] text-foreground">
+    <footer className="theme-dark overflow-hidden ink-panel pb-[env(safe-area-inset-bottom)] text-foreground">
       <Container className="flex flex-col gap-10 border-b border-separator py-16 sm:py-20 lg:flex-row lg:items-end lg:justify-between">
         <div className="flex max-w-xl flex-col gap-5">
           <Logo size="lg" />
@@ -53,7 +53,13 @@ export function SiteFooter() {
         ))}
       </Container>
 
-      <Container className="flex flex-col-reverse items-start justify-between gap-4 border-t border-separator py-7 sm:flex-row sm:items-center">
+      <Container aria-hidden className="pt-2">
+        <p className="text-center text-[21vw] leading-[1.1] font-bold tracking-[-0.05em] text-fill-strong select-none lg:text-[17rem]">
+          {siteConfig.name}
+        </p>
+      </Container>
+
+      <Container className="flex flex-col-reverse items-start justify-between gap-4 border-t border-separator py-7 sm:flex-row sm:items-center sm:pb-9">
         <div className="flex flex-col gap-3">
           <nav aria-label="Legal" className="flex flex-wrap gap-x-5 gap-y-2">
             {footerLegalLinks.map((link) => (
@@ -73,12 +79,6 @@ export function SiteFooter() {
             <ThemeSwitch />
           </div>
         </div>
-      </Container>
-
-      <Container aria-hidden className="pt-2 pb-8 sm:pb-12">
-        <p className="text-center text-[21vw] leading-[1.1] font-bold tracking-[-0.05em] text-fill-strong select-none lg:text-[17rem]">
-          {siteConfig.name}
-        </p>
       </Container>
     </footer>
   );

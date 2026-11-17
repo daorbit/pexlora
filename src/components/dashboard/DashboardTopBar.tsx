@@ -8,7 +8,7 @@ import { TopBarPlanGem } from "@/components/dashboard/TopBarPlanGem";
 export function DashboardTopBar({ mobileNav }: { mobileNav: ReactNode }) {
   return (
     <>
-      <header className="sticky top-0 z-30 flex items-center gap-2 bg-background/90 px-3 pt-[max(0.5rem,env(safe-area-inset-top))] pb-2 backdrop-blur-md sm:gap-3.5 sm:px-8 sm:pt-[22px] sm:pb-0 lg:static lg:bg-transparent lg:backdrop-blur-none">
+      <header className="sticky top-0 z-30 flex items-center gap-2 bg-background/90 px-3 pt-[max(0.5rem,env(safe-area-inset-top))] pb-2 backdrop-blur-md sm:gap-3.5 sm:px-6 sm:pt-[22px] sm:pb-0 lg:static lg:bg-transparent lg:backdrop-blur-none">
         {mobileNav}
         <div className="lg:hidden">
           <Logo size="md" />
@@ -23,7 +23,7 @@ export function DashboardTopBar({ mobileNav }: { mobileNav: ReactNode }) {
         </Suspense>
         <ThemeToggle variant="tile" size="lg" className="max-sm:size-10" />
       </header>
-      <div className="px-4 pt-3 sm:px-8 sm:pt-5 lg:hidden">
+      <div className="px-4 pt-3 sm:px-6 sm:pt-5 lg:hidden">
         <ShellPageTitle />
       </div>
     </>

@@ -411,6 +411,14 @@ html.theme-reveal::view-transition-new(root) {
   will-change: clip-path;
 }
 
+@utility ink-panel {
+  background-color: var(--background);
+
+  &:where([data-theme="dark"] *) {
+    background-color: color-mix(in srgb, var(--foreground) 7%, var(--surface));
+  }
+}
+
 @utility dot-grid {
   background-image: radial-gradient(color-mix(in srgb, var(--foreground) 13%, transparent) 1px, transparent 1.2px);
   background-size: 22px 22px;
@@ -461,6 +469,15 @@ html.theme-reveal::view-transition-new(root) {
 
   summary::-webkit-details-marker {
     display: none;
+  }
+}
+
+@supports (-webkit-touch-callout: none) {
+  input:not([type="checkbox"], [type="radio"], [type="range"], [type="color"], [type="file"]),
+  select,
+  textarea,
+  [contenteditable="true"] {
+    font-size: max(16px, 1em);
   }
 }
 

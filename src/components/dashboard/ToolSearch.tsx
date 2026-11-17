@@ -11,11 +11,11 @@ import { ToolSearchDialog } from "@/components/dashboard/ToolSearchDialog";
 const variants = {
   bar: "inline-flex size-10 items-center justify-center gap-2.5 rounded-xl bg-surface text-sm text-foreground shadow-thumb transition-colors hover:bg-surface hover:text-foreground focus-visible:outline-2 focus-visible:outline-ring sm:h-11 sm:w-70 sm:justify-start sm:rounded-2xl sm:bg-fill-strong/70 sm:pr-2 sm:pl-3.5 sm:text-secondary sm:shadow-none",
   header:
-    "inline-flex size-10 items-center justify-center gap-2 rounded-xl text-sm text-secondary transition-colors hover:bg-fill hover:text-foreground focus-visible:outline-2 focus-visible:outline-ring lg:h-10 lg:w-auto lg:bg-fill lg:pr-1.5 lg:pl-3",
+    "inline-flex size-10 shrink-0 items-center justify-center gap-2 rounded-xl text-sm text-secondary transition-colors hover:bg-fill hover:text-foreground focus-visible:outline-2 focus-visible:outline-ring bg-fill 2xl:h-10 2xl:w-auto 2xl:pr-1.5 2xl:pl-3",
 };
 
-const labelVisibility = { bar: "sm:inline", header: "lg:inline" };
-const kbdVisibility = { bar: "sm:inline-flex", header: "lg:inline-flex" };
+const labelVisibility = { bar: "sm:inline", header: "2xl:inline" };
+const kbdVisibility = { bar: "sm:inline-flex", header: "2xl:inline-flex" };
 
 type ToolSearchProps = { variant?: keyof typeof variants; items?: DashboardNavItem[] };
 
@@ -26,9 +26,15 @@ export function ToolSearch({ variant = "bar", items }: ToolSearchProps) {
 
   return (
     <>
-      <button type="button" onClick={openSearch} aria-label={shellCopy.searchTools} className={variants[variant]}>
+      <button
+        type="button"
+        onClick={openSearch}
+        aria-label={shellCopy.searchTools}
+        title={shellCopy.searchShortcut}
+        className={variants[variant]}
+      >
         <Search className="size-4 shrink-0" aria-hidden />
-        <span className={cn("hidden flex-1 text-left", labelVisibility[variant])}>{shellCopy.searchTools}</span>
+        <span className={cn("hidden flex-1 text-left whitespace-nowrap", labelVisibility[variant])}>{shellCopy.searchTools}</span>
         <kbd
           className={cn(
             "hidden h-6.5 items-center rounded-lg bg-surface px-2 font-sans text-xs font-semibold text-foreground",

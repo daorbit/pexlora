@@ -5,8 +5,8 @@ import { Container } from "@/components/ui/Container";
 type Tone = "ink" | "pearl";
 
 const tones: Record<Tone, string> = {
-  ink: "theme-dark",
-  pearl: "theme-light",
+  ink: "theme-dark ink-panel",
+  pearl: "bg-background",
 };
 
 type BandProps = ComponentProps<"section"> & {
@@ -18,7 +18,7 @@ type BandProps = ComponentProps<"section"> & {
 export function Band({ tone, className, containerClassName, after, children, ...props }: BandProps) {
   return (
     <section
-      className={cn(tones[tone], "scroll-mt-16 bg-background py-11 text-foreground sm:py-20 lg:py-35", className)}
+      className={cn(tones[tone], "scroll-mt-16 py-11 text-foreground sm:py-20 lg:py-35", className)}
       {...props}
     >
       <Container size="stage" className={cn("reveal", containerClassName)}>

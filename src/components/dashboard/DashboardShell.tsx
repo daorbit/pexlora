@@ -40,7 +40,7 @@ export function DashboardShell({ children }: { children: ReactNode }) {
               </MobileNav>
             }
           />
-          <main className="w-full flex-1 px-4 pt-4 pb-[calc(var(--bottom-bar)+2rem)] sm:px-8 sm:pt-[26px] lg:pb-10">{children}</main>
+          <main className="w-full flex-1 px-4 pt-4 pb-[calc(var(--bottom-bar)+2rem)] sm:px-6 sm:pt-[26px] lg:pb-10">{children}</main>
         </ShellScrollArea>
       </div>
       <MobileTabBar />

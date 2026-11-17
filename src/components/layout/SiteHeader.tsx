@@ -23,15 +23,17 @@ export function SiteHeader() {
               href={link.href}
               className={cn(
                 "text-sm font-medium text-secondary transition-colors hover:text-foreground",
-                link.wideOnly && "hidden lg:inline",
+                link.wideOnly && "hidden xl:inline",
               )}
             >
               {link.label}
             </Link>
           ))}
         </nav>
-        <div className="flex items-center justify-end gap-2 sm:gap-3">
-          <SiteSearch />
+        <div className="flex shrink-0 items-center justify-end gap-2 whitespace-nowrap sm:gap-3">
+          <div className="max-sm:hidden">
+            <SiteSearch />
+          </div>
           <Suspense fallback={<HeaderAuthFallback />}>
             <HeaderAuth />
           </Suspense>

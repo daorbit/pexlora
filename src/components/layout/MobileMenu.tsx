@@ -1,12 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { createPortal } from "react-dom";
 import { Menu, X } from "lucide-react";
 import { infoLinks, routes } from "@/config/site";
 import { menuGroups } from "@/config/tool-hub";
 import { navCopy } from "@/content/navigation";
+import { useOverlayLock } from "@/hooks/useOverlayLock";
 import { cn } from "@/lib/utils/cn";
 import { Button } from "@/components/ui/Button";
 import { MenuGroupLabel, ToolMenuLink } from "@/components/layout/ToolMenuLink";
@@ -15,23 +16,8 @@ const linkClass = "flex h-12 items-center gap-3 rounded-2xl px-3 text-[16px] fon
 
 export function MobileMenu() {
   const [open, setOpen] = useState(false);
-
-  useEffect(() => {
-    if (!open) return;
-    const desktop = window.matchMedia("(min-width: 768px)");
-    const onKey = (event: KeyboardEvent) => event.key === "Escape" && setOpen(false);
-    const onResize = () => desktop.matches && setOpen(false);
-    document.addEventListener("keydown", onKey);
-    desktop.addEventListener("change", onResize);
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.removeEventListener("keydown", onKey);
-      desktop.removeEventListener("change", onResize);
-      document.body.style.overflow = "";
-    };
-  }, [open]);
-
-  const close = () => setOpen(false);
+  const close = useCallback(() => setOpen(false), []);
+  useOverlayLock(open, close, "(min-width: 768px)");
 
   return (
     <div className="md:hidden">

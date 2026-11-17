@@ -169,6 +169,7 @@ export const shellCopy = {
   keepOpen: "Keep sidebar open",
   newBadge: "New",
   searchTools: "Search tools",
+  searchShortcut: "Search tools (Ctrl+K or ⌘K)",
   searchPlaceholder: "Search tools and pages",
   noResults: "No tools match your search.",
   website: "Open website",

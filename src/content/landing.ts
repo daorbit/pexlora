@@ -46,6 +46,8 @@ export const hubCopy = {
   title: "Pick a tool and drop your files.",
   description: "Every tool is free, runs in your browser with nothing to install, and removes hidden metadata from what you download.",
   filterLabel: "Filter tools",
+  filterShortLabel: "Category",
+  filterClose: "Close",
   open: "Open Tool",
 };
 

@@ -26,12 +26,15 @@ type AuthFormProps = {
   fields: AuthField[];
   submitLabel: string;
   hiddenFields?: Record<string, string>;
+  beforeFields?: ReactNode;
   afterFields?: ReactNode;
 };
 
-export function AuthForm({ action, fields, submitLabel, hiddenFields, afterFields }: AuthFormProps) {
+export function AuthForm({ action, fields, submitLabel, hiddenFields, beforeFields, afterFields }: AuthFormProps) {
   const [state, formAction, pending] = useActionState(action, undefined);
   const next = useNextPath();
+  const shown = new Set<string>(fields.map((field) => field.name));
+  const offscreenError = Object.entries(state?.errors ?? {}).find(([name]) => !shown.has(name))?.[1]?.[0];
 
   return (
     <form action={formAction} className="flex flex-col gap-2.5 lg:gap-3" noValidate>
@@ -40,6 +43,8 @@ export function AuthForm({ action, fields, submitLabel, hiddenFields, afterField
         Object.entries(hiddenFields).map(([name, value]) => <input key={name} type="hidden" name={name} value={value} />)}
       {state?.message && <Alert message={state.message} />}
       {state?.success && <Alert message={state.success} tone="success" />}
+      {offscreenError && <Alert message={offscreenError} />}
+      {beforeFields}
       {fields.map((field) => (
         <FormField
           key={field.name}
@@ -53,7 +58,7 @@ export function AuthForm({ action, fields, submitLabel, hiddenFields, afterField
           labelPosition="above"
           defaultValue={field.name === "name" || field.name === "email" ? state?.values?.[field.name] : undefined}
           errors={state?.errors?.[field.name]}
-          className={cn("border-border-strong focus:ring-accent-soft", field.className)}
+          className={cn("border-border-strong focus:ring-accent-soft sm:h-12.5", field.className)}
           required
         />
       ))}
@@ -63,12 +68,10 @@ export function AuthForm({ action, fields, submitLabel, hiddenFields, afterField
         size="xl"
         arrow={!pending}
         disabled={pending}
-        className="mt-1.5 h-11.5 w-full justify-between pl-5 lg:h-13"
+        className="mt-1 h-12 w-full sm:h-12.5"
       >
-        <span className="inline-flex items-center gap-2">
-          {pending ? <LoaderCircle className="size-4 animate-spin" aria-hidden /> : null}
-          {submitLabel}
-        </span>
+        {pending ? <LoaderCircle className="size-4 animate-spin" aria-hidden /> : null}
+        {submitLabel}
       </Button>
     </form>
   );

@@ -1,8 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { Geist_Mono, Inter } from "next/font/google";
-import Script from "next/script";
 import { Suspense } from "react";
 import { AnalyticsScript } from "@/components/layout/AnalyticsScript";
+import { BlockingScript } from "@/components/layout/BlockingScript";
 import { Toaster } from "@/components/ui/Toaster";
 import { ServiceWorkerRegistrar } from "@/components/layout/ServiceWorkerRegistrar";
 import { GoogleTranslate } from "@/components/language/GoogleTranslate";
@@ -64,12 +64,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       className={`${inter.variable} ${geistMono.variable} h-full antialiased`}
     >
       <head>
-        <Script id="theme-init" strategy="beforeInteractive">
-          {themeInitScript}
-        </Script>
-        <Script id="sidebar-init" strategy="beforeInteractive">
-          {sidebarInitScript}
-        </Script>
+        <BlockingScript id="theme-init" code={themeInitScript} />
+        <BlockingScript id="sidebar-init" code={sidebarInitScript} />
         <AnalyticsScript />
       </head>
       <body className="flex min-h-full flex-col">
