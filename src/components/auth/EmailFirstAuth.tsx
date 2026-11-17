@@ -2,9 +2,7 @@
 
 import { useState } from "react";
 import { authCopy, type AuthMode } from "@/content/auth";
-import { useNextPath } from "@/hooks/useNextPath";
 import { AuthHeading } from "@/components/auth/AuthHeading";
-import { CheckoutIntentNote } from "@/components/auth/CheckoutIntentNote";
 import { CredentialsStep } from "@/components/auth/CredentialsStep";
 import { EmailStep } from "@/components/auth/EmailStep";
 import { SocialAuth } from "@/components/auth/SocialAuth";
@@ -15,9 +13,7 @@ const TOTAL_STEPS = 2;
 export function EmailFirstAuth({ initialMode }: { initialMode: AuthMode }) {
   const [email, setEmail] = useState("");
   const [confirmed, setConfirmed] = useState(false);
-  const [mode, setMode] = useState<AuthMode>(initialMode);
-  const next = useNextPath();
-  const heading = confirmed ? authCopy[mode] : authCopy.entry;
+  const [mode, setMode] = useState<AuthMode>(initialMode);  const heading = confirmed ? authCopy[mode] : authCopy.entry;
 
   const continueWith = (value: string) => {
     setEmail(value);
@@ -27,7 +23,6 @@ export function EmailFirstAuth({ initialMode }: { initialMode: AuthMode }) {
   return (
     <>
       <AuthHeading title={heading.title} description={heading.description} />
-      <CheckoutIntentNote next={next} />
       {confirmed ? (
         <div className="motion-safe:animate-fade-up motion-safe:[animation-duration:0.35s]">
           <CredentialsStep

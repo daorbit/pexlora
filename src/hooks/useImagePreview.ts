@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 
 export type ImagePreview = { url: string; width: number; height: number };
 
-export function useImagePreview(file?: File) {
-  const [state, setState] = useState<{ file: File; preview: ImagePreview } | null>(null);
+export function useImagePreview(file?: Blob | null) {
+  const [state, setState] = useState<{ file: Blob; preview: ImagePreview } | null>(null);
 
   useEffect(() => {
     if (!file) return;

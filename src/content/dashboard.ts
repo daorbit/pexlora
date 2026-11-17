@@ -266,9 +266,28 @@ export const sharedLimits = [
 
 export const historyCopy = {
   empty: "Nothing here yet. Files you process stay on this device for 24 hours.",
+  emptyTitle: "No files yet",
+  openTools: "Open a Tool",
   clear: "Clear History",
   cleared: "History cleared",
   savedAt: (time: string) => `Saved ${time}`,
+  expires: (time: string) => `Removed ${time}`,
+  searchLabel: "Search files",
+  searchPlaceholder: "Search by file name",
+  sortLabel: "Sort files",
+  sorts: { newest: "Newest", oldest: "Oldest", largest: "Largest" },
+  categoryLabel: "Filter by tool type",
+  categories: { all: "All", metadata: "Metadata", image: "Images", pdf: "PDFs", ai: "AI" },
+  toolFilter: (tool: string) => `Tool: ${tool}`,
+  removeToolFilter: "Remove tool filter",
+  showing: (shown: number, total: number) => (shown === total ? `${total} files` : `${shown} of ${total} files`),
+  noMatch: "No files match these filters.",
+  resetFilters: "Clear Filters",
+  summaryTitle: "On this device",
+  stats: { files: "Files", size: "Size", tools: "Tools" },
+  byTool: "By tool",
+  zipName: "pexlora-files.zip",
+  privacy: "Files stay in this browser only. Each one is removed 24 hours after you made it.",
 };
 
 export const tabBarCopy = {

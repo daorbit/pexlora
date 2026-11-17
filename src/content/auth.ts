@@ -4,9 +4,7 @@ import { DAILY_LIMITS } from "@/config/limits";
 export type AuthMode = "signin" | "signup";
 
 export const authCopy = {
-  backToTools: "Back to tools",
-  checkoutIntent: (plan: string) => `Sign in or create a free account. Checkout for the ${plan} opens right after.`,
-  entry: {
+  backToTools: "Back to tools",  entry: {
     title: "Sign in or sign up",
     description: "One step for both. We'll ask for a password next.",
     google: "Continue with Google",
