@@ -24,7 +24,7 @@ export function TextOption({ label, value, placeholder, disabled, maxLength = MA
         maxLength={maxLength}
         disabled={disabled}
         onChange={(event) => onChange(event.target.value)}
-        className={cn(optionFieldShell, optionFieldInput, "w-full min-w-0 px-3.5")}
+        className={cn(optionFieldShell, optionFieldInput, "h-11 w-full min-w-0 px-3.5")}
       />
     </OptionGroup>
   );

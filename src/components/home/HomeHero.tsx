@@ -1,5 +1,6 @@
 import { heroCopy } from "@/content/landing";
 import { Container } from "@/components/ui/Container";
+import { Highlight } from "@/components/ui/Highlight";
 import { HeroShortcuts } from "@/components/home/HeroShortcuts";
 import { HeroTrust } from "@/components/home/HeroTrust";
 import { HeroUpload } from "@/components/home/HeroUpload";
@@ -20,9 +21,7 @@ export function HomeHero() {
             {heroCopy.title}
             <br />
             {heroCopy.titleLead}{" "}
-            <span className="rounded-md bg-primary px-1 text-primary-foreground translated:bg-transparent translated:px-0 translated:text-inherit sm:rounded-xl sm:px-2.5 sm:translated:px-0 lg:rounded-2xl">
-              {heroCopy.highlight}
-            </span>
+            <Highlight>{heroCopy.highlight}</Highlight>
           </span>
         </h1>
         <p className="max-w-xl px-2 text-[14px] leading-normal text-secondary motion-safe:animate-fade-up motion-safe:[animation-delay:160ms] sm:px-0 sm:text-[17px] sm:leading-relaxed">

@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils/cn";
 import { GoogleButton } from "@/components/auth/GoogleButton";
 import { Band } from "@/components/ui/Band";
 import { ButtonLink } from "@/components/ui/Button";
+import { Highlight } from "@/components/ui/Highlight";
 import { ResponsiveLabel } from "@/components/ui/ResponsiveLabel";
 import { BandText } from "@/components/landing/BandText";
 import { BandTitle } from "@/components/landing/BandTitle";
@@ -15,9 +16,7 @@ export function AccountBand() {
     <Band tone="pearl" className="lg:pb-40" containerClassName="flex flex-col gap-6 sm:gap-10">
       <BandTitle size="giant">
         {accountCopy.title}{" "}
-        <span className="inline-block rounded-xl bg-primary px-[0.12em] text-primary-foreground translated:bg-transparent translated:px-0 translated:text-inherit lg:rounded-[22px]">
-          {accountCopy.highlight}
-        </span>
+        <Highlight>{accountCopy.highlight}</Highlight>
       </BandTitle>
       <div className="flex flex-wrap items-center justify-between gap-4 border-t border-border-strong pt-5 sm:gap-6 sm:pt-8">
         <BandText>{accountCopy.description}</BandText>
