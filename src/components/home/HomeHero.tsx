@@ -1,4 +1,5 @@
 import { heroCopy } from "@/content/landing";
+import { headerOverlayProps } from "@/lib/header-overlay";
 import { Container } from "@/components/ui/Container";
 import { HeroShortcuts } from "@/components/home/HeroShortcuts";
 import { HeroTrust } from "@/components/home/HeroTrust";
@@ -6,8 +7,10 @@ import { HeroUpload } from "@/components/home/HeroUpload";
 
 export function HomeHero() {
   return (
-    <section className="pt-4 pb-4 sm:pt-14 sm:pb-16 lg:pt-16">
-      <Container className="flex flex-col items-center gap-4 text-center sm:gap-7">
+    <section className="relative -mt-14">
+      <div aria-hidden {...headerOverlayProps} className="stage-fade absolute inset-x-0 top-0 h-130 sm:h-160" />
+      <div aria-hidden className="dot-grid absolute inset-x-0 top-0 h-130 sm:h-160" />
+      <Container className="relative flex flex-col items-center gap-4 pt-18 pb-4 text-center sm:gap-7 sm:pt-28 sm:pb-16 lg:pt-30">
         <h1 className="flex flex-col items-center gap-3 sm:gap-5">
           <span className="inline-flex items-center gap-3 text-[10.5px] font-bold tracking-[0.16em] text-secondary uppercase motion-safe:animate-fade-up sm:text-xs sm:tracking-[0.2em]">
             {heroCopy.eyebrow}

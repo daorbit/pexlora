@@ -39,7 +39,7 @@ export function HeroUpload() {
   return (
     <div {...dropProps} className="w-full">
       <input {...picker.inputProps} />
-      <WorkspaceFrame className="max-sm:border-0 max-sm:bg-transparent max-sm:p-0 max-sm:shadow-none sm:rounded-[22px] sm:p-1.5">
+      <WorkspaceFrame className="rounded-[22px] p-1.5">
         <Dropzone
           accepts={accepts}
           localCapable={localCapable}

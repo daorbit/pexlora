@@ -6,12 +6,13 @@ import { Container } from "@/components/ui/Container";
 import { HeaderAuth, HeaderAuthFallback } from "@/components/layout/HeaderAuth";
 import { Logo } from "@/components/layout/Logo";
 import { MobileMenu } from "@/components/layout/MobileMenu";
+import { SiteHeaderFrame } from "@/components/layout/SiteHeaderFrame";
 import { SiteSearch } from "@/components/layout/SiteSearch";
 import { ToolsMenu } from "@/components/layout/ToolsMenu";
 
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-50 bg-background text-foreground sm:bg-background/85 sm:backdrop-blur-md">
+    <SiteHeaderFrame>
       <Container className="grid h-14 grid-cols-[1fr_auto] items-center gap-3 sm:h-14 sm:gap-6 md:grid-cols-[1fr_auto_1fr]">
         <Logo size="md" />
         <nav className="hidden items-center gap-6 md:flex lg:gap-7">
@@ -37,6 +38,6 @@ export function SiteHeader() {
           <MobileMenu />
         </div>
       </Container>
-    </header>
+    </SiteHeaderFrame>
   );
 }

@@ -30,6 +30,7 @@
   --accent-soft: #ebf7c9;
   --brand-surface: #10120d;
   --brand-foreground: #f4f3ee;
+  --stage: #e9e7dd;
   --scrollbar-thumb: #d3cfc3;
   --scrollbar-thumb-hover: #8a8d82;
   --warning: #b4440b;
@@ -67,6 +68,7 @@
   --accent-soft: #1c260a;
   --brand-surface: #161813;
   --brand-foreground: #f4f3ee;
+  --stage: #121410;
   --warning: #fb923c;
   --warning-soft: #2a1a0b;
   --success: #4ade80;
@@ -115,6 +117,7 @@
   --color-accent-soft: var(--accent-soft);
   --color-brand-surface: var(--brand-surface);
   --color-brand-foreground: var(--brand-foreground);
+  --color-stage: var(--stage);
   --color-warning: var(--warning);
   --color-warning-soft: var(--warning-soft);
   --color-success: var(--success);
@@ -408,6 +411,16 @@ html.theme-reveal::view-transition-new(root) {
 html.theme-reveal::view-transition-new(root) {
   z-index: 1;
   will-change: clip-path;
+}
+
+@utility dot-grid {
+  background-image: radial-gradient(color-mix(in srgb, var(--foreground) 13%, transparent) 1px, transparent 1.2px);
+  background-size: 22px 22px;
+  mask-image: linear-gradient(to bottom, #000, rgb(0 0 0 / 0.6) 45%, transparent 90%);
+}
+
+@utility stage-fade {
+  background: linear-gradient(to bottom, var(--stage), var(--stage) 55%, var(--background));
 }
 
 @utility fade-y {
