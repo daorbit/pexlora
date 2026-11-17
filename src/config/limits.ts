@@ -31,6 +31,7 @@ export const MAX_METADATA_TEXT_LENGTH = 300;
 export const MAX_WATERMARK_LENGTH = 50;
 
 export const PDF_THUMBNAIL_SIDE = 180;
+export const PDF_PREVIEW_SIDE = 1000;
 
 export const PDF_PAGE_LIMIT = 200;
 

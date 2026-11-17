@@ -12,7 +12,7 @@ async function loadPdfJs() {
   return pdfjs;
 }
 
-async function openDocument(file: File) {
+async function openDocument(file: Blob) {
   const pdfjs = await loadPdfJs();
   try {
     return await pdfjs.getDocument({ data: new Uint8Array(await file.arrayBuffer()) }).promise;
@@ -69,7 +69,7 @@ type ThumbnailHandlers = {
   isCancelled: () => boolean;
 };
 
-export async function renderThumbnails(file: File, side: number, { onCount, onThumbnail, isCancelled }: ThumbnailHandlers) {
+export async function renderThumbnails(file: Blob, side: number, { onCount, onThumbnail, isCancelled }: ThumbnailHandlers) {
   const doc = await openDocument(file);
   try {
     checkPages(doc);

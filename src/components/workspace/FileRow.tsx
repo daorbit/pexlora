@@ -1,9 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { Columns2, X } from "lucide-react";
-import { compareCopy } from "@/content/workspace";
+import dynamic from "next/dynamic";
+import { Columns2, Eye, X } from "lucide-react";
+import { compareCopy, resultPreviewCopy } from "@/content/workspace";
 import type { QueueItem } from "@/hooks/useFileQueue";
+import { isPdfBlob } from "@/lib/files/pdf/is-pdf";
 import { formatBytes } from "@/lib/utils/format-bytes";
 import { formatDuration } from "@/lib/utils/format-duration";
 import { Button } from "@/components/ui/Button";
@@ -20,6 +22,10 @@ import { ReorderButtons } from "@/components/workspace/ReorderButtons";
 import { RevealSummary } from "@/components/workspace/RevealSummary";
 import { RowToggle } from "@/components/workspace/RowToggle";
 import { useSwipeToDismiss } from "@/hooks/useSwipeToDismiss";
+
+const PdfResultViewer = dynamic(() =>
+  import("@/components/workspace/preview/PdfResultViewer").then((module) => module.PdfResultViewer),
+);
 
 type FileRowProps = {
   item: QueueItem;
@@ -57,7 +63,9 @@ export function FileRow({
   const { ref: swipeRef, swipeProps } = useSwipeToDismiss<HTMLDivElement>(() => onRemove(item.id), !disabled);
   const [comparing, setComparing] = useState(compareOpen);
   const { file, report, result } = item;
+  const [viewing, setViewing] = useState(true);
   const canCompare = comparable && Boolean(result && item.previewUrl && result.blob.type.startsWith("image/"));
+  const canView = Boolean(result && isPdfBlob(result.blob, result.name));
 
   return (
     <li className="relative flex flex-col overflow-clip rounded-2xl bg-subtle motion-safe:animate-fade-up motion-safe:[animation-duration:0.35s]">
@@ -94,6 +102,9 @@ export function FileRow({
               onToggle={() => setComparing((value) => !value)}
             />
           )}
+          {canView && (
+            <RowToggle label={resultPreviewCopy.toggle} icon={Eye} open={viewing} onToggle={() => setViewing((value) => !value)} />
+          )}
           {report && (
             <RowToggle label={compareCopy.details} open={expanded} onToggle={() => setExpanded((value) => !value)} />
           )}
@@ -122,6 +133,11 @@ export function FileRow({
             beforeBytes={file.size}
             afterBytes={result.blob.size}
           />
+        </div>
+      )}
+      {canView && viewing && result && (
+        <div className="px-2.5 pb-2.5">
+          <PdfResultViewer blob={result.blob} url={result.url} name={result.name} />
         </div>
       )}
       {result?.insights && (

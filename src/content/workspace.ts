@@ -380,6 +380,14 @@ export const locationCopy = {
   mapNote: "Opens OpenStreetMap in a new tab",
 };
 
+export const resultPreviewCopy = {
+  toggle: "View",
+  title: (name: string) => `Preview of ${name}`,
+  pages: (count: number) => `${count} ${count === 1 ? "page" : "pages"}`,
+  openFull: "Open Full Size",
+  page: (page: number) => `Page ${page}`,
+};
+
 export const compareCopy = {
   toggle: "Compare",
   details: "Details",
