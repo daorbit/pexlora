@@ -23,7 +23,7 @@ export function LimitsForm({ userId, custom }: LimitsFormProps) {
   return (
     <form action={formAction} className="flex flex-col gap-3 px-5 py-4" noValidate>
       <FormStatus state={state} />
-      <div className="grid gap-3 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
         {fields.map((field) => (
           <FormField
             key={field.name}

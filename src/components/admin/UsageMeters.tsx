@@ -22,7 +22,7 @@ function Meter({ label, used, limit, custom }: { label: string; used: number; li
 
 export function UsageMeters({ user }: { user: AdminUser }) {
   return (
-    <div className="grid gap-3 px-5 pt-4 sm:grid-cols-2">
+    <div className="grid grid-cols-1 gap-3 px-5 pt-4 sm:grid-cols-2">
       <Meter label={adminCopy.usage.files} used={user.usage.files} limit={user.limits.files} custom={user.custom.files !== null} />
       <Meter label={adminCopy.usage.ai} used={user.usage.ai} limit={user.limits.ai} custom={user.custom.ai !== null} />
     </div>

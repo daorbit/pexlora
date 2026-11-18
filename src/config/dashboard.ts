@@ -163,6 +163,12 @@ export function isNavItemActive(item: DashboardNavItem, pathname: string) {
   return pathname === item.href || pathname.startsWith(`${item.href}/`);
 }
 
+const toolNavItems = toolCategoryOrder.flatMap((category) => toolSection(category).items);
+
+export function isToolRoute(pathname: string) {
+  return toolNavItems.some((item) => isNavItemActive(item, pathname));
+}
+
 export function findActiveNavItem(pathname: string) {
   return [...dashboardSearchItems, adminNavItem].find((item) => isNavItemActive(item, pathname)) ?? overviewNavItem;
 }

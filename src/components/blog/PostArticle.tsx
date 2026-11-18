@@ -30,7 +30,7 @@ export function PostArticle({ post, related, url }: PostArticleProps) {
           </Container>
         )}
 
-        <Container className="grid max-w-6xl gap-6 lg:grid-cols-[minmax(0,1fr)_240px] lg:gap-16">
+        <Container className="grid max-w-6xl grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1fr)_240px] lg:gap-16">
           <div className="mx-auto w-full max-w-[68ch] min-w-0">
             <PostContentsDrawer headings={post.headings} />
             <PostBody html={post.html} />

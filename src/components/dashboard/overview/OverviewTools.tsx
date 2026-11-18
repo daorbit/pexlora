@@ -12,7 +12,7 @@ export function OverviewTools() {
   return (
     <>
       <OverviewSection {...overviewCopy.tools}>
-        <div className="grid items-start gap-4 md:grid-cols-2 xl:grid-cols-3">
+        <div className="grid grid-cols-1 items-start gap-4 md:grid-cols-2 xl:grid-cols-3">
           {overviewToolColumns.map((column) => (
             <div key={column[0].category} className="flex flex-col gap-4">
               {column.map((group) => (
@@ -32,7 +32,7 @@ export function OverviewTools() {
       </OverviewSection>
 
       <OverviewSection {...overviewCopy.shortcuts}>
-        <div className="grid gap-4 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
           {dashboardShortcutGroups.map((group) => (
             <ShortcutCard key={group.id} group={group} />
           ))}

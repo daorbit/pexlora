@@ -301,5 +301,5 @@ export const tabBarCopy = {
   home: "Home",
   tools: "Tools",
   history: "History",
-  account: "Account",
+  more: "More",
 };

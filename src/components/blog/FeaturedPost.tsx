@@ -21,7 +21,7 @@ export function FeaturedPost({ post }: { post: PostMeta }) {
         priority
         className="aspect-video rounded-2xl transition-opacity group-hover:opacity-90 sm:rounded-3xl"
       />
-      <div className="grid gap-2.5 lg:grid-cols-2 lg:items-start lg:gap-12">
+      <div className="grid grid-cols-1 gap-2.5 lg:grid-cols-2 lg:items-start lg:gap-12">
         <div className="flex flex-col gap-2.5 sm:gap-3.5">
           <PostTopic tag={topic} />
           <h2 className="text-[22px] leading-[1.15] font-bold tracking-[-0.03em] sm:text-[40px] sm:leading-[1.08] sm:tracking-[-0.032em]">

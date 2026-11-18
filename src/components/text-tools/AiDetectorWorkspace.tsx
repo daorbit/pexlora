@@ -65,7 +65,7 @@ export function AiDetectorWorkspace() {
 
         <UpsellAlert message={detector.error} upsell={detector.upsell} />
 
-        <div className="grid gap-3 lg:grid-cols-2">
+        <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
           <TextInput value={text} onChange={changeText} onSubmit={run} disabled={detector.pending} />
 
           <div ref={resultRef} className="scroll-mt-20">

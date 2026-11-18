@@ -147,7 +147,7 @@ export function WorkspacePanel({
 
   return (
     <DownloadGateProvider>
-      <div {...dropProps} className={cn("grid items-start gap-3 sm:gap-4", hasPanel && "lg:grid-cols-[minmax(0,1fr)_340px]")}>
+      <div {...dropProps} className={cn("grid grid-cols-1 items-start gap-3 sm:gap-4", hasPanel && "lg:grid-cols-[minmax(0,1fr)_340px]")}>
         <input {...picker.inputProps} />
         <p role="status" className="sr-only">
           {queue.isProcessing ? batchTitleCopy.working(batchTotal) : ""}

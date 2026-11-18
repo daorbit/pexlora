@@ -38,7 +38,7 @@ export async function AdminUserView({ searchParams }: { searchParams: AdminUserS
 
       <AdminUserHeader user={user} isSelf={isSelf} />
 
-      <div className="grid items-start gap-4 sm:gap-5 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)]">
+      <div className="grid grid-cols-1 items-start gap-4 sm:gap-5 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)]">
         <div className="flex flex-col gap-4 sm:gap-5">
           <SettingsPanel title={adminCopy.usage.title} description={adminCopy.usage.description}>
             <div>
@@ -71,7 +71,7 @@ export function AdminUserFallback() {
   return (
     <div className="flex flex-col gap-5">
       <SkeletonCard lines={2} />
-      <div className="grid items-start gap-5 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)]">
+      <div className="grid grid-cols-1 items-start gap-5 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)]">
         <SkeletonCard lines={6} />
         <SkeletonCard lines={3} />
       </div>

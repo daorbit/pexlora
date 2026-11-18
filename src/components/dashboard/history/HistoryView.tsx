@@ -14,7 +14,7 @@ import { HistoryList } from "@/components/dashboard/history/HistoryList";
 import { HistorySummaryPanel } from "@/components/dashboard/history/HistorySummaryPanel";
 import { HistoryToolbar } from "@/components/dashboard/history/HistoryToolbar";
 
-const layout = "grid items-start gap-4 lg:grid-cols-[minmax(0,1fr)_320px]";
+const layout = "grid grid-cols-1 items-start gap-4 lg:grid-cols-[minmax(0,1fr)_320px]";
 
 export function HistoryView() {
   const { results, clear, remove, restore } = useRecentResults();
