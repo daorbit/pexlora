@@ -17,15 +17,15 @@ import { handOff } from "@/lib/utils/file-handoff";
 import { humanizeText } from "@/services/ai-api";
 import { Button } from "@/components/ui/Button";
 import { UpsellAlert } from "@/components/ui/UpsellAlert";
+import { OrbitWorkingState } from "@/components/text-tools/OrbitWorkingState";
 import { OutputActions } from "@/components/text-tools/OutputActions";
-import { PaneEmpty } from "@/components/text-tools/PaneSkeleton";
+import { PaneEmpty } from "@/components/text-tools/PaneEmpty";
 import { RunBar } from "@/components/text-tools/RunBar";
 import { TextInput } from "@/components/text-tools/TextInput";
 import { TextPane } from "@/components/text-tools/TextPane";
 import { HumanizerControls } from "@/components/text-tools/humanizer/HumanizerControls";
 import { HumanizerResult } from "@/components/text-tools/humanizer/HumanizerResult";
 import { LiveScoreChip } from "@/components/text-tools/humanizer/LiveScoreChip";
-import { RewritingState } from "@/components/text-tools/humanizer/RewritingState";
 import { WorkspaceFrame } from "@/components/workspace/WorkspaceFrame";
 
 type HumanizerSession = { text: string; source?: string; output?: string };
@@ -42,7 +42,8 @@ export function HumanizerWorkspace({ peerHref }: { peerHref: string }) {
   const resultRef = useScrollToResult(output);
 
   const deferredText = useDeferredValue(text);
-  const ready = countWords(text) >= AI_TEXT_LIMITS.minWords;
+  const words = countWords(text);
+  const ready = words >= AI_TEXT_LIMITS.minWords;
   const liveScore = useMemo(
     () => (countWords(deferredText) >= AI_TEXT_LIMITS.minWords ? humanScore(deferredText).score : null),
     [deferredText],
@@ -81,7 +82,7 @@ export function HumanizerWorkspace({ peerHref }: { peerHref: string }) {
           label={humanizerCopy.run}
           pendingLabel={humanizerCopy.running}
           pending={humanizer.pending}
-          ready={ready}
+          words={words}
           onRun={run}
         >
           <HumanizerControls
@@ -125,7 +126,7 @@ export function HumanizerWorkspace({ peerHref }: { peerHref: string }) {
               className="h-full"
             >
               {humanizer.pending ? (
-                <RewritingState />
+                <OrbitWorkingState steps={humanizerCopy.steps} />
               ) : output ? (
                 <HumanizerResult source={source || text} output={output} />
               ) : (

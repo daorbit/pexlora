@@ -9,7 +9,7 @@ import { ToggleSwitch } from "@/components/ui/ToggleSwitch";
 import { DiffText } from "@/components/text-tools/humanizer/DiffText";
 import { RemovedPhrases } from "@/components/text-tools/humanizer/RemovedPhrases";
 import { ScoreComparison } from "@/components/text-tools/humanizer/ScoreComparison";
-import { SignalComparison } from "@/components/text-tools/humanizer/SignalComparison";
+import { WritingSignals } from "@/components/text-tools/WritingSignals";
 
 export function HumanizerResult({ source, output }: { source: string; output: string }) {
   const [highlight, setHighlight] = useState(false);
@@ -48,7 +48,7 @@ export function HumanizerResult({ source, output }: { source: string; output: st
         ))}
       </dl>
 
-      <SignalComparison before={before} after={after} />
+      <WritingSignals title={humanizerCopy.signalsTitle} before={before} after={after} />
       <RemovedPhrases phrases={removed} />
 
       <p className="rounded-xl bg-accent-soft px-4 py-3 text-[13px] leading-relaxed text-accent-text">{humanizerCopy.personalTip}</p>

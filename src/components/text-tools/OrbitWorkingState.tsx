@@ -1,14 +1,12 @@
 "use client";
 
-import { humanizerCopy } from "@/content/ai";
 import { useCycle } from "@/hooks/useCycle";
 import { cn } from "@/lib/utils/cn";
 import { OrbitMark } from "@/components/ai/OrbitMark";
 
 const lineWidths = ["w-11/12", "w-full", "w-9/12", "w-full", "w-10/12", "w-7/12", "w-11/12", "w-8/12"];
 
-export function RewritingState() {
-  const steps = humanizerCopy.steps;
+export function OrbitWorkingState({ steps }: { steps: readonly string[] }) {
   const step = useCycle(steps.length);
 
   return (

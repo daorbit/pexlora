@@ -77,14 +77,3 @@ export function textStats(text: string): TextStats {
     vocabulary: tokens.length ? Math.round((new Set(tokens).size / tokens.length) * 100) / 100 : 0,
   };
 }
-
-export function findAiPhrases(text: string) {
-  const lower = text.toLowerCase();
-  return AI_PHRASES.filter((phrase) => lower.includes(phrase));
-}
-
-export function heuristicScore(stats: TextStats, phraseCount: number) {
-  const uniformity = Math.max(0, Math.min(1, (0.6 - stats.variation) / 0.4));
-  const phrases = Math.min(1, phraseCount / 4);
-  return Math.round((uniformity * 0.6 + phrases * 0.4) * 100);
-}

@@ -23,13 +23,18 @@ export type TextStats = {
   vocabulary: number;
 };
 
+export type SentenceFinding = { text: string; level: FindingLevel };
+
 export type AiTextReport = {
   score: number;
+  modelScore?: number;
+  patternScore?: number;
   verdict: TextVerdict;
   summary: string;
   signals: string[];
   phrases: string[];
   stats: TextStats;
+  sentences?: SentenceFinding[];
 };
 
 export const HUMANIZE_TONES = ["natural", "casual", "professional", "academic", "simple"] as const;

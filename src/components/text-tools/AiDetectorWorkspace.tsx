@@ -17,7 +17,8 @@ import { Button } from "@/components/ui/Button";
 import { UpsellAlert } from "@/components/ui/UpsellAlert";
 import { DetectorResult } from "@/components/text-tools/DetectorResult";
 import { OutputActions } from "@/components/text-tools/OutputActions";
-import { PaneEmpty, PaneSkeleton } from "@/components/text-tools/PaneSkeleton";
+import { OrbitWorkingState } from "@/components/text-tools/OrbitWorkingState";
+import { PaneEmpty } from "@/components/text-tools/PaneEmpty";
 import { RunBar } from "@/components/text-tools/RunBar";
 import { TextInput } from "@/components/text-tools/TextInput";
 import { TextPane } from "@/components/text-tools/TextPane";
@@ -53,7 +54,8 @@ export function AiDetectorWorkspace({ peerHref }: { peerHref: string }) {
   );
   useTextToolSession("ai-text-detector", snapshot, applySession);
 
-  const ready = countWords(text) >= AI_TEXT_LIMITS.minWords;
+  const words = countWords(text);
+  const ready = words >= AI_TEXT_LIMITS.minWords;
   const run = () => {
     if (!ready || detector.pending) return;
     setCheckedText(text);
@@ -72,7 +74,7 @@ export function AiDetectorWorkspace({ peerHref }: { peerHref: string }) {
           label={textToolCopy.detect}
           pendingLabel={textToolCopy.detecting}
           pending={detector.pending}
-          ready={ready}
+          words={words}
           onRun={run}
         />
 
@@ -99,7 +101,7 @@ export function AiDetectorWorkspace({ peerHref }: { peerHref: string }) {
               className="h-full"
             >
               {detector.pending ? (
-                <PaneSkeleton />
+                <OrbitWorkingState steps={textToolCopy.detectorSteps} />
               ) : report ? (
                 <DetectorResult report={report} text={checkedText} />
               ) : (

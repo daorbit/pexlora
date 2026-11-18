@@ -52,8 +52,37 @@ export const textToolCopy = {
     "likely-human": "Likely human-written",
   } satisfies Record<TextVerdict, string>,
   scoreLabel: "AI likelihood",
+  wordProgress: (words: number, min: number) => `${words} / ${min} words`,
+  moreWords: (count: number) => `Add ${count} More ${count === 1 ? "Word" : "Words"}`,
+  detectorSteps: [
+    "Splitting your text into sentences",
+    "Measuring sentence rhythm",
+    "Spotting stock AI phrases",
+    `Asking ${AI_NAME} for a verdict`,
+    "Scoring each sentence",
+  ],
+  spectrum: [
+    { label: "Human", range: "0 to 34" },
+    { label: "Mixed", range: "35 to 64" },
+    { label: "AI", range: "65 to 100" },
+  ],
+  breakdownTitle: "How the score is made",
+  breakdown: {
+    model: `${AI_NAME} judgement`,
+    pattern: "Writing patterns",
+  },
+  breakdownNote: "70% model, 30% patterns",
   signals: "Why we think so",
+  sentencesTitle: "Sentence by sentence",
+  sentenceSummary: (flagged: number, total: number) =>
+    `${flagged} of ${total} ${total === 1 ? "sentence looks" : "sentences look"} AI-written`,
+  sentenceLevels: {
+    high: "Likely AI",
+    medium: "Some AI patterns",
+    low: "Reads human",
+  } satisfies Record<FindingLevel, string>,
   highlighted: "Phrases that sound machine-written",
+  patternsTitle: "Writing signals (higher reads more human)",
   stats: {
     sentences: "Sentences",
     averageSentenceLength: "Avg. sentence",
