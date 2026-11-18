@@ -3,7 +3,7 @@ import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import { blogPostPath } from "@/config/blog";
 import { env } from "@/lib/env";
-import { getPost, getRelatedPosts } from "@/lib/blog/posts";
+import { getPost, getPrerenderSlugs, getRelatedPosts } from "@/lib/blog/posts";
 import { blogPostMetadata } from "@/lib/seo/blog-metadata";
 import { blogPostStructuredData } from "@/lib/seo/structured-data";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -11,6 +11,10 @@ import { PostArticle } from "@/components/blog/PostArticle";
 import { PostSkeleton } from "@/components/blog/BlogSkeleton";
 
 type BlogPostRouteProps = { params: Promise<{ slug: string }> };
+
+export async function generateStaticParams() {
+  return (await getPrerenderSlugs()).map((slug) => ({ slug }));
+}
 
 export async function generateMetadata({ params }: BlogPostRouteProps): Promise<Metadata> {
   const post = await getPost((await params).slug);

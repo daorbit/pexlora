@@ -54,7 +54,7 @@ export function SiteFooter() {
       </Container>
 
       <Container aria-hidden className="pt-2">
-        <p className="text-center text-[21vw] leading-[1.1] font-bold tracking-[-0.05em] text-fill-strong select-none lg:text-[17rem]">
+        <p className="text-center text-[21vw] leading-[1.1] font-bold tracking-[-0.05em] text-foreground/12 select-none lg:text-[17rem]">
           {siteConfig.name}
         </p>
       </Container>

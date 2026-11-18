@@ -5,7 +5,7 @@ export function BlogIndexSkeleton() {
   return (
     <div aria-hidden className="flex flex-col gap-8 sm:gap-12">
       <div className="flex flex-col gap-3 sm:gap-6">
-        <Skeleton className="aspect-[16/9] w-full rounded-2xl sm:rounded-3xl" />
+        <Skeleton className="aspect-video w-full rounded-2xl sm:rounded-3xl" />
         <Skeleton className="h-8 w-3/4 rounded-xl sm:h-10 lg:w-1/2" />
       </div>
       <div className={postGridClass}>
@@ -30,7 +30,7 @@ export function PostSkeleton() {
         <Skeleton className="h-4 w-40" />
       </div>
       <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
-        <Skeleton className="aspect-[16/9] w-full rounded-3xl" />
+        <Skeleton className="aspect-video w-full rounded-3xl" />
       </div>
     </div>
   );

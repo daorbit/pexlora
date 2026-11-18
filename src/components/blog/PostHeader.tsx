@@ -4,7 +4,7 @@ import { routes } from "@/config/site";
 import { blogCopy } from "@/content/blog";
 import type { Post } from "@/lib/blog/types";
 import { textLinkClass } from "@/components/ui/text-link-styles";
-import { UserAvatar } from "@/components/ui/UserAvatar";
+import { PostAuthorAvatar } from "@/components/blog/PostAuthorAvatar";
 import { PostByline } from "@/components/blog/PostByline";
 import { PostTopic } from "@/components/blog/PostTopic";
 
@@ -31,7 +31,7 @@ export function PostHeader({ post }: { post: Post }) {
         </p>
       )}
       <div className="flex items-center gap-2.5 pt-1 text-left">
-        <UserAvatar name={post.author.name} size="sm" />
+        <PostAuthorAvatar name={post.author.name} size="md" />
         <div className="flex flex-col">
           <span className="text-[13.5px] font-semibold" translate="no">
             {post.author.name}

@@ -25,7 +25,7 @@ export function PostArticle({ post, related, url }: PostArticleProps) {
               title={post.title}
               sizes="(min-width: 1152px) 1088px, 100vw"
               priority
-              className="aspect-[16/9] rounded-[20px] sm:rounded-3xl"
+              className="aspect-video rounded-[20px] sm:rounded-3xl"
             />
           </Container>
         )}
@@ -34,7 +34,7 @@ export function PostArticle({ post, related, url }: PostArticleProps) {
           <div className="mx-auto w-full max-w-[68ch] min-w-0">
             <PostContentsDrawer headings={post.headings} />
             <PostBody html={post.html} />
-            <PostFooter tags={post.tags} url={url} />
+            <PostFooter post={post} url={url} />
           </div>
           <aside className="sticky top-24 hidden self-start lg:block">
             <PostContentsRail headings={post.headings} />

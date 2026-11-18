@@ -1,18 +1,26 @@
-import { routes } from "@/config/site";
+import { toolItem } from "@/config/tool-hub";
 import { blogCopy } from "@/content/blog";
 import { ButtonLink } from "@/components/ui/Button";
+import { Card } from "@/components/ui/Card";
+import { HubItemIcon } from "@/components/tools/HubItemIcon";
+
+const CTA_TOOL = "remove-metadata";
 
 export function PostToolCta() {
+  const tool = toolItem(CTA_TOOL);
+  if (!tool) return null;
+
   return (
-    <aside className="theme-dark ink-panel flex flex-col gap-4 rounded-3xl p-6 text-foreground sm:flex-row sm:items-center sm:justify-between sm:gap-8 sm:p-10">
-      <div className="flex flex-col gap-2">
-        <p className="font-mono text-[11px] tracking-[0.12em] text-secondary uppercase">{blogCopy.cta.eyebrow}</p>
-        <h2 className="text-[22px] leading-[1.15] font-semibold tracking-[-0.028em] sm:text-[30px]">{blogCopy.cta.title}</h2>
-        <p className="max-w-lg text-[14.5px] leading-relaxed text-secondary sm:text-base">{blogCopy.cta.body}</p>
+    <Card className="flex flex-col gap-5 rounded-3xl border-0 p-5 shadow-card sm:flex-row sm:items-center sm:gap-6 sm:p-8">
+      <HubItemIcon src={tool.iconSrc} size="xl" />
+      <div className="flex min-w-0 flex-1 flex-col gap-1.5">
+        <p className="text-xs font-semibold tracking-[0.12em] text-tertiary uppercase">{blogCopy.cta.eyebrow}</p>
+        <h2 className="text-[20px] leading-[1.2] font-semibold tracking-[-0.028em] sm:text-[26px]">{blogCopy.cta.title}</h2>
+        <p className="max-w-xl text-[14.5px] leading-relaxed text-secondary sm:text-[15.5px]">{blogCopy.cta.body}</p>
       </div>
-      <ButtonLink href={routes.removeMetadata} variant="primary" size="lg" arrow className="shrink-0 max-sm:w-full">
+      <ButtonLink href={tool.href} variant="ink" size="lg" arrow className="shrink-0 max-sm:w-full">
         {blogCopy.cta.action}
       </ButtonLink>
-    </aside>
+    </Card>
   );
 }

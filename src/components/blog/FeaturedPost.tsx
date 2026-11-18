@@ -19,7 +19,7 @@ export function FeaturedPost({ post }: { post: PostMeta }) {
         title={post.title}
         sizes="(min-width: 1152px) 1152px, 100vw"
         priority
-        className="aspect-[16/9] rounded-2xl transition-opacity group-hover:opacity-90 sm:rounded-3xl"
+        className="aspect-video rounded-2xl transition-opacity group-hover:opacity-90 sm:rounded-3xl"
       />
       <div className="grid gap-2.5 lg:grid-cols-2 lg:items-start lg:gap-12">
         <div className="flex flex-col gap-2.5 sm:gap-3.5">

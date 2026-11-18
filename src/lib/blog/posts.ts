@@ -1,6 +1,6 @@
 import "server-only";
 import { cacheLife, cacheTag } from "next/cache";
-import { BLOG_CMS, BLOG_RELATED_COUNT, BLOG_WORDS_PER_MINUTE } from "@/config/blog";
+import { BLOG_CMS, BLOG_PLACEHOLDER_SLUG, BLOG_RELATED_COUNT, BLOG_WORDS_PER_MINUTE } from "@/config/blog";
 import { siteConfig } from "@/config/site";
 import { getCmsPage, listCmsPages } from "@/services/cms.service";
 import { stripInlineStyles } from "@/lib/blog/clean-html";
@@ -62,11 +62,21 @@ export async function getListedPosts() {
   return (await getAllPosts()).filter((post) => !post.noIndex);
 }
 
+export async function getPrerenderSlugs() {
+  try {
+    const slugs = (await getAllPosts()).map((post) => post.slug);
+    return slugs.length ? slugs : [BLOG_PLACEHOLDER_SLUG];
+  } catch {
+    return [BLOG_PLACEHOLDER_SLUG];
+  }
+}
+
 export async function getPost(slug: string): Promise<Post | null> {
   "use cache";
   cacheLife("minutes");
   cacheTag(BLOG_CMS.cacheTag);
 
+  if (slug === BLOG_PLACEHOLDER_SLUG) return null;
   const page = await getCmsPage(slug);
   if (!page || page.group !== BLOG_CMS.group) return null;
 

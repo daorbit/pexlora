@@ -5,6 +5,7 @@ export const BLOG_CMS = {
   cacheTag: "blog-posts",
 };
 
+export const BLOG_PLACEHOLDER_SLUG = "_";
 export const BLOG_RELATED_COUNT = 3;
 export const BLOG_WORDS_PER_MINUTE = 225;
 

@@ -24,6 +24,8 @@ export const blogCopy = {
   post: {
     back: "All Articles",
     contents: "On this page",
+    writtenBy: "Written by",
+    updated: "Updated",
     copyLink: "Copy Link",
     tags: "Topics",
     related: "Keep reading",
