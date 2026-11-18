@@ -1,4 +1,5 @@
 import "server-only";
+import { BLOG_CMS } from "@/config/blog";
 
 function required(name: string): string {
   const value = process.env[name];
@@ -55,6 +56,12 @@ export const env = {
   },
   get razorpayWebhookSecret() {
     return required("RAZORPAY_WEBHOOK_SECRET");
+  },
+  get cms() {
+    return {
+      apiUrl: (process.env.CMS_API_URL ?? BLOG_CMS.apiUrl).replace(/\/$/, ""),
+      workspaceId: process.env.CMS_WORKSPACE_ID ?? BLOG_CMS.workspaceId,
+    };
   },
   get paymentTestAmountPaise() {
     if (process.env.VERCEL_ENV === "production") return null;

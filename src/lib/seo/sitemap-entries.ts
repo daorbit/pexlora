@@ -44,6 +44,7 @@ export function sitemapEntries(): SitemapEntry[] {
       sources: ["src/config/form-presets.ts", "src/components/tools/FormPresetPage.tsx", ...shared.variantPage],
     })),
     { path: routes.contact, sources: [marketingPage(routes.contact), "src/content/contact.ts"] },
+    { path: routes.blog, sources: [marketingPage(routes.blog), "src/content/blog.ts", "src/components/blog"] },
     { path: routes.pricing, sources: [marketingPage(routes.pricing), "src/content/pricing.ts", "src/config/plans.ts", "src/components/pricing"] },
     ...legalDocuments.map((doc) => ({
       path: doc.path,

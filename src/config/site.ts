@@ -75,6 +75,7 @@ export const routes = {
   googleOneTap: "/api/auth/google/one-tap",
   usageApi: "/api/usage",
   pricing: "/pricing",
+  blog: "/blog",
   refunds: "/refund-policy",
   verifyPaymentApi: "/api/payments/verify",
 } as const;

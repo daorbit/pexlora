@@ -20,4 +20,5 @@ export const llmsCopy = {
   pages: "More",
   pricing: "Pricing: free and Pro plans, daily limits",
   contact: "Contact",
+  blog: "Blog: guides on photo metadata, privacy and file formats",
 };

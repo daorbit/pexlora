@@ -1,0 +1,38 @@
+import { siteConfig } from "@/config/site";
+
+export const blogCopy = {
+  metaTitle: `Blog: Photo Privacy, Metadata and File Guides | ${siteConfig.name}`,
+  metaDescription:
+    "Plain-language guides on photo metadata, EXIF and GPS privacy, AI image labels, and getting files ready to share, from the Pexlora team.",
+  eyebrow: "Blog",
+  headline: "Notes on files, privacy and",
+  headlineMarker: "metadata.",
+  lead: "What your photos and documents quietly say about you, and how to share them without the extras.",
+  latest: "Latest",
+  allTopics: "All Topics",
+  topicLabel: "Topic",
+  topicFilterLabel: "Filter articles by topic",
+  topicClose: "Close topics",
+  articles: "All articles",
+  minRead: (minutes: number) => `${minutes} min read`,
+  empty: {
+    title: "First articles are on the way",
+    body: "We're writing guides on metadata, photo privacy and file formats. Until then, every tool is free to use.",
+    action: "Browse All Tools",
+  },
+  noMatches: "No articles on this topic yet.",
+  post: {
+    back: "All Articles",
+    contents: "On this page",
+    copyLink: "Copy Link",
+    tags: "Topics",
+    related: "Keep reading",
+    relatedAll: "All Articles",
+  },
+  cta: {
+    eyebrow: "Free tool",
+    title: "Check a photo before you share it.",
+    body: "See the camera, location and AI tags hiding in your files, then remove them in your browser.",
+    action: "Remove Metadata",
+  },
+};

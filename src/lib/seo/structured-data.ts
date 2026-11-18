@@ -1,4 +1,5 @@
 import "server-only";
+import { blogPostPath } from "@/config/blog";
 import { brandAssets } from "@/config/brand";
 import { seo } from "@/config/seo";
 import { PLAN_IDS, PLANS } from "@/config/plans";
@@ -6,6 +7,7 @@ import { routes, siteConfig } from "@/config/site";
 import { faqs } from "@/content/landing";
 import { planCopy, pricingCopy } from "@/content/pricing";
 import { env } from "@/lib/env";
+import type { PostMeta } from "@/lib/blog/types";
 
 type Faq = { question: string; answer: string };
 
@@ -102,6 +104,48 @@ export function homeStructuredData() {
       faqPage(faqs, `${url}/#faq`),
     ],
   };
+}
+
+function blogPosting(post: PostMeta) {
+  const url = `${env.appUrl}${blogPostPath(post.slug)}`;
+  return {
+    "@type": "BlogPosting",
+    "@id": `${url}#post`,
+    headline: post.title,
+    description: post.description,
+    datePublished: post.date,
+    dateModified: post.updated,
+    url,
+    mainEntityOfPage: url,
+    ...(post.cover.url ? { image: post.cover.url } : {}),
+    author: { "@type": "Person", name: post.author.name },
+    publisher: { "@id": organizationId() },
+    keywords: post.tags.join(", "),
+    inLanguage: "en",
+  };
+}
+
+export function blogStructuredData(posts: PostMeta[]) {
+  const url = `${env.appUrl}${routes.blog}`;
+
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Blog",
+        "@id": `${url}#blog`,
+        name: `${siteConfig.name} Blog`,
+        url,
+        publisher: { "@id": organizationId() },
+        inLanguage: "en",
+        blogPost: posts.map(blogPosting),
+      },
+    ],
+  };
+}
+
+export function blogPostStructuredData(post: PostMeta) {
+  return { "@context": "https://schema.org", "@graph": [blogPosting(post)] };
 }
 
 export function pricingStructuredData() {

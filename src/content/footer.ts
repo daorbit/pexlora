@@ -57,6 +57,7 @@ export const footerColumns = [
       { label: "How we handle files", href: "/#privacy" },
       { label: "What is metadata?", href: "/#learn" },
       { label: "Pricing", href: routes.pricing },
+      { label: "Blog", href: routes.blog },
       { label: "FAQ", href: routes.faq },
       { label: "Contact", href: routes.contact },
     ],
