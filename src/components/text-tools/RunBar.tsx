@@ -44,13 +44,14 @@ export function RunBar({ label, pendingLabel, pending, words, onRun, children }:
           {textToolCopy.shortcut}
         </kbd>
         <AiButton
-          size="xl"
+          variant="ink"
+          size="md"
           pending={pending}
           label={ready || !words ? label : textToolCopy.moreWords(missing)}
           pendingLabel={pendingLabel}
           disabled={!ready}
           onClick={onRun}
-          className="w-full sm:w-auto"
+          className="w-full max-sm:h-11 sm:w-auto"
         />
       </div>
     </div>

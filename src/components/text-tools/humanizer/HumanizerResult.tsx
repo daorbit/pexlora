@@ -12,7 +12,7 @@ import { ScoreComparison } from "@/components/text-tools/humanizer/ScoreComparis
 import { WritingSignals } from "@/components/text-tools/WritingSignals";
 
 export function HumanizerResult({ source, output }: { source: string; output: string }) {
-  const [highlight, setHighlight] = useState(false);
+  const [highlight, setHighlight] = useState(true);
   const before = useMemo(() => humanScore(source), [source]);
   const after = useMemo(() => humanScore(output), [output]);
   const diff = useMemo(() => wordDiff(source, output), [source, output]);
