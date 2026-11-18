@@ -1,5 +1,7 @@
 import Link from "next/link";
+import { ChevronRight } from "lucide-react";
 import type { HubItem } from "@/config/tool-hub";
+import { navCopy } from "@/content/navigation";
 import { cn } from "@/lib/utils/cn";
 import { HubItemIcon } from "@/components/tools/HubItemIcon";
 
@@ -37,6 +39,20 @@ export function ToolMenuLink({ item, onSelect, size = "sm", className }: ToolMen
       <span className={cn("leading-tight transition-colors group-hover:text-accent-text", textSizes[size])}>
         {size === "sm" ? (item.shortName ?? item.name) : item.name}
       </span>
+    </Link>
+  );
+}
+
+export function MenuMoreLink({ href, count, onSelect }: { href: string; count: number; onSelect: () => void }) {
+  if (count <= 0) return null;
+  return (
+    <Link
+      href={href}
+      onClick={onSelect}
+      className="mt-1 inline-flex items-center gap-1 self-start rounded-lg px-1 py-1 text-[13px] font-semibold text-secondary transition-colors hover:text-foreground"
+    >
+      {navCopy.more(count)}
+      <ChevronRight className="size-3.5" aria-hidden />
     </Link>
   );
 }

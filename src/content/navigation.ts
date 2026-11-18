@@ -1,6 +1,7 @@
 export const navCopy = {
   allTools: "All Tools",
   viewAll: "View all tools",
+  more: (count: number) => `${count} more`,
   signIn: "Sign In",
   getStarted: "Get Started",
   theme: "Theme",

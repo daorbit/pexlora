@@ -5,11 +5,11 @@ import { useCallback, useState } from "react";
 import { createPortal } from "react-dom";
 import { Menu, X } from "lucide-react";
 import { infoLinks } from "@/config/site";
-import { menuGroups } from "@/config/tool-hub";
+import { allToolsHref, menuGroups } from "@/config/tool-hub";
 import { navCopy } from "@/content/navigation";
 import { useOverlayLock } from "@/hooks/useOverlayLock";
 import { Button } from "@/components/ui/Button";
-import { MenuGroupLabel, ToolMenuLink } from "@/components/layout/ToolMenuLink";
+import { MenuGroupLabel, MenuMoreLink, ToolMenuLink } from "@/components/layout/ToolMenuLink";
 import { MobileMenuAccount } from "@/components/layout/MobileMenuAccount";
 
 const linkClass = "flex h-12 items-center gap-3 rounded-2xl px-3 text-[16px] font-semibold active:bg-fill";
@@ -44,6 +44,7 @@ export function MobileMenu() {
                 {group.items.map((item) => (
                   <ToolMenuLink key={item.key} item={item} onSelect={close} size="md" />
                 ))}
+                <MenuMoreLink href={allToolsHref(group.id)} count={group.more} onSelect={close} />
               </div>
             ))}
             <div className="flex flex-col border-t border-separator pt-3">

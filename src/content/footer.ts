@@ -4,7 +4,7 @@ import { legalDocuments } from "@/content/legal";
 import { conversionPath, popularConversions } from "@/config/conversions";
 import { toolPageCopy } from "@/content/tool-pages";
 import { routes } from "@/config/site";
-import { compressTargetHubKey, hubItemsIn, type HubCategory } from "@/config/tool-hub";
+import { allToolsHref, compressTargetHubKey, hubItemsIn, type HubCategory } from "@/config/tool-hub";
 import { seoPagePath, seoPagesIn, type SeoPage } from "@/content/seo-pages";
 
 const pageLinks = (pages: SeoPage[]) => pages.map((page) => ({ label: page.name, href: seoPagePath(page) }));
@@ -52,7 +52,7 @@ export const footerColumns = [
   {
     title: "Product",
     links: [
-      { label: "All tools", href: "/#all-tools" },
+      { label: "All tools", href: allToolsHref() },
       { label: "How it works", href: "/#how-it-works" },
       { label: "How we handle files", href: "/#privacy" },
       { label: "What is metadata?", href: "/#learn" },

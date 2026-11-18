@@ -1,10 +1,10 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { menuGroups } from "@/config/tool-hub";
+import { allToolsHref, menuGroups } from "@/config/tool-hub";
 import { navCopy } from "@/content/navigation";
 import { cn } from "@/lib/utils/cn";
 import { staggerDelay } from "@/lib/utils/stagger";
-import { MenuGroupLabel, ToolMenuLink } from "@/components/layout/ToolMenuLink";
+import { MenuGroupLabel, MenuMoreLink, ToolMenuLink } from "@/components/layout/ToolMenuLink";
 
 type MegaMenuPanelProps = {
   id: string;
@@ -19,8 +19,8 @@ export function MegaMenuPanel({ id, onNavigate }: MegaMenuPanelProps) {
       id={id}
       className="fixed inset-x-0 top-14 z-50 border-b border-separator bg-surface text-foreground shadow-card motion-safe:animate-menu-in"
     >
-      <div className="mx-auto flex max-h-[calc(100dvh-4rem)] max-w-[1640px] flex-col gap-6 overflow-y-auto px-8 pt-8 pb-6">
-        <div className="grid grid-cols-3 gap-x-6 gap-y-8 lg:grid-cols-5">
+      <div className="mx-auto flex max-h-[calc(100dvh-4rem)] max-w-[1640px] flex-col gap-4 overflow-y-auto px-8 pt-6 pb-4">
+        <div className="grid grid-cols-3 gap-x-6 gap-y-6 lg:grid-cols-5">
           {menuGroups.map((group, groupIndex) => (
             <div key={group.id} className="flex min-w-0 flex-col">
               <MenuGroupLabel>{group.label}</MenuGroupLabel>
@@ -31,12 +31,13 @@ export function MegaMenuPanel({ id, onNavigate }: MegaMenuPanelProps) {
                   </li>
                 ))}
               </ul>
+              <MenuMoreLink href={allToolsHref(group.id)} count={group.more} onSelect={onNavigate} />
             </div>
           ))}
         </div>
-        <div className="flex border-t border-separator pt-4">
+        <div className="flex border-t border-separator pt-3">
           <Link
-            href="/#all-tools"
+            href={allToolsHref()}
             onClick={onNavigate}
             className="inline-flex items-center gap-1.5 px-1 text-[13.5px] font-semibold text-secondary transition-colors hover:text-foreground"
           >

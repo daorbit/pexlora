@@ -1,4 +1,5 @@
 import { NotebookPen } from "lucide-react";
+import { allToolsHref } from "@/config/tool-hub";
 import { blogCopy } from "@/content/blog";
 import { ButtonLink } from "@/components/ui/Button";
 
@@ -10,7 +11,7 @@ export function BlogEmptyState() {
       </span>
       <h2 className="text-[20px] font-semibold tracking-[-0.02em] sm:text-[24px]">{blogCopy.empty.title}</h2>
       <p className="max-w-md text-[14.5px] leading-relaxed text-secondary sm:text-base">{blogCopy.empty.body}</p>
-      <ButtonLink href="/#all-tools" variant="ink" arrow className="mt-2">
+      <ButtonLink href={allToolsHref()} variant="ink" arrow className="mt-2">
         {blogCopy.empty.action}
       </ButtonLink>
     </div>

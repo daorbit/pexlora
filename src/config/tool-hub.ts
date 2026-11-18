@@ -92,6 +92,25 @@ export function otherTools(current: string) {
   return toolItems.filter((item) => item.key !== current);
 }
 
+const MENU_ITEMS_PER_GROUP = 5;
+
+const menuPicks: Partial<Record<HubCategory, string[]>> = {
+  image: ["compress-image", "compress-to-size", "resize-image", "crop-image", "form-photo"],
+  pdf: ["merge-pdf", "split-pdf", "organize-pdf", "jpg-to-pdf", "pdf-to-jpg"],
+};
+
+function menuItemsFor(category: HubCategory) {
+  const all = hubItemsIn(category);
+  const picks = menuPicks[category];
+  const chosen = picks ? picks.flatMap((key) => all.filter((item) => item.key === key)) : all;
+  return chosen.slice(0, MENU_ITEMS_PER_GROUP);
+}
+
+export const allToolsHref = (category?: HubCategory) => (category ? `/?tools=${category}#all-tools` : "/#all-tools");
+
 export const menuGroups = hubCategories
   .filter((category): category is { id: HubCategory; label: string } => category.id !== "all")
-  .map((category) => ({ ...category, items: hubItemsIn(category.id) }));
+  .map((category) => {
+    const items = menuItemsFor(category.id);
+    return { ...category, items, more: hubItemsIn(category.id).length - items.length };
+  });
