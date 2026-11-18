@@ -1,6 +1,7 @@
 import { DEFAULT_COMPRESS_TARGET_KB } from "@/config/compress-targets";
 import {
   COMPRESS_TARGET_KB_RANGE,
+  DPI_RANGE,
   MAX_METADATA_TEXT_LENGTH,
   FORM_PHOTO_KB_RANGE,
   MAX_RESIZE_DIMENSION,
@@ -79,7 +80,32 @@ export const WATERMARK_OPACITY_VALUES: Record<WatermarkOpacity, number> = {
   strong: 0.5,
 };
 
+export const DPI_PRESETS = ["72", "96", "150", "200", "300", "600"] as const;
+export type DpiPreset = (typeof DPI_PRESETS)[number];
+
+export const IMAGE_ROTATIONS = ["0", "90", "180", "270"] as const;
+export type ImageRotation = (typeof IMAGE_ROTATIONS)[number];
+
+export const IMAGE_FLIPS = ["none", "horizontal", "vertical"] as const;
+export type ImageFlip = (typeof IMAGE_FLIPS)[number];
+
+export const IMAGE_SHAPES = ["rounded", "circle", "heart", "star", "hexagon", "arch"] as const;
+export type ImageShape = (typeof IMAGE_SHAPES)[number];
+
+export const SHAPE_CORNERS = ["small", "medium", "large"] as const;
+export type ShapeCorners = (typeof SHAPE_CORNERS)[number];
+
+export const SHAPE_BACKGROUNDS = ["transparent", "white"] as const;
+export type ShapeBackground = (typeof SHAPE_BACKGROUNDS)[number];
+
+export const PALETTE_SIZES = ["5", "8", "12"] as const;
+export type PaletteSize = (typeof PALETTE_SIZES)[number];
+
 export type ConvertOptions = { format: OutputFormat };
+export type DpiOptions = { dpi: number | null };
+export type RotateImageOptions = { angle: ImageRotation; flip: ImageFlip };
+export type ShapeOptions = { shape: ImageShape; corners: ShapeCorners; background: ShapeBackground };
+export type PaletteOptions = { size: PaletteSize };
 export type CropOptions = { ratio: CropRatio; anchor: CropAnchor };
 export type PassportOptions = { size: PassportSize; sheet: PrintSheet; copies: PassportCopies; output: PassportOutput };
 export type PageNumberOptions = { position: PageNumberPosition; style: PageNumberStyle; skipFirst: boolean };
@@ -123,6 +149,10 @@ export type ToolOptions = {
   pageNumbers: PageNumberOptions;
   watermark: WatermarkOptions;
   organize: OrganizeOptions;
+  dpi: DpiOptions;
+  rotateImage: RotateImageOptions;
+  shape: ShapeOptions;
+  palette: PaletteOptions;
 };
 
 export const DEFAULT_TOOL_OPTIONS: ToolOptions = {
@@ -140,7 +170,20 @@ export const DEFAULT_TOOL_OPTIONS: ToolOptions = {
   pageNumbers: { position: "bottom-center", style: "number", skipFirst: false },
   watermark: { text: "Confidential", layout: "diagonal", opacity: "medium" },
   organize: { pages: "" },
+  dpi: { dpi: 300 },
+  rotateImage: { angle: "90", flip: "none" },
+  shape: { shape: "circle", corners: "medium", background: "transparent" },
+  palette: { size: "8" },
 };
+
+export function getRotateImageError({ angle, flip }: RotateImageOptions) {
+  return angle === "0" && flip === "none" ? "Pick a rotation or a flip." : null;
+}
+
+export function getDpiError({ dpi }: DpiOptions) {
+  if (dpi === null || dpi < DPI_RANGE.min || dpi > DPI_RANGE.max) return `Enter a DPI between ${DPI_RANGE.min} and ${DPI_RANGE.max}.`;
+  return null;
+}
 
 export function isOneOf<T extends string>(values: readonly T[], value: unknown): value is T {
   return values.includes(value as T);

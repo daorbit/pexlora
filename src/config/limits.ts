@@ -26,6 +26,8 @@ export const COMPRESS_TARGET_KB_RANGE = { min: 5, max: 4096 } as const;
 
 export const FORM_PHOTO_KB_RANGE = { min: 2, max: 2048 } as const;
 
+export const DPI_RANGE = { min: 10, max: 2400 } as const;
+
 export const MAX_METADATA_TEXT_LENGTH = 300;
 
 export const MAX_WATERMARK_LENGTH = 50;

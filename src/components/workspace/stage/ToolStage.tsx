@@ -9,6 +9,9 @@ import { StageCard } from "@/components/workspace/stage/StageCard";
 
 const PdfPagePicker = dynamic(() => import("@/components/workspace/organize/PdfPagePicker").then((module) => module.PdfPagePicker));
 const CropPreview = dynamic(() => import("@/components/workspace/stage/CropPreview").then((module) => module.CropPreview));
+const PalettePreview = dynamic(() => import("@/components/workspace/stage/PalettePreview").then((module) => module.PalettePreview));
+const RotatePreview = dynamic(() => import("@/components/workspace/stage/RotatePreview").then((module) => module.RotatePreview));
+const ShapePreview = dynamic(() => import("@/components/workspace/stage/ShapePreview").then((module) => module.ShapePreview));
 const PagePositionPicker = dynamic(() => import("@/components/workspace/stage/PagePositionPicker").then((module) => module.PagePositionPicker));
 const SheetPreview = dynamic(() => import("@/components/workspace/stage/SheetPreview").then((module) => module.SheetPreview));
 const WatermarkPreview = dynamic(() => import("@/components/workspace/stage/WatermarkPreview").then((module) => module.WatermarkPreview));
@@ -56,6 +59,24 @@ export function ToolStage({ tool, options, onChange, disabled, sourceFile }: Too
       return sourceFile ? (
         <StageCard title={stageCopy.preview} caption={stageCopy.firstImage}>
           <CropPreview file={sourceFile} options={options.crop} />
+        </StageCard>
+      ) : null;
+    case "rotate-image":
+      return sourceFile ? (
+        <StageCard title={stageCopy.preview} caption={stageCopy.sameSettings}>
+          <RotatePreview file={sourceFile} options={options.rotateImage} />
+        </StageCard>
+      ) : null;
+    case "shape-image":
+      return sourceFile ? (
+        <StageCard title={stageCopy.preview} caption={stageCopy.sameSettings}>
+          <ShapePreview file={sourceFile} options={options.shape} />
+        </StageCard>
+      ) : null;
+    case "image-palette":
+      return sourceFile ? (
+        <StageCard title={optionsCopy.paletteSize} caption={stageCopy.paletteOf}>
+          <PalettePreview file={sourceFile} count={Number(options.palette.size)} />
         </StageCard>
       ) : null;
     case "organize-pdf":

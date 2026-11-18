@@ -1,11 +1,21 @@
-import type { CompressOptions, CropOptions, ResizeOptions } from "@/lib/image/options";
+import type {
+  CompressOptions,
+  CropOptions,
+  PaletteOptions,
+  ResizeOptions,
+  RotateImageOptions,
+  ShapeOptions,
+} from "@/lib/image/options";
 
 export type BrowserFormat = "jpeg" | "png" | "webp";
 
 export type RasterJob =
   | { kind: "compress"; format: BrowserFormat; options: CompressOptions }
   | { kind: "resize"; format: BrowserFormat; options: ResizeOptions }
-  | { kind: "crop"; format: BrowserFormat; options: CropOptions };
+  | { kind: "crop"; format: BrowserFormat; options: CropOptions }
+  | { kind: "rotate"; format: BrowserFormat; options: RotateImageOptions }
+  | { kind: "shape"; options: ShapeOptions }
+  | { kind: "palette"; options: PaletteOptions };
 
 export type RasterRequest = { job: RasterJob; bitmap: ImageBitmap };
 

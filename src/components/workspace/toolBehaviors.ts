@@ -4,10 +4,12 @@ import { aiCopy } from "@/content/ai";
 import { localToolsCopy, optionsCopy } from "@/content/workspace";
 import {
   getCompressError,
+  getDpiError,
   getFormPhotoError,
   getMetadataFieldsError,
   getOrganizeError,
   getResizeError,
+  getRotateImageError,
   getWatermarkError,
   type ToolOptions,
 } from "@/lib/image/options";
@@ -16,6 +18,7 @@ import { generateAltText } from "@/services/ai-api";
 import { cleanFile } from "@/services/file-service";
 import { convertImage, editImageMetadata } from "@/services/image-api";
 import {
+  changeDpiFile,
   compressImageFile,
   convertHeicFile,
   cropImageFile,
@@ -25,10 +28,13 @@ import {
   mergePdfFiles,
   organizePdfFile,
   pageNumbersFile,
+  paletteFile,
   passportSheetFile,
   pdfToJpgFile,
   resizeImageFile,
+  rotateImageFile,
   rotatePdfFile,
+  shapeImageFile,
   splitPdfFile,
   svgToImageFile,
   watermarkPdfFile,
@@ -201,6 +207,56 @@ export const toolBehaviors: Record<WorkspaceToolSlug, ToolBehavior> = {
       compare: true,
       run: (file, { crop }) => cropImageFile(file, crop),
       zipName: "cropped-images.zip",
+    },
+  },
+  "change-dpi": {
+    accepts: ["image"],
+    localCapable: true,
+    inspectOnAdd: false,
+    action: {
+      label: "Change DPI",
+      doneLabel: "Updated",
+      note: localToolsCopy.onDevice,
+      run: (file, { dpi }) => changeDpiFile(file, dpi),
+      validate: ({ dpi }) => getDpiError(dpi),
+      zipName: "dpi-images.zip",
+    },
+  },
+  "rotate-image": {
+    accepts: ["image"],
+    localCapable: true,
+    inspectOnAdd: false,
+    action: {
+      label: "Rotate Images",
+      doneLabel: "Rotated",
+      note: localToolsCopy.onDevice,
+      run: (file, { rotateImage }) => rotateImageFile(file, rotateImage),
+      validate: ({ rotateImage }) => getRotateImageError(rotateImage),
+      zipName: "rotated-images.zip",
+    },
+  },
+  "shape-image": {
+    accepts: ["image"],
+    localCapable: true,
+    inspectOnAdd: false,
+    action: {
+      label: "Shape Images",
+      doneLabel: "Shaped",
+      note: localToolsCopy.onDevice,
+      run: (file, { shape }) => shapeImageFile(file, shape),
+      zipName: "shaped-images.zip",
+    },
+  },
+  "image-palette": {
+    accepts: ["image"],
+    localCapable: true,
+    inspectOnAdd: false,
+    action: {
+      label: "Make Palette",
+      doneLabel: "Ready",
+      note: localToolsCopy.onDevice,
+      run: (file, { palette }) => paletteFile(file, palette),
+      zipName: "color-palettes.zip",
     },
   },
   "passport-photo": {

@@ -8,9 +8,13 @@ import {
   Images,
   Layers,
   ListOrdered,
+  Palette,
   PenTool,
+  Printer,
+  RotateCcwSquare,
   RotateCw,
   Scissors,
+  Shapes,
   SquareUser,
   Stamp,
   SwitchCamera,
@@ -42,6 +46,10 @@ export type WorkspaceToolSlug =
   | "svg-to-image"
   | "image-to-svg"
   | "crop-image"
+  | "change-dpi"
+  | "rotate-image"
+  | "shape-image"
+  | "image-palette"
   | "passport-photo"
   | "organize-pdf"
   | "pdf-page-numbers"
@@ -199,6 +207,50 @@ export const workspaceTools: WorkspaceTool[] = [
     headline: "Resize photos and signatures for online forms.",
     description:
       "Get a photo or signature to the exact pixel size and KB range an exam, bank or government form asks for. Done in your browser, saved as JPG.",
+  },
+  {
+    slug: "change-dpi",
+    category: "image",
+    href: routes.changeDpi,
+    icon: Printer,
+    name: "Change Image DPI",
+    shortName: "Change DPI",
+    headline: "Change image DPI to 300, 200 or any value.",
+    description:
+      "Set the DPI of JPG and PNG images to 300, 200, 96 or any value without touching a single pixel, for forms, print shops and documents. Done in your browser, nothing is uploaded.",
+  },
+  {
+    slug: "rotate-image",
+    category: "image",
+    href: routes.rotateImage,
+    icon: RotateCcwSquare,
+    name: "Rotate & Flip Image",
+    shortName: "Rotate Image",
+    headline: "Rotate and flip images the right way up.",
+    description:
+      "Rotate JPG, PNG, WebP and HEIC images by 90°, 180° or 270° and flip them horizontally or vertically, so they show upright everywhere. Done in your browser, nothing is uploaded.",
+  },
+  {
+    slug: "shape-image",
+    category: "image",
+    href: routes.shapeImage,
+    icon: Shapes,
+    name: "Round Image & Shapes",
+    shortName: "Round Image",
+    headline: "Round the corners or crop images into a circle, heart or star.",
+    description:
+      "Give images rounded corners or crop them into a circle, heart, star, hexagon or arch, saved as a transparent PNG or on white. Done in your browser, nothing is uploaded.",
+  },
+  {
+    slug: "image-palette",
+    category: "image",
+    href: routes.palette,
+    icon: Palette,
+    name: "Color Palette Generator",
+    shortName: "Color Palette",
+    headline: "Pull the main colours out of any image.",
+    description:
+      "Get the 5, 8 or 12 main colours of a photo, logo or design as hex codes you can copy, plus a palette card to download. Done in your browser, nothing is uploaded.",
   },
   {
     slug: "passport-photo",

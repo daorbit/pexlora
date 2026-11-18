@@ -7,6 +7,10 @@ import type { ToolOptions } from "@/lib/image/options";
 const CompressOptionsBar = dynamic(() => import("@/components/workspace/options/CompressOptionsBar").then((module) => module.CompressOptionsBar));
 const ConvertOptionsBar = dynamic(() => import("@/components/workspace/options/ConvertOptionsBar").then((module) => module.ConvertOptionsBar));
 const CropOptionsBar = dynamic(() => import("@/components/workspace/options/CropOptionsBar").then((module) => module.CropOptionsBar));
+const PaletteOptionsBar = dynamic(() => import("@/components/workspace/options/PaletteOptionsBar").then((module) => module.PaletteOptionsBar));
+const RotateImageOptionsBar = dynamic(() => import("@/components/workspace/options/RotateImageOptionsBar").then((module) => module.RotateImageOptionsBar));
+const ShapeOptionsBar = dynamic(() => import("@/components/workspace/options/ShapeOptionsBar").then((module) => module.ShapeOptionsBar));
+const DpiOptionsBar = dynamic(() => import("@/components/workspace/options/DpiOptionsBar").then((module) => module.DpiOptionsBar));
 const FormPhotoOptionsBar = dynamic(() => import("@/components/workspace/options/FormPhotoOptionsBar").then((module) => module.FormPhotoOptionsBar));
 const HeicOptionsBar = dynamic(() => import("@/components/workspace/options/HeicOptionsBar").then((module) => module.HeicOptionsBar));
 const MetadataOptionsBar = dynamic(() => import("@/components/workspace/options/MetadataOptionsBar").then((module) => module.MetadataOptionsBar));
@@ -84,6 +88,20 @@ export function ToolOptionsBar({ tool, options, onChange, disabled, sourceFile }
           disabled={disabled}
         />
       );
+    case "rotate-image":
+      return (
+        <RotateImageOptionsBar
+          options={options.rotateImage}
+          onChange={(rotateImage) => onChange({ ...options, rotateImage })}
+          disabled={disabled}
+        />
+      );
+    case "shape-image":
+      return <ShapeOptionsBar options={options.shape} onChange={(shape) => onChange({ ...options, shape })} disabled={disabled} />;
+    case "image-palette":
+      return <PaletteOptionsBar options={options.palette} onChange={(palette) => onChange({ ...options, palette })} disabled={disabled} />;
+    case "change-dpi":
+      return <DpiOptionsBar options={options.dpi} onChange={(dpi) => onChange({ ...options, dpi })} disabled={disabled} />;
     case "passport-photo":
       return (
         <PassportOptionsBar

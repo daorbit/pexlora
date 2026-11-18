@@ -1,16 +1,21 @@
 import { MAX_IMAGE_SIZE } from "@/config/limits";
 import { localToolsCopy, optionsCopy } from "@/content/workspace";
 import { FORMAT_EXTENSIONS, FORMAT_MIME_TYPES } from "@/lib/image/formats";
+import { DEFAULT_TOOL_OPTIONS } from "@/lib/image/options";
 import type {
   CompressOptions,
   CropOptions,
+  DpiOptions,
   FormPhotoOptions,
   OrganizeOptions,
   PageNumberOptions,
+  PaletteOptions,
   PassportOptions,
   RasterFormat,
   ResizeOptions,
   RotateAngle,
+  RotateImageOptions,
+  ShapeOptions,
   SvgRasterOptions,
   TraceOptions,
   WatermarkOptions,
@@ -111,6 +116,7 @@ async function inBrowserOrServer(
   job: RasterJob | null,
   server: (() => Promise<ProcessedFile>) | null,
   describe: (result: RasterResult) => Partial<ProcessedFile>,
+  suffix = "",
 ) {
   if (!job) {
     if (server) return server();
@@ -126,7 +132,7 @@ async function inBrowserOrServer(
     throw error;
   }
   const blob = new Blob([result.buffer], { type: FORMAT_MIME_TYPES[result.format] });
-  return finish(blob, withExtension(file.name, FORMAT_EXTENSIONS[result.format]), {
+  return finish(blob, withExtension(file.name, FORMAT_EXTENSIONS[result.format], suffix), {
     dimensions: { width: result.width, height: result.height },
     ...describe(result),
   });
@@ -152,6 +158,21 @@ export function resizeImageFile(file: File, options: ResizeOptions) {
 export function cropImageFile(file: File, options: CropOptions) {
   const format = browserFormatOf(file);
   return inBrowserOrServer(file, format ? { kind: "crop", format, options } : null, null, () => ({}));
+}
+
+export function rotateImageFile(file: File, options: RotateImageOptions) {
+  const format = browserFormatOf(file);
+  return inBrowserOrServer(file, format ? { kind: "rotate", format, options } : null, null, () => ({}));
+}
+
+export function shapeImageFile(file: File, options: ShapeOptions) {
+  const job: RasterJob | null = browserFormatOf(file) ? { kind: "shape", options } : null;
+  return inBrowserOrServer(file, job, null, () => ({}), `-${options.shape}`);
+}
+
+export function paletteFile(file: File, options: PaletteOptions) {
+  const job: RasterJob | null = browserFormatOf(file) ? { kind: "palette", options } : null;
+  return inBrowserOrServer(file, job, null, () => ({}), "-palette");
 }
 
 export async function passportSheetFile(file: File, options: PassportOptions) {
@@ -193,6 +214,13 @@ export async function imageToSvgFile(file: File, options: TraceOptions) {
   const { traceImage } = await import("@/lib/files/vector/trace-image");
   const { svg, width, height } = await guard(() => traceImage(file, options));
   return finish(new Blob([svg], { type: SVG_MIME_TYPE }), withExtension(file.name, "svg"), { dimensions: { width, height } });
+}
+
+export async function changeDpiFile(file: File, { dpi }: DpiOptions) {
+  const { changeImageDpi } = await import("@/lib/files/convert/change-dpi");
+  const value = dpi ?? (DEFAULT_TOOL_OPTIONS.dpi.dpi as number);
+  const { blob, format } = await guard(() => changeImageDpi(file, value));
+  return finish(blob, withExtension(file.name, FORMAT_EXTENSIONS[format], `-${value}dpi`));
 }
 
 export async function formPhotoFile(file: File, options: FormPhotoOptions) {

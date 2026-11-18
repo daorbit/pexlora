@@ -114,6 +114,46 @@ export const moduleTips: Record<WorkspaceToolSlug, { title: string; tips: string
       "Everything runs in your browser",
     ],
   },
+  "change-dpi": {
+    title: "DPI tips",
+    tips: [
+      "Most forms that ask for DPI want 200 or 300",
+      "DPI changes the print size, not the pixels or the file quality",
+      "To change the pixel size too, use the Image Resizer",
+      "JPG and PNG stay lossless; WebP and HEIC are saved as JPG",
+      "Everything runs in your browser",
+    ],
+  },
+  "rotate-image": {
+    title: "Rotating tips",
+    tips: [
+      "90° turns right, 270° turns left",
+      "Flip Horizontal mirrors selfies taken with the front camera",
+      "The pixels are turned, so forms show the image upright",
+      "The format stays the same and metadata is removed",
+      "Everything runs in your browser",
+    ],
+  },
+  "shape-image": {
+    title: "Shape tips",
+    tips: [
+      "Circle suits profile photos and avatars",
+      "Transparent saves a PNG you can place on any background",
+      "Pick White when a site doesn't accept transparent images",
+      "Shapes use the centre square, so centre your subject first",
+      "Everything runs in your browser",
+    ],
+  },
+  "image-palette": {
+    title: "Palette tips",
+    tips: [
+      "Colours are sorted from the most to the least used",
+      "Tap a swatch in the preview to copy its hex code",
+      "Logos and flat designs give the cleanest palettes",
+      "Make Palette saves a card with every hex code",
+      "Everything runs in your browser",
+    ],
+  },
   "crop-image": {
     title: "Cropping tips",
     tips: [

@@ -1,9 +1,15 @@
-import { COMPRESS_TARGET_KB_RANGE, FORM_PHOTO_KB_RANGE, MAX_RESIZE_DIMENSION, RESIZE_PERCENT_RANGE } from "@/config/limits";
+import { COMPRESS_TARGET_KB_RANGE, DPI_RANGE, FORM_PHOTO_KB_RANGE, MAX_RESIZE_DIMENSION, RESIZE_PERCENT_RANGE } from "@/config/limits";
 import type { WorkspaceToolSlug } from "@/config/tools";
 import { FORMAT_EXTENSIONS, OUTPUT_FORMATS, type OutputFormat } from "@/lib/image/formats";
 import {
   CROP_ANCHORS,
   CROP_RATIOS,
+  IMAGE_FLIPS,
+  IMAGE_ROTATIONS,
+  IMAGE_SHAPES,
+  PALETTE_SIZES,
+  SHAPE_BACKGROUNDS,
+  SHAPE_CORNERS,
   isCompressionLevel,
   isOneOf,
   isRotateAngle,
@@ -114,6 +120,27 @@ export function optionsFromParams(tool: WorkspaceToolSlug, params: URLSearchPara
         },
       };
     }
+    case "rotate-image":
+      return {
+        ...base,
+        rotateImage: {
+          angle: readOneOf(params, "angle", IMAGE_ROTATIONS, base.rotateImage.angle),
+          flip: readOneOf(params, "flip", IMAGE_FLIPS, base.rotateImage.flip),
+        },
+      };
+    case "shape-image":
+      return {
+        ...base,
+        shape: {
+          shape: readOneOf(params, "shape", IMAGE_SHAPES, base.shape.shape),
+          corners: readOneOf(params, "corners", SHAPE_CORNERS, base.shape.corners),
+          background: readOneOf(params, "bg", SHAPE_BACKGROUNDS, base.shape.background),
+        },
+      };
+    case "image-palette":
+      return { ...base, palette: { size: readOneOf(params, "colors", PALETTE_SIZES, base.palette.size) } };
+    case "change-dpi":
+      return { ...base, dpi: { dpi: readInt(params, "dpi", DPI_RANGE.min, DPI_RANGE.max) ?? base.dpi.dpi } };
     case "crop-image":
       return {
         ...base,
@@ -183,6 +210,16 @@ export function optionsToParams(tool: WorkspaceToolSlug, options: ToolOptions): 
       return { detail: options.trace.detail, colors: options.trace.colors };
     case "crop-image":
       return { ratio: options.crop.ratio, keep: options.crop.anchor };
+    case "rotate-image":
+      return { angle: options.rotateImage.angle, flip: options.rotateImage.flip };
+    case "shape-image": {
+      const { shape, corners, background } = options.shape;
+      return { shape, corners: shape === "rounded" ? corners : null, bg: background };
+    }
+    case "image-palette":
+      return { colors: options.palette.size };
+    case "change-dpi":
+      return { dpi: options.dpi.dpi === null ? null : String(options.dpi.dpi) };
     case "passport-photo": {
       const { size, sheet, copies, output } = options.passport;
       return { size, sheet, copies, output };

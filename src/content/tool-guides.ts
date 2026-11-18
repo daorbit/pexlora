@@ -452,6 +452,134 @@ export const toolGuides: Record<WorkspaceToolSlug, ToolGuide> = {
     ],
     relatedGuides: ["remove-exif-data", "remove-gps-from-photo", "remove-ai-info-label-instagram", "photo-location-finder"],
   },
+  "change-dpi": {
+    intro: {
+      heading: "Change the DPI of a photo without changing the photo",
+      paragraphs: [
+        "Online forms, print shops and some offices ask for images at 200 or 300 DPI. DPI (dots per inch) is a number stored inside the file that tells printers how big to print it. Your phone usually saves 72 or 96, even when the photo has plenty of pixels.",
+        "This tool rewrites only that number. The pixels aren't touched, so JPG and PNG images keep their exact quality and file size stays almost the same. WebP and HEIC can't store a DPI value, so they're saved as JPG. Everything runs in your browser, and EXIF and GPS data are left out of the new copy.",
+      ],
+    },
+    steps: [
+      { title: "Add your images", body: `Pick up to ${MAX_FILES_PER_BATCH} JPG, PNG, WebP or HEIC images.` },
+      { title: "Pick the DPI", body: "Choose 300, 200 or another preset, or type any value." },
+      { title: "Save", body: "Every image gets the new DPI and is ready to download or upload." },
+    ],
+    faqs: [
+      {
+        question: "Does changing DPI make my image sharper?",
+        answer:
+          "No. DPI only changes how large the image prints. Sharpness depends on the pixel size. A 600 × 800 pixel photo at 300 DPI prints at 2 × 2.67 inches; at 72 DPI the same pixels print much larger.",
+      },
+      {
+        question: "Will the file size change?",
+        answer: "Barely. JPG and PNG images keep every pixel, so the size changes only by the few bytes of metadata removed or added.",
+      },
+      {
+        question: "How do I check the DPI after saving?",
+        answer:
+          "On Windows, right-click the file, choose Properties and open Details. On a Mac, open it in Preview and choose Tools, then Show Inspector. Both read the new DPI.",
+      },
+      {
+        question: "The form also asks for a pixel size or KB limit. What should I use?",
+        answer: "Use the Photo & Signature Resizer for the pixel size and KB range first, then set the DPI here.",
+      },
+      inBrowser,
+      dailyLimit,
+    ],
+    relatedGuides: ["remove-exif-data", "remove-gps-from-photo", "exif-viewer", "remove-location-from-iphone-photos"],
+  },
+  "rotate-image": {
+    intro: {
+      heading: "Turn sideways photos the right way up",
+      paragraphs: [
+        "A photo that looks fine on your phone can show up sideways once it's uploaded to a form or opened on a computer. Phones often save the picture as it came off the sensor and only add a note saying which way is up, and many websites ignore that note.",
+        "This tool turns the actual pixels by 90°, 180° or 270° and can mirror them horizontally or vertically, so the image is upright everywhere. It runs in your browser, keeps JPG, PNG and WebP in their format, saves iPhone HEIC photos as JPG, and leaves EXIF and GPS data out of the new copy.",
+      ],
+    },
+    steps: [
+      { title: "Add your images", body: `Pick up to ${MAX_FILES_PER_BATCH} JPG, PNG, WebP or HEIC images.` },
+      { title: "Pick the turn", body: "Choose the rotation, a flip, or both. The preview shows the result." },
+      { title: "Save", body: "Every image is turned the same way and ready to download." },
+    ],
+    faqs: [
+      {
+        question: "Why does my photo look upright on my phone but sideways online?",
+        answer:
+          "Your phone stored a rotation note (EXIF orientation) instead of turning the pixels. Sites that ignore the note show the raw picture. Rotating here turns the pixels, so the image looks the same everywhere.",
+      },
+      {
+        question: "Does rotating lower the quality?",
+        answer: "PNG is saved losslessly. JPG and WebP are saved again at a high quality setting, so the difference isn't visible.",
+      },
+      {
+        question: "How do I un-mirror a selfie?",
+        answer: "Choose None for rotation and Horizontal for flip. Front cameras often save a mirrored picture.",
+      },
+      inBrowser,
+      dailyLimit,
+    ],
+    relatedGuides: ["remove-exif-data", "remove-location-from-iphone-photos", "remove-gps-from-photo", "exif-viewer"],
+  },
+  "shape-image": {
+    intro: {
+      heading: "Round corners or cut your image into a shape",
+      paragraphs: [
+        "Round the corners of a screenshot or product photo, or crop a picture into a circle for a profile photo, a heart for a card, a star, a hexagon or an arch. The outside of the shape can be transparent, so the image sits cleanly on any background, or white for sites that don't accept transparency.",
+        "Rounded keeps the whole image. The other shapes use the centre square, so put your subject in the middle first with Crop Image if needed. Everything runs in your browser, and EXIF and GPS data are left out of the result.",
+      ],
+    },
+    steps: [
+      { title: "Add your images", body: `Pick up to ${MAX_FILES_PER_BATCH} JPG, PNG, WebP or HEIC images.` },
+      { title: "Pick a shape", body: "Choose the shape and background. The preview shows the first image." },
+      { title: "Save", body: "Transparent shapes are saved as PNG, white backgrounds as JPG." },
+    ],
+    faqs: [
+      {
+        question: "How do I make a round profile picture?",
+        answer: "Pick Circle and Transparent. You get a PNG with the corners cut away, ready to upload or place on a slide.",
+      },
+      {
+        question: "Why is my image white around the shape?",
+        answer: "You picked the White background, which saves a JPG. Choose Transparent for a PNG with see-through corners.",
+      },
+      {
+        question: "Can I choose which part of the image is used?",
+        answer: "Shapes use the centre. To keep another part, crop the image to a square with Crop Image first, then shape it here.",
+      },
+      inBrowser,
+      dailyLimit,
+    ],
+    relatedGuides: ["remove-exif-data", "remove-gps-from-photo", "remove-ai-info-label-instagram", "exif-viewer"],
+  },
+  "image-palette": {
+    intro: {
+      heading: "Find the colours in any image",
+      paragraphs: [
+        "Drop a photo, logo, screenshot or design and get its main colours as hex codes, from the most used to the least. Tap a colour to copy it, or copy them all at once for your CSS, slides or brand guide.",
+        "Make Palette saves a card with the image and every hex code, handy for sharing a mood board or a brand's colours. Colours are read in your browser, so your images aren't uploaded.",
+      ],
+    },
+    steps: [
+      { title: "Add an image", body: "Drop a JPG, PNG, WebP or HEIC image. The palette of the first image appears right away." },
+      { title: "Pick how many colours", body: "Choose 5 for the main colours, 8 for a balanced set or 12 for detail." },
+      { title: "Copy or save", body: "Tap a swatch to copy its hex code, or save a palette card for each image." },
+    ],
+    faqs: [
+      {
+        question: "How are the colours picked?",
+        answer:
+          "The image is scaled down and its pixels are grouped into the number of colours you choose (median cut). Each colour is the average of its group, sorted by how much of the image it covers.",
+      },
+      {
+        question: "Why doesn't a small detail show up?",
+        answer: "Colours that cover only a tiny part of the image are merged with nearby ones. Choose 12 colours to see more of them.",
+      },
+      inBrowser,
+      dailyLimit,
+    ],
+    relatedGuides: ["exif-viewer", "remove-exif-data", "remove-gps-from-photo", "remove-ai-info-label-instagram"],
+  },
   "passport-photo": {
     intro: {
       heading: "Print passport photos at home or at a photo shop",
