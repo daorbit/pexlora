@@ -6,6 +6,7 @@ import { seo } from "@/config/seo";
 import { routes, siteConfig } from "@/config/site";
 import { textTools } from "@/config/text-tools";
 import { workspaceTools } from "@/config/tools";
+import { utilityTools } from "@/config/utility-tools";
 import { legalDocuments } from "@/content/legal";
 import { llmsCopy } from "@/content/llms";
 import { formPresetCopy, toolPageCopy } from "@/content/tool-pages";
@@ -23,7 +24,7 @@ function section(title: string, links: LlmsLink[]) {
 }
 
 export function buildLlmsText() {
-  const tools = [...workspaceTools, ...textTools].map((tool) => ({ name: tool.name, path: tool.href, description: tool.description }));
+  const tools = [...workspaceTools, ...textTools, ...utilityTools].map((tool) => ({ name: tool.name, path: tool.href, description: tool.description }));
 
   const conversionLinks = conversions.map((conversion) => ({
     name: conversion.name,

@@ -5,6 +5,7 @@ import { formPresetPath, formPresets } from "@/config/form-presets";
 import { routes } from "@/config/site";
 import { textTools } from "@/config/text-tools";
 import { workspaceTools } from "@/config/tools";
+import { utilityTools } from "@/config/utility-tools";
 import { legalDocuments } from "@/content/legal";
 import { seoPagePath, seoPages } from "@/content/seo-pages";
 
@@ -16,6 +17,7 @@ const shared = {
   toolPage: ["src/content/tool-guides.ts", "src/config/tools.ts", "src/components/tools/ToolPage.tsx"],
   textToolPage: ["src/config/text-tools.ts", "src/content/ai.ts", "src/components/text-tools/TextToolPage.tsx"],
   guidePage: ["src/content/seo-pages/shared.ts", "src/content/seo-pages/enrich.ts", "src/components/tools/SeoToolPage.tsx"],
+  utilityPage: ["src/config/utility-tools.ts", "src/content/utility-tools.ts", "src/components/utility"],
   variantPage: ["src/content/variant-guides.ts", "src/content/tool-pages.ts"],
 };
 
@@ -27,6 +29,7 @@ export function sitemapEntries(): SitemapEntry[] {
     },
     ...workspaceTools.map((tool) => ({ path: tool.href, sources: [marketingPage(tool.href), ...shared.toolPage] })),
     ...textTools.map((tool) => ({ path: tool.href, sources: [marketingPage(tool.href), ...shared.textToolPage] })),
+    ...utilityTools.map((tool) => ({ path: tool.href, sources: [marketingPage(tool.href), ...shared.utilityPage] })),
     ...seoPages.map((page) => ({
       path: seoPagePath(page),
       sources: [`src/content/seo-pages/${page.category}.ts`, ...shared.guidePage],

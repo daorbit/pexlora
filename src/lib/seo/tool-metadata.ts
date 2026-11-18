@@ -4,6 +4,8 @@ import { conversionPath, type Conversion } from "@/config/conversions";
 import { formPresetPath, type FormPreset } from "@/config/form-presets";
 import { getTextTool, type TextToolSlug } from "@/config/text-tools";
 import { getWorkspaceTool, type WorkspaceToolSlug } from "@/config/tools";
+import { getUtilityTool, type UtilityToolSlug } from "@/config/utility-tools";
+import { utilityTitles } from "@/content/utility-tools";
 import { formPresetCopy, toolPageCopy } from "@/content/tool-pages";
 import { pageMetadata } from "@/lib/seo/page-metadata";
 import { seoPagePath, type SeoPage } from "@/content/seo-pages";
@@ -43,6 +45,11 @@ const textToolTitles: Record<TextToolSlug, string> = {
 export function textToolMetadata(slug: TextToolSlug): Metadata {
   const tool = getTextTool(slug);
   return pageMetadata(textToolTitles[slug], tool.description, tool.href);
+}
+
+export function utilityToolMetadata(slug: UtilityToolSlug): Metadata {
+  const tool = getUtilityTool(slug);
+  return pageMetadata(utilityTitles[slug], tool.description, tool.href);
 }
 
 export function seoPageMetadata(page: SeoPage): Metadata {

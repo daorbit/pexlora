@@ -11,21 +11,32 @@ import { TextPane } from "@/components/text-tools/TextPane";
 type TextInputProps = {
   value: string;
   onChange: (value: string) => void;
-  onSubmit: () => void;
+  onSubmit?: () => void;
   disabled?: boolean;
+  label?: string;
+  sampleText?: string;
+  maxLength?: number;
 };
 
-export function TextInput({ value, onChange, onSubmit, disabled }: TextInputProps) {
+export function TextInput({
+  value,
+  onChange,
+  onSubmit,
+  disabled,
+  label = textToolCopy.inputLabel,
+  sampleText = textToolCopy.sampleText,
+  maxLength = textToolCopy.maxCharacters,
+}: TextInputProps) {
   const [pasteFailed, setPasteFailed] = useState(false);
 
   const paste = async () => {
     const text = await readClipboardText();
     setPasteFailed(!text);
-    if (text) onChange(text.slice(0, textToolCopy.maxCharacters));
+    if (text) onChange(text.slice(0, maxLength));
   };
 
   const onKeyDown = (event: KeyboardEvent<HTMLTextAreaElement>) => {
-    if (event.key === "Enter" && (event.ctrlKey || event.metaKey)) {
+    if (onSubmit && event.key === "Enter" && (event.ctrlKey || event.metaKey)) {
       event.preventDefault();
       onSubmit();
     }
@@ -33,7 +44,7 @@ export function TextInput({ value, onChange, onSubmit, disabled }: TextInputProp
 
   return (
     <TextPane
-      title={textToolCopy.inputLabel}
+      title={label}
       meta={
         value && (
           <>
@@ -46,12 +57,12 @@ export function TextInput({ value, onChange, onSubmit, disabled }: TextInputProp
       }
     >
       <textarea
-        aria-label={textToolCopy.inputLabel}
+        aria-label={label}
         value={value}
         onChange={(event) => onChange(event.target.value)}
         onKeyDown={onKeyDown}
         placeholder={value ? undefined : " "}
-        maxLength={textToolCopy.maxCharacters}
+        maxLength={maxLength}
         disabled={disabled}
         className="min-h-[340px] w-full flex-1 resize-none bg-transparent px-5 py-4 text-[15.5px] leading-relaxed outline-none disabled:opacity-60"
       />
@@ -63,7 +74,7 @@ export function TextInput({ value, onChange, onSubmit, disabled }: TextInputProp
           </Button>
           <button
             type="button"
-            onClick={() => onChange(textToolCopy.sampleText)}
+            onClick={() => onChange(sampleText)}
             className="pointer-events-auto text-sm font-semibold text-secondary underline-offset-4 hover:text-foreground hover:underline"
           >
             {textToolCopy.sample}

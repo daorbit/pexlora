@@ -14,6 +14,7 @@ const footerToolGroups: { title: string; category: HubCategory }[] = [
   { title: "Image tools", category: "image" },
   { title: "PDF tools", category: "pdf" },
   { title: "AI tools", category: "ai" },
+  { title: "Utilities", category: "utility" },
 ];
 
 export const footerCopy = {

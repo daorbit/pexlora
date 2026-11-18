@@ -58,6 +58,7 @@ export type DropzoneOverride = {
   formats?: string;
   note?: string;
   samples?: boolean;
+  batch?: boolean;
 };
 
 const browserPhotoFormats = "JPG, PNG, WebP, HEIC";
@@ -267,7 +268,7 @@ export const optionsCopy = {
     "Pixels stay exactly the same; only the print size changes. JPG and PNG stay as they are, WebP and HEIC are saved as JPG. Metadata is removed.",
   rotateAngle: "Rotate",
   rotateAngleLabel: "Rotation angle",
-  rotateAngles: {
+  imageRotations: {
     "0": { label: "None", hint: "Flip only" },
     "90": { label: "90°", hint: "Right" },
     "180": { label: "180°", hint: "Upside down" },

@@ -69,7 +69,7 @@ export function Dropzone({
           </p>
           <p className="font-mono text-[10.5px] leading-relaxed tracking-[0.06em] text-tertiary uppercase sm:text-[11.5px]">
             {describeAccepted(accepts, localCapable, perks, override?.formats)}
-            <span className="hidden sm:inline"> · {perks.filesPerBatch} at a time</span>
+            {override?.batch !== false && <span className="hidden sm:inline"> · {perks.filesPerBatch} at a time</span>}
           </p>
         </div>
       </div>

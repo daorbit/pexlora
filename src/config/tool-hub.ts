@@ -3,6 +3,7 @@ import { toolPageCopy } from "@/content/tool-pages";
 import { conversionIconSrc, conversionPath, popularConversions, type Conversion } from "@/config/conversions";
 import { textToolIconSrc, textTools } from "@/config/text-tools";
 import { toolIconSrc, workspaceTools, type ToolCategory } from "@/config/tools";
+import { utilityToolIconSrc, utilityTools } from "@/config/utility-tools";
 
 export type HubCategory = ToolCategory | "convert";
 
@@ -22,8 +23,19 @@ export const hubCategories: { id: HubCategory | "all"; label: string }[] = [
   { id: "image", label: "Edit Images" },
   { id: "pdf", label: "PDF" },
   { id: "ai", label: "AI Tools" },
+  { id: "utility", label: "Utilities" },
   { id: "convert", label: "Convert" },
 ];
+
+const utilityItems: HubItem[] = utilityTools.map((tool) => ({
+  key: tool.slug,
+  name: tool.name,
+  description: tool.description,
+  href: tool.href,
+  iconSrc: utilityToolIconSrc(tool.slug),
+  category: "utility",
+  shortName: tool.shortName,
+}));
 
 const textToolItems: HubItem[] = textTools.map((tool) => ({
   key: tool.slug,
@@ -61,6 +73,7 @@ const toolItems: HubItem[] = [
     return tool.slug === "compress-image" ? [item, compressTargetItem] : [item];
   }),
   ...textToolItems,
+  ...utilityItems,
 ];
 
 const heroShortcutKeys = ["remove-metadata", "compress-to-size", "resize-image", "convert-format", "image-alt-text"];

@@ -55,7 +55,7 @@ export type WorkspaceToolSlug =
   | "pdf-page-numbers"
   | "pdf-watermark";
 
-export type ToolCategory = "metadata" | "image" | "pdf" | "ai";
+export type ToolCategory = "metadata" | "image" | "pdf" | "ai" | "utility";
 
 export type WorkspaceTool = {
   slug: WorkspaceToolSlug;
@@ -73,6 +73,7 @@ export const toolCategories: Record<ToolCategory, string> = {
   image: "Image tools",
   pdf: "PDF tools",
   ai: "AI tools",
+  utility: "Utilities",
 };
 
 export const workspaceTools: WorkspaceTool[] = [

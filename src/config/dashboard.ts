@@ -3,6 +3,7 @@ import type { IconComponent } from "@/components/icons/types";
 import { routes } from "@/config/site";
 import { adminCopy } from "@/content/admin";
 import { textToolIconSrc, textTools } from "@/config/text-tools";
+import { utilityToolIconSrc, utilityTools } from "@/config/utility-tools";
 import type { HubItem } from "@/config/tool-hub";
 import {
   toolCategories,
@@ -57,9 +58,9 @@ const dashboardHrefs: Record<WorkspaceToolSlug, string> = {
 
 export const dashboardToolHref = (slug: WorkspaceToolSlug) => dashboardHrefs[slug];
 
-const newToolSlugs: string[] = ["change-dpi", "rotate-image", "shape-image", "image-palette", "crop-image", "passport-photo", "organize-pdf", "pdf-page-numbers", "pdf-watermark"];
+const newToolSlugs: string[] = ["link-cleaner", "remove-personal-info", "zip-files", "change-dpi", "rotate-image", "shape-image", "image-palette", "crop-image", "passport-photo", "organize-pdf", "pdf-page-numbers", "pdf-watermark"];
 
-const toolCategoryOrder: ToolCategory[] = ["metadata", "image", "pdf", "ai"];
+const toolCategoryOrder: ToolCategory[] = ["metadata", "image", "pdf", "ai", "utility"];
 
 type DashboardTool = {
   slug: string;
@@ -78,6 +79,9 @@ function dashboardTools(category: ToolCategory): DashboardTool[] {
     iconSrc: toolIconSrc(tool.slug),
     href: dashboardHrefs[tool.slug],
   }));
+  if (category === "utility") {
+    return utilityTools.map((tool) => ({ ...tool, iconSrc: utilityToolIconSrc(tool.slug), href: tool.dashboardHref }));
+  }
   if (category !== "ai") return tools;
 
   return [
@@ -116,7 +120,7 @@ export const dashboardToolGroups = toolCategoryOrder.map((category) => ({
   ),
 }));
 
-const overviewColumnLayout: ToolCategory[][] = [["metadata", "ai"], ["image"], ["pdf"]];
+const overviewColumnLayout: ToolCategory[][] = [["metadata", "ai", "utility"], ["image"], ["pdf"]];
 
 export const overviewToolColumns = overviewColumnLayout.map((column) =>
   column.flatMap((category) => dashboardToolGroups.filter((group) => group.category === category)),

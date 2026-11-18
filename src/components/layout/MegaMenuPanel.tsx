@@ -20,7 +20,7 @@ export function MegaMenuPanel({ id, onNavigate }: MegaMenuPanelProps) {
       className="fixed inset-x-0 top-14 z-50 border-b border-separator bg-surface text-foreground shadow-card motion-safe:animate-menu-in"
     >
       <div className="mx-auto flex max-h-[calc(100dvh-4rem)] max-w-[1640px] flex-col gap-4 overflow-y-auto px-8 pt-6 pb-4">
-        <div className="grid grid-cols-3 gap-x-6 gap-y-6 lg:grid-cols-5">
+        <div className="grid grid-cols-3 gap-x-6 gap-y-6 lg:grid-cols-6">
           {menuGroups.map((group, groupIndex) => (
             <div key={group.id} className="flex min-w-0 flex-col">
               <MenuGroupLabel>{group.label}</MenuGroupLabel>

@@ -6,7 +6,7 @@ import { OptionGroup, OptionHint, OptionsBar } from "@/components/workspace/opti
 import { OptionTiles } from "@/components/workspace/options/OptionTiles";
 import type { OptionsBarProps } from "@/components/workspace/options/types";
 
-const angleOptions = IMAGE_ROTATIONS.map((angle) => ({ value: angle, ...optionsCopy.rotateAngles[angle] }));
+const angleOptions = IMAGE_ROTATIONS.map((angle) => ({ value: angle, ...optionsCopy.imageRotations[angle] }));
 const flipOptions = IMAGE_FLIPS.map((flip) => ({ value: flip, ...optionsCopy.flips[flip] }));
 
 export function RotateImageOptionsBar({ options, onChange, disabled }: OptionsBarProps<RotateImageOptions>) {

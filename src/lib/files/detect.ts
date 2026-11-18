@@ -45,6 +45,7 @@ export function describeAccepted(
   perks: WorkspacePerks = FREE_PERKS,
   formatsLabel?: string,
 ) {
+  if (!kinds.length) return formatsLabel ?? "";
   if (kinds.length === 1) {
     const formats = formatsLabel ?? describeFormats(kinds, localCapable);
     return `${formats} · up to ${formatMegabytes(kindSizeLimitMb(kinds[0], localCapable, perks))}`;

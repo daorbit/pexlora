@@ -27,6 +27,15 @@ export async function createZip(files: { blob: Blob; name: string }[]) {
   return zip.generateAsync({ type: "blob", mimeType: "application/zip" });
 }
 
+const DOWNLOAD_GAP_MS = 250;
+
+export async function downloadEach(files: { blob: Blob; name: string }[]) {
+  for (const file of files) {
+    downloadBlob(file.blob, file.name);
+    await new Promise((resolve) => setTimeout(resolve, DOWNLOAD_GAP_MS));
+  }
+}
+
 export async function downloadZip(files: { blob: Blob; name: string }[], zipName: string) {
   downloadBlob(await createZip(files), zipName);
 }
