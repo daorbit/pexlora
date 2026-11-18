@@ -9,10 +9,13 @@ import { seoPagePath, seoPagesIn, type SeoPage } from "@/content/seo-pages";
 
 const pageLinks = (pages: SeoPage[]) => pages.map((page) => ({ label: page.name, href: seoPagePath(page) }));
 
+const ownColumnKeys = new Set([compressTargetHubKey, ...popularConversions.map((conversion) => conversion.slug)]);
+
 const footerToolGroups: { title: string; category: HubCategory }[] = [
   { title: "Metadata tools", category: "metadata" },
   { title: "Image tools", category: "image" },
   { title: "PDF tools", category: "pdf" },
+  { title: "File converters", category: "convert" },
   { title: "AI tools", category: "ai" },
   { title: "Utilities", category: "utility" },
 ];
@@ -31,7 +34,7 @@ export const footerColumns = [
   ...footerToolGroups.map(({ title, category }) => ({
     title,
     links: hubItemsIn(category)
-      .filter((item) => item.key !== compressTargetHubKey)
+      .filter((item) => !ownColumnKeys.has(item.key))
       .map((item) => ({ label: item.name, href: item.href })),
   })),
   {

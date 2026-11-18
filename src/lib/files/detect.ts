@@ -33,8 +33,8 @@ function kindSizeLimitMb(kind: FileKind, localCapable: boolean, perks: Workspace
   return Math.max(...formatsOfKinds([kind], localCapable).map((format) => sizeLimitMb(format, localCapable, perks)));
 }
 
-export function describeFormats(kinds: FileKind[], localCapable = true) {
-  return formatsOfKinds(kinds, localCapable)
+export function describeFormats(kinds: FileKind[], localCapable = true, only?: string[]) {
+  return formatsOfKinds(kinds, localCapable, only)
     .map((format) => format.label)
     .join(", ");
 }
@@ -44,11 +44,13 @@ export function describeAccepted(
   localCapable = true,
   perks: WorkspacePerks = FREE_PERKS,
   formatsLabel?: string,
+  only?: string[],
 ) {
   if (!kinds.length) return formatsLabel ?? "";
-  if (kinds.length === 1) {
-    const formats = formatsLabel ?? describeFormats(kinds, localCapable);
-    return `${formats} · up to ${formatMegabytes(kindSizeLimitMb(kinds[0], localCapable, perks))}`;
+  if (kinds.length === 1 || only) {
+    const formats = formatsLabel ?? describeFormats(kinds, localCapable, only);
+    const limitMb = Math.max(...kinds.map((kind) => kindSizeLimitMb(kind, localCapable, perks)));
+    return `${formats} · up to ${formatMegabytes(limitMb)}`;
   }
   return kinds.map((kind) => fileKinds[kind].label).join(", ");
 }
@@ -58,11 +60,16 @@ export function getFileError(
   accepts: FileKind[],
   localCapable = true,
   perks: WorkspacePerks = FREE_PERKS,
+  only?: string[],
 ) {
   const format = detectFormat(file);
-  const usable = format && accepts.includes(format.kind) && (localCapable || format.serverReadable !== false);
+  const usable =
+    format &&
+    accepts.includes(format.kind) &&
+    (localCapable || format.serverReadable !== false) &&
+    (!only || only.includes(format.id));
   if (!format || !usable) {
-    return `Unsupported file type. Use ${describeFormats(accepts, localCapable)}.`;
+    return `Unsupported file type. Use ${describeFormats(accepts, localCapable, only)}.`;
   }
   if (file.size === 0) return "This file is empty.";
   const limitMb = sizeLimitMb(format, localCapable, perks);

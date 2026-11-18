@@ -1,38 +1,12 @@
-import { PDF_IMAGE_DPI, PDF_PAGE_LIMIT, PDF_PRINT_MAX_SIDE, PDF_RENDER_MAX_SIDE } from "@/config/limits";
+import { PDF_IMAGE_DPI, PDF_PRINT_MAX_SIDE, PDF_RENDER_MAX_SIDE } from "@/config/limits";
 import { canvasToBlob } from "@/lib/files/convert/image-decode";
-import { UnreadableFileError } from "@/lib/files/processors/types";
 import { resolvePages } from "@/lib/files/pdf/page-spec";
+import { checkPages, openDocument, type PdfJsDocument } from "@/lib/files/pdf/pdfjs";
 import type { PdfImageOptions } from "@/lib/image/options";
 import { baseName } from "@/lib/utils/file-name";
 import type { NamedBlob } from "@/lib/files/pdf/pdf-tools";
 
 const POINTS_PER_INCH = 72;
-
-async function loadPdfJs() {
-  const pdfjs = await import("pdfjs-dist");
-  pdfjs.GlobalWorkerOptions.workerSrc ||= new URL("pdfjs-dist/build/pdf.worker.min.mjs", import.meta.url).toString();
-  return pdfjs;
-}
-
-async function openDocument(file: Blob) {
-  const pdfjs = await loadPdfJs();
-  try {
-    return await pdfjs.getDocument({ data: new Uint8Array(await file.arrayBuffer()) }).promise;
-  } catch (error) {
-    if (error instanceof Error && error.name === "PasswordException") {
-      throw new UnreadableFileError("Password-protected PDFs can't be opened here. Remove the password first.");
-    }
-    throw new UnreadableFileError("This PDF couldn't be read. It may be damaged.");
-  }
-}
-
-type PdfJsDocument = Awaited<ReturnType<typeof openDocument>>;
-
-function checkPages(doc: PdfJsDocument) {
-  if (doc.numPages > PDF_PAGE_LIMIT) {
-    throw new UnreadableFileError(`PDFs over ${PDF_PAGE_LIMIT} pages aren't supported yet.`);
-  }
-}
 
 async function renderPage(
   doc: PdfJsDocument,

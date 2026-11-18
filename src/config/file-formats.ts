@@ -9,9 +9,21 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
-export type FileKind = "image" | "vector" | "pdf" | "office" | "audio" | "video";
+export type FileKind = "image" | "vector" | "pdf" | "office" | "sheet" | "audio" | "video";
 
-export type FileEngine = "image" | "raster" | "heif" | "svg" | "pdf" | "ooxml" | "id3" | "riff" | "flac" | "isobmff" | "ebml";
+export type FileEngine =
+  | "image"
+  | "raster"
+  | "heif"
+  | "svg"
+  | "pdf"
+  | "ooxml"
+  | "sheet"
+  | "id3"
+  | "riff"
+  | "flac"
+  | "isobmff"
+  | "ebml";
 
 export type FileFormat = {
   id: string;
@@ -29,6 +41,7 @@ export const fileKinds: Record<FileKind, { label: string; noun: string; icon: Lu
   vector: { label: "SVG", noun: "SVG file", icon: PenTool },
   pdf: { label: "PDF", noun: "PDF", icon: FileText },
   office: { label: "Word, Excel, PowerPoint", noun: "document", icon: FileText },
+  sheet: { label: "Spreadsheets", noun: "spreadsheet", icon: FileSpreadsheet },
   audio: { label: "Audio", noun: "audio file", icon: FileMusic },
   video: { label: "Video", noun: "video", icon: FileVideoCamera },
 };
@@ -90,6 +103,25 @@ export const fileFormats: FileFormat[] = [
     mimeTypes: ["application/vnd.openxmlformats-officedocument.presentationml.presentation"],
     icon: FileChartPie,
   },
+  {
+    id: "xls",
+    kind: "sheet",
+    engine: "sheet",
+    label: "XLS",
+    extensions: ["xls"],
+    mimeTypes: ["application/vnd.ms-excel"],
+    icon: FileSpreadsheet,
+  },
+  {
+    id: "ods",
+    kind: "sheet",
+    engine: "sheet",
+    label: "ODS",
+    extensions: ["ods"],
+    mimeTypes: ["application/vnd.oasis.opendocument.spreadsheet"],
+    icon: FileSpreadsheet,
+  },
+  { id: "csv", kind: "sheet", engine: "sheet", label: "CSV", extensions: ["csv"], mimeTypes: ["text/csv"], icon: FileSpreadsheet },
   { id: "mp3", kind: "audio", engine: "id3", label: "MP3", extensions: ["mp3"], mimeTypes: ["audio/mpeg", "audio/mp3"], icon: FileMusic },
   {
     id: "wav",
@@ -116,16 +148,25 @@ export const fileFormats: FileFormat[] = [
   { id: "mkv", kind: "video", engine: "ebml", label: "MKV", extensions: ["mkv"], mimeTypes: ["video/x-matroska"], icon: FileVideoCamera },
 ];
 
+export function formatMime(id: string) {
+  return fileFormats.find((format) => format.id === id)?.mimeTypes[0] ?? "application/octet-stream";
+}
+
 export function formatsOfKind(kind: FileKind) {
   return fileFormats.filter((format) => format.kind === kind);
 }
 
-export function formatsOfKinds(kinds: FileKind[], localCapable = true) {
-  return fileFormats.filter((format) => kinds.includes(format.kind) && (localCapable || format.serverReadable !== false));
+export function formatsOfKinds(kinds: FileKind[], localCapable = true, only?: string[]) {
+  return fileFormats.filter(
+    (format) =>
+      kinds.includes(format.kind) &&
+      (localCapable || format.serverReadable !== false) &&
+      (!only || only.includes(format.id)),
+  );
 }
 
-export function acceptAttribute(kinds: FileKind[], localCapable = true) {
-  return formatsOfKinds(kinds, localCapable)
+export function acceptAttribute(kinds: FileKind[], localCapable = true, only?: string[]) {
+  return formatsOfKinds(kinds, localCapable, only)
     .flatMap((format) => [...format.mimeTypes, ...format.extensions.map((extension) => `.${extension}`)])
     .join(",");
 }

@@ -1,5 +1,5 @@
 import { otherTools } from "@/config/tool-hub";
-import { getWorkspaceTool, type WorkspaceToolSlug } from "@/config/tools";
+import { getWorkspaceTool, type ToolCategory, type WorkspaceToolSlug } from "@/config/tools";
 import { seoPagesBySlug } from "@/content/seo-pages";
 import { toolGuides } from "@/content/tool-guides";
 import { toolPageCopy } from "@/content/tool-pages";
@@ -19,6 +19,7 @@ import { SeoStepsSection } from "@/components/tools/SeoStepsSection";
 import { ToolHero } from "@/components/tools/ToolHero";
 
 const metadataTools: WorkspaceToolSlug[] = ["remove-metadata", "view-metadata", "edit-metadata"];
+const documentCategories: ToolCategory[] = ["pdf", "convert"];
 
 export function ToolPage({ slug }: { slug: WorkspaceToolSlug }) {
   const tool = getWorkspaceTool(slug);
@@ -32,7 +33,8 @@ export function ToolPage({ slug }: { slug: WorkspaceToolSlug }) {
           path: tool.href,
           description: tool.description,
           faqs: guide.faqs,
-          category: metadataTools.includes(slug) || tool.category === "pdf" ? "UtilitiesApplication" : "MultimediaApplication",
+          category:
+            metadataTools.includes(slug) || documentCategories.includes(tool.category) ? "UtilitiesApplication" : "MultimediaApplication",
         })}
       />
       <ToolHero
@@ -45,7 +47,7 @@ export function ToolPage({ slug }: { slug: WorkspaceToolSlug }) {
       {slug === "form-photo" && <FormPresetLinksSection />}
       <SeoIntroSection heading={guide.intro.heading} paragraphs={guide.intro.paragraphs} />
       <SeoStepsSection title={`How to use the ${tool.name}`} steps={guide.steps} />
-      {metadataTools.includes(slug) ? <InspectorShowcase /> : tool.category !== "pdf" && <FeaturesSection />}
+      {metadataTools.includes(slug) ? <InspectorShowcase /> : !documentCategories.includes(tool.category) && <FeaturesSection />}
       <FaqSection items={guide.faqs} />
       <RelatedToolsSection pages={seoPagesBySlug(guide.relatedGuides)} />
       <HubGridSection {...toolPageCopy.moreTools} items={otherTools(slug)} />

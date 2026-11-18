@@ -119,7 +119,7 @@ export function DocumentsLayout({ controller, panelFooter }: LayoutProps) {
               {queue.canAddMore && (
                 <AddTile
                   label={documentsCopy.dropAnother}
-                  hint={describeAccepted(controller.accepts, controller.localCapable, perks)}
+                  hint={describeAccepted(controller.accepts, controller.localCapable, perks, undefined, controller.formats)}
                   disabled={queue.isProcessing}
                   onAdd={picker.open}
                 />

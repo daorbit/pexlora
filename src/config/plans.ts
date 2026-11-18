@@ -28,6 +28,7 @@ export const PRO_LOCAL_FILE_SIZE_LIMITS_MB: Record<FileKind, number> = {
   vector: 20,
   pdf: 500,
   office: 500,
+  sheet: 200,
   audio: 1024,
   video: 2048,
 };

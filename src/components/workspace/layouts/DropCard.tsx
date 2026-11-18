@@ -18,6 +18,7 @@ export function DropCard({ controller, override, short = false, stretch = false 
     <div className={cn("flex flex-col p-2 sm:p-2.5", workspaceCard, stretch && "lg:flex-1")}>
       <Dropzone
         accepts={controller.accepts}
+        formats={controller.formats}
         localCapable={controller.localCapable}
         isDragging={controller.isDragging}
         onBrowse={controller.picker.open}

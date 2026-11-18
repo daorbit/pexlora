@@ -90,7 +90,7 @@ export function GalleryLayout({ controller, conversion, panelFooter }: LayoutPro
                 {queue.canAddMore && (
                   <AddTile
                     label={galleryCopy.addMore}
-                    hint={describeAccepted(controller.accepts, controller.localCapable, perks)}
+                    hint={describeAccepted(controller.accepts, controller.localCapable, perks, undefined, controller.formats)}
                     disabled={queue.isProcessing}
                     onAdd={picker.open}
                   />
@@ -107,6 +107,7 @@ export function GalleryLayout({ controller, conversion, panelFooter }: LayoutPro
           <div className="p-2 sm:p-2.5">
             <Dropzone
               accepts={controller.accepts}
+              formats={controller.formats}
               localCapable={controller.localCapable}
               isDragging={isDragging}
               onBrowse={picker.open}

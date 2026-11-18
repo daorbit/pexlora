@@ -47,11 +47,20 @@ export const PDF_PRINT_MAX_SIDE = 3600;
 
 export const PDF_IMAGE_DPI = { screen: 150, print: 300 } as const;
 
+export const SHEET_CELL_LIMIT = 300_000;
+
+export const PREVIEW_TEXT_LINES = 200;
+
+export const PREVIEW_SHEET_ROWS = 50;
+
+export const PREVIEW_SHEET_MAX_BYTES = 5 * 1024 * 1024;
+
 export const FILE_SIZE_LIMITS_MB: Record<FileKind, number> = {
   image: 10,
   vector: 5,
   pdf: 100,
   office: 100,
+  sheet: 50,
   audio: 300,
   video: 2048,
 };

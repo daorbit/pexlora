@@ -13,6 +13,7 @@ import { SampleChips } from "@/components/workspace/SampleChips";
 
 type DropzoneProps = {
   accepts: FileKind[];
+  formats?: string[];
   localCapable: boolean;
   isDragging: boolean;
   onBrowse: () => void;
@@ -29,6 +30,7 @@ function isOwnControl(target: EventTarget) {
 
 export function Dropzone({
   accepts,
+  formats,
   localCapable,
   isDragging,
   onBrowse,
@@ -72,7 +74,7 @@ export function Dropzone({
             </span>
           </p>
           <p className="font-mono text-[10.5px] leading-relaxed tracking-[0.06em] text-tertiary uppercase sm:text-[11.5px]">
-            {describeAccepted(accepts, localCapable, perks, override?.formats)}
+            {describeAccepted(accepts, localCapable, perks, override?.formats, formats)}
             {override?.batch !== false && <span className="hidden sm:inline"> · {perks.filesPerBatch} at a time</span>}
           </p>
         </div>

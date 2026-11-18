@@ -2,6 +2,7 @@ import "server-only";
 import { compressTargetPath, compressTargets } from "@/config/compress-targets";
 import { conversionPath, conversions } from "@/config/conversions";
 import { formPresetPath, formPresets } from "@/config/form-presets";
+import { imagePdfPath, imagePdfVariants } from "@/config/image-pdf-variants";
 import { seo } from "@/config/seo";
 import { routes, siteConfig } from "@/config/site";
 import { textTools } from "@/config/text-tools";
@@ -26,11 +27,18 @@ function section(title: string, links: LlmsLink[]) {
 export function buildLlmsText() {
   const tools = [...workspaceTools, ...textTools, ...utilityTools].map((tool) => ({ name: tool.name, path: tool.href, description: tool.description }));
 
-  const conversionLinks = conversions.map((conversion) => ({
-    name: conversion.name,
-    path: conversionPath(conversion.slug),
-    description: toolPageCopy.conversionDescription(conversion.from, conversion.toLabel),
-  }));
+  const conversionLinks = [
+    ...conversions.map((conversion) => ({
+      name: conversion.name,
+      path: conversionPath(conversion.slug),
+      description: toolPageCopy.conversionDescription(conversion.from, conversion.toLabel),
+    })),
+    ...imagePdfVariants.map((variant) => ({
+      name: toolPageCopy.imagePdfName(variant.from),
+      path: imagePdfPath(variant.slug),
+      description: toolPageCopy.imagePdfDescription(variant.from),
+    })),
+  ];
 
   const compressLinks = compressTargets.map((target) => ({
     name: toolPageCopy.compressTargetName(target.label),

@@ -69,6 +69,14 @@ const pdfDrop: DropzoneOverride = {
   note: "Your PDFs are processed in your browser and never uploaded.",
 };
 
+const convertNote = "Converted in your browser. Your files are never uploaded.";
+
+const sheetDrop: DropzoneOverride = {
+  title: "Drop spreadsheets or click to browse",
+  mobileTitle: "Tap to add spreadsheets",
+  note: convertNote,
+};
+
 export const dropzoneOverrides: Partial<Record<WorkspaceToolSlug, DropzoneOverride>> = {
   "crop-image": {
     formats: browserPhotoFormats,
@@ -104,6 +112,13 @@ export const dropzoneOverrides: Partial<Record<WorkspaceToolSlug, DropzoneOverri
   "organize-pdf": { ...pdfDrop, title: "Drop a PDF or click to browse", mobileTitle: "Tap to add a PDF" },
   "pdf-page-numbers": pdfDrop,
   "pdf-watermark": pdfDrop,
+  "excel-to-pdf": sheetDrop,
+  "excel-to-csv": sheetDrop,
+  "csv-to-excel": { title: "Drop CSV files or click to browse", mobileTitle: "Tap to add CSV files", note: convertNote },
+  "word-to-pdf": { title: "Drop Word files or click to browse", mobileTitle: "Tap to add Word files", note: convertNote },
+  "pdf-to-excel": pdfDrop,
+  "pdf-to-word": pdfDrop,
+  "pdf-to-text": pdfDrop,
 };
 
 export const signupPromptCopy = {

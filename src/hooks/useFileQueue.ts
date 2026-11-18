@@ -63,7 +63,13 @@ type Combiner = (files: File[]) => Promise<ProcessedFile>;
 
 export type BatchSummary = { done: number; failed: number };
 
-type QueueOptions = { inspectOnAdd: boolean; accepts: FileKind[]; localCapable: boolean; perks: WorkspacePerks };
+type QueueOptions = {
+  inspectOnAdd: boolean;
+  accepts: FileKind[];
+  formats?: string[];
+  localCapable: boolean;
+  perks: WorkspacePerks;
+};
 
 function errorMessage(error: unknown) {
   return error instanceof Error ? error.message : "Something went wrong.";
@@ -74,7 +80,7 @@ function revoke(item: QueueItem) {
   if (item.result) URL.revokeObjectURL(item.result.url);
 }
 
-export function useFileQueue({ inspectOnAdd, accepts, localCapable, perks }: QueueOptions) {
+export function useFileQueue({ inspectOnAdd, accepts, formats, localCapable, perks }: QueueOptions) {
   const { filesPerBatch, parallelJobs } = perks;
   const [items, setItems] = useState<QueueItem[]>([]);
   const [notice, setNotice] = useState<QueueNotice | null>(null);
@@ -113,7 +119,7 @@ export function useFileQueue({ inspectOnAdd, accepts, localCapable, perks }: Que
       const accepted: QueueItem[] = [];
 
       files.forEach((file) => {
-        const fileError = getFileError(file, accepts, localCapable, perks);
+        const fileError = getFileError(file, accepts, localCapable, perks, formats);
         if (fileError) return problems.push(`${file.name}: ${fileError}`);
         if (accepted.length >= slots) {
           return problems.push(`You can add up to ${filesPerBatch} files at a time.`);
@@ -137,7 +143,7 @@ export function useFileQueue({ inspectOnAdd, accepts, localCapable, perks }: Que
       });
       if (inspectOnAdd) accepted.forEach(inspect);
     },
-    [accepts, filesPerBatch, inspect, inspectOnAdd, localCapable, perks],
+    [accepts, filesPerBatch, formats, inspect, inspectOnAdd, localCapable, perks],
   );
 
   const process = useCallback(

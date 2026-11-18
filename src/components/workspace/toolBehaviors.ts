@@ -17,6 +17,15 @@ import {
 import type { ProcessedFile } from "@/lib/metadata/types";
 import { generateAltText } from "@/services/ai-api";
 import { cleanFile } from "@/services/file-service";
+import {
+  csvToExcelFile,
+  excelToCsvFile,
+  excelToPdfFile,
+  pdfToExcelFile,
+  pdfToTextFile,
+  pdfToWordFile,
+  wordToPdfFile,
+} from "@/services/converter-tools";
 import { convertImage, editImageMetadata } from "@/services/image-api";
 import {
   changeDpiFile,
@@ -59,6 +68,7 @@ export type WorkspaceLayout = "rows" | "gallery" | "documents";
 
 type ToolBehavior = {
   accepts: FileKind[];
+  formats?: string[];
   localCapable: boolean;
   inspectOnAdd: boolean;
   layout?: WorkspaceLayout;
@@ -378,6 +388,98 @@ export const toolBehaviors: Record<WorkspaceToolSlug, ToolBehavior> = {
       run: (file, { pdfImage }) => pdfToJpgFile(file, pdfImage),
       validate: ({ pdfImage }) => getPdfImageError(pdfImage),
       zipName: "pdf-images.zip",
+    },
+  },
+  "excel-to-pdf": {
+    accepts: ["office", "sheet"],
+    formats: ["xlsx", "xls", "ods", "csv"],
+    localCapable: true,
+    inspectOnAdd: false,
+    action: {
+      label: "Convert to PDF",
+      doneLabel: "Converted",
+      note: localToolsCopy.onDevice,
+      run: (file, { pdfPage }) => excelToPdfFile(file, pdfPage),
+      zipName: "excel-pdfs.zip",
+    },
+  },
+  "pdf-to-excel": {
+    accepts: ["pdf"],
+    localCapable: true,
+    inspectOnAdd: false,
+    action: {
+      label: "Convert to Excel",
+      doneLabel: "Converted",
+      note: localToolsCopy.onDevice,
+      run: (file, { pdfSheet }) => pdfToExcelFile(file, pdfSheet),
+      zipName: "pdf-sheets.zip",
+    },
+  },
+  "word-to-pdf": {
+    accepts: ["office"],
+    formats: ["docx"],
+    localCapable: true,
+    inspectOnAdd: false,
+    action: {
+      label: "Convert to PDF",
+      doneLabel: "Converted",
+      note: localToolsCopy.onDevice,
+      run: (file, { pdfPage }) => wordToPdfFile(file, pdfPage),
+      zipName: "word-pdfs.zip",
+    },
+  },
+  "pdf-to-word": {
+    accepts: ["pdf"],
+    localCapable: true,
+    inspectOnAdd: false,
+    action: {
+      label: "Convert to Word",
+      doneLabel: "Converted",
+      note: localToolsCopy.onDevice,
+      autoRun: true,
+      run: (file) => pdfToWordFile(file),
+      zipName: "pdf-documents.zip",
+    },
+  },
+  "pdf-to-text": {
+    accepts: ["pdf"],
+    localCapable: true,
+    inspectOnAdd: false,
+    action: {
+      label: "Extract Text",
+      doneLabel: "Extracted",
+      note: localToolsCopy.onDevice,
+      autoRun: true,
+      run: (file) => pdfToTextFile(file),
+      zipName: "pdf-text.zip",
+    },
+  },
+  "csv-to-excel": {
+    accepts: ["sheet"],
+    formats: ["csv"],
+    localCapable: true,
+    inspectOnAdd: false,
+    action: {
+      label: "Convert to Excel",
+      doneLabel: "Converted",
+      note: localToolsCopy.onDevice,
+      autoRun: true,
+      run: (file) => csvToExcelFile(file),
+      zipName: "csv-workbooks.zip",
+    },
+  },
+  "excel-to-csv": {
+    accepts: ["office", "sheet"],
+    formats: ["xlsx", "xls", "ods"],
+    localCapable: true,
+    inspectOnAdd: false,
+    action: {
+      label: "Convert to CSV",
+      doneLabel: "Converted",
+      note: localToolsCopy.onDevice,
+      autoRun: true,
+      run: (file) => excelToCsvFile(file),
+      zipName: "csv-files.zip",
     },
   },
 };

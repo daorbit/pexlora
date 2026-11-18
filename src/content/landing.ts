@@ -49,6 +49,13 @@ export const heroCopy = {
     "organize-pdf": "Organize",
     "pdf-page-numbers": "Numbers",
     "pdf-watermark": "Watermark",
+    "excel-to-pdf": "Excel",
+    "pdf-to-excel": "To Excel",
+    "word-to-pdf": "Word",
+    "pdf-to-word": "To Word",
+    "pdf-to-text": "To Text",
+    "csv-to-excel": "CSV",
+    "excel-to-csv": "To CSV",
   } as Record<string, string>,
 };
 

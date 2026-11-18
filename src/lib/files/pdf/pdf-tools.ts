@@ -1,4 +1,4 @@
-import { degrees, PDFDocument, type PDFImage } from "pdf-lib";
+import { degrees, type PDFDocument, type PDFImage } from "pdf-lib";
 import { decodeImage, bitmapToBlob } from "@/lib/files/convert/image-decode";
 import { detectFormat } from "@/lib/files/detect";
 import { loadPdf, pdfProcessor } from "@/lib/files/processors/pdf";
@@ -7,22 +7,14 @@ import { fileFormats } from "@/config/file-formats";
 import { PDF_PAGE_LIMIT } from "@/config/limits";
 import { resolvePages } from "@/lib/files/pdf/page-spec";
 import { baseName } from "@/lib/utils/file-name";
+import { newPdfDocument as newDocument, pdfBlob } from "@/lib/files/pdf/pdf-blob";
 
 export type NamedBlob = { blob: Blob; name: string };
 
-const PDF_TYPE = "application/pdf";
 const POINTS_PER_INCH = 72;
 const pdfFormat = fileFormats.find((format) => format.id === "pdf")!;
 const A4 = { width: 595.28, height: 841.89 };
 const PAGE_MARGIN = 24;
-
-function pdfBlob(bytes: Uint8Array) {
-  return new Blob([bytes as BlobPart], { type: PDF_TYPE });
-}
-
-function newDocument() {
-  return PDFDocument.create({ updateMetadata: false });
-}
 
 function checkPageCount(count: number) {
   if (count > PDF_PAGE_LIMIT) throw new UnreadableFileError(`PDFs over ${PDF_PAGE_LIMIT} pages aren't supported yet.`);

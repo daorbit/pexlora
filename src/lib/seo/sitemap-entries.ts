@@ -2,6 +2,7 @@ import "server-only";
 import { compressTargetPath, compressTargets } from "@/config/compress-targets";
 import { conversionPath, conversions } from "@/config/conversions";
 import { formPresetPath, formPresets } from "@/config/form-presets";
+import { imagePdfPath, imagePdfVariants } from "@/config/image-pdf-variants";
 import { routes } from "@/config/site";
 import { textTools } from "@/config/text-tools";
 import { workspaceTools } from "@/config/tools";
@@ -37,6 +38,10 @@ export function sitemapEntries(): SitemapEntry[] {
     ...conversions.map((conversion) => ({
       path: conversionPath(conversion.slug),
       sources: ["src/config/conversions.ts", "src/components/tools/ConversionPage.tsx", ...shared.variantPage],
+    })),
+    ...imagePdfVariants.map((variant) => ({
+      path: imagePdfPath(variant.slug),
+      sources: [marketingPage(imagePdfPath(variant.slug)), "src/components/tools/ImagePdfPage.tsx", ...shared.variantPage],
     })),
     ...compressTargets.map((target) => ({
       path: compressTargetPath(target.slug),

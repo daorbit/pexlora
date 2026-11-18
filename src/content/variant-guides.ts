@@ -1,6 +1,7 @@
 import type { CompressTarget } from "@/config/compress-targets";
 import type { Conversion } from "@/config/conversions";
 import type { FormPreset } from "@/config/form-presets";
+import type { ImagePdfVariant } from "@/config/image-pdf-variants";
 import { formPresetCopy } from "@/content/tool-pages";
 import { MAX_FILES_PER_BATCH } from "@/config/limits";
 import { serverImageLimit } from "@/content/seo-pages/shared";
@@ -120,6 +121,37 @@ export function formPresetFaqs(preset: FormPreset): SeoFaq[] {
     {
       question: `Is my ${noun} uploaded?`,
       answer: "No. Resizing happens in your browser, so the file stays on your device. The JPG also has no EXIF or GPS data.",
+    },
+  ];
+}
+
+export const imagePdfGuides = ["remove-exif-data", "remove-gps-from-photo", "remove-pdf-metadata", "remove-location-from-iphone-photos"];
+
+export function imagePdfSteps({ from }: ImagePdfVariant): ToolStep[] {
+  return [
+    { title: `Add ${from} images`, body: `Drop up to ${MAX_FILES_PER_BATCH} ${from} files. JPG, PNG, WebP and HEIC can be mixed.` },
+    { title: "Set the order", body: "Use the arrows to move images up or down. Each image gets its own page." },
+    { title: "Create the PDF", body: "Save one PDF with every image fitted and centred on an A4 page." },
+  ];
+}
+
+export function imagePdfFaqs({ from }: ImagePdfVariant): SeoFaq[] {
+  return [
+    {
+      question: `Can I combine several ${from} images into one PDF?`,
+      answer: `Yes. Add as many as ${MAX_FILES_PER_BATCH} images, put them in order, and they're saved as one PDF with one image per page.`,
+    },
+    {
+      question: "What page size is used?",
+      answer: "A4. Portrait images get portrait pages and landscape images get landscape pages, with a small margin.",
+    },
+    {
+      question: "Is my location included in the PDF?",
+      answer: "No. Only the pixels are placed on the page, so EXIF and GPS data from your photos aren't in the PDF.",
+    },
+    {
+      question: `Are my ${from} images uploaded?`,
+      answer: "No. The PDF is built in your browser, so your images stay on your device.",
     },
   ];
 }

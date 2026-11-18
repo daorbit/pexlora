@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic";
 import type { WorkspaceToolSlug } from "@/config/tools";
+import { converterOptionsCopy } from "@/content/converters";
 import type { ToolOptions } from "@/lib/image/options";
 
 const CompressOptionsBar = dynamic(() => import("@/components/workspace/options/CompressOptionsBar").then((module) => module.CompressOptionsBar));
@@ -17,6 +18,8 @@ const MetadataOptionsBar = dynamic(() => import("@/components/workspace/options/
 const OrganizeOptionsBar = dynamic(() => import("@/components/workspace/options/OrganizeOptionsBar").then((module) => module.OrganizeOptionsBar));
 const PageNumberOptionsBar = dynamic(() => import("@/components/workspace/options/PageNumberOptionsBar").then((module) => module.PageNumberOptionsBar));
 const PdfImageOptionsBar = dynamic(() => import("@/components/workspace/options/PdfImageOptionsBar").then((module) => module.PdfImageOptionsBar));
+const PdfPageOptionsBar = dynamic(() => import("@/components/workspace/options/PdfPageOptionsBar").then((module) => module.PdfPageOptionsBar));
+const PdfSheetOptionsBar = dynamic(() => import("@/components/workspace/options/PdfSheetOptionsBar").then((module) => module.PdfSheetOptionsBar));
 const PassportOptionsBar = dynamic(() => import("@/components/workspace/options/PassportOptionsBar").then((module) => module.PassportOptionsBar));
 const ResizeOptionsBar = dynamic(() => import("@/components/workspace/options/ResizeOptionsBar").then((module) => module.ResizeOptionsBar));
 const RotateOptionsBar = dynamic(() => import("@/components/workspace/options/RotateOptionsBar").then((module) => module.RotateOptionsBar));
@@ -140,6 +143,24 @@ export function ToolOptionsBar({ tool, options, onChange, disabled, sourceFile }
         <PdfImageOptionsBar
           options={options.pdfImage}
           onChange={(pdfImage) => onChange({ ...options, pdfImage })}
+          disabled={disabled}
+        />
+      );
+    case "excel-to-pdf":
+    case "word-to-pdf":
+      return (
+        <PdfPageOptionsBar
+          options={options.pdfPage}
+          onChange={(pdfPage) => onChange({ ...options, pdfPage })}
+          disabled={disabled}
+          hint={tool === "excel-to-pdf" ? converterOptionsCopy.excelHint : converterOptionsCopy.wordHint}
+        />
+      );
+    case "pdf-to-excel":
+      return (
+        <PdfSheetOptionsBar
+          options={options.pdfSheet}
+          onChange={(pdfSheet) => onChange({ ...options, pdfSheet })}
           disabled={disabled}
         />
       );

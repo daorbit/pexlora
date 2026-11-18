@@ -1,7 +1,10 @@
+import { PREVIEW_SHEET_MAX_BYTES } from "@/config/limits";
 import { detectFormat } from "@/lib/files/detect";
 import { isPdfBlob } from "@/lib/files/pdf/is-pdf";
 
-export type PreviewKind = "pdf" | "image" | "video" | "audio" | "zip";
+export type PreviewKind = "pdf" | "image" | "video" | "audio" | "zip" | "text" | "sheet";
+
+const SHEET_FORMATS = ["xlsx", "xls", "ods", "csv"];
 
 const UNRENDERABLE_IMAGES = ["image/heic", "image/heif", "image/tiff"];
 
@@ -13,6 +16,9 @@ export function previewKind(blob: Blob, name: string): PreviewKind | null {
   if (isPdfBlob(blob, name)) return "pdf";
   const type = previewType(blob, name);
   if (type === "application/zip" || /\.zip$/i.test(name)) return "zip";
+  const format = detectFormat({ name, type });
+  if (format && SHEET_FORMATS.includes(format.id)) return blob.size <= PREVIEW_SHEET_MAX_BYTES ? "sheet" : null;
+  if (type.startsWith("text/plain") || /\.txt$/i.test(name)) return "text";
   if (type.startsWith("image/")) return UNRENDERABLE_IMAGES.includes(type) ? null : "image";
   if (type.startsWith("video/")) return "video";
   if (type.startsWith("audio/")) return "audio";

@@ -54,13 +54,20 @@ const dashboardHrefs: Record<WorkspaceToolSlug, string> = {
   "organize-pdf": routes.dashboardOrganizePdf,
   "pdf-page-numbers": routes.dashboardPdfPageNumbers,
   "pdf-watermark": routes.dashboardPdfWatermark,
+  "excel-to-pdf": routes.dashboardExcelToPdf,
+  "pdf-to-excel": routes.dashboardPdfToExcel,
+  "word-to-pdf": routes.dashboardWordToPdf,
+  "pdf-to-word": routes.dashboardPdfToWord,
+  "pdf-to-text": routes.dashboardPdfToText,
+  "csv-to-excel": routes.dashboardCsvToExcel,
+  "excel-to-csv": routes.dashboardExcelToCsv,
 };
 
 export const dashboardToolHref = (slug: WorkspaceToolSlug) => dashboardHrefs[slug];
 
-const newToolSlugs: string[] = ["link-cleaner", "remove-personal-info", "zip-files", "change-dpi", "rotate-image", "shape-image", "image-palette", "crop-image", "passport-photo", "organize-pdf", "pdf-page-numbers", "pdf-watermark"];
+const newToolSlugs: string[] = ["excel-to-pdf", "pdf-to-excel", "word-to-pdf", "pdf-to-word", "pdf-to-text", "csv-to-excel", "excel-to-csv", "link-cleaner", "remove-personal-info", "zip-files", "change-dpi", "rotate-image", "shape-image", "image-palette", "crop-image", "passport-photo", "organize-pdf", "pdf-page-numbers", "pdf-watermark"];
 
-const toolCategoryOrder: ToolCategory[] = ["metadata", "image", "pdf", "ai", "utility"];
+const toolCategoryOrder: ToolCategory[] = ["metadata", "image", "pdf", "convert", "ai", "utility"];
 
 type DashboardTool = {
   slug: string;
@@ -120,7 +127,7 @@ export const dashboardToolGroups = toolCategoryOrder.map((category) => ({
   ),
 }));
 
-const overviewColumnLayout: ToolCategory[][] = [["metadata", "ai", "utility"], ["image"], ["pdf"]];
+const overviewColumnLayout: ToolCategory[][] = [["metadata", "ai", "utility"], ["image"], ["pdf", "convert"]];
 
 export const overviewToolColumns = overviewColumnLayout.map((column) =>
   column.flatMap((category) => dashboardToolGroups.filter((group) => group.category === category)),

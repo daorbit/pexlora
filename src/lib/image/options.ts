@@ -107,11 +107,22 @@ export type PdfImageQuality = (typeof PDF_IMAGE_QUALITIES)[number];
 export const PALETTE_SIZES = ["5", "8", "12"] as const;
 export type PaletteSize = (typeof PALETTE_SIZES)[number];
 
+export const PDF_PAGE_SIZES = ["a4", "letter"] as const;
+export type PdfPageSize = (typeof PDF_PAGE_SIZES)[number];
+
+export const PAGE_ORIENTATIONS = ["auto", "portrait", "landscape"] as const;
+export type PageOrientation = (typeof PAGE_ORIENTATIONS)[number];
+
+export const PDF_SHEET_LAYOUTS = ["single", "page"] as const;
+export type PdfSheetLayout = (typeof PDF_SHEET_LAYOUTS)[number];
+
 export type ConvertOptions = { format: OutputFormat };
 export type DpiOptions = { dpi: number | null };
 export type RotateImageOptions = { angle: ImageRotation; flip: ImageFlip };
 export type ShapeOptions = { shape: ImageShape; corners: ShapeCorners; background: ShapeBackground };
 export type PaletteOptions = { size: PaletteSize };
+export type PdfPageOptions = { size: PdfPageSize; orientation: PageOrientation };
+export type PdfSheetOptions = { layout: PdfSheetLayout };
 export type CropOptions = { ratio: CropRatio; anchor: CropAnchor };
 export type PassportOptions = { size: PassportSize; sheet: PrintSheet; copies: PassportCopies; output: PassportOutput };
 export type PageNumberOptions = { position: PageNumberPosition; style: PageNumberStyle; skipFirst: boolean };
@@ -161,6 +172,8 @@ export type ToolOptions = {
   rotateImage: RotateImageOptions;
   shape: ShapeOptions;
   palette: PaletteOptions;
+  pdfPage: PdfPageOptions;
+  pdfSheet: PdfSheetOptions;
 };
 
 export const DEFAULT_TOOL_OPTIONS: ToolOptions = {
@@ -183,6 +196,8 @@ export const DEFAULT_TOOL_OPTIONS: ToolOptions = {
   rotateImage: { angle: "90", flip: "none" },
   shape: { shape: "circle", corners: "medium", background: "transparent" },
   palette: { size: "8" },
+  pdfPage: { size: "a4", orientation: "auto" },
+  pdfSheet: { layout: "single" },
 };
 
 export function getRotateImageError({ angle, flip }: RotateImageOptions) {

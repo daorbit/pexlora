@@ -114,6 +114,74 @@ export const moduleTips: Record<WorkspaceToolSlug, { title: string; tips: string
       "Everything runs in your browser",
     ],
   },
+  "excel-to-pdf": {
+    title: "Excel to PDF tips",
+    tips: [
+      "Every visible sheet becomes its own section",
+      "Auto turns wide sheets to landscape",
+      "Very wide sheets continue on extra pages",
+      "Charts and pictures aren't included",
+      "Everything runs in your browser",
+    ],
+  },
+  "pdf-to-excel": {
+    title: "PDF to Excel tips",
+    tips: [
+      "Works best on statements, invoices and reports",
+      "Numbers come out as numbers you can add up",
+      "Scanned PDFs have no text to read",
+      "Check merged or wrapped cells after converting",
+      "Everything runs in your browser",
+    ],
+  },
+  "word-to-pdf": {
+    title: "Word to PDF tips",
+    tips: [
+      "Headings, lists, tables and images are kept",
+      "Exact fonts, columns and headers may differ",
+      "Pick A4 or Letter to match your printer",
+      "Old .doc files need saving as .docx first",
+      "Everything runs in your browser",
+    ],
+  },
+  "pdf-to-word": {
+    title: "PDF to Word tips",
+    tips: [
+      "You get the text as editable paragraphs",
+      "Large text becomes Word headings",
+      "Images and exact layout aren't copied",
+      "Scanned PDFs have no text to read",
+      "Everything runs in your browser",
+    ],
+  },
+  "pdf-to-text": {
+    title: "PDF to Text tips",
+    tips: [
+      "Starts as soon as you add a file",
+      "Pages are separated by blank lines",
+      "Scanned PDFs have no text to read",
+      "Everything runs in your browser",
+    ],
+  },
+  "csv-to-excel": {
+    title: "CSV to Excel tips",
+    tips: [
+      "Commas, semicolons, tabs and pipes are detected",
+      "Leading zeros and long IDs stay as text",
+      "Hindi and other scripts keep their letters",
+      "Everything runs in your browser",
+    ],
+  },
+  "excel-to-csv": {
+    title: "Excel to CSV tips",
+    tips: [
+      "Each visible sheet becomes its own CSV",
+      "Several sheets download together as a ZIP",
+      "Values are saved as shown in Excel",
+      "Files are UTF-8, so Excel opens them correctly",
+      "Everything runs in your browser",
+    ],
+  },
   "change-dpi": {
     title: "DPI tips",
     tips: [
@@ -323,7 +391,7 @@ export const historyCopy = {
   sortLabel: "Sort files",
   sorts: { newest: "Newest", oldest: "Oldest", largest: "Largest" },
   categoryLabel: "Filter by tool type",
-  categories: { all: "All", metadata: "Metadata", image: "Images", pdf: "PDFs", ai: "AI", utility: "Utilities" },
+  categories: { all: "All", metadata: "Metadata", image: "Images", pdf: "PDFs", convert: "Converted", ai: "AI", utility: "Utilities" },
   toolFilter: (tool: string) => `Tool: ${tool}`,
   removeToolFilter: "Remove tool filter",
   showing: (shown: number, total: number) => (shown === total ? `${total} files` : `${shown} of ${total} files`),

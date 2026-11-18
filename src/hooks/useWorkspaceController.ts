@@ -35,9 +35,9 @@ export function useWorkspaceController({ tool, accepts: acceptsOverride, initial
   const behavior = toolBehaviors[tool];
   const action = behavior.action;
   const accepts = acceptsOverride ?? behavior.accepts;
-  const { localCapable } = behavior;
+  const { localCapable, formats } = behavior;
   const perks = useWorkspacePerks();
-  const queue = useFileQueue({ inspectOnAdd: behavior.inspectOnAdd, accepts, localCapable, perks });
+  const queue = useFileQueue({ inspectOnAdd: behavior.inspectOnAdd, accepts, formats, localCapable, perks });
   const { addFiles, resetResults } = queue;
   const [options, setOptions, patchOptions] = useToolOptions(tool, initialOptions);
   const optionsError = action?.validate?.(options) ?? null;
@@ -63,7 +63,7 @@ export function useWorkspaceController({ tool, accepts: acceptsOverride, initial
     scope: conversion?.slug,
   });
 
-  const accept = useMemo(() => acceptAttribute(accepts, localCapable), [accepts, localCapable]);
+  const accept = useMemo(() => acceptAttribute(accepts, localCapable, formats), [accepts, formats, localCapable]);
   const picker = useFilePicker(addFilesAndRun, accept);
   const { isDragging, dropProps } = useFileDrop(addFilesAndRun, !queue.isProcessing);
   const batchTotal = queue.items.filter((item) => item.status !== "error").length;
@@ -100,6 +100,7 @@ export function useWorkspaceController({ tool, accepts: acceptsOverride, initial
     behavior,
     action,
     accepts,
+    formats,
     localCapable,
     queue,
     options,

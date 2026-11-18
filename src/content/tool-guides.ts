@@ -11,6 +11,7 @@ import {
   PDF_PRINT_MAX_SIDE,
   PDF_RENDER_MAX_SIDE,
   RESIZE_PERCENT_RANGE,
+  SHEET_CELL_LIMIT,
 } from "@/config/limits";
 import type { WorkspaceToolSlug } from "@/config/tools";
 import { COMPRESSION_QUALITY } from "@/lib/image/options";
@@ -77,6 +78,23 @@ const passwordPdf: SeoFaq = {
 const aiLimit: SeoFaq = {
   question: `Is ${AI_NAME} free?`,
   answer: `Yes. ${AI_NAME} handles ${AI_DAILY_LIMITS.anonymous} requests a day without an account, or ${AI_DAILY_LIMITS.user} with a free account.`,
+};
+
+const scannedPdf: SeoFaq = {
+  question: "Does it work on scanned PDFs?",
+  answer:
+    "No. A scanned page is a picture of text, so there's no text in the file to read yet. It works on PDFs made from Word, Excel, websites, banking apps and other software, where you can select the text.",
+};
+
+const officeLimit: SeoFaq = {
+  question: "Is there a limit?",
+  answer: `Excel and Word files can be up to ${sizeLimit("office")}, CSV, XLS and ODS files up to ${sizeLimit("sheet")}, and spreadsheets up to ${SHEET_CELL_LIMIT.toLocaleString("en-US")} cells, with ${MAX_FILES_PER_BATCH} files at a time. ${dailyCounts}`,
+};
+
+const pdfFonts: SeoFaq = {
+  question: "Which languages show up in the PDF?",
+  answer:
+    "English and other Latin-script languages, Greek and Cyrillic are drawn as real, selectable text. The rupee sign is written as Rs. Hindi and other Indian scripts aren't drawn yet and show as question marks.",
 };
 
 export const toolGuides: Record<WorkspaceToolSlug, ToolGuide> = {
@@ -819,6 +837,195 @@ export const toolGuides: Record<WorkspaceToolSlug, ToolGuide> = {
       inBrowser,
       passwordPdf,
       pdfLimit,
+    ],
+    relatedGuides: pdfGuides,
+  },
+  "excel-to-pdf": {
+    intro: {
+      heading: "Turn spreadsheets into a printable PDF",
+      paragraphs: [
+        "Send a price list, timetable, marksheet or report as a PDF that looks the same on every phone and prints cleanly. Each visible sheet becomes a table with gridlines and a bold header row, numbers aligned to the right, on A4 or Letter pages.",
+        "XLSX, XLS, ODS and CSV files work. Wide sheets switch to landscape and shrink to fit; very wide ones continue on extra pages instead of becoming unreadable. Values are printed the way Excel shows them, including dates and currency formats. Charts, pictures and cell colours aren't carried over.",
+      ],
+    },
+    steps: [
+      { title: "Add a spreadsheet", body: `Choose up to ${MAX_FILES_PER_BATCH} XLSX, XLS, ODS or CSV files.` },
+      { title: "Pick the page", body: "A4 or Letter, and Auto, Portrait or Landscape." },
+      { title: "Convert and download", body: "Get one PDF per spreadsheet, every sheet inside." },
+    ],
+    faqs: [
+      {
+        question: "Are hidden sheets included?",
+        answer: "No. Only visible sheets are converted, in the order they appear in the workbook. Empty sheets are skipped.",
+      },
+      {
+        question: "Will my formulas show?",
+        answer: "The PDF shows each formula's last saved result, the same value you see in the cell, not the formula itself.",
+      },
+      pdfFonts,
+      inBrowser,
+      officeLimit,
+    ],
+    relatedGuides: pdfGuides,
+  },
+  "pdf-to-excel": {
+    intro: {
+      heading: "Get PDF tables into Excel",
+      paragraphs: [
+        "Bank statements, invoices, price lists and reports often arrive as PDFs. This tool reads where each piece of text sits on the page, rebuilds the columns, and saves an Excel sheet you can sort, filter and total. Amounts like 1,25,000.50 become real numbers, while account numbers and IDs with leading zeros stay as text.",
+        "Put every page in one sheet or give each page its own. The PDF is read in your browser, so statements and invoices never leave your device.",
+      ],
+    },
+    steps: [
+      { title: "Add a PDF", body: `Choose up to ${MAX_FILES_PER_BATCH} PDF files.` },
+      { title: "Choose the sheets", body: "One sheet for all pages, or one sheet per page." },
+      { title: "Convert and download", body: "Open the XLSX in Excel, Google Sheets or Numbers." },
+    ],
+    faqs: [
+      {
+        question: "How accurate are the columns?",
+        answer:
+          "Tables with clear columns, like statements and invoices, usually come out right. Text that spans several columns, wrapped cells and merged headers can land in the wrong column, so check the sheet before you rely on it.",
+      },
+      scannedPdf,
+      passwordPdf,
+      inBrowser,
+      pdfLimit,
+    ],
+    relatedGuides: pdfGuides,
+  },
+  "word-to-pdf": {
+    intro: {
+      heading: "Save Word documents as PDF",
+      paragraphs: [
+        "Turn a resume, letter, assignment or form into a PDF that opens the same everywhere. Headings, bold and italic text, bulleted and numbered lists, tables and pictures are kept, and links are marked.",
+        "The DOCX is read and the PDF is built in your browser, so your document isn't uploaded. Because Word isn't doing the layout, exact fonts, columns, headers, footers and page breaks can differ from the original.",
+      ],
+    },
+    steps: [
+      { title: "Add a Word file", body: `Choose up to ${MAX_FILES_PER_BATCH} DOCX files.` },
+      { title: "Pick the page size", body: "A4 for India and Europe, Letter for the US." },
+      { title: "Convert and download", body: "Get one PDF per document." },
+    ],
+    faqs: [
+      {
+        question: "Can I convert old .doc files?",
+        answer: "Not yet. Open the file in Word or Google Docs, save it as .docx, then add it here.",
+      },
+      {
+        question: "Will it look exactly like Word?",
+        answer:
+          "The content and structure are kept, but the layout is rebuilt with one standard font, so line breaks and page breaks may fall in different places. Text boxes, headers, footers and footnotes aren't included.",
+      },
+      pdfFonts,
+      inBrowser,
+      officeLimit,
+    ],
+    relatedGuides: pdfGuides,
+  },
+  "pdf-to-word": {
+    intro: {
+      heading: "Turn a PDF into an editable Word file",
+      paragraphs: [
+        "Need to change a PDF you only have as a file? This tool pulls the text out page by page, joins broken lines back into paragraphs, turns large text into Word headings and saves a DOCX you can edit in Word, Google Docs or LibreOffice.",
+        "You get the words, not a copy of the design: images, colours and the exact layout aren't recreated. The PDF is read in your browser and never uploaded.",
+      ],
+    },
+    steps: [
+      { title: "Add a PDF", body: `Choose up to ${MAX_FILES_PER_BATCH} PDF files.` },
+      { title: "Wait a moment", body: "Conversion starts as soon as the file is added." },
+      { title: "Download the DOCX", body: "Each PDF page starts on a new Word page." },
+    ],
+    faqs: [
+      {
+        question: "Are images and tables kept?",
+        answer:
+          "Images aren't copied. Table text is kept, with tabs between the columns. For tables you want to calculate with, PDF to Excel gives better results.",
+      },
+      scannedPdf,
+      passwordPdf,
+      inBrowser,
+      pdfLimit,
+    ],
+    relatedGuides: pdfGuides,
+  },
+  "pdf-to-text": {
+    intro: {
+      heading: "Copy all the text out of a PDF",
+      paragraphs: [
+        "Get the words from a PDF as a plain TXT file you can paste into an email, a form, a notes app or an AI chat. Lines are kept in reading order, paragraphs are separated, and pages are split by blank lines.",
+        "It works in any language the PDF contains as text, because a TXT file has no fonts to worry about. Everything happens in your browser.",
+      ],
+    },
+    steps: [
+      { title: "Add a PDF", body: `Choose up to ${MAX_FILES_PER_BATCH} PDF files.` },
+      { title: "Wait a moment", body: "Text extraction starts as soon as the file is added." },
+      { title: "Download the TXT", body: "Open it in any text editor or check it with View." },
+    ],
+    faqs: [
+      {
+        question: "What encoding is the file?",
+        answer: "UTF-8, which opens correctly in Notepad, TextEdit, VS Code and every modern app, including Hindi and other scripts.",
+      },
+      scannedPdf,
+      passwordPdf,
+      inBrowser,
+      pdfLimit,
+    ],
+    relatedGuides: pdfGuides,
+  },
+  "csv-to-excel": {
+    intro: {
+      heading: "Open CSV files in Excel without the mess",
+      paragraphs: [
+        "Double-clicking a CSV often breaks it: Hindi text turns into symbols, phone numbers lose their leading zero, and 16-digit IDs become 1.23E+15. This converter saves a proper XLSX workbook instead, with numbers as numbers and IDs, PIN codes and phone numbers kept exactly as written.",
+        "Commas, semicolons, tabs and pipes are detected automatically, quoted fields with commas or line breaks stay in one cell, and UTF-8 and older Windows encodings are both read. Nothing is uploaded.",
+      ],
+    },
+    steps: [
+      { title: "Add a CSV", body: `Choose up to ${MAX_FILES_PER_BATCH} CSV files.` },
+      { title: "Wait a moment", body: "Conversion starts as soon as the file is added." },
+      { title: "Download the XLSX", body: "Open it in Excel, Google Sheets or Numbers." },
+    ],
+    faqs: [
+      {
+        question: "Which values become numbers?",
+        answer:
+          "Plain numbers like 1250, 1,250.75 or 1,25,000 become numbers you can add up. Values with a leading zero, whole numbers over 11 digits (like Aadhaar or account numbers), currency signs or units stay as text, so nothing gets rounded or shown as 1.23E+11.",
+      },
+      {
+        question: "Are dates converted?",
+        answer: "Dates are kept as text exactly as written, so 03/04/2026 never silently swaps day and month. You can format them as dates in Excel afterwards.",
+      },
+      inBrowser,
+      officeLimit,
+    ],
+    relatedGuides: pdfGuides,
+  },
+  "excel-to-csv": {
+    intro: {
+      heading: "Save Excel sheets as CSV",
+      paragraphs: [
+        "Many banks, payroll portals, marketplaces and databases only accept CSV uploads. This tool saves every visible sheet of an XLSX, XLS or ODS workbook as its own CSV, with values written the way Excel shows them.",
+        "Files are UTF-8 with a byte order mark, so Excel, Google Sheets and import tools read Hindi and other scripts correctly. Several sheets come back together in one ZIP. Everything runs in your browser.",
+      ],
+    },
+    steps: [
+      { title: "Add a workbook", body: `Choose up to ${MAX_FILES_PER_BATCH} XLSX, XLS or ODS files.` },
+      { title: "Wait a moment", body: "Conversion starts as soon as the file is added." },
+      { title: "Download the CSV", body: "One sheet gives one CSV; more sheets come as a ZIP." },
+    ],
+    faqs: [
+      {
+        question: "Which separator is used?",
+        answer: "A comma, with values that contain commas, quotes or line breaks wrapped in quotes, the standard format every importer understands.",
+      },
+      {
+        question: "Are formulas kept?",
+        answer: "CSV can't store formulas, so each cell's last saved result is written instead.",
+      },
+      inBrowser,
+      officeLimit,
     ],
     relatedGuides: pdfGuides,
   },

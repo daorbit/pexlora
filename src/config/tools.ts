@@ -4,6 +4,9 @@ import {
   Combine,
   Crop,
   FileImage,
+  FilePen,
+  FileSpreadsheet,
+  FileText,
   IdCard,
   Images,
   Layers,
@@ -17,7 +20,10 @@ import {
   Shapes,
   SquareUser,
   Stamp,
+  Sheet,
   SwitchCamera,
+  Table,
+  TextSelect,
 } from "lucide-react";
 import { AltTextIcon } from "@/components/icons/AltTextIcon";
 import { CompressImageIcon } from "@/components/icons/CompressImageIcon";
@@ -53,9 +59,16 @@ export type WorkspaceToolSlug =
   | "passport-photo"
   | "organize-pdf"
   | "pdf-page-numbers"
-  | "pdf-watermark";
+  | "pdf-watermark"
+  | "excel-to-pdf"
+  | "pdf-to-excel"
+  | "word-to-pdf"
+  | "pdf-to-word"
+  | "pdf-to-text"
+  | "csv-to-excel"
+  | "excel-to-csv";
 
-export type ToolCategory = "metadata" | "image" | "pdf" | "ai" | "utility";
+export type ToolCategory = "metadata" | "image" | "pdf" | "convert" | "ai" | "utility";
 
 export type WorkspaceTool = {
   slug: WorkspaceToolSlug;
@@ -72,6 +85,7 @@ export const toolCategories: Record<ToolCategory, string> = {
   metadata: "Metadata tools",
   image: "Image tools",
   pdf: "PDF tools",
+  convert: "File converters",
   ai: "AI tools",
   utility: "Utilities",
 };
@@ -351,6 +365,83 @@ export const workspaceTools: WorkspaceTool[] = [
     headline: "Convert PDF pages to JPG images.",
     description:
       "Save all or just the pages you pick as sharp JPG or PNG images, at screen or print sharpness, in one ZIP. Rendered in your browser, nothing is uploaded.",
+  },
+  {
+    slug: "excel-to-pdf",
+    category: "convert",
+    href: routes.excelToPdf,
+    icon: FileSpreadsheet,
+    name: "Excel to PDF",
+    shortName: "Excel to PDF",
+    headline: "Convert Excel spreadsheets to PDF.",
+    description:
+      "Turn XLSX, XLS, ODS and CSV sheets into a clean, printable PDF table, one section per sheet, fitted to A4 or Letter. Converted in your browser, nothing is uploaded.",
+  },
+  {
+    slug: "pdf-to-excel",
+    category: "convert",
+    href: routes.pdfToExcel,
+    icon: Sheet,
+    name: "PDF to Excel",
+    shortName: "PDF to Excel",
+    headline: "Convert PDF tables to Excel.",
+    description:
+      "Pull tables and text out of a PDF into an editable Excel sheet, with numbers kept as numbers. Works on PDFs with real text, read in your browser, nothing is uploaded.",
+  },
+  {
+    slug: "word-to-pdf",
+    category: "convert",
+    href: routes.wordToPdf,
+    icon: FileText,
+    name: "Word to PDF",
+    shortName: "Word to PDF",
+    headline: "Convert Word documents to PDF.",
+    description:
+      "Turn DOCX files into PDF with headings, paragraphs, lists, tables and images kept. Converted in your browser, nothing is uploaded.",
+  },
+  {
+    slug: "pdf-to-word",
+    category: "convert",
+    href: routes.pdfToWord,
+    icon: FilePen,
+    name: "PDF to Word",
+    shortName: "PDF to Word",
+    headline: "Convert PDF to an editable Word document.",
+    description:
+      "Get the text of a PDF into a DOCX file you can edit, with paragraphs and headings rebuilt and one section per page. Read in your browser, nothing is uploaded.",
+  },
+  {
+    slug: "pdf-to-text",
+    category: "convert",
+    href: routes.pdfToText,
+    icon: TextSelect,
+    name: "PDF to Text",
+    shortName: "PDF to Text",
+    headline: "Extract the text from a PDF.",
+    description:
+      "Copy all the text out of a PDF into a plain TXT file, page by page, ready to paste anywhere. Read in your browser, nothing is uploaded.",
+  },
+  {
+    slug: "csv-to-excel",
+    category: "convert",
+    href: routes.csvToExcel,
+    icon: Table,
+    name: "CSV to Excel",
+    shortName: "CSV to Excel",
+    headline: "Convert CSV files to Excel.",
+    description:
+      "Turn CSV files into XLSX workbooks with numbers as numbers, leading zeros and long IDs kept intact, and Hindi or other scripts shown correctly. Converted in your browser.",
+  },
+  {
+    slug: "excel-to-csv",
+    category: "convert",
+    href: routes.excelToCsv,
+    icon: FileSpreadsheet,
+    name: "Excel to CSV",
+    shortName: "Excel to CSV",
+    headline: "Convert Excel sheets to CSV.",
+    description:
+      "Save every sheet of an XLSX, XLS or ODS workbook as a UTF-8 CSV file that opens correctly in Excel, Google Sheets and databases. Converted in your browser.",
   },
 ];
 

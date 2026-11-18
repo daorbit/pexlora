@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { compressTargetPath, type CompressTarget } from "@/config/compress-targets";
 import { conversionPath, type Conversion } from "@/config/conversions";
 import { formPresetPath, type FormPreset } from "@/config/form-presets";
+import { imagePdfPath, type ImagePdfVariant } from "@/config/image-pdf-variants";
 import { getTextTool, type TextToolSlug } from "@/config/text-tools";
 import { getWorkspaceTool, type WorkspaceToolSlug } from "@/config/tools";
 import { getUtilityTool, type UtilityToolSlug } from "@/config/utility-tools";
@@ -36,6 +37,13 @@ const toolTitles: Record<WorkspaceToolSlug, string> = {
   "organize-pdf": "Organize PDF: Delete, Reorder & Extract PDF Pages Free",
   "pdf-page-numbers": "Add Page Numbers to PDF Online Free",
   "pdf-watermark": "Add Watermark to PDF Online: Text Watermark Free",
+  "excel-to-pdf": "Excel to PDF Converter: XLSX & CSV to PDF Online Free",
+  "pdf-to-excel": "PDF to Excel Converter: Extract PDF Tables to XLSX Free",
+  "word-to-pdf": "Word to PDF Converter: DOCX to PDF Online Free",
+  "pdf-to-word": "PDF to Word Converter: PDF to Editable DOCX Free",
+  "pdf-to-text": "PDF to Text Converter: Extract Text from PDF Free",
+  "csv-to-excel": "CSV to Excel Converter: CSV to XLSX Online Free",
+  "excel-to-csv": "Excel to CSV Converter: XLSX to UTF-8 CSV Free",
 };
 
 const textToolTitles: Record<TextToolSlug, string> = {
@@ -63,6 +71,15 @@ export function conversionMetadata(conversion: Conversion): Metadata {
     toolPageCopy.conversionMetaDescription(conversion.from, conversion.toLabel),
     conversionPath(conversion.slug),
     [`${conversion.from} to ${conversion.toLabel}`, `convert ${conversion.from} to ${conversion.toLabel}`],
+  );
+}
+
+export function imagePdfMetadata(variant: ImagePdfVariant): Metadata {
+  return pageMetadata(
+    toolPageCopy.imagePdfTitle(variant.from),
+    toolPageCopy.imagePdfMetaDescription(variant.from),
+    imagePdfPath(variant.slug),
+    [`${variant.from} to PDF`, `convert ${variant.from} to PDF`],
   );
 }
 

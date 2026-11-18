@@ -7,8 +7,11 @@ import {
   IMAGE_FLIPS,
   IMAGE_ROTATIONS,
   IMAGE_SHAPES,
+  PAGE_ORIENTATIONS,
   PALETTE_SIZES,
   PDF_IMAGE_QUALITIES,
+  PDF_PAGE_SIZES,
+  PDF_SHEET_LAYOUTS,
   SHAPE_BACKGROUNDS,
   SHAPE_CORNERS,
   isCompressionLevel,
@@ -140,6 +143,17 @@ export function optionsFromParams(tool: WorkspaceToolSlug, params: URLSearchPara
       };
     case "image-palette":
       return { ...base, palette: { size: readOneOf(params, "colors", PALETTE_SIZES, base.palette.size) } };
+    case "excel-to-pdf":
+    case "word-to-pdf":
+      return {
+        ...base,
+        pdfPage: {
+          size: readOneOf(params, "size", PDF_PAGE_SIZES, base.pdfPage.size),
+          orientation: readOneOf(params, "orientation", PAGE_ORIENTATIONS, base.pdfPage.orientation),
+        },
+      };
+    case "pdf-to-excel":
+      return { ...base, pdfSheet: { layout: readOneOf(params, "sheets", PDF_SHEET_LAYOUTS, base.pdfSheet.layout) } };
     case "pdf-to-jpg": {
       const format = params.get("format");
       return {
@@ -230,6 +244,11 @@ export function optionsToParams(tool: WorkspaceToolSlug, options: ToolOptions): 
     }
     case "image-palette":
       return { colors: options.palette.size };
+    case "excel-to-pdf":
+    case "word-to-pdf":
+      return { size: options.pdfPage.size, orientation: options.pdfPage.orientation };
+    case "pdf-to-excel":
+      return { sheets: options.pdfSheet.layout };
     case "pdf-to-jpg":
       return { format: options.pdfImage.format === "png" ? "png" : "jpg", quality: options.pdfImage.quality };
     case "change-dpi":

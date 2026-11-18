@@ -1,11 +1,12 @@
 import { compressTargetIconSrc, compressTargetPath, defaultCompressTarget } from "@/config/compress-targets";
 import { toolPageCopy } from "@/content/tool-pages";
 import { conversionIconSrc, conversionPath, popularConversions, type Conversion } from "@/config/conversions";
+import { imagePdfPath, imagePdfVariants } from "@/config/image-pdf-variants";
 import { textToolIconSrc, textTools } from "@/config/text-tools";
 import { toolIconSrc, workspaceTools, type ToolCategory } from "@/config/tools";
 import { utilityToolIconSrc, utilityTools } from "@/config/utility-tools";
 
-export type HubCategory = ToolCategory | "convert";
+export type HubCategory = ToolCategory;
 
 export type HubItem = {
   key: string;
@@ -91,7 +92,16 @@ export function conversionItem(conversion: Conversion): HubItem {
   };
 }
 
-export const hubItems: HubItem[] = [...toolItems, ...popularConversions.map(conversionItem)];
+const imagePdfItems: HubItem[] = imagePdfVariants.map((variant) => ({
+  key: variant.slug,
+  name: toolPageCopy.imagePdfName(variant.from),
+  description: toolPageCopy.imagePdfDescription(variant.from),
+  href: imagePdfPath(variant.slug),
+  iconSrc: toolIconSrc("jpg-to-pdf"),
+  category: "convert",
+}));
+
+export const hubItems: HubItem[] = [...toolItems, ...imagePdfItems, ...popularConversions.map(conversionItem)];
 
 export function hubItemsIn(category: HubCategory) {
   return hubItems.filter((item) => item.category === category);
@@ -110,6 +120,7 @@ const MENU_ITEMS_PER_GROUP = 5;
 const menuPicks: Partial<Record<HubCategory, string[]>> = {
   image: ["compress-image", "compress-to-size", "resize-image", "crop-image", "form-photo"],
   pdf: ["merge-pdf", "split-pdf", "organize-pdf", "jpg-to-pdf", "pdf-to-jpg"],
+  convert: ["pdf-to-word", "word-to-pdf", "pdf-to-excel", "excel-to-pdf", "csv-to-excel"],
 };
 
 function menuItemsFor(category: HubCategory) {

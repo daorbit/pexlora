@@ -47,6 +47,13 @@ export const toolPageCopy = {
   conversionTitle: (from: string, to: string) => `Convert ${from} to ${to} Online Free`,
   conversionMetaDescription: (from: string, to: string) =>
     `Free ${from} to ${to} converter. Convert ${from} images to ${to} online at maximum quality, with batch conversion and metadata removed. No sign-up.`,
+  imagePdfName: (from: string) => `${from} to PDF`,
+  imagePdfHeadline: (from: string) => `Convert ${from} to PDF.`,
+  imagePdfDescription: (from: string) =>
+    `Put ${from} images into one PDF, one image per A4 page, in the order you choose. Built in your browser, with no photo metadata inside.`,
+  imagePdfTitle: (from: string) => `${from} to PDF Converter: Combine ${from} Images into One PDF Free`,
+  imagePdfMetaDescription: (from: string) =>
+    `Free ${from} to PDF converter. Combine ${from} images into a single PDF in your browser, one image per page, with no upload and no sign-up.`,
   compressTargets: { eyebrow: "Target sizes", title: "Compress to an exact size." },
   compressTargetLink: (size: string) => `Under ${size}`,
   compressTargetName: (size: string) => `Compress to ${size}`,
