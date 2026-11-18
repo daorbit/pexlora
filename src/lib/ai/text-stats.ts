@@ -1,6 +1,6 @@
 import type { TextStats } from "@/lib/ai/types";
 
-const AI_PHRASES = [
+export const AI_PHRASES = [
   "delve",
   "tapestry",
   "testament to",
@@ -23,13 +23,38 @@ const AI_PHRASES = [
   "elevate your",
   "harness the power",
   "game-changer",
+  "it's worth noting",
+  "it is worth noting",
+  "in the realm of",
+  "a testament",
+  "rich tapestry",
+  "stands as",
+  "serves as a",
+  "in summary",
+  "additionally",
+  "pivotal",
+  "paramount",
+  "underscores",
+  "showcasing",
+  "cutting-edge",
+  "transformative",
+  "seamless",
+  "holistic",
+  "leverage",
+  "utilize",
+  "a plethora of",
+  "embark",
+  "unleash",
+  "revolutionize",
+  "in the ever",
+  "when it comes to",
 ];
 
 export function countWords(text: string) {
   return text.trim().split(/\s+/).filter(Boolean).length;
 }
 
-function splitSentences(text: string) {
+export function splitSentences(text: string) {
   return text
     .split(/(?<=[.!?])\s+/)
     .map((sentence) => sentence.trim())

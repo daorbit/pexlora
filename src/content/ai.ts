@@ -1,6 +1,7 @@
 import { AI_NAME } from "@/config/brand";
 import { AI_DAILY_LIMITS, AI_TEXT_LIMITS } from "@/config/limits";
-import type { FindingLevel, TextVerdict } from "@/lib/ai/types";
+import type { HumanLevel, HumanSignal } from "@/lib/ai/human-score";
+import type { FindingLevel, HumanizeStrength, HumanizeTone, TextVerdict } from "@/lib/ai/types";
 
 export const aiCopy = {
   resting: `${AI_NAME} has used today's free capacity. It's back after midnight UTC (5:30 AM IST). Every other tool still works.`,
@@ -59,14 +60,68 @@ export const textToolCopy = {
     variation: "Rhythm variation",
     vocabulary: "Vocabulary range",
   },
+  toHumanizer: "Humanize This Text",
   disclaimer:
     "AI detection is an estimate, not proof. No detector is fully reliable, so never use this score alone to judge someone's work.",
   sampleText:
     "In today's fast-paced digital landscape, it is important to note that effective communication plays a crucial role in the success of any organization. Moreover, by leveraging innovative strategies and fostering a culture of collaboration, teams can unlock their full potential and navigate the complexities of the modern workplace. Furthermore, embracing continuous learning allows individuals to elevate their skills and remain competitive. In conclusion, organizations that prioritize these elements will be well-positioned to thrive in an ever-evolving environment.",
 };
 
+export const humanizerCopy = {
+  run: "Humanize Text",
+  running: "Humanizing…",
+  again: "Humanize Again",
+  tone: "Tone",
+  strength: "Strength",
+  tones: {
+    natural: "Natural",
+    casual: "Casual",
+    professional: "Professional",
+    academic: "Academic",
+    simple: "Simple",
+  } satisfies Record<HumanizeTone, string>,
+  strengths: { light: "Light", balanced: "Balanced", strong: "Strong" } satisfies Record<HumanizeStrength, string>,
+  output: "Humanized text",
+  outputEmpty: "Your humanized text and its human score will appear here.",
+  liveScore: (score: number) => `${score}% human`,
+  liveScoreLabel: "Human score of your text",
+  steps: ["Reading your text", "Breaking the robotic rhythm", "Swapping stock phrases", "Varying sentence openers", "Polishing the flow"],
+  scoreLabel: "Human score",
+  before: "Before",
+  after: "After",
+  points: (delta: number) => `${delta > 0 ? "+" : ""}${delta} points`,
+  levels: {
+    human: "Reads like a person",
+    mostly: "Mostly natural",
+    robotic: "Still sounds machine-made",
+  } satisfies Record<HumanLevel, string>,
+  showChanges: "Highlight Changes",
+  signalsTitle: "What changed in the writing",
+  signals: {
+    rhythm: "Sentence rhythm",
+    phrases: "Free of stock phrases",
+    openers: "Varied openers",
+    short: "Short, punchy lines",
+    contractions: "Everyday contractions",
+    vocabulary: "Word variety",
+  } satisfies Record<HumanSignal, string>,
+  removedTitle: "Stock phrases removed",
+  stats: {
+    changed: "Words changed",
+    readingEase: "Reading ease",
+    words: "Words",
+  },
+  toDetector: "Check with AI Detector",
+  personalTip:
+    "Make it yours: add a real example, a number or your own opinion. Readers notice generic writing, and only you can add what you actually know.",
+  disclaimer:
+    "The human score is an estimate from writing signals such as rhythm, stock phrases and sentence openers. It is not a guarantee about any AI detector. Follow your school's or employer's rules on AI use.",
+  fileName: "humanized-text.txt",
+};
+
 export const aiToolRelatedGuides = {
   "ai-text-detector": ["ai-metadata-checker", "ai-image-cleaner", "remove-chatgpt-image-metadata", "remove-c2pa-content-credentials"],
+  "ai-humanizer": ["ai-metadata-checker", "ai-image-cleaner", "remove-chatgpt-image-metadata", "remove-c2pa-content-credentials"],
 };
 
 export const aiToolFaqs = {
@@ -84,6 +139,32 @@ export const aiToolFaqs = {
     {
       question: "Is my text stored?",
       answer: `No. Your text is sent to ${AI_NAME} to be analysed and is not saved by Pexlora.`,
+    },
+  ],
+  "ai-humanizer": [
+    {
+      question: "How does the AI humanizer work?",
+      answer:
+        `${AI_NAME} rewrites your text in the tone and strength you pick. It mixes short and long sentences, varies how sentences start, swaps stock phrases such as "delve", "moreover" and "in today's fast-paced world" for plain words, and adds contractions where the tone allows. Facts, names and numbers are kept.`,
+    },
+    {
+      question: "What does the human score mean?",
+      answer:
+        "It's an estimate from six writing signals: sentence rhythm, stock phrases, sentence openers, short lines, contractions and word variety. You see the score of your text before and after, and how each signal changed.",
+    },
+    {
+      question: "Will the result pass AI detectors?",
+      answer:
+        "We don't promise that, and no honest tool can. Detectors disagree with each other and change often. The goal is clearer, more natural writing. Always read the result, add your own knowledge and follow your school's or employer's rules on AI use.",
+    },
+    {
+      question: "What do Light, Balanced and Strong do?",
+      answer:
+        "Light keeps your structure and fixes stiff wording. Balanced rewrites each paragraph in new words. Strong writes it fresh from the ideas, so almost no original wording survives. Use Humanize Again to take the result one step further.",
+    },
+    {
+      question: "Is my text stored?",
+      answer: `No. Your text is sent to ${AI_NAME} to be rewritten and is not saved by Pexlora. The last result stays on your device for 24 hours so you don't lose it on reload.`,
     },
   ],
 };

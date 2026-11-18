@@ -1,9 +1,10 @@
 import { AI_NAME } from "@/config/brand";
 import { routes } from "@/config/site";
 import { AiDetectorIcon } from "@/components/icons/AiDetectorIcon";
+import { HumanizerIcon } from "@/components/icons/HumanizerIcon";
 import type { IconComponent } from "@/components/icons/types";
 
-export type TextToolSlug = "ai-text-detector";
+export type TextToolSlug = "ai-text-detector" | "ai-humanizer";
 
 export type TextTool = {
   slug: TextToolSlug;
@@ -27,6 +28,17 @@ export const textTools: TextTool[] = [
     headline: "Check if text was written by AI.",
     description:
       `Paste any text and ${AI_NAME} gives an AI likelihood score, the phrases that sound machine-written and the writing signals behind the estimate.`,
+  },
+  {
+    slug: "ai-humanizer",
+    href: routes.humanizer,
+    dashboardHref: routes.dashboardHumanizer,
+    icon: HumanizerIcon,
+    name: "AI Humanizer",
+    shortName: "Humanize Text",
+    headline: "Make AI text sound natural and human.",
+    description:
+      `${AI_NAME} rewrites stiff, AI-sounding text into natural writing in your tone and shows a live human score before and after. Facts, names and numbers stay the same.`,
   },
 ];
 

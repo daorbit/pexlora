@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type KeyboardEvent } from "react";
+import { useState, type KeyboardEvent, type ReactNode } from "react";
 import { ClipboardPaste, X } from "lucide-react";
 import { textToolCopy } from "@/content/ai";
 import { countWords } from "@/lib/ai/text-stats";
@@ -16,6 +16,7 @@ type TextInputProps = {
   label?: string;
   sampleText?: string;
   maxLength?: number;
+  meta?: ReactNode;
 };
 
 export function TextInput({
@@ -26,6 +27,7 @@ export function TextInput({
   label = textToolCopy.inputLabel,
   sampleText = textToolCopy.sampleText,
   maxLength = textToolCopy.maxCharacters,
+  meta,
 }: TextInputProps) {
   const [pasteFailed, setPasteFailed] = useState(false);
 
@@ -48,6 +50,7 @@ export function TextInput({
       meta={
         value && (
           <>
+            {meta}
             <span className="tabular-nums">{textToolCopy.words(countWords(value))}</span>
             <Button variant="icon" size="sm" aria-label={textToolCopy.clear} onClick={() => onChange("")} disabled={disabled}>
               <X className="size-4" aria-hidden />

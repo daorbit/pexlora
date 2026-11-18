@@ -1,6 +1,9 @@
 import type {
   AiResponse,
   AiTextReport,
+  HumanizeStrength,
+  HumanizeTone,
+  HumanizedText,
   ImageInsights,
   MetadataExplanation,
 } from "@/lib/ai/types";
@@ -45,3 +48,7 @@ export function detectAiText(text: string) {
   return postJson<AiResponse<AiTextReport>>("/api/ai/detect-text", { text });
 }
 
+
+export function humanizeText(text: string, tone: HumanizeTone, strength: HumanizeStrength) {
+  return postJson<AiResponse<HumanizedText>>("/api/ai/humanize-text", { text, tone, strength });
+}

@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { AI_TEXT_LIMITS } from "@/config/limits";
 import { countWords } from "@/lib/ai/text-stats";
+import { HUMANIZE_STRENGTHS, HUMANIZE_TONES } from "@/lib/ai/types";
 
 export const aiTextSchema = z.object({
   text: z
@@ -10,6 +11,11 @@ export const aiTextSchema = z.object({
     .refine((text) => countWords(text) >= AI_TEXT_LIMITS.minWords, {
       message: `Add at least ${AI_TEXT_LIMITS.minWords} words for a reliable result.`,
     }),
+});
+
+export const humanizeSchema = aiTextSchema.extend({
+  tone: z.enum(HUMANIZE_TONES).default("natural"),
+  strength: z.enum(HUMANIZE_STRENGTHS).default("balanced"),
 });
 
 export const metadataReportSchema = z.object({

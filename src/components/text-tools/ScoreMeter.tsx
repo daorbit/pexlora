@@ -2,14 +2,13 @@ import { textToolCopy } from "@/content/ai";
 import type { TextVerdict } from "@/lib/ai/types";
 import { cn } from "@/lib/utils/cn";
 import { Badge } from "@/components/ui/Badge";
+import { barWidth } from "@/components/text-tools/bar-widths";
 
 const verdictStyles: Record<TextVerdict, { bar: string; badge: "warning" | "neutral" | "success" }> = {
   "likely-ai": { bar: "bg-warning", badge: "warning" },
   mixed: { bar: "bg-tertiary", badge: "neutral" },
   "likely-human": { bar: "bg-success", badge: "success" },
 };
-
-const widths = ["w-0", "w-1/12", "w-2/12", "w-3/12", "w-4/12", "w-5/12", "w-6/12", "w-7/12", "w-8/12", "w-9/12", "w-10/12", "w-11/12", "w-full"];
 
 export function ScoreMeter({ score, verdict }: { score: number; verdict: TextVerdict }) {
   const style = verdictStyles[verdict];
@@ -32,7 +31,7 @@ export function ScoreMeter({ score, verdict }: { score: number; verdict: TextVer
           className={cn(
             "h-full origin-left rounded-full motion-safe:animate-grow-x",
             style.bar,
-            widths[Math.round((score / 100) * 12)],
+            barWidth(score),
           )}
         />
       </div>

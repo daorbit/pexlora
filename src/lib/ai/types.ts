@@ -32,4 +32,12 @@ export type AiTextReport = {
   stats: TextStats;
 };
 
+export const HUMANIZE_TONES = ["natural", "casual", "professional", "academic", "simple"] as const;
+export type HumanizeTone = (typeof HUMANIZE_TONES)[number];
+
+export const HUMANIZE_STRENGTHS = ["light", "balanced", "strong"] as const;
+export type HumanizeStrength = (typeof HUMANIZE_STRENGTHS)[number];
+
+export type HumanizedText = { text: string };
+
 export type AiResponse<T> = T & { quotaRemaining: number | null };
