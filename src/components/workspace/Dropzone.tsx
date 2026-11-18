@@ -49,17 +49,21 @@ export function Dropzone({
     <div
       onClick={onClick}
       className={cn(
-        "group/drop flex cursor-pointer flex-col items-center justify-center rounded-2xl border-[1.5px] border-dashed px-5 text-center transition-colors active:bg-fill sm:px-8",
+        "group/drop flex cursor-pointer flex-col items-center justify-center rounded-2xl border-[1.5px] border-dashed px-5 text-center transition-[background-color,border-color,scale] duration-300 active:bg-fill sm:px-8",
         short ? "min-h-44 gap-4 py-6 sm:min-h-52 sm:gap-5 sm:py-8" : "min-h-56 gap-5 py-8 sm:min-h-80 sm:gap-8 sm:py-14",
-        isDragging ? "border-foreground bg-fill" : "border-border-strong bg-surface sm:hover:border-foreground/40",
+        isDragging ? "border-foreground bg-accent-soft motion-safe:scale-[1.01]" : "border-border-strong bg-surface sm:hover:border-foreground/40",
         className,
       )}
     >
       <div className="flex flex-col items-center gap-3.5 sm:gap-5">
-        <Upload
-          className="size-10 stroke-[1.4] text-foreground transition-transform group-hover/drop:-translate-y-0.5 sm:size-12"
-          aria-hidden
-        />
+        <span
+          className={cn(
+            "flex size-16 items-center justify-center rounded-full transition-colors duration-300 sm:size-20",
+            isDragging ? "bg-primary text-primary-foreground" : "bg-fill text-foreground group-hover/drop:bg-fill-strong",
+          )}
+        >
+          <Upload className="size-8 stroke-[1.5] motion-safe:animate-float-y sm:size-9" aria-hidden />
+        </span>
         <div className="flex min-w-0 flex-col gap-2 sm:gap-3">
           <p className="text-[18px] font-semibold tracking-[-0.02em] sm:text-[22px]">
             <span className="sm:hidden">{override?.mobileTitle ?? dropzoneCopy.mobileTitle(accepts)}</span>

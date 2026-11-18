@@ -350,7 +350,7 @@ export const workspaceTools: WorkspaceTool[] = [
     shortName: "PDF to JPG",
     headline: "Convert PDF pages to JPG images.",
     description:
-      "Save every page of a PDF as a sharp JPG image and download them together as a ZIP. Rendered in your browser, nothing is uploaded.",
+      "Save all or just the pages you pick as sharp JPG or PNG images, at screen or print sharpness, in one ZIP. Rendered in your browser, nothing is uploaded.",
   },
 ];
 

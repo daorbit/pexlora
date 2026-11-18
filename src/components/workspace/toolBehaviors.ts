@@ -8,6 +8,7 @@ import {
   getFormPhotoError,
   getMetadataFieldsError,
   getOrganizeError,
+  getPdfImageError,
   getResizeError,
   getRotateImageError,
   getWatermarkError,
@@ -54,10 +55,13 @@ export type ToolAction = {
   zipName: string;
 };
 
+export type WorkspaceLayout = "rows" | "gallery" | "documents";
+
 type ToolBehavior = {
   accepts: FileKind[];
   localCapable: boolean;
   inspectOnAdd: boolean;
+  layout?: WorkspaceLayout;
   action?: ToolAction;
 };
 
@@ -78,6 +82,7 @@ export const toolBehaviors: Record<WorkspaceToolSlug, ToolBehavior> = {
     accepts: ["image"],
     localCapable: false,
     inspectOnAdd: false,
+    layout: "gallery",
     action: {
       label: "Convert Images",
       doneLabel: "Converted",
@@ -313,6 +318,7 @@ export const toolBehaviors: Record<WorkspaceToolSlug, ToolBehavior> = {
     accepts: ["pdf"],
     localCapable: true,
     inspectOnAdd: false,
+    layout: "documents",
     action: {
       label: "Merge PDFs",
       doneLabel: "Merged",
@@ -351,6 +357,7 @@ export const toolBehaviors: Record<WorkspaceToolSlug, ToolBehavior> = {
     accepts: ["image"],
     localCapable: true,
     inspectOnAdd: false,
+    layout: "documents",
     action: {
       label: "Create PDF",
       doneLabel: "Created",
@@ -365,11 +372,11 @@ export const toolBehaviors: Record<WorkspaceToolSlug, ToolBehavior> = {
     localCapable: true,
     inspectOnAdd: false,
     action: {
-      label: "Convert to JPG",
+      label: "Convert Pages",
       doneLabel: "Converted",
       note: localToolsCopy.onDevice,
-      autoRun: true,
-      run: (file) => pdfToJpgFile(file),
+      run: (file, { pdfImage }) => pdfToJpgFile(file, pdfImage),
+      validate: ({ pdfImage }) => getPdfImageError(pdfImage),
       zipName: "pdf-images.zip",
     },
   },

@@ -98,6 +98,12 @@ export type ShapeCorners = (typeof SHAPE_CORNERS)[number];
 export const SHAPE_BACKGROUNDS = ["transparent", "white"] as const;
 export type ShapeBackground = (typeof SHAPE_BACKGROUNDS)[number];
 
+export const PDF_IMAGE_FORMATS = ["jpeg", "png"] as const;
+export type PdfImageFormat = (typeof PDF_IMAGE_FORMATS)[number];
+
+export const PDF_IMAGE_QUALITIES = ["screen", "print"] as const;
+export type PdfImageQuality = (typeof PDF_IMAGE_QUALITIES)[number];
+
 export const PALETTE_SIZES = ["5", "8", "12"] as const;
 export type PaletteSize = (typeof PALETTE_SIZES)[number];
 
@@ -111,6 +117,7 @@ export type PassportOptions = { size: PassportSize; sheet: PrintSheet; copies: P
 export type PageNumberOptions = { position: PageNumberPosition; style: PageNumberStyle; skipFirst: boolean };
 export type WatermarkOptions = { text: string; layout: WatermarkLayout; opacity: WatermarkOpacity };
 export type OrganizeOptions = { pages: string };
+export type PdfImageOptions = { pages: string; format: PdfImageFormat; quality: PdfImageQuality };
 export type HeicOptions = { format: RasterFormat };
 export type RotateOptions = { angle: RotateAngle };
 export type SvgRasterOptions = { format: SvgOutputFormat; size: SvgSize };
@@ -149,6 +156,7 @@ export type ToolOptions = {
   pageNumbers: PageNumberOptions;
   watermark: WatermarkOptions;
   organize: OrganizeOptions;
+  pdfImage: PdfImageOptions;
   dpi: DpiOptions;
   rotateImage: RotateImageOptions;
   shape: ShapeOptions;
@@ -170,6 +178,7 @@ export const DEFAULT_TOOL_OPTIONS: ToolOptions = {
   pageNumbers: { position: "bottom-center", style: "number", skipFirst: false },
   watermark: { text: "Confidential", layout: "diagonal", opacity: "medium" },
   organize: { pages: "" },
+  pdfImage: { pages: "", format: "jpeg", quality: "screen" },
   dpi: { dpi: 300 },
   rotateImage: { angle: "90", flip: "none" },
   shape: { shape: "circle", corners: "medium", background: "transparent" },
@@ -257,6 +266,10 @@ export function getWatermarkError({ text }: WatermarkOptions) {
   if (value.length > MAX_WATERMARK_LENGTH) return `Keep the watermark under ${MAX_WATERMARK_LENGTH} characters.`;
   if (!WATERMARK_CHARACTERS.test(value)) return "Use English letters, numbers and common symbols. Other scripts aren't supported yet.";
   return null;
+}
+
+export function getPdfImageError({ pages }: PdfImageOptions) {
+  return getOrganizeError({ pages });
 }
 
 export function getOrganizeError({ pages }: OrganizeOptions) {

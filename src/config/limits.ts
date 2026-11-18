@@ -43,6 +43,10 @@ export const PDF_PAGE_LIMIT = 200;
 
 export const PDF_RENDER_MAX_SIDE = 2400;
 
+export const PDF_PRINT_MAX_SIDE = 3600;
+
+export const PDF_IMAGE_DPI = { screen: 150, print: 300 } as const;
+
 export const FILE_SIZE_LIMITS_MB: Record<FileKind, number> = {
   image: 10,
   vector: 5,

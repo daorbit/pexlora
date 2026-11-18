@@ -413,6 +413,31 @@ export const stageCopy = {
   paletteOf: "Colours of the first image, most used first.",
 };
 
+export const pdfImageCopy = {
+  pages: "Pages",
+  pagesPlaceholder: "All pages, e.g. 1-3, 7",
+  pagesHint: "Tap pages in the preview or type a range. Applies to every PDF in the list.",
+  format: "Format",
+  formats: {
+    jpeg: { label: "JPG", hint: "Smaller files" },
+    png: { label: "PNG", hint: "Sharp text, bigger" },
+  },
+  quality: "Sharpness",
+  qualities: {
+    screen: { label: "Screen", hint: "150 DPI, smaller" },
+    print: { label: "Print", hint: "300 DPI, sharp text" },
+  },
+  output: (spec: string) => (spec ? `Pages ${spec} from each PDF` : "Every page from each PDF"),
+  zipNote: "One image per page. Several pages come back in one ZIP.",
+  pickerTitle: "Pick pages",
+  selected: (selected: number, total: number) => `${selected} of ${total} selected`,
+  all: "All",
+  odd: "Odd",
+  even: "Even",
+  first: "First",
+  toggle: (page: number, on: boolean) => `${on ? "Skip" : "Include"} page ${page}`,
+};
+
 export const organizeCopy = {
   title: "Pages",
   kept: (kept: number, total: number) => `${kept} of ${total} pages kept`,
@@ -452,12 +477,51 @@ export const revealCopy = {
   onDevice: "Processed on your device",
 };
 
+export const galleryCopy = {
+  stepFormat: "1. Convert to",
+  stepFiles: "2. Your images",
+  files: "Your images",
+  conversion: "Conversion",
+  count: (count: number, max: number) => `${count} of ${max}`,
+  addMore: "Add or drop more",
+  ready: "Ready",
+  working: "Converting…",
+  view: "View",
+  summary: (count: number, format: string) => `${count} ${count === 1 ? "image" : "images"} to ${format}`,
+  sizesIn: (bytes: string) => `${bytes} in`,
+  sizesInOut: (input: string, output: string) => `${input} in, ${output} out`,
+  run: (format: string) => `Convert to ${format}`,
+  noTransparency: "JPG has no transparency. Transparent areas turn white.",
+  remove: (name: string) => `Remove ${name}`,
+  change: (percent: number) => `${percent > 0 ? "+" : ""}${percent}% size`,
+};
+
+export const documentsCopy = {
+  title: (count: number) => `${count} ${count === 1 ? "file" : "files"}`,
+  reorder: "use the arrows to reorder",
+  addPdfs: "Add Files",
+  dropAnother: "Drop another file",
+  pages: (count: number) => `${count} ${count === 1 ? "page" : "pages"}`,
+  moveEarlier: (name: string) => `Move ${name} earlier`,
+  moveLater: (name: string) => `Move ${name} later`,
+  remove: (name: string) => `Remove ${name}`,
+  resultLabel: "Result",
+  result: (pages: number) => `1 PDF · ${pages} ${pages === 1 ? "page" : "pages"}`,
+  resultCounting: "1 PDF",
+  about: (size: string) => `about ${size}`,
+  order: "Page order",
+  cleanTitle: "Clean output",
+  infoRemoved: "Document info (title, author, app) is not carried over",
+};
+
 export const queueCopy = {
   addFiles: "Add Files",
   clearAll: "Clear All",
   dropMore: "Drop or paste more files",
   freeLeft: (count: number) => `${count} free ${count === 1 ? "file" : "files"} left today`,
   addToStart: "Add files to start",
+  progress: (done: number, total: number) => `${done} of ${total} done`,
+  working: (done: number, total: number) => `Working on ${Math.min(done + 1, total)} of ${total}`,
   cleared: (count: number) => `Cleared ${count} ${count === 1 ? "file" : "files"}`,
 };
 

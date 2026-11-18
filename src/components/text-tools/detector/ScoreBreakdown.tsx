@@ -1,6 +1,6 @@
 import { textToolCopy } from "@/content/ai";
 import { cn } from "@/lib/utils/cn";
-import { barWidth } from "@/components/text-tools/bar-widths";
+import { barWidth } from "@/components/ui/bar-widths";
 
 export function ScoreBreakdown({ model, pattern }: { model: number; pattern: number }) {
   const rows = [

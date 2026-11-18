@@ -15,7 +15,7 @@ export function SettingsPanel({ children }: { children: ReactNode }) {
       ref={ref}
       aria-label="Settings"
       className={cn(
-        "flex flex-col gap-3.5 rounded-[20px] bg-surface p-4 shadow-card sm:gap-4 sm:rounded-[22px] sm:p-5",
+        "flex flex-col gap-3.5 rounded-[20px] bg-surface p-4 shadow-card motion-safe:animate-fade-up motion-safe:[animation-duration:0.5s] sm:gap-4 sm:rounded-[22px] sm:p-5",
         fits && "lg:sticky lg:top-(--panel-top,5rem)",
       )}
     >

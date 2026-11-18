@@ -7,6 +7,8 @@ import {
   MAX_METADATA_TEXT_LENGTH,
   MAX_RESIZE_DIMENSION,
   PDF_PAGE_LIMIT,
+  PDF_IMAGE_DPI,
+  PDF_PRINT_MAX_SIDE,
   PDF_RENDER_MAX_SIDE,
   RESIZE_PERCENT_RANGE,
 } from "@/config/limits";
@@ -800,19 +802,19 @@ export const toolGuides: Record<WorkspaceToolSlug, ToolGuide> = {
     intro: {
       heading: "Save PDF pages as JPG images",
       paragraphs: [
-        "Turn each page of a PDF into a JPG you can post, send in a chat or drop into a presentation. Pages are rendered sharply, and several pages come together in one ZIP.",
+        "Turn the pages of a PDF into JPG or PNG images you can post, send in a chat or drop into a presentation. Tap the pages you need or type a range, pick Screen or Print sharpness, and several pages come together in one ZIP.",
         "Rendering happens in your browser with the same engine Firefox uses to show PDFs, so your document isn't uploaded.",
       ],
     },
     steps: [
       { title: "Add a PDF", body: `Choose up to ${MAX_FILES_PER_BATCH} PDF files.` },
-      { title: "Wait a moment", body: "Every page is rendered to a JPG right away." },
-      { title: "Download the images", body: "One page gives a JPG; more pages come as a ZIP." },
+      { title: "Pick pages and sharpness", body: "Tap pages or type a range like 1-3, 7. Screen is 150 DPI, Print is 300 DPI." },
+      { title: "Convert and download", body: "One page gives a single image; more pages come as a ZIP." },
     ],
     faqs: [
       {
         question: "What resolution are the images?",
-        answer: `Pages are rendered at twice their normal size, up to ${PDF_RENDER_MAX_SIDE} pixels on the longest side, which is sharp enough for screens and most printing.`,
+        answer: `Screen renders at ${PDF_IMAGE_DPI.screen} DPI (up to ${PDF_RENDER_MAX_SIDE} pixels on the longest side), Print at ${PDF_IMAGE_DPI.print} DPI (up to ${PDF_PRINT_MAX_SIDE} pixels), which covers A4 and Letter pages at full print sharpness.`,
       },
       inBrowser,
       passwordPdf,

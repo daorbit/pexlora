@@ -5,7 +5,7 @@ import { AI_TEXT_LIMITS } from "@/config/limits";
 import { aiCopy, textToolCopy } from "@/content/ai";
 import { cn } from "@/lib/utils/cn";
 import { AiButton } from "@/components/ai/AiButton";
-import { barWidth } from "@/components/text-tools/bar-widths";
+import { barWidth } from "@/components/ui/bar-widths";
 
 type RunBarProps = {
   label: string;

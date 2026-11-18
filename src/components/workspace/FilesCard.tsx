@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/Button";
 type FilesCardProps = {
   fileCount: number;
   totalBytes: number;
+  doneCount?: number;
   isDragging: boolean;
   canAddMore: boolean;
   disabled: boolean;
@@ -18,18 +19,23 @@ type FilesCardProps = {
   children: ReactNode;
 };
 
-export function FilesCard({ fileCount, totalBytes, isDragging, canAddMore, disabled, onAdd, onClear, children }: FilesCardProps) {
+export function FilesCard({ fileCount, totalBytes, doneCount = 0, isDragging, canAddMore, disabled, onAdd, onClear, children }: FilesCardProps) {
   return (
     <section
       aria-label={resultCopy.files(fileCount)}
       className={cn(
-        "overflow-clip rounded-[22px] bg-surface shadow-card ring-1 ring-transparent transition-shadow",
-        isDragging && "ring-foreground",
+        "overflow-clip rounded-[22px] bg-surface shadow-card ring-1 ring-transparent transition-[box-shadow,scale] duration-300",
+        isDragging && "ring-foreground motion-safe:scale-[1.005]",
       )}
     >
       <div className="flex items-center gap-2 px-4 py-3.5 sm:px-5">
         <span className="text-[15px] font-semibold">{resultCopy.files(fileCount)}</span>
         <span className="text-sm text-secondary tabular-nums">{formatBytes(totalBytes)}</span>
+        {doneCount > 0 && (
+          <span key={doneCount} className="rounded-md bg-accent-soft px-1.5 py-0.5 text-xs font-medium text-accent-text tabular-nums motion-safe:animate-pop">
+            {queueCopy.progress(doneCount, fileCount)}
+          </span>
+        )}
         <span className="flex-1" />
         <Button variant="nav" className="px-2 text-[13px]" onClick={onClear} disabled={disabled}>
           {queueCopy.clearAll}

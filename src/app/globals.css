@@ -151,6 +151,8 @@
   --animate-strike-in: strike-in 0.7s cubic-bezier(0.7, 0, 0.2, 1) both;
   --animate-shimmer: shimmer 1.8s ease-in-out infinite;
   --animate-orbit-spin: orbit-spin 2.4s linear infinite;
+  --animate-float-y: float-y 3.2s ease-in-out infinite;
+  --animate-done-flash: done-flash 1.4s ease-out both;
 
   @keyframes rail-dot {
     0%,
@@ -325,6 +327,25 @@
     }
     to {
       translate: 100% 0;
+    }
+  }
+
+  @keyframes float-y {
+    0%,
+    100% {
+      translate: 0 0;
+    }
+    50% {
+      translate: 0 -5px;
+    }
+  }
+
+  @keyframes done-flash {
+    from {
+      background-color: var(--accent-soft);
+    }
+    to {
+      background-color: var(--subtle);
     }
   }
 

@@ -26,6 +26,8 @@ export const FORMAT_MIME_TYPES: Record<OutputFormat, string> = {
 
 const imageFormats = formatsOfKind("image").filter((format) => format.serverReadable !== false);
 
+export const ALPHA_INPUT_FORMATS = ["png", "webp", "gif", "avif", "tiff"];
+
 export const INPUT_FORMAT_LABELS = imageFormats.map((format) => format.label);
 
 export const ACCEPTED_MIME_TYPES = imageFormats.flatMap((format) => format.mimeTypes);

@@ -4,6 +4,7 @@ import { Check, Download, LoaderCircle } from "lucide-react";
 import { queueCopy } from "@/content/workspace";
 import { cn } from "@/lib/utils/cn";
 import { Button } from "@/components/ui/Button";
+import { BatchProgress } from "@/components/workspace/BatchProgress";
 import { useDownloadGate } from "@/components/workspace/DownloadGate";
 
 type ActionBarProps = {
@@ -11,6 +12,7 @@ type ActionBarProps = {
   note?: string;
   readyCount: number;
   doneCount: number;
+  totalCount?: number;
   hasItems: boolean;
   isProcessing: boolean;
   disabled: boolean;
@@ -28,6 +30,7 @@ export function ActionBar({
   note,
   readyCount,
   doneCount,
+  totalCount = 0,
   hasItems,
   isProcessing,
   disabled,
@@ -55,13 +58,14 @@ export function ActionBar({
           arrow={!isProcessing}
           onClick={onRun}
           disabled={!readyCount || isProcessing || disabled}
-          className={bigButton}
+          className={cn(bigButton, "transition-transform motion-safe:active:scale-[0.98]")}
         >
           {isProcessing && <LoaderCircle className="size-4 animate-spin" aria-hidden />}
           {hasItems ? label : queueCopy.addToStart}
           {readyCount > 1 && ` (${readyCount})`}
         </Button>
       )}
+      {isProcessing && totalCount > 1 && <BatchProgress done={doneCount} total={totalCount} />}
       {!finished && doneCount > 1 && (
         <Button variant="secondary" size="xl" onClick={save} className={bigButton}>
           {downloadAllLabel}

@@ -16,6 +16,7 @@ const HeicOptionsBar = dynamic(() => import("@/components/workspace/options/Heic
 const MetadataOptionsBar = dynamic(() => import("@/components/workspace/options/MetadataOptionsBar").then((module) => module.MetadataOptionsBar));
 const OrganizeOptionsBar = dynamic(() => import("@/components/workspace/options/OrganizeOptionsBar").then((module) => module.OrganizeOptionsBar));
 const PageNumberOptionsBar = dynamic(() => import("@/components/workspace/options/PageNumberOptionsBar").then((module) => module.PageNumberOptionsBar));
+const PdfImageOptionsBar = dynamic(() => import("@/components/workspace/options/PdfImageOptionsBar").then((module) => module.PdfImageOptionsBar));
 const PassportOptionsBar = dynamic(() => import("@/components/workspace/options/PassportOptionsBar").then((module) => module.PassportOptionsBar));
 const ResizeOptionsBar = dynamic(() => import("@/components/workspace/options/ResizeOptionsBar").then((module) => module.ResizeOptionsBar));
 const RotateOptionsBar = dynamic(() => import("@/components/workspace/options/RotateOptionsBar").then((module) => module.RotateOptionsBar));
@@ -131,6 +132,14 @@ export function ToolOptionsBar({ tool, options, onChange, disabled, sourceFile }
         <WatermarkOptionsBar
           options={options.watermark}
           onChange={(watermark) => onChange({ ...options, watermark })}
+          disabled={disabled}
+        />
+      );
+    case "pdf-to-jpg":
+      return (
+        <PdfImageOptionsBar
+          options={options.pdfImage}
+          onChange={(pdfImage) => onChange({ ...options, pdfImage })}
           disabled={disabled}
         />
       );

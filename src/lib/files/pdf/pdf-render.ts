@@ -1,10 +1,12 @@
-import { PDF_PAGE_LIMIT, PDF_RENDER_MAX_SIDE } from "@/config/limits";
+import { PDF_IMAGE_DPI, PDF_PAGE_LIMIT, PDF_PRINT_MAX_SIDE, PDF_RENDER_MAX_SIDE } from "@/config/limits";
 import { canvasToBlob } from "@/lib/files/convert/image-decode";
 import { UnreadableFileError } from "@/lib/files/processors/types";
+import { resolvePages } from "@/lib/files/pdf/page-spec";
+import type { PdfImageOptions } from "@/lib/image/options";
 import { baseName } from "@/lib/utils/file-name";
 import type { NamedBlob } from "@/lib/files/pdf/pdf-tools";
 
-const RENDER_SCALE = 2;
+const POINTS_PER_INCH = 72;
 
 async function loadPdfJs() {
   const pdfjs = await import("pdfjs-dist");
@@ -32,7 +34,12 @@ function checkPages(doc: PdfJsDocument) {
   }
 }
 
-async function renderPage(doc: PdfJsDocument, number: number, scaleFor: (width: number, height: number) => number) {
+async function renderPage(
+  doc: PdfJsDocument,
+  number: number,
+  scaleFor: (width: number, height: number) => number,
+  type: "image/jpeg" | "image/png" = "image/jpeg",
+) {
   const page = await doc.getPage(number);
   try {
     const base = page.getViewport({ scale: 1 });
@@ -41,21 +48,25 @@ async function renderPage(doc: PdfJsDocument, number: number, scaleFor: (width: 
     canvas.width = Math.max(1, Math.floor(viewport.width));
     canvas.height = Math.max(1, Math.floor(viewport.height));
     await page.render({ canvas, viewport, background: "#ffffff" }).promise;
-    return await canvasToBlob(canvas, "image/jpeg");
+    return await canvasToBlob(canvas, type);
   } finally {
     page.cleanup();
   }
 }
 
-export async function pdfToImages(file: File): Promise<NamedBlob[]> {
+export async function pdfToImages(file: File, { pages, format, quality }: PdfImageOptions): Promise<NamedBlob[]> {
   const doc = await openDocument(file);
   try {
     checkPages(doc);
     const stem = baseName(file.name);
-    const fullSize = (width: number, height: number) => Math.min(RENDER_SCALE, PDF_RENDER_MAX_SIDE / Math.max(width, height));
+    const scale = PDF_IMAGE_DPI[quality] / POINTS_PER_INCH;
+    const maxSide = quality === "print" ? PDF_PRINT_MAX_SIDE : PDF_RENDER_MAX_SIDE;
+    const sized = (width: number, height: number) => Math.min(scale, maxSide / Math.max(width, height));
+    const type = format === "png" ? "image/png" : "image/jpeg";
+    const extension = format === "png" ? "png" : "jpg";
     const images: NamedBlob[] = [];
-    for (let number = 1; number <= doc.numPages; number += 1) {
-      images.push({ blob: await renderPage(doc, number, fullSize), name: `${stem}-page-${number}.jpg` });
+    for (const number of [...new Set(resolvePages(pages, doc.numPages))]) {
+      images.push({ blob: await renderPage(doc, number, sized, type), name: `${stem}-page-${number}.${extension}` });
     }
     return images;
   } finally {

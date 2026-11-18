@@ -8,6 +8,7 @@ import {
   IMAGE_ROTATIONS,
   IMAGE_SHAPES,
   PALETTE_SIZES,
+  PDF_IMAGE_QUALITIES,
   SHAPE_BACKGROUNDS,
   SHAPE_CORNERS,
   isCompressionLevel,
@@ -139,6 +140,17 @@ export function optionsFromParams(tool: WorkspaceToolSlug, params: URLSearchPara
       };
     case "image-palette":
       return { ...base, palette: { size: readOneOf(params, "colors", PALETTE_SIZES, base.palette.size) } };
+    case "pdf-to-jpg": {
+      const format = params.get("format");
+      return {
+        ...base,
+        pdfImage: {
+          ...base.pdfImage,
+          format: format === "png" ? "png" : format === "jpg" ? "jpeg" : base.pdfImage.format,
+          quality: readOneOf(params, "quality", PDF_IMAGE_QUALITIES, base.pdfImage.quality),
+        },
+      };
+    }
     case "change-dpi":
       return { ...base, dpi: { dpi: readInt(params, "dpi", DPI_RANGE.min, DPI_RANGE.max) ?? base.dpi.dpi } };
     case "crop-image":
@@ -218,6 +230,8 @@ export function optionsToParams(tool: WorkspaceToolSlug, options: ToolOptions): 
     }
     case "image-palette":
       return { colors: options.palette.size };
+    case "pdf-to-jpg":
+      return { format: options.pdfImage.format === "png" ? "png" : "jpg", quality: options.pdfImage.quality };
     case "change-dpi":
       return { dpi: options.dpi.dpi === null ? null : String(options.dpi.dpi) };
     case "passport-photo": {

@@ -8,6 +8,7 @@ import type { ToolOptions } from "@/lib/image/options";
 import { StageCard } from "@/components/workspace/stage/StageCard";
 
 const PdfPagePicker = dynamic(() => import("@/components/workspace/organize/PdfPagePicker").then((module) => module.PdfPagePicker));
+const PdfPageSelector = dynamic(() => import("@/components/workspace/organize/PdfPageSelector").then((module) => module.PdfPageSelector));
 const CropPreview = dynamic(() => import("@/components/workspace/stage/CropPreview").then((module) => module.CropPreview));
 const PalettePreview = dynamic(() => import("@/components/workspace/stage/PalettePreview").then((module) => module.PalettePreview));
 const RotatePreview = dynamic(() => import("@/components/workspace/stage/RotatePreview").then((module) => module.RotatePreview));
@@ -87,6 +88,17 @@ export function ToolStage({ tool, options, onChange, disabled, sourceFile }: Too
             spec={options.organize.pages}
             disabled={disabled}
             onChange={(pages) => onChange({ ...options, organize: { pages } })}
+          />
+        </StageCard>
+      ) : null;
+    case "pdf-to-jpg":
+      return sourceFile ? (
+        <StageCard title={stageCopy.pages} plain>
+          <PdfPageSelector
+            file={sourceFile}
+            spec={options.pdfImage.pages}
+            disabled={disabled}
+            onChange={(pages) => onChange({ ...options, pdfImage: { ...options.pdfImage, pages } })}
           />
         </StageCard>
       ) : null;

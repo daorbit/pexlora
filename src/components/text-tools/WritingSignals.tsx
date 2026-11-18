@@ -1,7 +1,7 @@
 import { humanizerCopy } from "@/content/ai";
 import { HUMAN_SIGNALS, type HumanScore } from "@/lib/ai/human-score";
 import { cn } from "@/lib/utils/cn";
-import { barWidth } from "@/components/text-tools/bar-widths";
+import { barWidth } from "@/components/ui/bar-widths";
 
 const delays = [
   "",

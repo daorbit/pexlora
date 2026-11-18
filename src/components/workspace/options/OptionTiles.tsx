@@ -37,7 +37,7 @@ export function OptionTiles<T extends string>({
             disabled={disabled}
             onClick={() => onChange(option.value)}
             className={cn(
-              "flex min-h-11 flex-col justify-center gap-0.5 rounded-2xl px-3.5 py-2.5 text-left transition-colors focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-ring disabled:cursor-not-allowed disabled:opacity-50",
+              "flex min-h-11 flex-col justify-center gap-0.5 rounded-2xl px-3.5 py-2.5 text-left transition-[background-color,color,scale] duration-200 focus-visible:outline-2 motion-safe:active:scale-[0.97] focus-visible:outline-offset-1 focus-visible:outline-ring disabled:cursor-not-allowed disabled:opacity-50",
               option.icon ? "items-center text-center" : "items-start",
               active ? "bg-primary text-primary-foreground" : "bg-fill hover:bg-fill-strong",
             )}

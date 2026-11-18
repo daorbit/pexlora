@@ -1,7 +1,7 @@
 import { MAX_IMAGE_SIZE } from "@/config/limits";
 import { localToolsCopy, optionsCopy } from "@/content/workspace";
 import { FORMAT_EXTENSIONS, FORMAT_MIME_TYPES } from "@/lib/image/formats";
-import { DEFAULT_TOOL_OPTIONS } from "@/lib/image/options";
+import { DEFAULT_TOOL_OPTIONS, type PdfImageOptions } from "@/lib/image/options";
 import type {
   CompressOptions,
   CropOptions,
@@ -78,9 +78,9 @@ export async function splitPdfFile(file: File) {
   return bundle(await guard(() => splitPdf(file)), file, "-pages");
 }
 
-export async function pdfToJpgFile(file: File) {
+export async function pdfToJpgFile(file: File, options: PdfImageOptions) {
   const { pdfToImages } = await import("@/lib/files/pdf/pdf-render");
-  return bundle(await guard(() => pdfToImages(file)), file, "-images");
+  return bundle(await guard(() => pdfToImages(file, options)), file, "-images");
 }
 
 function combinedName(files: File[]) {

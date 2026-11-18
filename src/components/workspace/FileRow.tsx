@@ -6,6 +6,7 @@ import { Columns2, Eye, X } from "lucide-react";
 import { compareCopy, resultPreviewCopy } from "@/content/workspace";
 import type { QueueItem } from "@/hooks/useFileQueue";
 import { previewKind } from "@/lib/files/preview-kind";
+import { cn } from "@/lib/utils/cn";
 import { formatBytes } from "@/lib/utils/format-bytes";
 import { formatDuration } from "@/lib/utils/format-duration";
 import { Button } from "@/components/ui/Button";
@@ -69,7 +70,12 @@ export function FileRow({
   const canView = Boolean(resultKind) && !(canCompare && resultKind === "image");
 
   return (
-    <li className="relative flex flex-col overflow-clip rounded-2xl bg-subtle motion-safe:animate-fade-up motion-safe:[animation-duration:0.35s]">
+    <li
+      className={cn(
+        "relative flex flex-col overflow-clip rounded-2xl bg-subtle motion-safe:animate-fade-up motion-safe:[animation-duration:0.35s]",
+        item.status === "done" && "motion-safe:animate-done-flash",
+      )}
+    >
       {(item.status === "processing" || item.status === "inspecting") && <ProgressBar />}
       <div
         ref={swipeRef}
