@@ -323,7 +323,7 @@ export const historyCopy = {
   sortLabel: "Sort files",
   sorts: { newest: "Newest", oldest: "Oldest", largest: "Largest" },
   categoryLabel: "Filter by tool type",
-  categories: { all: "All", metadata: "Metadata", image: "Images", pdf: "PDFs", ai: "AI" },
+  categories: { all: "All", metadata: "Metadata", image: "Images", pdf: "PDFs", ai: "AI", utility: "Utilities" },
   toolFilter: (tool: string) => `Tool: ${tool}`,
   removeToolFilter: "Remove tool filter",
   showing: (shown: number, total: number) => (shown === total ? `${total} files` : `${shown} of ${total} files`),
