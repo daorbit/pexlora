@@ -45,6 +45,7 @@ export function HeroUpload() {
           localCapable={localCapable}
           isDragging={isDragging}
           onBrowse={picker.open}
+          onFiles={openTool}
           onSample={addSample}
           compact
         />

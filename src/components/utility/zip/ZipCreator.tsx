@@ -45,7 +45,7 @@ export function ZipCreator() {
   return (
     <div {...dropProps} className="flex flex-col gap-3">
       <input {...inputProps} />
-      <Dropzone accepts={[]} localCapable isDragging={isDragging} onBrowse={open} onSample={() => {}} short={files.length > 0} override={dropOverride} />
+      <Dropzone accepts={[]} localCapable isDragging={isDragging} onBrowse={open} onFiles={add} onSample={() => {}} short={files.length > 0} override={dropOverride} />
       {files.length > 0 && (
         <>
           <ZipFileList

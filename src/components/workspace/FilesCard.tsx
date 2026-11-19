@@ -16,10 +16,22 @@ type FilesCardProps = {
   disabled: boolean;
   onAdd: () => void;
   onClear: () => void;
+  importSlot?: ReactNode;
   children: ReactNode;
 };
 
-export function FilesCard({ fileCount, totalBytes, doneCount = 0, isDragging, canAddMore, disabled, onAdd, onClear, children }: FilesCardProps) {
+export function FilesCard({
+  fileCount,
+  totalBytes,
+  doneCount = 0,
+  isDragging,
+  canAddMore,
+  disabled,
+  onAdd,
+  onClear,
+  importSlot,
+  children,
+}: FilesCardProps) {
   return (
     <section
       aria-label={resultCopy.files(fileCount)}
@@ -40,6 +52,7 @@ export function FilesCard({ fileCount, totalBytes, doneCount = 0, isDragging, ca
         <Button variant="nav" className="px-2 text-[13px]" onClick={onClear} disabled={disabled}>
           {queueCopy.clearAll}
         </Button>
+        {importSlot}
         <Button
           variant="secondary"
           size="sm"

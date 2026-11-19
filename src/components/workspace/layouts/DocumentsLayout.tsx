@@ -9,6 +9,7 @@ import { formatBytes } from "@/lib/utils/format-bytes";
 import { cn } from "@/lib/utils/cn";
 import { Button } from "@/components/ui/Button";
 import { UpsellAlert } from "@/components/ui/UpsellAlert";
+import { DriveImportButton } from "@/components/drive/DriveImportButton";
 import { ActionBar } from "@/components/workspace/ActionBar";
 import { FileRow } from "@/components/workspace/FileRow";
 import { PanelChecklist } from "@/components/workspace/PanelChecklist";
@@ -51,6 +52,7 @@ export function DocumentsLayout({ controller, panelFooter }: LayoutProps) {
         disabled={Boolean(controller.optionsError)}
         quotaRemaining={queue.quotaRemaining}
         downloadAllLabel={controller.downloadAllLabel}
+        results={controller.results}
         onRun={controller.run}
         onDownloadAll={controller.downloadAll}
         className={className}
@@ -91,6 +93,12 @@ export function DocumentsLayout({ controller, panelFooter }: LayoutProps) {
                 <Button variant="nav" className="px-2 text-[13px]" onClick={controller.clearAll} disabled={queue.isProcessing}>
                   {queueCopy.clearAll}
                 </Button>
+                <DriveImportButton
+                  variant="icon"
+                  onFiles={controller.importFiles}
+                  accept={controller.accept}
+                  disabled={!queue.canAddMore || queue.isProcessing}
+                />
                 <Button
                   variant="secondary"
                   size="sm"

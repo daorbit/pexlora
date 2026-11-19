@@ -12,6 +12,7 @@ import { formatBytes } from "@/lib/utils/format-bytes";
 import { isGalleryMedia, saveFiles } from "@/lib/utils/save-file";
 import { Button } from "@/components/ui/Button";
 import { HubItemIcon } from "@/components/tools/HubItemIcon";
+import { SaveToDriveButton } from "@/components/drive/SaveToDriveButton";
 import { useDownloadGate } from "@/components/workspace/DownloadGate";
 import { HistoryStat } from "@/components/dashboard/history/HistoryStat";
 
@@ -68,6 +69,7 @@ export function HistorySummaryPanel({ summary, visible, activeTool, onToolSelect
           <Download className="size-4" aria-hidden />
           {saveCopy.label(visible.length, toPhotos)}
         </Button>
+        <SaveToDriveButton files={visible} variant="full" size="lg" className="w-full" />
         <Button
           variant="secondary"
           size="lg"

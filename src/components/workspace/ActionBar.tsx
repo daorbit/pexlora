@@ -3,7 +3,9 @@
 import { Check, Download, LoaderCircle } from "lucide-react";
 import { queueCopy } from "@/content/workspace";
 import { cn } from "@/lib/utils/cn";
+import type { SavableFile } from "@/lib/utils/save-file";
 import { Button } from "@/components/ui/Button";
+import { SaveToDriveButton } from "@/components/drive/SaveToDriveButton";
 import { BatchProgress } from "@/components/workspace/BatchProgress";
 import { useDownloadGate } from "@/components/workspace/DownloadGate";
 
@@ -18,6 +20,7 @@ type ActionBarProps = {
   disabled: boolean;
   quotaRemaining: number | null;
   downloadAllLabel: string;
+  results: SavableFile[];
   onRun: () => void;
   onDownloadAll: () => void;
   className?: string;
@@ -36,6 +39,7 @@ export function ActionBar({
   disabled,
   quotaRemaining,
   downloadAllLabel,
+  results,
   onRun,
   onDownloadAll,
   className,
@@ -71,6 +75,7 @@ export function ActionBar({
           {downloadAllLabel}
         </Button>
       )}
+      {!isProcessing && <SaveToDriveButton variant="full" size="xl" files={results} className={cn(bigButton, "max-lg:hidden")} />}
       {note && (
         <p className="flex items-center justify-center gap-1.5 text-xs text-secondary">
           <Check className="size-3.5 text-accent-text" strokeWidth={2.6} aria-hidden />

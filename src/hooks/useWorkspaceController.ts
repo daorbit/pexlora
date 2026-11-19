@@ -108,6 +108,8 @@ export function useWorkspaceController({ tool, accepts: acceptsOverride, initial
     changeOptions,
     run,
     picker,
+    accept,
+    importFiles: addFilesAndRun,
     isDragging,
     dropProps,
     batchTotal,

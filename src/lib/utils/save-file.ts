@@ -1,6 +1,6 @@
 import { downloadBlob, downloadZip } from "@/lib/utils/download";
 
-type SavableFile = { blob: Blob; name: string };
+export type SavableFile = { blob: Blob; name: string };
 
 export function isAppleMobile() {
   if (typeof navigator === "undefined") return false;

@@ -5,6 +5,9 @@ import { securityHeaders } from "./src/config/security-headers";
 const nextConfig: NextConfig = {
   cacheComponents: true,
   poweredByHeader: false,
+  env: {
+    NEXT_PUBLIC_GOOGLE_CLIENT_ID: process.env.GCP_CLIENT_ID ?? "",
+  },
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
   },

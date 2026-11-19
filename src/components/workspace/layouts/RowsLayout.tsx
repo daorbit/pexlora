@@ -4,6 +4,7 @@ import { batchTitleCopy, dropzoneOverrides, panelNotes } from "@/content/workspa
 import { isLocalFormat } from "@/lib/files/detect";
 import { cn } from "@/lib/utils/cn";
 import { UpsellAlert } from "@/components/ui/UpsellAlert";
+import { DriveImportButton } from "@/components/drive/DriveImportButton";
 import { ActionBar } from "@/components/workspace/ActionBar";
 import { ConversionSummary } from "@/components/workspace/ConversionSummary";
 import { FileRow } from "@/components/workspace/FileRow";
@@ -37,6 +38,7 @@ export function RowsLayout({ controller, conversion, panelFooter }: LayoutProps)
         disabled={Boolean(controller.optionsError)}
         quotaRemaining={queue.quotaRemaining}
         downloadAllLabel={controller.downloadAllLabel}
+        results={controller.results}
         onRun={controller.run}
         onDownloadAll={controller.downloadAll}
         className={className}
@@ -62,6 +64,14 @@ export function RowsLayout({ controller, conversion, panelFooter }: LayoutProps)
             disabled={queue.isProcessing}
             onAdd={picker.open}
             onClear={controller.clearAll}
+            importSlot={
+              <DriveImportButton
+                variant="icon"
+                onFiles={controller.importFiles}
+                accept={controller.accept}
+                disabled={!queue.canAddMore || queue.isProcessing}
+              />
+            }
           >
             {queue.items.map((item, index) => (
               <FileRow

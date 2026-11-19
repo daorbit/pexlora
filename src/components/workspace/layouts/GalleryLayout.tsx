@@ -8,6 +8,7 @@ import { ALPHA_INPUT_FORMATS, FORMAT_LABELS } from "@/lib/image/formats";
 import { cn } from "@/lib/utils/cn";
 import { Button } from "@/components/ui/Button";
 import { UpsellAlert } from "@/components/ui/UpsellAlert";
+import { DriveImportButton } from "@/components/drive/DriveImportButton";
 import { Dropzone } from "@/components/workspace/Dropzone";
 import { AddTile } from "@/components/workspace/gallery/AddTile";
 import { FormatStrip } from "@/components/workspace/gallery/FormatStrip";
@@ -79,9 +80,17 @@ export function GalleryLayout({ controller, conversion, panelFooter }: LayoutPro
                     {galleryCopy.count(queue.items.length, perks.filesPerBatch)}
                   </span>
                 </h2>
-                <Button variant="nav" className="px-2 text-[13px]" onClick={controller.clearAll} disabled={queue.isProcessing}>
-                  {queueCopy.clearAll}
-                </Button>
+                <div className="flex items-center gap-1">
+                  <Button variant="nav" className="px-2 text-[13px]" onClick={controller.clearAll} disabled={queue.isProcessing}>
+                    {queueCopy.clearAll}
+                  </Button>
+                  <DriveImportButton
+                    variant="icon"
+                    onFiles={controller.importFiles}
+                    accept={controller.accept}
+                    disabled={!queue.canAddMore || queue.isProcessing}
+                  />
+                </div>
               </div>
               <ul className="grid grid-cols-2 gap-2.5 sm:gap-3.5 md:grid-cols-3 xl:grid-cols-4">
                 {queue.items.map((item) => (
@@ -111,6 +120,7 @@ export function GalleryLayout({ controller, conversion, panelFooter }: LayoutPro
               localCapable={controller.localCapable}
               isDragging={isDragging}
               onBrowse={picker.open}
+              onFiles={controller.importFiles}
               onSample={controller.addSample}
               override={dropzoneOverrides[tool]}
               short
