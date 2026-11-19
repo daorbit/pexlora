@@ -142,11 +142,19 @@
   --animate-swap-in: swap-in 5s cubic-bezier(0.7, 0, 0.2, 1) infinite;
   --animate-ticker-y: ticker-y 22s linear infinite;
   --animate-marquee-x: marquee-x 30s linear infinite;
-  --animate-rail-dot: rail-dot 6s cubic-bezier(0.65, 0, 0.35, 1) infinite;
-  --animate-stage-on: stage-on 6s ease infinite;
-  --animate-file-drop: file-drop 6s cubic-bezier(0.5, 0, 0.2, 1) infinite;
   --animate-scan-y: scan-y 2s ease-in-out infinite;
-  --animate-fill-x: fill-x 6s cubic-bezier(0.6, 0, 0.2, 1) infinite;
+  --animate-step-row: step-row 9s ease var(--step-delay, 0s) infinite both;
+  --animate-step-disc: step-disc 9s ease var(--step-delay, 0s) infinite both;
+  --animate-step-bar: step-bar 9s linear var(--step-delay, 0s) infinite both;
+  --animate-step-scene: step-scene 9s cubic-bezier(0.4, 0, 0.2, 1) var(--step-delay, 0s) infinite both;
+  --animate-step-fall: step-fall 9s cubic-bezier(0.3, 1.3, 0.5, 1) var(--step-delay, 0s) infinite both;
+  --animate-step-zone: step-zone 9s ease var(--step-delay, 0s) infinite both;
+  --animate-step-tag: step-tag 9s cubic-bezier(0.2, 0.8, 0.2, 1) var(--step-delay, 0s) infinite both;
+  --animate-step-sweep: step-sweep 9s ease-in-out var(--step-delay, 0s) infinite both;
+  --animate-step-strike: step-strike 9s cubic-bezier(0.7, 0, 0.2, 1) var(--step-delay, 0s) infinite both;
+  --animate-step-dim: step-dim 9s ease var(--step-delay, 0s) infinite both;
+  --animate-step-pop: step-pop 9s cubic-bezier(0.3, 1.6, 0.5, 1) var(--step-delay, 0s) infinite both;
+  --animate-step-unpop: step-unpop 9s ease var(--step-delay, 0s) infinite both;
   --animate-ink-reveal: ink-reveal 1.6s cubic-bezier(0.3, 0.6, 0.2, 1) both;
   --animate-strike-in: strike-in 0.7s cubic-bezier(0.7, 0, 0.2, 1) both;
   --animate-shimmer: shimmer 1.8s ease-in-out infinite;
@@ -154,63 +162,195 @@
   --animate-float-y: float-y 3.2s ease-in-out infinite;
   --animate-done-flash: done-flash 1.4s ease-out both;
 
-  @keyframes rail-dot {
+  @keyframes step-row {
     0%,
-    18% {
-      left: 16.66%;
+    31% {
       opacity: 1;
     }
-    33%,
-    51% {
-      left: 50%;
-    }
-    66%,
-    92% {
-      left: 83.33%;
-      opacity: 1;
-    }
+    35%,
     97% {
-      left: 83.33%;
-      opacity: 0;
-    }
-    98% {
-      left: 16.66%;
-      opacity: 0;
+      opacity: 0.42;
     }
     100% {
-      left: 16.66%;
       opacity: 1;
     }
   }
 
-  @keyframes stage-on {
+  @keyframes step-disc {
     0%,
-    30% {
-      background-color: var(--accent-soft);
+    31% {
+      background-color: var(--primary);
+      color: var(--primary-foreground);
     }
-    36%,
-    94% {
-      background-color: transparent;
+    35%,
+    97% {
+      background-color: var(--fill);
+      color: var(--secondary);
     }
     100% {
-      background-color: var(--accent-soft);
+      background-color: var(--primary);
+      color: var(--primary-foreground);
     }
   }
 
-  @keyframes file-drop {
+  @keyframes step-bar {
     0% {
-      translate: 0 -36px;
+      transform: scaleX(0);
+      opacity: 1;
+    }
+    31% {
+      transform: scaleX(1);
+      opacity: 1;
+    }
+    34%,
+    100% {
+      transform: scaleX(1);
       opacity: 0;
+    }
+  }
+
+  @keyframes step-scene {
+    0% {
+      opacity: 0;
+      transform: translateY(12px) scale(0.98);
+    }
+    3%,
+    30% {
+      opacity: 1;
+      transform: none;
+    }
+    33.3%,
+    100% {
+      opacity: 0;
+      transform: translateY(-12px) scale(0.98);
+    }
+  }
+
+  @keyframes step-fall {
+    0%,
+    2% {
+      opacity: 0;
+      transform: translateY(-90px) rotate(-8deg);
+    }
+    9% {
+      opacity: 1;
+      transform: translateY(0) rotate(3deg);
     }
     12%,
     30% {
-      translate: 0 0;
+      opacity: 1;
+      transform: none;
+    }
+    33.3%,
+    100% {
+      opacity: 0;
+      transform: none;
+    }
+  }
+
+  @keyframes step-zone {
+    0%,
+    6% {
+      border-color: var(--border-strong);
+      background-color: transparent;
+    }
+    10%,
+    30% {
+      border-color: var(--primary);
+      background-color: color-mix(in oklab, var(--primary) 14%, transparent);
+    }
+    33.3%,
+    100% {
+      border-color: var(--border-strong);
+      background-color: transparent;
+    }
+  }
+
+  @keyframes step-tag {
+    0%,
+    5% {
+      opacity: 0;
+      transform: translateX(-14px);
+    }
+    10%,
+    30% {
+      opacity: 1;
+      transform: none;
+    }
+    33.3%,
+    100% {
+      opacity: 0;
+      transform: none;
+    }
+  }
+
+  @keyframes step-sweep {
+    0% {
+      top: 0%;
+      opacity: 0;
+    }
+    3% {
       opacity: 1;
     }
-    40%,
+    27% {
+      top: 100%;
+      opacity: 1;
+    }
+    30%,
     100% {
-      translate: 0 0;
-      opacity: 0.7;
+      top: 100%;
+      opacity: 0;
+    }
+  }
+
+  @keyframes step-strike {
+    0%,
+    5% {
+      transform: scaleX(0);
+    }
+    10%,
+    100% {
+      transform: scaleX(1);
+    }
+  }
+
+  @keyframes step-dim {
+    0%,
+    6% {
+      opacity: 1;
+    }
+    10%,
+    100% {
+      opacity: 0.4;
+    }
+  }
+
+  @keyframes step-pop {
+    0%,
+    20% {
+      opacity: 0;
+      transform: scale(0.5);
+    }
+    24%,
+    30% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    33.3%,
+    100% {
+      opacity: 0;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes step-unpop {
+    0%,
+    20% {
+      opacity: 1;
+    }
+    23%,
+    100% {
+      opacity: 0;
     }
   }
 
@@ -221,17 +361,6 @@
     }
     50% {
       top: 88%;
-    }
-  }
-
-  @keyframes fill-x {
-    0%,
-    66% {
-      width: 6%;
-    }
-    90%,
-    100% {
-      width: 100%;
     }
   }
 

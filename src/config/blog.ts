@@ -7,6 +7,8 @@ export const BLOG_CMS = {
 
 export const BLOG_PLACEHOLDER_SLUG = "_";
 export const BLOG_RELATED_COUNT = 3;
+export const BLOG_FOOTER_COUNT = 4;
+export const BLOG_FOOTER_HIDDEN_PREFIXES = ["/blog"];
 export const BLOG_WORDS_PER_MINUTE = 225;
 
 export function blogPostPath(slug: string) {

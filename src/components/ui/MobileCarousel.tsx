@@ -15,8 +15,12 @@ type MobileCarouselProps = {
   children: ReactNode;
 };
 
-const hideFrom: Record<CarouselBreakpoint, string> = { sm: "sm:hidden", md: "md:hidden" };
-const clipUntil: Record<CarouselBreakpoint, string> = { sm: "max-sm:overflow-hidden", md: "max-md:overflow-hidden" };
+const hideFrom: Record<CarouselBreakpoint, string> = { sm: "sm:hidden", md: "md:hidden", lg: "lg:hidden" };
+const clipUntil: Record<CarouselBreakpoint, string> = {
+  sm: "max-sm:overflow-hidden",
+  md: "max-md:overflow-hidden",
+  lg: "max-lg:overflow-hidden",
+};
 
 export function MobileCarousel({
   label,

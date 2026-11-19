@@ -27,7 +27,7 @@ export function HomeHero() {
         <p className="max-w-xl px-2 text-[14px] leading-normal text-secondary motion-safe:animate-fade-up motion-safe:[animation-delay:160ms] sm:px-0 sm:text-[17px] sm:leading-relaxed">
           {heroCopy.description}
         </p>
-        <div className="flex w-full max-w-3xl flex-col gap-4 motion-safe:animate-fade-up motion-safe:[animation-delay:240ms] sm:mt-2">
+        <div className="flex w-full max-w-5xl flex-col gap-4 motion-safe:animate-fade-up motion-safe:[animation-delay:240ms] sm:mt-2">
           <PlanPerksLoader />
           <HeroUpload />
           <div className="hidden sm:block">

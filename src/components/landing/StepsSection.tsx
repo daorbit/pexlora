@@ -1,68 +1,21 @@
-import type { ComponentType } from "react";
-import { steps, stepsCopy } from "@/content/landing";
-import { cn } from "@/lib/utils/cn";
+import { stepsCopy } from "@/content/landing";
 import { Band } from "@/components/ui/Band";
-import { MobileCarousel } from "@/components/ui/MobileCarousel";
 import { BandTitle } from "@/components/landing/BandTitle";
-import { CleanVisual, DropVisual, ReadVisual } from "@/components/landing/StepVisuals";
-
-const visuals: ComponentType[] = [DropVisual, ReadVisual, CleanVisual];
-const stageDelays = ["[animation-delay:0s]", "[animation-delay:2s]", "[animation-delay:4s]"];
-const nodePositions = ["left-1/6", "left-1/2", "left-5/6"];
+import { StepsList } from "@/components/landing/steps/StepsList";
+import { StepsStage } from "@/components/landing/steps/StepsStage";
 
 export function StepsSection() {
   return (
-    <Band id="how-it-works" tone="pearl" containerClassName="flex flex-col gap-8 sm:gap-12 lg:gap-16">
-      <BandTitle className="max-w-205">{stepsCopy.title}</BandTitle>
-      <div className="overflow-hidden rounded-[22px] bg-surface ring-1 ring-separator shadow-[0_1px_2px_rgb(16_18_13/0.05),0_40px_80px_-48px_rgb(16_18_13/0.35)] sm:rounded-[28px]">
-        <div className="relative hidden h-16 border-b border-separator md:block" aria-hidden>
-          <span className="absolute inset-x-1/6 top-1/2 h-px bg-border-strong" />
-          {nodePositions.map((position, index) => (
-            <span
-              key={position}
-              className={cn(
-                "absolute top-1/2 inline-flex size-7 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-border-strong bg-surface text-xs font-semibold",
-                position,
-              )}
-            >
-              {index + 1}
-            </span>
-          ))}
-          <span className="absolute top-1/2 left-1/6 -mt-1.5 -ml-1.5 size-3 rounded-full bg-primary ring-4 ring-primary/25 motion-safe:animate-rail-dot" />
-        </div>
-        <MobileCarousel
-          label={stepsCopy.title}
-          until="md"
-          as="ol"
-          trackClassName="md:grid md:grid-cols-3"
-          dotsClassName="pt-0 pb-4"
-        >
-          {steps.map((step, index) => {
-            const Visual = visuals[index];
-            return (
-              <li
-                key={step.title}
-                className={cn(
-                  "flex min-w-0 shrink-0 grow-0 basis-full flex-col gap-4 p-4 motion-safe:animate-stage-on sm:gap-5 sm:p-6 md:basis-auto lg:p-8",
-                  index > 0 && "border-separator md:border-l",
-                  stageDelays[index],
-                )}
-              >
-                <Visual />
-                <div className="flex flex-col gap-1 sm:gap-1.5">
-                  <h3 className="flex items-center gap-2 text-[18px] font-bold tracking-[-0.02em] sm:text-[22px] lg:text-[26px]">
-                    <span className="inline-flex size-6 items-center justify-center rounded-full bg-foreground text-[11px] text-background md:hidden">
-                      {index + 1}
-                    </span>
-                    {step.title}
-                  </h3>
-                  <p className="text-[14px] leading-[1.5] text-secondary sm:text-[15.5px]">{step.description}</p>
-                </div>
-              </li>
-            );
-          })}
-        </MobileCarousel>
-      </div>
+    <Band
+      id="how-it-works"
+      tone="pearl"
+      containerClassName="grid grid-cols-1 gap-6 sm:gap-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-center lg:gap-x-16 lg:gap-y-8"
+    >
+      <BandTitle size="md" className="lg:col-start-1">
+        {stepsCopy.title}
+      </BandTitle>
+      <StepsStage className="lg:col-start-2 lg:row-span-2 lg:row-start-1" />
+      <StepsList className="lg:col-start-1" />
     </Band>
   );
 }

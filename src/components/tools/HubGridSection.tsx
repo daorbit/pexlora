@@ -1,6 +1,6 @@
 import type { HubItem } from "@/config/tool-hub";
 import { Section } from "@/components/ui/Section";
-import { HubCardCarousel } from "@/components/home/HubCardCarousel";
+import { HubCardGrid } from "@/components/home/HubCardGrid";
 
 type HubGridSectionProps = {
   eyebrow: string;
@@ -13,7 +13,7 @@ export function HubGridSection({ eyebrow, title, items }: HubGridSectionProps) {
 
   return (
     <Section eyebrow={eyebrow} title={title} tone="surface">
-      <HubCardCarousel label={title} items={items} />
+      <HubCardGrid label={title} items={items} />
     </Section>
   );
 }

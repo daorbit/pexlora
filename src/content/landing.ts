@@ -108,6 +108,84 @@ export const featureBands = {
   },
 };
 
+export const differenceCopy = {
+  title: "See the",
+  titleMarker: "difference.",
+  description: "Same photo, same pixels. Drag the slider on any card to see the hidden details Pexlora removes before you share.",
+  before: "Before",
+  after: "After",
+  clean: "0 tags",
+  sliderLabel: (title: string) => `Compare ${title.toLowerCase()} before and after cleaning`,
+};
+
+export type DifferenceTagIcon = "location" | "device" | "camera" | "date" | "ai" | "prompt" | "author" | "serial";
+
+export type DifferenceCard = {
+  src: string;
+  alt: string;
+  title: string;
+  subtitle: string;
+  tags: { icon: DifferenceTagIcon; value: string; tone: FeedTone }[];
+};
+
+export const differenceCards: DifferenceCard[] = [
+  {
+    src: "/samples/difference/selfie.jpg",
+    alt: "Smiling woman in sunglasses holding a sun hat",
+    title: "Selfies",
+    subtitle: "Location and phone removed",
+    tags: [
+      { icon: "location", value: "15.4959° N", tone: "location" },
+      { icon: "device", value: "iPhone 15 Pro", tone: "plain" },
+      { icon: "date", value: "14 Oct 2026", tone: "plain" },
+    ],
+  },
+  {
+    src: "/samples/difference/travel.jpg",
+    alt: "Hiker with a red backpack by a mountain lake",
+    title: "Travel photos",
+    subtitle: "GPS trail removed",
+    tags: [
+      { icon: "location", value: "32.2432° N", tone: "location" },
+      { icon: "device", value: "Pixel 8", tone: "plain" },
+      { icon: "date", value: "2 Jun 2026", tone: "plain" },
+    ],
+  },
+  {
+    src: "/samples/difference/pet.jpg",
+    alt: "Poodle sitting on an armchair at home",
+    title: "Pets at home",
+    subtitle: "Home location removed",
+    tags: [
+      { icon: "location", value: "19.0760° N", tone: "location" },
+      { icon: "device", value: "Galaxy S24", tone: "plain" },
+      { icon: "date", value: "11 Aug 2026", tone: "plain" },
+    ],
+  },
+  {
+    src: "/samples/difference/ai.jpg",
+    alt: "Green hills with blue flowers",
+    title: "AI images",
+    subtitle: "AI labels and prompt removed",
+    tags: [
+      { icon: "ai", value: "Made with AI", tone: "ai" },
+      { icon: "ai", value: "Midjourney v6.1", tone: "ai" },
+      { icon: "prompt", value: "rolling green hills…", tone: "plain" },
+    ],
+  },
+  {
+    src: "/samples/difference/product.jpg",
+    alt: "White sneakers on a black background",
+    title: "Product shots",
+    subtitle: "Camera serial and owner removed",
+    tags: [
+      { icon: "camera", value: "Canon EOS R6", tone: "plain" },
+      { icon: "serial", value: "032021004871", tone: "plain" },
+      { icon: "author", value: "Rahul Verma", tone: "plain" },
+    ],
+  },
+];
+
 export const stepsCopy = {
   title: "Three steps. Nothing to install.",
 };
@@ -122,14 +200,18 @@ export const steps = [
 ];
 
 export const stepsDemo = {
-  file: "sunset.jpg",
-  fileMeta: "3.1 MB",
-  fields: [
-    { key: "CreatorTool", label: "AI", tone: "ai" as const },
-    { key: "GPSLatitude", label: "Location", tone: "location" as const },
-    { key: "Model", label: "iPhone 15 Pro", tone: "plain" as const },
-  ],
-  cleanFile: "sunset-clean.jpg",
+  photo: "/samples/difference/travel.jpg",
+  photoAlt: "Hiker with a red backpack by a mountain lake",
+  file: "lake-trip.jpg",
+  fileMeta: "135 KB",
+  dropHint: "Drop files here",
+  status: ["File added", "Reading tags", "Clean copy ready"],
+  tags: [
+    { key: "GPSLatitude", value: "32.2432° N", tone: "location" },
+    { key: "Model", value: "Pixel 8", tone: "plain" },
+    { key: "DateTimeOriginal", value: "2026:06:02 07:15", tone: "plain" },
+  ] satisfies { key: string; value: string; tone: FeedTone }[],
+  tagCount: "3 tags",
   cleanBadge: "0 tags",
 };
 
