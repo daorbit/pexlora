@@ -1,6 +1,6 @@
 const loading = new Map<string, Promise<void>>();
 
-export function loadScript(src: string, isReady: () => boolean) {
+export function loadScript(src: string, isReady: () => boolean, attributes: Record<string, string> = {}) {
   if (isReady()) return Promise.resolve();
   const existing = loading.get(src);
   if (existing) return existing;
@@ -9,6 +9,7 @@ export function loadScript(src: string, isReady: () => boolean) {
     const script = document.createElement("script");
     script.src = src;
     script.async = true;
+    Object.entries(attributes).forEach(([name, value]) => script.setAttribute(name, value));
     script.onload = () => {
       if (isReady()) return resolve();
       loading.delete(src);

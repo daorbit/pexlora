@@ -8,7 +8,5 @@ export const driveCopy = {
   openDrive: "Open",
   denied: "Google Drive access wasn't allowed. Try again and allow access to continue.",
   failed: "Google Drive didn't respond. Please try again.",
-  unsupported: (name: string) => `${name} can't be used with this tool.`,
-  tooLarge: (name: string, mb: number) => `${name} is over ${mb} MB, so it wasn't added.`,
   saveFailed: "Couldn't save to Google Drive. Please try again.",
 };

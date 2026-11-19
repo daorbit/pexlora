@@ -9,7 +9,7 @@ import { useWorkspacePerks } from "@/hooks/useWorkspacePerks";
 import { describeAccepted } from "@/lib/files/detect";
 import { cn } from "@/lib/utils/cn";
 import { Button } from "@/components/ui/Button";
-import { DriveImportButton } from "@/components/drive/DriveImportButton";
+import { ImportSources } from "@/components/import/ImportSources";
 import { SampleChips } from "@/components/workspace/SampleChips";
 
 type DropzoneProps = {
@@ -90,7 +90,7 @@ export function Dropzone({
         {dropzoneCopy.button(accepts)}
       </Button>
       {onFiles && (
-        <DriveImportButton onFiles={onFiles} accept={accept ?? acceptAttribute(accepts, localCapable, formats)} multiple={multiple} />
+        <ImportSources onFiles={onFiles} accept={accept ?? acceptAttribute(accepts, localCapable, formats)} multiple={multiple} />
       )}
       {localCapable && !compact && <p className="hidden max-w-md text-[13px] text-secondary sm:block">{note}</p>}
       {showSamples && <SampleChips onSelect={onSample} />}

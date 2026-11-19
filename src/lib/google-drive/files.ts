@@ -1,17 +1,8 @@
 import { DRIVE_EXPORTS, DRIVE_FOLDER_TYPE, DRIVE_NATIVE_PREFIX, googleDrive } from "@/config/google-drive";
 import { DriveError } from "@/lib/google-drive/errors";
 import { forgetDriveToken } from "@/lib/google-drive/token";
+import { ImportSkip } from "@/lib/import/collect-files";
 import type { SavableFile } from "@/lib/utils/save-file";
-
-export class DriveSkip extends Error {
-  constructor(public fileName: string, public why: "unsupported" | "tooLarge") {
-    super(`${fileName}: ${why}`);
-  }
-}
-
-export function acceptedMimeTypes(accept: string) {
-  return accept.split(",").filter((part) => part.includes("/"));
-}
 
 export function pickerMimeTypes(accepted: string[]) {
   if (!accepted.length) return [];
@@ -34,11 +25,11 @@ async function driveFetch(token: string, url: string, init: RequestInit = {}) {
 }
 
 export async function downloadDriveFile(token: string, doc: GooglePickerDoc, accepted: string[]) {
-  if ((doc.sizeBytes ?? 0) > googleDrive.maxDownloadMb * 1024 * 1024) throw new DriveSkip(doc.name, "tooLarge");
+  if ((doc.sizeBytes ?? 0) > googleDrive.maxDownloadMb * 1024 * 1024) throw new ImportSkip(doc.name, "tooLarge", googleDrive.maxDownloadMb);
 
   const native = doc.mimeType.startsWith(DRIVE_NATIVE_PREFIX);
   const target = native ? exportFor(doc.mimeType, accepted) : undefined;
-  if (native && !target) throw new DriveSkip(doc.name, "unsupported");
+  if (native && !target) throw new ImportSkip(doc.name, "unsupported");
 
   const id = encodeURIComponent(doc.id);
   const url = target

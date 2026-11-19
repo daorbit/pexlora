@@ -4,7 +4,7 @@ import { batchTitleCopy, dropzoneOverrides, panelNotes } from "@/content/workspa
 import { isLocalFormat } from "@/lib/files/detect";
 import { cn } from "@/lib/utils/cn";
 import { UpsellAlert } from "@/components/ui/UpsellAlert";
-import { DriveImportButton } from "@/components/drive/DriveImportButton";
+import { ImportSources } from "@/components/import/ImportSources";
 import { ActionBar } from "@/components/workspace/ActionBar";
 import { ConversionSummary } from "@/components/workspace/ConversionSummary";
 import { FileRow } from "@/components/workspace/FileRow";
@@ -65,11 +65,12 @@ export function RowsLayout({ controller, conversion, panelFooter }: LayoutProps)
             onAdd={picker.open}
             onClear={controller.clearAll}
             importSlot={
-              <DriveImportButton
-                variant="icon"
+              <ImportSources
+                size="sm"
                 onFiles={controller.importFiles}
                 accept={controller.accept}
                 disabled={!queue.canAddMore || queue.isProcessing}
+                className="max-sm:hidden"
               />
             }
           >

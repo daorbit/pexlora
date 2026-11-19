@@ -9,7 +9,7 @@ import { formatBytes } from "@/lib/utils/format-bytes";
 import { cn } from "@/lib/utils/cn";
 import { Button } from "@/components/ui/Button";
 import { UpsellAlert } from "@/components/ui/UpsellAlert";
-import { DriveImportButton } from "@/components/drive/DriveImportButton";
+import { ImportSources } from "@/components/import/ImportSources";
 import { ActionBar } from "@/components/workspace/ActionBar";
 import { FileRow } from "@/components/workspace/FileRow";
 import { PanelChecklist } from "@/components/workspace/PanelChecklist";
@@ -93,12 +93,13 @@ export function DocumentsLayout({ controller, panelFooter }: LayoutProps) {
                 <Button variant="nav" className="px-2 text-[13px]" onClick={controller.clearAll} disabled={queue.isProcessing}>
                   {queueCopy.clearAll}
                 </Button>
-                <DriveImportButton
-                  variant="icon"
-                  onFiles={controller.importFiles}
-                  accept={controller.accept}
-                  disabled={!queue.canAddMore || queue.isProcessing}
-                />
+                <ImportSources
+                size="sm"
+                onFiles={controller.importFiles}
+                accept={controller.accept}
+                disabled={!queue.canAddMore || queue.isProcessing}
+                className="max-sm:hidden"
+              />
                 <Button
                   variant="secondary"
                   size="sm"

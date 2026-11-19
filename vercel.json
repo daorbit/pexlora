@@ -15,6 +15,9 @@
   "functions": {
     "src/app/api/images/**/route.ts": {
       "maxDuration": 30
+    },
+    "src/app/api/files/**/route.ts": {
+      "maxDuration": 30
     }
   },
   "headers": [
