@@ -69,7 +69,7 @@ export function HistorySummaryPanel({ summary, visible, activeTool, onToolSelect
           <Download className="size-4" aria-hidden />
           {saveCopy.label(visible.length, toPhotos)}
         </Button>
-        <SaveToDriveButton files={visible} variant="full" size="lg" className="w-full" />
+        <SaveToDriveButton files={visible} size="lg" className="w-full" />
         <Button
           variant="secondary"
           size="lg"

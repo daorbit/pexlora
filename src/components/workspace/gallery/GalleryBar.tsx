@@ -37,7 +37,7 @@ export function GalleryBar({ controller, target, className }: GalleryBarProps) {
         {queue.quotaRemaining !== null && <span className="text-xs text-tertiary">{queueCopy.freeLeft(queue.quotaRemaining)}</span>}
       </div>
       <div className="flex flex-wrap items-center gap-2 max-sm:[&>*]:flex-1">
-        {doneCount > 0 && !queue.isProcessing && <SaveToDriveButton files={results} variant="full" size="lg" className="max-sm:hidden" />}
+        {doneCount > 0 && !queue.isProcessing && <SaveToDriveButton files={results} size="lg" />}
         {doneCount > 0 && (
           <Button
             variant={finished ? "ink" : "secondary"}

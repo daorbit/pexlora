@@ -75,7 +75,7 @@ export function ActionBar({
           {downloadAllLabel}
         </Button>
       )}
-      {!isProcessing && <SaveToDriveButton variant="full" size="xl" files={results} className={cn(bigButton, "max-lg:hidden")} />}
+      {!isProcessing && <SaveToDriveButton size="xl" files={results} className={bigButton} />}
       {note && (
         <p className="flex items-center justify-center gap-1.5 text-xs text-secondary">
           <Check className="size-3.5 text-accent-text" strokeWidth={2.6} aria-hidden />

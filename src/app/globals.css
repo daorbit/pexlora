@@ -612,6 +612,21 @@ body {
   top: 0 !important;
 }
 
+html[data-drive-picker] {
+  scroll-behavior: auto;
+}
+
+.picker-dialog-bg {
+  background: #000 !important;
+}
+
+.picker-dialog {
+  border: 0 !important;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 24px 64px rgb(0 0 0 / 0.28);
+}
+
 .goog-text-highlight {
   background: none !important;
   box-shadow: none !important;

@@ -20,6 +20,17 @@ function loadPicker() {
 
 export async function pickDriveFiles({ token, mimeTypes, maxItems, title }: PickOptions) {
   const picker = await loadPicker();
+  const root = document.documentElement;
+  const scrollY = window.scrollY;
+  const keepScroll = () => {
+    if (window.scrollY !== scrollY) window.scrollTo({ top: scrollY, behavior: "instant" });
+  };
+  const finish = (resolve: (docs: GooglePickerDoc[]) => void, docs: GooglePickerDoc[]) => {
+    keepScroll();
+    delete root.dataset.drivePicker;
+    resolve(docs);
+  };
+  root.dataset.drivePicker = "";
 
   return new Promise<GooglePickerDoc[]>((resolve) => {
     const view = new picker.DocsView(picker.ViewId.DOCS).setIncludeFolders(true);
@@ -34,11 +45,13 @@ export async function pickDriveFiles({ token, mimeTypes, maxItems, title }: Pick
       .addView(view)
       .enableFeature(picker.Feature.SUPPORT_DRIVES)
       .setCallback((result) => {
-        if (result.action === picker.Action.PICKED) resolve(result.docs ?? []);
-        else if (result.action === picker.Action.CANCEL) resolve([]);
+        if (result.action === picker.Action.PICKED) finish(resolve, result.docs ?? []);
+        else if (result.action === picker.Action.CANCEL) finish(resolve, []);
+        else keepScroll();
       });
 
     if (maxItems > 1) builder.enableFeature(picker.Feature.MULTISELECT_ENABLED).setMaxItems(maxItems);
     builder.build().setVisible(true);
+    requestAnimationFrame(keepScroll);
   });
 }

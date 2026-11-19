@@ -77,7 +77,7 @@ export function ZipExtractor() {
             <>
               <span className="text-sm font-semibold tabular-nums">{zipCopy.files(entries.length, formatBytes(total))}</span>
               <span className="flex items-center gap-1">
-                <SaveToDriveButton files={savable(entries)} />
+                <SaveToDriveButton files={savable(entries)} size="sm" />
                 <Button size="sm" onClick={saveAll}>
                   <Download className="size-3.5" aria-hidden />
                   {zipCopy.extract.saveAll}
