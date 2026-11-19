@@ -1,7 +1,5 @@
-import { siteConfig } from "@/config/site";
-
 export const blogCopy = {
-  metaTitle: `Blog: Photo Privacy, Metadata and File Guides | ${siteConfig.name}`,
+  metaTitle: "Blog: Photo Privacy, Metadata and File Guides",
   metaDescription:
     "Plain-language guides on photo metadata, EXIF and GPS privacy, AI image labels, and getting files ready to share, from the Pexlora team.",
   eyebrow: "Blog",
