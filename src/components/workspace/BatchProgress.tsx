@@ -12,8 +12,8 @@ export function BatchProgress({ done, total, className }: { done: number; total:
         <span className="tabular-nums">{Math.round((done / total) * 100)}%</span>
       </div>
       <span className="relative h-1.5 overflow-hidden rounded-full bg-fill-strong" aria-hidden>
-        <span className={cn("absolute inset-y-0 left-0 rounded-full bg-foreground transition-[width] duration-500", barWidth((done / total) * 100))} />
-        <span className="absolute inset-y-0 left-0 w-1/3 rounded-full bg-primary/70 motion-safe:animate-progress" />
+        <span className={cn("absolute inset-y-0 left-0 rounded-full bg-primary transition-[width] duration-500", barWidth((done / total) * 100))} />
+        <span className="absolute inset-y-0 left-0 w-1/3 rounded-full bg-white/45 motion-safe:animate-progress" />
       </span>
     </div>
   );

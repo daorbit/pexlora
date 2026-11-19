@@ -49,4 +49,6 @@ export const toast = {
   error: (message: string) => push("error", message),
   info: (message: string) => push("info", message),
   undo: (message: string, onUndo: () => void) => push("info", message, { label: UNDO_LABEL, onAction: onUndo }),
+  link: (message: string, label: string, href: string) =>
+    push("success", message, { label, onAction: () => window.open(href, "_blank", "noopener,noreferrer") }),
 };

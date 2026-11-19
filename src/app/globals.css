@@ -612,6 +612,25 @@ body {
   top: 0 !important;
 }
 
+html[data-drive-picker] {
+  scroll-behavior: auto;
+}
+
+div.picker-dialog-bg {
+  background: #000 !important;
+}
+
+iframe.picker-dialog-bg {
+  display: none !important;
+}
+
+.picker-dialog {
+  border: 0 !important;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 24px 64px rgb(0 0 0 / 0.28);
+}
+
 .goog-text-highlight {
   background: none !important;
   box-shadow: none !important;

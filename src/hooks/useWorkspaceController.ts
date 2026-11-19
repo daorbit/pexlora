@@ -21,6 +21,7 @@ import { useWorkspacePerks } from "@/hooks/useWorkspacePerks";
 import { useWorkspaceSession } from "@/hooks/useWorkspaceSession";
 import type { MetadataFields, ToolOptions } from "@/lib/image/options";
 import { fetchAsFile } from "@/lib/utils/fetch-file";
+import { workspacePhase } from "@/lib/workspace/phase";
 import { isGalleryMedia, saveFiles } from "@/lib/utils/save-file";
 import { toolBehaviors } from "@/components/workspace/toolBehaviors";
 
@@ -108,6 +109,8 @@ export function useWorkspaceController({ tool, accepts: acceptsOverride, initial
     changeOptions,
     run,
     picker,
+    accept,
+    importFiles: addFilesAndRun,
     isDragging,
     dropProps,
     batchTotal,
@@ -119,6 +122,12 @@ export function useWorkspaceController({ tool, accepts: acceptsOverride, initial
     downloadAll,
     downloadAllLabel: saveCopy.label(results.length, allToPhotos),
     hasItems: queue.items.length > 0,
+    phase: workspacePhase({
+      itemCount: queue.items.length,
+      readyCount: queue.readyCount,
+      doneCount: queue.doneItems.length,
+      isProcessing: queue.isProcessing,
+    }),
   };
 }
 

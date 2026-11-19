@@ -22,6 +22,7 @@ export function DropCard({ controller, override, short = false, stretch = false 
         localCapable={controller.localCapable}
         isDragging={controller.isDragging}
         onBrowse={controller.picker.open}
+        onFiles={controller.importFiles}
         onSample={controller.addSample}
         override={override}
         short={short}

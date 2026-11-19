@@ -1,3 +1,5 @@
+import { loadScript } from "@/lib/utils/load-script";
+
 const CHECKOUT_SRC = "https://checkout.razorpay.com/v1/checkout.js";
 
 export type RazorpaySuccess = {
@@ -30,7 +32,6 @@ declare global {
   }
 }
 
-let loading: Promise<RazorpayConstructor> | null = null;
 let logo: Promise<string | undefined> | null = null;
 
 function readAsDataUrl(blob: Blob) {
@@ -53,19 +54,8 @@ export function loadCheckoutLogo(src: string) {
   return logo;
 }
 
-export function loadRazorpayCheckout() {
-  if (window.Razorpay) return Promise.resolve(window.Razorpay);
-  loading ??= new Promise<RazorpayConstructor>((resolve, reject) => {
-    const script = document.createElement("script");
-    script.src = CHECKOUT_SRC;
-    script.async = true;
-    script.onload = () => (window.Razorpay ? resolve(window.Razorpay) : reject(new Error("Checkout unavailable")));
-    script.onerror = () => {
-      loading = null;
-      script.remove();
-      reject(new Error("Checkout failed to load"));
-    };
-    document.head.appendChild(script);
-  });
-  return loading;
+export async function loadRazorpayCheckout() {
+  await loadScript(CHECKOUT_SRC, () => Boolean(window.Razorpay));
+  if (!window.Razorpay) throw new Error("Checkout unavailable");
+  return window.Razorpay;
 }

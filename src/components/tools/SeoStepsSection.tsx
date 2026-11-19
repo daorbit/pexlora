@@ -1,26 +1,26 @@
 import type { ToolStep } from "@/content/seo-pages/types";
-import { MobileCarousel } from "@/components/ui/MobileCarousel";
 import { Section } from "@/components/ui/Section";
+import { SectionHeading } from "@/components/ui/SectionHeading";
+import { SeoStepsList } from "@/components/tools/SeoStepsList";
 
-type SeoStepsSectionProps = { title: string; steps: ToolStep[] };
+type SeoIntro = { heading: string; paragraphs: string[] };
+type SeoStepsSectionProps = { title: string; steps: ToolStep[]; intro?: SeoIntro };
 
-export function SeoStepsSection({ title, steps }: SeoStepsSectionProps) {
+const STEPS_EYEBROW = "How it works";
+
+export function SeoStepsSection({ title, steps, intro }: SeoStepsSectionProps) {
   return (
-    <Section narrow align="left" eyebrow="How it works" title={title}>
-      <MobileCarousel label={title} as="ol" trackClassName="gap-2 p-px sm:grid sm:grid-cols-3 sm:gap-3 sm:p-0">
-        {steps.map((step, index) => (
-          <li
-            key={step.title}
-            className="flex min-w-0 shrink-0 grow-0 basis-[86%] flex-col gap-2 rounded-2xl bg-surface p-4 ring-1 ring-separator sm:basis-auto sm:p-5"
-          >
-            <span className="inline-flex size-7 items-center justify-center rounded-full bg-primary text-[13px] font-bold text-primary-foreground">
-              {index + 1}
-            </span>
-            <h3 className="text-[15px] font-semibold tracking-[-0.01em] sm:text-[17px]">{step.title}</h3>
-            <p className="text-[13.5px] leading-relaxed text-secondary sm:text-[14.5px]">{step.body}</p>
-          </li>
-        ))}
-      </MobileCarousel>
+    <Section align="left" className="border-t border-separator">
+      <div className="grid grid-cols-1 gap-6 sm:gap-10 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:gap-16 xl:gap-24">
+        <SectionHeading eyebrow={STEPS_EYEBROW} title={intro?.heading ?? title} className="max-w-none lg:sticky lg:top-24 lg:self-start">
+          {intro?.paragraphs.map((paragraph) => (
+            <p key={paragraph} className="max-w-[62ch] text-[15px] leading-relaxed text-secondary sm:mt-1 sm:text-[17px]">
+              {paragraph}
+            </p>
+          ))}
+        </SectionHeading>
+        <SeoStepsList title={intro ? title : undefined} steps={steps} />
+      </div>
     </Section>
   );
 }

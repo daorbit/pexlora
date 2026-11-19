@@ -4,6 +4,8 @@ import { batchTitleCopy, dropzoneOverrides, panelNotes } from "@/content/workspa
 import { isLocalFormat } from "@/lib/files/detect";
 import { cn } from "@/lib/utils/cn";
 import { UpsellAlert } from "@/components/ui/UpsellAlert";
+import { ImportSources } from "@/components/import/ImportSources";
+import { StepsBar } from "@/components/workspace/steps/StepsBar";
 import { ActionBar } from "@/components/workspace/ActionBar";
 import { ConversionSummary } from "@/components/workspace/ConversionSummary";
 import { FileRow } from "@/components/workspace/FileRow";
@@ -37,6 +39,7 @@ export function RowsLayout({ controller, conversion, panelFooter }: LayoutProps)
         disabled={Boolean(controller.optionsError)}
         quotaRemaining={queue.quotaRemaining}
         downloadAllLabel={controller.downloadAllLabel}
+        results={controller.results}
         onRun={controller.run}
         onDownloadAll={controller.downloadAll}
         className={className}
@@ -52,6 +55,7 @@ export function RowsLayout({ controller, conversion, panelFooter }: LayoutProps)
 
       <div className="flex min-w-0 flex-col gap-3 lg:self-stretch">
         <UpsellAlert message={queue.notice?.message ?? null} upsell={queue.notice?.upsell ?? null} />
+        {action && <StepsBar controller={controller} />}
         {hasItems ? (
           <FilesCard
             fileCount={queue.items.length}
@@ -62,6 +66,15 @@ export function RowsLayout({ controller, conversion, panelFooter }: LayoutProps)
             disabled={queue.isProcessing}
             onAdd={picker.open}
             onClear={controller.clearAll}
+            importSlot={
+              <ImportSources
+                size="sm"
+                onFiles={controller.importFiles}
+                accept={controller.accept}
+                disabled={!queue.canAddMore || queue.isProcessing}
+                className="max-sm:hidden"
+              />
+            }
           >
             {queue.items.map((item, index) => (
               <FileRow

@@ -4,8 +4,7 @@ import { Download, Share } from "lucide-react";
 import { saveCopy } from "@/content/workspace";
 import { useCanSaveToPhotos } from "@/hooks/useCanSaveToPhotos";
 import { isGalleryMedia, saveFiles } from "@/lib/utils/save-file";
-import { Button } from "@/components/ui/Button";
-import { useDownloadGate } from "@/components/workspace/DownloadGate";
+import { Button } from "@/components/ui/Button";import { useDownloadGate } from "@/components/workspace/DownloadGate";
 
 export function SaveFileButton({ file }: { file: { blob: Blob; name: string } }) {
   const toPhotos = useCanSaveToPhotos() && isGalleryMedia(file.blob.type);

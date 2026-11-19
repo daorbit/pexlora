@@ -2,6 +2,8 @@
 
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils/cn";
+import { tileClasses, tileHint } from "@/components/workspace/options/tile-styles";
+import { TileCheck } from "@/components/workspace/options/TileCheck";
 
 export type OptionTile<T extends string> = { value: T; label: string; hint?: string; icon?: ReactNode };
 
@@ -36,17 +38,18 @@ export function OptionTiles<T extends string>({
             aria-checked={active}
             disabled={disabled}
             onClick={() => onChange(option.value)}
-            className={cn(
-              "flex min-h-11 flex-col justify-center gap-0.5 rounded-2xl px-3.5 py-2.5 text-left transition-[background-color,color,scale] duration-200 focus-visible:outline-2 motion-safe:active:scale-[0.97] focus-visible:outline-offset-1 focus-visible:outline-ring disabled:cursor-not-allowed disabled:opacity-50",
-              option.icon ? "items-center text-center" : "items-start",
-              active ? "bg-primary text-primary-foreground" : "bg-fill hover:bg-fill-strong",
+            className={tileClasses(
+              active,
+              cn(
+                "flex min-h-11 flex-col justify-center gap-0.5 rounded-xl px-3.5 py-2.5",
+                option.icon ? "items-center text-center" : "items-start",
+              ),
             )}
           >
             {option.icon && <span className="mb-1 flex h-7 items-center justify-center">{option.icon}</span>}
             <span className="text-sm font-bold">{option.label}</span>
-            {option.hint && (
-              <span className={cn("text-xs", active ? "text-primary-foreground/70" : "text-secondary")}>{option.hint}</span>
-            )}
+            {option.hint && <span className={cn("text-xs", tileHint)}>{option.hint}</span>}
+            {active && <TileCheck className="top-1.5 right-1.5 size-4" />}
           </button>
         );
       })}

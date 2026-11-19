@@ -17,7 +17,7 @@ const action =
 export function SignOutConfirm({ pending, onConfirm, onCancel, className }: SignOutConfirmProps) {
   return (
     <div role="alertdialog" aria-label={accountCopy.signOut} className={cn("flex flex-col gap-2.5 motion-safe:animate-fade-in", className)}>
-      <p className="text-[13px] leading-snug text-secondary">{accountCopy.signOutWarning}</p>
+      <p className="text-[13px] leading-snug wrap-break-word whitespace-normal text-secondary">{accountCopy.signOutWarning}</p>
       <div className="flex gap-2">
         <button type="button" onClick={onCancel} disabled={pending} className={cn(action, "bg-fill hover:bg-fill-strong")} autoFocus>
           {accountCopy.cancel}

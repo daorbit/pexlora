@@ -6,6 +6,7 @@ import type { WorkspaceController } from "@/hooks/useWorkspaceController";
 import { formatBytes } from "@/lib/utils/format-bytes";
 import { cn } from "@/lib/utils/cn";
 import { Button } from "@/components/ui/Button";
+import { SaveToDriveButton } from "@/components/drive/SaveToDriveButton";
 import { BatchProgress } from "@/components/workspace/BatchProgress";
 import { useDownloadGate } from "@/components/workspace/DownloadGate";
 
@@ -36,9 +37,10 @@ export function GalleryBar({ controller, target, className }: GalleryBarProps) {
         {queue.quotaRemaining !== null && <span className="text-xs text-tertiary">{queueCopy.freeLeft(queue.quotaRemaining)}</span>}
       </div>
       <div className="flex flex-wrap items-center gap-2 max-sm:[&>*]:flex-1">
+        {doneCount > 0 && !queue.isProcessing && <SaveToDriveButton files={results} size="lg" />}
         {doneCount > 0 && (
           <Button
-            variant={finished ? "ink" : "secondary"}
+            variant={finished ? "primary" : "secondary"}
             size="lg"
             onClick={save}
             className={cn(finished && "motion-safe:animate-pop")}
@@ -49,7 +51,7 @@ export function GalleryBar({ controller, target, className }: GalleryBarProps) {
         )}
         {!finished && (
           <Button
-            variant="ink"
+            variant="primary"
             size="lg"
             arrow={!queue.isProcessing}
             onClick={controller.run}

@@ -2,13 +2,14 @@
 
 import type { MouseEvent } from "react";
 import { Upload } from "lucide-react";
-import type { FileKind } from "@/config/file-formats";
+import { acceptAttribute, type FileKind } from "@/config/file-formats";
 import type { SampleImage } from "@/config/samples";
 import { dropzoneCopy, type DropzoneOverride } from "@/content/workspace";
 import { useWorkspacePerks } from "@/hooks/useWorkspacePerks";
 import { describeAccepted } from "@/lib/files/detect";
 import { cn } from "@/lib/utils/cn";
 import { Button } from "@/components/ui/Button";
+import { ImportSources } from "@/components/import/ImportSources";
 import { SampleChips } from "@/components/workspace/SampleChips";
 
 type DropzoneProps = {
@@ -17,6 +18,9 @@ type DropzoneProps = {
   localCapable: boolean;
   isDragging: boolean;
   onBrowse: () => void;
+  onFiles?: (files: File[]) => void;
+  accept?: string;
+  multiple?: boolean;
   onSample: (sample: SampleImage) => void;
   compact?: boolean;
   short?: boolean;
@@ -34,6 +38,9 @@ export function Dropzone({
   localCapable,
   isDragging,
   onBrowse,
+  onFiles,
+  accept,
+  multiple = true,
   onSample,
   compact = false,
   short = false,
@@ -82,6 +89,14 @@ export function Dropzone({
       <Button variant="ink" size="md" arrow onClick={onBrowse} className="sr-only">
         {dropzoneCopy.button(accepts)}
       </Button>
+      {onFiles && (
+        <ImportSources
+          size="labelled"
+          onFiles={onFiles}
+          accept={accept ?? acceptAttribute(accepts, localCapable, formats)}
+          multiple={multiple}
+        />
+      )}
       {localCapable && !compact && <p className="hidden max-w-md text-[13px] text-secondary sm:block">{note}</p>}
       {showSamples && <SampleChips onSelect={onSample} />}
     </div>

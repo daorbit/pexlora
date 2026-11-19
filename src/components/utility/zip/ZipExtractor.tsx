@@ -13,6 +13,7 @@ import { canSaveToPhotos, isGalleryMedia, saveFiles } from "@/lib/utils/save-fil
 import { Alert } from "@/components/ui/Alert";
 import { Button } from "@/components/ui/Button";
 import { Dropzone } from "@/components/workspace/Dropzone";
+import { SaveToDriveButton } from "@/components/drive/SaveToDriveButton";
 import { ZipFileList, ZipFileRow } from "@/components/utility/zip/ZipFileRow";
 
 const BYTES_PER_MB = 1024 * 1024;
@@ -67,7 +68,7 @@ export function ZipExtractor() {
   return (
     <div {...dropProps} className="flex flex-col gap-3">
       <input {...inputProps} multiple={false} />
-      <Dropzone accepts={[]} localCapable isDragging={isDragging} onBrowse={open} onSample={() => {}} short={entries.length > 0} override={dropOverride} />
+      <Dropzone accepts={[]} localCapable isDragging={isDragging} onBrowse={open} onFiles={openZip} accept={ZIP_ACCEPT} multiple={false} onSample={() => {}} short={entries.length > 0} override={dropOverride} />
       {working && <p className="text-center text-sm text-secondary">{zipCopy.extract.working}</p>}
       {error && <Alert message={error} />}
       {entries.length > 0 && (
@@ -75,10 +76,13 @@ export function ZipExtractor() {
           header={
             <>
               <span className="text-sm font-semibold tabular-nums">{zipCopy.files(entries.length, formatBytes(total))}</span>
-              <Button size="sm" onClick={saveAll}>
-                <Download className="size-3.5" aria-hidden />
-                {zipCopy.extract.saveAll}
-              </Button>
+              <span className="flex items-center gap-1">
+                <SaveToDriveButton files={savable(entries)} size="sm" />
+                <Button size="sm" onClick={saveAll}>
+                  <Download className="size-3.5" aria-hidden />
+                  {zipCopy.extract.saveAll}
+                </Button>
+              </span>
             </>
           }
         >
