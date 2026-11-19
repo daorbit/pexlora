@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import { formPresets, getFormPreset } from "@/config/form-presets";
 import { formPresetMetadata } from "@/lib/seo/tool-metadata";
 import { FormPresetPage } from "@/components/tools/FormPresetPage";
-import { PageIntroSkeleton } from "@/components/tools/PageIntroSkeleton";
 
 type FormPresetRouteProps = { params: Promise<{ preset: string }> };
+
+export const instant = false;
 
 export function generateStaticParams() {
   return formPresets.map((preset) => ({ preset: preset.slug }));
@@ -17,16 +17,8 @@ export async function generateMetadata({ params }: FormPresetRouteProps): Promis
   return preset ? formPresetMetadata(preset) : {};
 }
 
-async function FormPresetContent({ params }: FormPresetRouteProps) {
+export default async function FormPresetRoute({ params }: FormPresetRouteProps) {
   const preset = getFormPreset((await params).preset);
   if (!preset) notFound();
   return <FormPresetPage preset={preset} />;
-}
-
-export default function FormPresetRoute({ params }: FormPresetRouteProps) {
-  return (
-    <Suspense fallback={<PageIntroSkeleton />}>
-      <FormPresetContent params={params} />
-    </Suspense>
-  );
 }
