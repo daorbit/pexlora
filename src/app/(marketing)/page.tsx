@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { AccountBand } from "@/components/landing/AccountBand";
+import { DifferenceSection } from "@/components/landing/DifferenceSection";
 import { FaqSection } from "@/components/landing/FaqSection";
 import { FeaturesSection } from "@/components/landing/FeaturesSection";
 import { FormatsSection } from "@/components/landing/FormatsSection";
@@ -26,6 +27,7 @@ export default function HomePage() {
       <JsonLd data={homeStructuredData()} />
       <HomeHero />
       <ToolHubSection />
+      <DifferenceSection />
       <FeaturesSection />
       <StepsSection />
       <RisksSection />

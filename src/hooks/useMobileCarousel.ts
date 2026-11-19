@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 
-const breakpoints = { sm: "(min-width: 40rem)", md: "(min-width: 48rem)" } as const;
+const breakpoints = { sm: "(min-width: 40rem)", md: "(min-width: 48rem)", lg: "(min-width: 64rem)" } as const;
 
 export type CarouselBreakpoint = keyof typeof breakpoints;
 

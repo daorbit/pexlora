@@ -9,7 +9,7 @@ import { Highlight } from "@/components/ui/Highlight";
 import { ContactDetails } from "@/components/forms/ContactDetails";
 import { EmbeddedForm } from "@/components/forms/EmbeddedForm";
 
-export const metadata: Metadata = pageMetadata("Contact & Early Access for Teams", contactPage.description, routes.contact);
+export const metadata: Metadata = pageMetadata(contactPage.metaTitle, contactPage.description, routes.contact);
 
 export default function ContactPage() {
   return (
@@ -23,7 +23,7 @@ export default function ContactPage() {
           </h1>
           <p className="max-w-lg text-[17px] leading-relaxed text-secondary">{contactPage.description}</p>
         </div>
-        <EmbeddedForm form={embeddedForms.teamsEarlyAccess} />
+        <EmbeddedForm form={embeddedForms.contact} />
         <ContactDetails />
         </div>
       </Container>

@@ -6,7 +6,9 @@ import { PostByline } from "@/components/blog/PostByline";
 import { PostCover } from "@/components/blog/PostCover";
 import { PostTopic } from "@/components/blog/PostTopic";
 
-export function PostCard({ post, className }: { post: PostMeta; className?: string }) {
+type PostCardProps = { post: PostMeta; showDescription?: boolean; className?: string };
+
+export function PostCard({ post, showDescription, className }: PostCardProps) {
   return (
     <Link
       href={blogPostPath(post.slug)}
@@ -25,6 +27,9 @@ export function PostCard({ post, className }: { post: PostMeta; className?: stri
       <h3 className="line-clamp-3 text-[14px] leading-[1.3] font-semibold sm:text-[20px] sm:leading-[1.25] sm:tracking-[-0.02em]">
         {post.title}
       </h3>
+      {showDescription && post.description && (
+        <p className="line-clamp-2 text-[14px] leading-relaxed text-secondary max-sm:hidden">{post.description}</p>
+      )}
       <PostByline date={post.date} className="max-sm:hidden" />
     </Link>
   );

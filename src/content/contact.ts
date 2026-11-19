@@ -1,9 +1,10 @@
 export const contactPage = {
-  eyebrow: "Pexlora for Teams",
-  title: "Get early access",
-  highlight: "for your team.",
+  metaTitle: "Contact Pexlora",
+  eyebrow: "Contact",
+  title: "Talk to",
+  highlight: "a real person.",
   description:
-    "Bulk cleaning, higher limits and API access are on the way. Tell us what you need and we'll invite you first.",
+    "Questions, a bug, a tool you wish we had or a business enquiry. Send a message and we'll reply by email.",
 };
 
 export const contactDetails = {

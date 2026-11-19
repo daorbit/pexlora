@@ -1,8 +1,8 @@
 export const embeddedForms = {
-  teamsEarlyAccess: {
+  contact: {
     src: "https://forms.daorbit.in/form/6af9ba81e99c97da3afe62b8/view",
     origin: "https://forms.daorbit.in",
-    title: "Get early access to Pexlora for Teams",
+    title: "Contact Pexlora",
   },
 } as const;
 

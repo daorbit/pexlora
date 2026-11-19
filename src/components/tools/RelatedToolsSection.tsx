@@ -1,7 +1,7 @@
 import type { HubItem } from "@/config/tool-hub";
 import { seoPageIconSrc, seoPagePath, type SeoPage } from "@/content/seo-pages";
 import { Section } from "@/components/ui/Section";
-import { HubCardCarousel } from "@/components/home/HubCardCarousel";
+import { HubCardGrid } from "@/components/home/HubCardGrid";
 
 type RelatedToolsSectionProps = { pages: SeoPage[]; leading?: HubItem };
 
@@ -22,7 +22,7 @@ export function RelatedToolsSection({ pages, leading }: RelatedToolsSectionProps
 
   return (
     <Section eyebrow="Related tools" title="More ways to clean your files." className="border-t border-separator">
-      <HubCardCarousel label="Related tools" items={items} />
+      <HubCardGrid label="Related tools" items={items} />
     </Section>
   );
 }

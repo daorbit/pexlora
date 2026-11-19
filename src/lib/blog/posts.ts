@@ -62,6 +62,14 @@ export async function getListedPosts() {
   return (await getAllPosts()).filter((post) => !post.noIndex);
 }
 
+export async function getLatestPosts(limit: number) {
+  try {
+    return (await getListedPosts()).slice(0, limit);
+  } catch {
+    return [];
+  }
+}
+
 export async function getPrerenderSlugs() {
   try {
     const slugs = (await getAllPosts()).map((post) => post.slug);

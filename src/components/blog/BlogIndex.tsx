@@ -55,7 +55,7 @@ export function BlogIndex({ posts, topics }: BlogIndexProps) {
           />
         )}
         {listed.length > 0 ? (
-          <PostGrid key={topic} posts={listed} />
+          <PostGrid key={topic} posts={listed} showDescription />
         ) : (
           <p className="py-10 text-center text-[14.5px] text-secondary">
             {blogCopy.noMatches}
