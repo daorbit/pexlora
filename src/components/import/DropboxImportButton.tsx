@@ -20,6 +20,7 @@ export function DropboxImportButton({ onFiles, accept, multiple = true, disabled
   return (
     <ImportSourceButton
       label={dropboxCopy.import}
+      shortLabel={dropboxCopy.short}
       icon={<DropboxIcon className="size-4.5" />}
       onClick={dropbox.open}
       onPrepare={dropbox.prepare}

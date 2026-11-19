@@ -90,7 +90,12 @@ export function Dropzone({
         {dropzoneCopy.button(accepts)}
       </Button>
       {onFiles && (
-        <ImportSources onFiles={onFiles} accept={accept ?? acceptAttribute(accepts, localCapable, formats)} multiple={multiple} />
+        <ImportSources
+          size="labelled"
+          onFiles={onFiles}
+          accept={accept ?? acceptAttribute(accepts, localCapable, formats)}
+          multiple={multiple}
+        />
       )}
       {localCapable && !compact && <p className="hidden max-w-md text-[13px] text-secondary sm:block">{note}</p>}
       {showSamples && <SampleChips onSelect={onSample} />}

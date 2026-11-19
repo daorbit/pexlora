@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils/cn";
 import { Button } from "@/components/ui/Button";
 import { UpsellAlert } from "@/components/ui/UpsellAlert";
 import { ImportSources } from "@/components/import/ImportSources";
+import { StepsBar } from "@/components/workspace/steps/StepsBar";
 import { ActionBar } from "@/components/workspace/ActionBar";
 import { FileRow } from "@/components/workspace/FileRow";
 import { PanelChecklist } from "@/components/workspace/PanelChecklist";
@@ -68,6 +69,7 @@ export function DocumentsLayout({ controller, panelFooter }: LayoutProps) {
 
       <div className="flex min-w-0 flex-col gap-3 lg:self-stretch">
         <UpsellAlert message={queue.notice?.message ?? null} upsell={queue.notice?.upsell ?? null} />
+        <StepsBar controller={controller} />
         {finished.length > 0 && (
           <ul className={cn("flex flex-col gap-1 p-2.5", workspaceCard)}>
             {finished.map((item) => (

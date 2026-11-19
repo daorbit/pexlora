@@ -40,7 +40,7 @@ export function GalleryBar({ controller, target, className }: GalleryBarProps) {
         {doneCount > 0 && !queue.isProcessing && <SaveToDriveButton files={results} size="lg" />}
         {doneCount > 0 && (
           <Button
-            variant={finished ? "ink" : "secondary"}
+            variant={finished ? "primary" : "secondary"}
             size="lg"
             onClick={save}
             className={cn(finished && "motion-safe:animate-pop")}
@@ -51,7 +51,7 @@ export function GalleryBar({ controller, target, className }: GalleryBarProps) {
         )}
         {!finished && (
           <Button
-            variant="ink"
+            variant="primary"
             size="lg"
             arrow={!queue.isProcessing}
             onClick={controller.run}

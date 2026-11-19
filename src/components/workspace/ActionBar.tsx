@@ -51,13 +51,13 @@ export function ActionBar({
   return (
     <div className={cn("flex flex-col gap-2.5", className)}>
       {finished ? (
-        <Button variant="ink" size="xl" onClick={save} className={cn(bigButton, "motion-safe:animate-pop")}>
+        <Button variant="primary" size="xl" onClick={save} className={cn(bigButton, "motion-safe:animate-pop")}>
           <Download className="size-4.5" aria-hidden />
           {downloadAllLabel}
         </Button>
       ) : (
         <Button
-          variant="ink"
+          variant="primary"
           size="xl"
           arrow={!isProcessing}
           onClick={onRun}

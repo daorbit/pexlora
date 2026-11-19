@@ -20,6 +20,7 @@ export function DriveImportButton({ onFiles, accept, multiple = true, disabled, 
   return (
     <ImportSourceButton
       label={driveCopy.import}
+      shortLabel={driveCopy.short}
       icon={<GoogleDriveIcon className="size-4.5" />}
       onClick={drive.open}
       onPrepare={drive.prepare}

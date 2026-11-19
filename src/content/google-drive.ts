@@ -1,5 +1,6 @@
 export const driveCopy = {
   import: "Select from Google Drive",
+  short: "Google Drive",
   pickerTitle: "Choose files for Pexlora",
   save: "Save to Google Drive",
   saveAll: (count: number) => (count > 1 ? `Save ${count} to Google Drive` : "Save to Google Drive"),

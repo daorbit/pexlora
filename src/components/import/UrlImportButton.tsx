@@ -19,6 +19,7 @@ export function UrlImportButton({ onFiles, disabled, size }: UrlImportButtonProp
     <>
       <ImportSourceButton
         label={urlImportCopy.open}
+        shortLabel={urlImportCopy.short}
         icon={<Link2 className="size-4.5" aria-hidden />}
         onClick={() => setOpen(true)}
         disabled={disabled}

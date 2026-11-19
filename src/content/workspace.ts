@@ -540,6 +540,20 @@ export const queueCopy = {
   cleared: (count: number) => `Cleared ${count} ${count === 1 ? "file" : "files"}`,
 };
 
+export const stepsCopy = {
+  label: "Progress",
+  add: "Add files",
+  added: (count: number) => `${count} ${count === 1 ? "file" : "files"} added`,
+  choose: "Choose settings",
+  chooseFormat: "Pick a format",
+  done: "Done",
+  convertedTo: (format: string) => `Converted to ${format}`,
+  save: "Save",
+  saveActive: "Save your files",
+  startOver: "Start Over",
+  convertTo: "Convert to",
+};
+
 export const batchTitleCopy = {
   progress: (done: number, total: number, title: string) => `(${done}/${total}) ${title}`,
   done: (title: string) => `Done · ${title}`,

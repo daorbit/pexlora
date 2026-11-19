@@ -5,6 +5,7 @@ import { isLocalFormat } from "@/lib/files/detect";
 import { cn } from "@/lib/utils/cn";
 import { UpsellAlert } from "@/components/ui/UpsellAlert";
 import { ImportSources } from "@/components/import/ImportSources";
+import { StepsBar } from "@/components/workspace/steps/StepsBar";
 import { ActionBar } from "@/components/workspace/ActionBar";
 import { ConversionSummary } from "@/components/workspace/ConversionSummary";
 import { FileRow } from "@/components/workspace/FileRow";
@@ -54,6 +55,7 @@ export function RowsLayout({ controller, conversion, panelFooter }: LayoutProps)
 
       <div className="flex min-w-0 flex-col gap-3 lg:self-stretch">
         <UpsellAlert message={queue.notice?.message ?? null} upsell={queue.notice?.upsell ?? null} />
+        {action && <StepsBar controller={controller} />}
         {hasItems ? (
           <FilesCard
             fileCount={queue.items.length}

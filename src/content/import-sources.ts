@@ -5,11 +5,14 @@ export const importCopy = {
 
 export const dropboxCopy = {
   import: "Select from Dropbox",
+  short: "Dropbox",
   failed: "Dropbox didn't respond. Please try again.",
 };
 
 export const urlImportCopy = {
   open: "Add from a link",
+  short: "Link",
+  importFrom: "Import from",
   title: "Add a file from a link",
   label: "File link",
   placeholder: "https://example.com/photo.jpg",
