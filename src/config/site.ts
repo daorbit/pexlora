@@ -1,5 +1,6 @@
 export const siteConfig = {
   name: "Pexlora",
+  alternateNames: ["Pexlora by DA Orbit", "Pexlora Tools"],
   tagline: "Clean your files before you share them",
   description:
     "Remove EXIF, GPS and AI metadata from photos, PDFs, Office documents, audio and video, view and edit EXIF data, and compress, resize or convert JPG, PNG, WebP and AVIF images. Free, no sign-up.",

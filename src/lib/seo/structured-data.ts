@@ -1,5 +1,6 @@
 import "server-only";
 import { blogPostPath } from "@/config/blog";
+import { company } from "@/config/company";
 import { brandAssets } from "@/config/brand";
 import { seo } from "@/config/seo";
 import { PLAN_IDS, PLANS } from "@/config/plans";
@@ -71,6 +72,7 @@ export function toolStructuredData({
 
 export function homeStructuredData() {
   const url = env.appUrl;
+  const homeUrl = `${url}/`;
 
   return {
     "@context": "https://schema.org",
@@ -79,14 +81,27 @@ export function homeStructuredData() {
         "@type": "Organization",
         "@id": organizationId(),
         name: siteConfig.name,
-        url,
-        logo: `${url}${brandAssets.iconLight}`,
+        alternateName: siteConfig.alternateNames,
+        url: homeUrl,
+        logo: {
+          "@type": "ImageObject",
+          url: `${url}${brandAssets.iconLight}`,
+          width: 512,
+          height: 512,
+        },
+        parentOrganization: {
+          "@type": "Organization",
+          name: company.legalName,
+          sameAs: [company.linkedin, company.instagram],
+        },
       },
       {
         "@type": "WebSite",
         "@id": `${url}/#website`,
         name: siteConfig.name,
-        url,
+        alternateName: siteConfig.alternateNames,
+        url: homeUrl,
+        inLanguage: "en",
         publisher: { "@id": organizationId() },
       },
       {
