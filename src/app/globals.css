@@ -616,8 +616,12 @@ html[data-drive-picker] {
   scroll-behavior: auto;
 }
 
-.picker-dialog-bg {
+div.picker-dialog-bg {
   background: #000 !important;
+}
+
+iframe.picker-dialog-bg {
+  display: none !important;
 }
 
 .picker-dialog {
