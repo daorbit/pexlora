@@ -54,6 +54,7 @@ export const metadata: Metadata = {
   twitter: { ...twitterDefaults, title: seo.defaultTitle, description: seo.description },
   verification: {
     google: siteConfig.googleSiteVerification,
+    other: { "msvalidate.01": siteConfig.bingSiteVerification },
   },
   other: {
     "google-adsense-account": adSenseConfig.clientId,

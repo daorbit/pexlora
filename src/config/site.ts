@@ -5,6 +5,7 @@ export const siteConfig = {
   description:
     "Remove EXIF, GPS and AI metadata from photos, PDFs, Office documents, audio and video, view and edit EXIF data, and compress, resize or convert JPG, PNG, WebP and AVIF images. Free, no sign-up.",
   googleSiteVerification: "HiZBxbDomDb7TUXm27xBbCModk82j3wdBABq0wHr5xM",
+  bingSiteVerification: "C54D3715B23C9CA48586D0570BD67ADD",
 } as const;
 
 export const routes = {
