@@ -3,6 +3,7 @@ import type { Conversion } from "@/config/conversions";
 import type { FormPreset } from "@/config/form-presets";
 import type { ImagePdfVariant } from "@/config/image-pdf-variants";
 import { formPresetCopy } from "@/content/tool-pages";
+import { hinglishCompressTargetFaq, hinglishFormPresetFaq } from "@/content/hinglish-faqs";
 import { MAX_FILES_PER_BATCH } from "@/config/limits";
 import { serverImageLimit } from "@/content/seo-pages/shared";
 import type { SeoFaq, ToolStep } from "@/content/seo-pages/types";
@@ -89,6 +90,7 @@ export function compressTargetFaqs({ label }: CompressTarget): SeoFaq[] {
       question: "Is metadata removed?",
       answer: "Yes. The compressed copy has no EXIF, GPS, XMP, IPTC or C2PA data, which also saves a few kilobytes.",
     },
+    hinglishCompressTargetFaq(label),
   ];
 }
 
@@ -118,6 +120,7 @@ export function formPresetFaqs(preset: FormPreset): SeoFaq[] {
       question: "What if the file is still too big or too small?",
       answer: "Quality is adjusted step by step to land inside the KB range. If a target can't be reached, you'll see a note, and a clearer or larger source picture usually fixes it.",
     },
+    hinglishFormPresetFaq(preset.name, formPresetCopy.specs(preset)),
     {
       question: `Is my ${noun} uploaded?`,
       answer: "No. Resizing happens in your browser, so the file stays on your device. The JPG also has no EXIF or GPS data.",

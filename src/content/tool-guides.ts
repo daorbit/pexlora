@@ -17,6 +17,7 @@ import type { WorkspaceToolSlug } from "@/config/tools";
 import { COMPRESSION_QUALITY } from "@/lib/image/options";
 import { extensions, faqs, howToSteps, imageQualityAnswer, serverImageLimit, sizeLimit } from "@/content/seo-pages/shared";
 import type { SeoFaq, ToolStep } from "@/content/seo-pages/types";
+import { hinglishFaqs } from "@/content/hinglish-faqs";
 
 export type ToolGuide = {
   intro: { heading: string; paragraphs: string[] };
@@ -115,6 +116,7 @@ export const toolGuides: Record<WorkspaceToolSlug, ToolGuide> = {
           "EXIF (camera, lens, serial numbers, dates, software), GPS location, XMP and IPTC fields, PNG text chunks, C2PA Content Credentials and AI generator tags. In documents, the author, last editor, company and other properties go too. The embedded colour profile of an image is kept, because it only describes colours.",
       },
       { question: "Will removing metadata lower the quality?", answer: imageQualityAnswer },
+      hinglishFaqs.removeLocation,
       faqs.watermarks,
       faqs.verify,
       faqs.mixedPrivacy,
@@ -212,6 +214,7 @@ export const toolGuides: Record<WorkspaceToolSlug, ToolGuide> = {
         question: "Can a PNG become a JPG?",
         answer: "Only in Target Size mode, and only if you allow it. JPG is usually much smaller for photos, but it drops transparency.",
       },
+      hinglishFaqs.compress,
       animatedGif,
       mostlyInBrowser,
       dailyLimit,
@@ -440,6 +443,7 @@ export const toolGuides: Record<WorkspaceToolSlug, ToolGuide> = {
         question: "Why is my photo cropped?",
         answer: "When both width and height are set, the photo is fitted to that exact shape and the edges are trimmed. Leave one of them empty to keep the original shape.",
       },
+      hinglishFaqs.formPhoto,
       inBrowser,
       dailyLimit,
     ],
@@ -627,6 +631,7 @@ export const toolGuides: Record<WorkspaceToolSlug, ToolGuide> = {
         question: "JPG or PDF?",
         answer: "Photo shops usually want a JPG. The PDF has the exact paper size built in, so it prints at the right size from a home printer.",
       },
+      hinglishFaqs.passport,
       inBrowser,
       dailyLimit,
     ],
@@ -811,6 +816,7 @@ export const toolGuides: Record<WorkspaceToolSlug, ToolGuide> = {
         question: "Is my location included in the PDF?",
         answer: "No. Only the pixels are placed on the page, so EXIF and GPS data from your photos aren't in the PDF.",
       },
+      hinglishFaqs.imageToPdf,
       inBrowser,
       dailyLimit,
     ],

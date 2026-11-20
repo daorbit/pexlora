@@ -1,6 +1,7 @@
 import { Camera, MapPinOff, Smartphone } from "lucide-react";
 import { extensions, faqs, removedList } from "@/content/seo-pages/shared";
 import type { SeoPage } from "@/content/seo-pages/types";
+import { hinglishFaqs } from "@/content/hinglish-faqs";
 
 export const privacyPages: SeoPage[] = [
   {
@@ -121,6 +122,7 @@ export const privacyPages: SeoPage[] = [
         answer:
           "Yes, if the original file still has GPS data. Anyone who saves it can read the coordinates and open them on a map. A cleaned copy has none.",
       },
+      hinglishFaqs.removeLocation,
     ],
     related: ["remove-location-from-iphone-photos", "photo-location-finder", "remove-exif-data"],
   },
