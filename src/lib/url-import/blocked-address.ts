@@ -25,6 +25,11 @@ function blockedIpv6(address: string) {
     lower === "::1" ||
     lower.startsWith("::ffff:") ||
     lower.startsWith("64:ff9b:") ||
+    lower.startsWith("2002:") ||
+    lower.startsWith("2001:0:") ||
+    lower.startsWith("2001::") ||
+    lower.startsWith("2001:db8:") ||
+    lower.startsWith("100::") ||
     lower.startsWith("fc") ||
     lower.startsWith("fd") ||
     /^fe[89ab]/.test(lower) ||

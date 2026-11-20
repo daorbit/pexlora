@@ -3,7 +3,7 @@ import { cacheLife, cacheTag } from "next/cache";
 import { BLOG_CMS, BLOG_PLACEHOLDER_SLUG, BLOG_RELATED_COUNT, BLOG_WORDS_PER_MINUTE } from "@/config/blog";
 import { siteConfig } from "@/config/site";
 import { getCmsPage, listCmsPages } from "@/services/cms.service";
-import { stripInlineStyles } from "@/lib/blog/clean-html";
+import { cleanPostHtml } from "@/lib/blog/clean-html";
 import { plainText, withHeadingIds } from "@/lib/blog/headings";
 import type { CmsImage, CmsPage, Post, PostMeta } from "@/lib/blog/types";
 
@@ -88,7 +88,7 @@ export async function getPost(slug: string): Promise<Post | null> {
   const page = await getCmsPage(slug);
   if (!page || page.group !== BLOG_CMS.group) return null;
 
-  const { html, headings } = withHeadingIds(stripInlineStyles(page.content ?? ""));
+  const { html, headings } = withHeadingIds(cleanPostHtml(page.content ?? ""));
   return { ...toMeta(page), html, headings, readingMinutes: readingMinutes(html) };
 }
 
