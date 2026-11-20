@@ -1,6 +1,7 @@
+import { SESSION_RETENTION_HOURS } from "@/config/limits";
 import { idbClear, idbDelete, idbEntries, idbGet, idbSet } from "@/lib/storage/idb";
 
-export const SESSION_MAX_AGE_MS = 24 * 60 * 60 * 1000;
+export const SESSION_MAX_AGE_MS = SESSION_RETENTION_HOURS * 60 * 60 * 1000;
 
 type Stored<T> = { savedAt: number; value: T };
 

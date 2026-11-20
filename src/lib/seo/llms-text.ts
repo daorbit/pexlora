@@ -8,6 +8,7 @@ import { routes, siteConfig } from "@/config/site";
 import { textTools } from "@/config/text-tools";
 import { workspaceTools } from "@/config/tools";
 import { utilityTools } from "@/config/utility-tools";
+import { factsCopy } from "@/content/facts";
 import { legalDocuments } from "@/content/legal";
 import { llmsCopy } from "@/content/llms";
 import { formPresetCopy, toolPageCopy } from "@/content/tool-pages";
@@ -67,7 +68,8 @@ export function buildLlmsText() {
   return [
     `# ${siteConfig.name}`,
     `> ${seo.description}`,
-    `## ${llmsCopy.factsTitle}\n\n${llmsCopy.facts.map((fact) => `- ${fact}`).join("\n")}`,
+    factsCopy.summary,
+    `## ${llmsCopy.factsTitle}\n\n${[...factsCopy.rows.map((row) => `${row.label}: ${row.value}`), ...llmsCopy.facts].map((fact) => `- ${fact}`).join("\n")}`,
     section(llmsCopy.tools, tools),
     section(llmsCopy.conversions, conversionLinks),
     section(llmsCopy.compressTargets, compressLinks),

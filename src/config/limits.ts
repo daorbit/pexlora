@@ -67,6 +67,8 @@ export const FILE_SIZE_LIMITS_MB: Record<FileKind, number> = {
 
 export const SERVER_IMAGE_SIZE_MB = 4;
 
+export const SESSION_RETENTION_HOURS = 24;
+
 export const MAX_IMAGE_SIZE_MB = SERVER_IMAGE_SIZE_MB;
 export const MAX_IMAGE_SIZE = MAX_IMAGE_SIZE_MB * 1024 * 1024;
 

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { AccountBand } from "@/components/landing/AccountBand";
 import { DifferenceSection } from "@/components/landing/DifferenceSection";
+import { FactsSection } from "@/components/landing/FactsSection";
 import { FaqSection } from "@/components/landing/FaqSection";
 import { FeaturesSection } from "@/components/landing/FeaturesSection";
 import { FormatsSection } from "@/components/landing/FormatsSection";
@@ -35,6 +36,7 @@ export default function HomePage() {
       <FormatsSection />
       <PopularToolsSection />
       <LearnSection />
+      <FactsSection />
       <FaqSection />
       <AccountBand />
     </>

@@ -2,9 +2,10 @@ import "server-only";
 import { blogPostPath } from "@/config/blog";
 import { company } from "@/config/company";
 import { brandAssets } from "@/config/brand";
-import { seo } from "@/config/seo";
 import { PLAN_IDS, PLANS } from "@/config/plans";
 import { routes, siteConfig } from "@/config/site";
+import { workspaceTools } from "@/config/tools";
+import { factsCopy } from "@/content/facts";
 import { faqs } from "@/content/landing";
 import { planCopy, pricingCopy } from "@/content/pricing";
 import { env } from "@/lib/env";
@@ -109,10 +110,12 @@ export function homeStructuredData() {
         "@id": `${url}/#app`,
         name: siteConfig.name,
         url,
-        description: seo.description,
+        description: factsCopy.summary,
         applicationCategory: "MultimediaApplication",
         operatingSystem: "Any",
         browserRequirements: "Requires a modern web browser",
+        isAccessibleForFree: true,
+        featureList: workspaceTools.map((tool) => tool.name),
         offers: freeOffer,
         publisher: { "@id": organizationId() },
       },
