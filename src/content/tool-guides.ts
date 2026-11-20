@@ -425,7 +425,7 @@ export const toolGuides: Record<WorkspaceToolSlug, ToolGuide> = {
     intro: {
       heading: "Resize a photo or signature for any online form",
       paragraphs: [
-        "Exam, bank and government forms reject photos that are a few pixels or kilobytes off. Type in the width, height and KB range from the notice, or pick a ready-made preset for IBPS, SSC, UPSC, NEET, PAN or a passport photo, and get a JPG that fits.",
+        "Exam, bank and government forms reject photos that are a few pixels or kilobytes off. Type in the width, height and KB range from the notice, or pick a ready-made preset for IBPS, SBI, SSC, UPSC, NEET, JEE Main, CUET, RRB, PAN or a passport photo, and get a JPG that fits.",
         "The photo is centre-cropped to the exact shape and saved at the highest quality that stays inside the KB range. It all happens in your browser, so your photo isn't uploaded, and the JPG carries no EXIF or GPS data.",
       ],
     },

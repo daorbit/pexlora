@@ -5,9 +5,9 @@ import type { MaskStyle, PiiKind } from "@/lib/utility/pii-redact";
 type Faq = { question: string; answer: string };
 
 export const utilityTitles: Record<UtilityToolSlug, string> = {
-  "link-cleaner": "Link Cleaner: Remove Tracking (utm, fbclid, si) from URLs Free",
-  "remove-personal-info": "Remove Personal Info from Text: Hide Emails, Phones & IDs",
-  "zip-files": "ZIP & Unzip Files Online: Create or Extract ZIP Free",
+  "link-cleaner": "Link Cleaner: Remove Tracking from URLs Free",
+  "remove-personal-info": "Remove Personal Info from Text Free",
+  "zip-files": "ZIP & Unzip Files Online Free",
 };
 
 export const utilityShortLabels: Record<UtilityToolSlug, string> = {

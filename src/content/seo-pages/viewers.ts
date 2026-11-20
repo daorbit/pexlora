@@ -65,7 +65,7 @@ export const viewerPages: SeoPage[] = [
     kinds: ALL_KINDS,
     icon: ScanSearch,
     name: "AI Metadata Checker",
-    title: "AI Metadata Checker: See If a File Has AI Tags or C2PA",
+    title: "AI Metadata Checker: Find AI Tags & C2PA",
     headline: "Check any file for AI metadata.",
     description:
       "See whether an image, video, song or document carries AI generator tags or C2PA Content Credentials. Free, with no sign-up.",

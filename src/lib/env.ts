@@ -32,6 +32,12 @@ export const env = {
       from: process.env.SMTP_FROM ?? required("SMTP_USER"),
     };
   },
+  get indexNowKey() {
+    return process.env.INDEXNOW_KEY ?? null;
+  },
+  get cronSecret() {
+    return process.env.CRON_SECRET ?? null;
+  },
   get googleClientId() {
     return process.env.GCP_CLIENT_ID ?? null;
   },

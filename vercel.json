@@ -12,6 +12,12 @@
   "regions": [
     "bom1"
   ],
+  "crons": [
+    {
+      "path": "/api/indexnow",
+      "schedule": "30 3 * * *"
+    }
+  ],
   "functions": {
     "src/app/api/images/**/route.ts": {
       "maxDuration": 30

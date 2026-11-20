@@ -300,7 +300,7 @@ export const aiPages: SeoPage[] = [
     kinds: ["image"],
     icon: Brush,
     name: "Adobe Firefly Metadata Remover",
-    title: "Remove Adobe Firefly & Generative Fill Metadata Free",
+    title: "Remove Firefly & Generative Fill Metadata",
     headline: "Remove Adobe Firefly metadata.",
     description:
       "Strip the Content Credentials and XMP AI tags that Adobe Firefly and Photoshop Generative Fill add to images, before you post or send them.",
@@ -391,7 +391,7 @@ export const aiPages: SeoPage[] = [
     kinds: ["image"],
     icon: LayoutTemplate,
     name: "Microsoft Designer & Copilot Metadata Remover",
-    title: "Remove Copilot, Designer & Bing Image Creator Metadata",
+    title: "Remove Copilot & Bing Image Creator Metadata",
     headline: "Remove Microsoft AI image metadata.",
     description:
       "Strip the Content Credentials that Microsoft Copilot, Designer and Bing Image Creator attach to generated images.",
@@ -433,7 +433,7 @@ export const aiPages: SeoPage[] = [
     kinds: ["image", "video"],
     icon: Tags,
     name: "Instagram AI Info Label Guide",
-    title: "Instagram “AI Info” Label: Why It Appears & the Fix",
+    title: "Instagram “AI Info” Label: Why & How to Fix",
     headline: "Why Instagram says “AI info”.",
     description:
       "See which hidden fields make Instagram, Facebook and Threads add an AI info label, and remove them from photos that were only edited.",

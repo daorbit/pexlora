@@ -51,7 +51,7 @@ export const toolPageCopy = {
   imagePdfHeadline: (from: string) => `Convert ${from} to PDF.`,
   imagePdfDescription: (from: string) =>
     `Put ${from} images into one PDF, one image per A4 page, in the order you choose. Built in your browser, with no photo metadata inside.`,
-  imagePdfTitle: (from: string) => `${from} to PDF Converter: Combine ${from} Images into One PDF Free`,
+  imagePdfTitle: (from: string) => `${from} to PDF: Combine ${from} Images into One PDF`,
   imagePdfMetaDescription: (from: string) =>
     `Free ${from} to PDF converter. Combine ${from} images into a single PDF in your browser, one image per page, with no upload and no sign-up.`,
   compressTargets: { eyebrow: "Target sizes", title: "Compress to an exact size." },

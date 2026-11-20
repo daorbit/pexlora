@@ -11,7 +11,7 @@ export const privacyPages: SeoPage[] = [
     kinds: ["image"],
     icon: Camera,
     name: "EXIF Remover",
-    title: "EXIF Remover: Remove EXIF Data from Photos Online Free",
+    title: "EXIF Remover: Remove EXIF Data from Photos",
     headline: "Remove EXIF data from photos.",
     description: `Delete camera model, serial numbers, timestamps, software and GPS from ${extensions(["image"])} photos in one click.`,
     keywords: [
@@ -65,7 +65,7 @@ export const privacyPages: SeoPage[] = [
     kinds: ["image", "video"],
     icon: MapPinOff,
     name: "Photo Location Remover",
-    title: "Remove GPS Location from Photos & Videos Online Free",
+    title: "Remove GPS Location from Photos & Videos",
     headline: "Remove location from photos and videos.",
     description:
       "Phones save exact GPS coordinates in photos and videos. Remove them before you share, post or send a file.",
