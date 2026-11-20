@@ -64,13 +64,24 @@ export const toolPageCopy = {
   compressTargetHeadline: (size: string) => `Compress images to ${size}.`,
   compressTargetDescription: (size: string) =>
     `Get any photo under ${size} for job portals, exam forms and ID uploads. Quality is lowered only as much as needed, and every metadata tag is removed.`,
-  compressTargetTitle: (size: string) => `Compress Image to ${size} Online Free`,
+  compressTargetTitle: (size: string) => `Image to ${size} Converter: Compress Photo Online Free`,
   compressTargetMetaDescription: (size: string) =>
-    `Reduce JPG, PNG and WebP images to under ${size} online for free. Batch compression to an exact file size, metadata removed. No sign-up.`,
-  compressTargetKeywords: (size: string) => [
+    `Convert any photo to under ${size} online for free. JPG, PNG, WebP and iPhone HEIC on phone or PC, batch compression to an exact size, metadata removed. No sign-up.`,
+  compressTargetKeywords: (size: string, slug: string) => [
     `compress image to ${size}`,
+    `image to ${size} converter`,
+    `${size} photo converter`,
+    `${slug} converter`,
+    `convert photo to ${size}`,
+    `convert image to ${slug}`,
     `reduce image size to ${size}`,
+    `resize image to ${size}`,
+    `photo size reducer ${size}`,
+    `image compressor ${slug}`,
     `photo under ${size}`,
     `jpg to ${size}`,
+    `png to ${size}`,
+    `${size} photo for online form`,
+    "photo kb converter",
   ],
 };

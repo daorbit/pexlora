@@ -89,7 +89,7 @@ export function compressTargetMetadata(target: CompressTarget): Metadata {
     toolPageCopy.compressTargetTitle(target.label),
     toolPageCopy.compressTargetMetaDescription(target.label),
     compressTargetPath(target.slug),
-    [...toolPageCopy.compressTargetKeywords(target.label), ...compressTargetLocalKeywords(target.label)],
+    [...toolPageCopy.compressTargetKeywords(target.label, target.slug), ...compressTargetLocalKeywords(target.label, target.slug)],
   );
 }
 

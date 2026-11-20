@@ -55,10 +55,19 @@ export const toolKeywords: Partial<Record<WorkspaceToolSlug, string[]>> = {
   "organize-pdf": ["pdf se page kaise delete kare", "pdf ke pages ka order kaise badle"],
 };
 
-export const compressTargetLocalKeywords = (size: string) => [
+export const compressTargetLocalKeywords = (size: string, slug: string) => [
   `photo ka size ${size} kaise kare`,
   `photo ko ${size} me kaise kare`,
+  `photo ko ${slug} me convert kare`,
+  `photo ${slug} converter`,
+  `image size kam kare ${slug}`,
+  `${slug} photo kaise banaye`,
   `फोटो का साइज ${size} कैसे करें`,
+  `फोटो को ${size} में कैसे करें`,
+  `फोटो ${size} कन्वर्टर`,
+  `इमेज का साइज ${size} करें`,
+  `फोटो का साइज कम करें ${size}`,
+  `${size} फोटो कैसे बनाएं`,
 ];
 
 export const formPresetLocalKeywords = (presetName: string) => [

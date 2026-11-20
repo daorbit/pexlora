@@ -35,6 +35,13 @@ export function hinglishCompressTargetFaq(label: string): SeoFaq {
   };
 }
 
+export function hindiCompressTargetFaq(label: string): SeoFaq {
+  return {
+    question: `फोटो को ${label} में कैसे करें?`,
+    answer: `ऊपर फोटो डालें, टारगेट पहले से ${label} पर सेट है। Compress Images दबाएं, Pexlora क्वालिटी उतनी ही कम करता है जितनी ज़रूरी हो और फोटो ${label} से कम हो जाती है। फिर Download (iPhone पर Save to Photos) दबाकर फोटो फॉर्म पर अपलोड करें। JPG, PNG, WebP और iPhone HEIC फोटो आपके फोन या कंप्यूटर पर ही छोटी होती हैं, अपलोड नहीं होतीं।`,
+  };
+}
+
 export function hinglishFormPresetFaq(presetName: string, specs: string): SeoFaq {
   return {
     question: `${presetName} ka size kaise kam kare?`,

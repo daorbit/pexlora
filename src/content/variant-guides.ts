@@ -3,7 +3,7 @@ import type { Conversion } from "@/config/conversions";
 import type { FormPreset } from "@/config/form-presets";
 import type { ImagePdfVariant } from "@/config/image-pdf-variants";
 import { formPresetCopy } from "@/content/tool-pages";
-import { hinglishCompressTargetFaq, hinglishFormPresetFaq } from "@/content/hinglish-faqs";
+import { hindiCompressTargetFaq, hinglishCompressTargetFaq, hinglishFormPresetFaq } from "@/content/hinglish-faqs";
 import { MAX_FILES_PER_BATCH } from "@/config/limits";
 import { serverImageLimit } from "@/content/seo-pages/shared";
 import type { SeoFaq, ToolStep } from "@/content/seo-pages/types";
@@ -90,7 +90,12 @@ export function compressTargetFaqs({ label }: CompressTarget): SeoFaq[] {
       question: "Is metadata removed?",
       answer: "Yes. The compressed copy has no EXIF, GPS, XMP, IPTC or C2PA data, which also saves a few kilobytes.",
     },
+    {
+      question: `How do I convert a photo to ${label} on my phone?`,
+      answer: `Open this page in Chrome or Safari, tap the upload area and pick the photo from your gallery. The target is already ${label}, so tap Compress Images, then Download (Save to Photos on iPhone). JPG, PNG, WebP and HEIC photos are compressed on your phone and never uploaded.`,
+    },
     hinglishCompressTargetFaq(label),
+    hindiCompressTargetFaq(label),
   ];
 }
 
