@@ -80,6 +80,9 @@ export const privacyPages: SeoPage[] = [
       "hide location in photos before sharing",
       "remove location from photo before sending on whatsapp",
       "can someone find my location from a photo",
+      "photo se location kaise hataye",
+      "whatsapp photo se location kaise hataye",
+      "फोटो से लोकेशन कैसे हटाएं",
     ],
     intro: {
       heading: "Your photos can point to your home",

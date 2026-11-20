@@ -8,6 +8,7 @@ import { getWorkspaceTool, type WorkspaceToolSlug } from "@/config/tools";
 import { getUtilityTool, type UtilityToolSlug } from "@/config/utility-tools";
 import { utilityTitles } from "@/content/utility-tools";
 import { formPresetCopy, toolPageCopy } from "@/content/tool-pages";
+import { compressTargetLocalKeywords, formPresetLocalKeywords, toolKeywords } from "@/content/tool-keywords";
 import { pageMetadata } from "@/lib/seo/page-metadata";
 import { seoPagePath, type SeoPage } from "@/content/seo-pages";
 
@@ -88,13 +89,13 @@ export function compressTargetMetadata(target: CompressTarget): Metadata {
     toolPageCopy.compressTargetTitle(target.label),
     toolPageCopy.compressTargetMetaDescription(target.label),
     compressTargetPath(target.slug),
-    toolPageCopy.compressTargetKeywords(target.label),
+    [...toolPageCopy.compressTargetKeywords(target.label), ...compressTargetLocalKeywords(target.label)],
   );
 }
 
 export function toolMetadata(slug: WorkspaceToolSlug): Metadata {
   const tool = getWorkspaceTool(slug);
-  return pageMetadata(toolTitles[slug], tool.description, tool.href);
+  return pageMetadata(toolTitles[slug], tool.description, tool.href, toolKeywords[slug]);
 }
 
 export function formPresetMetadata(preset: FormPreset): Metadata {
@@ -102,6 +103,6 @@ export function formPresetMetadata(preset: FormPreset): Metadata {
     formPresetCopy.title(preset),
     formPresetCopy.metaDescription(preset),
     formPresetPath(preset.slug),
-    formPresetCopy.keywords(preset),
+    [...formPresetCopy.keywords(preset), ...formPresetLocalKeywords(preset.name)],
   );
 }

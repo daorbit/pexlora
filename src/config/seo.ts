@@ -36,6 +36,9 @@ export const seo = {
     "is this image AI generated",
     "when was this photo taken",
     "where was this photo taken",
+    "photo ka size kaise kam kare",
+    "photo se location kaise hataye",
+    "photo ko pdf kaise banaye",
   ],
   locale: "en_US",
 };
