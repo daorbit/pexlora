@@ -31,6 +31,11 @@ export const seo = {
     "image converter",
     "JPG to WebP",
     "PNG to JPG",
+    "how to remove location from a photo",
+    "remove metadata from photo before sending",
+    "is this image AI generated",
+    "when was this photo taken",
+    "where was this photo taken",
   ],
   locale: "en_US",
 };

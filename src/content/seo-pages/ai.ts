@@ -445,6 +445,9 @@ export const aiPages: SeoPage[] = [
       "facebook ai info label",
       "why does instagram say ai info",
       "remove ai label from photo",
+      "why does instagram say made with ai on my photo",
+      "generative fill made with ai instagram",
+      "instagram ai info on real photo",
     ],
     intro: {
       heading: "What triggers the label",

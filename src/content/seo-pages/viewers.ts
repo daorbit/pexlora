@@ -23,6 +23,10 @@ export const viewerPages: SeoPage[] = [
       "image metadata viewer",
       "check exif data",
       "view photo metadata",
+      "when was this photo taken",
+      "check the date a photo was taken",
+      "how to see photo metadata",
+      "what camera took this photo",
     ],
     intro: {
       heading: "Read a photo's metadata in seconds",
@@ -41,6 +45,11 @@ export const viewerPages: SeoPage[] = [
     ]),
     faqs: [
       faqs.inspectFree,
+      {
+        question: "How do I find out when a photo was taken?",
+        answer:
+          "Drop it into the box above and look for Date taken under EXIF. That's when the shot was taken, not Date modified, which changes whenever the file is saved again. Photos saved from social networks often have no date left.",
+      },
       {
         question: "Can I view metadata of PDFs or videos too?",
         answer: "Yes. The AI Metadata Checker and the Metadata Viewer read PDF, Office, audio and video files as well.",
@@ -68,6 +77,10 @@ export const viewerPages: SeoPage[] = [
       "check if image has ai tag",
       "ai tag checker",
       "ai image metadata viewer",
+      "is this image ai generated",
+      "how to check if an image is ai generated",
+      "check if a photo was made with ai",
+      "trainedalgorithmicmedia meaning",
     ],
     intro: {
       heading: "AI tools often sign their work",
@@ -93,6 +106,11 @@ export const viewerPages: SeoPage[] = [
         question: "Which files can I check?",
         answer: "Photos, PDF, Word, Excel, PowerPoint, MP3, WAV, FLAC, M4A, MP4, MOV, WebM and MKV files.",
       },
+      {
+        question: "What does trainedAlgorithmicMedia mean?",
+        answer:
+          "It's the IPTC DigitalSourceType value for media made entirely by an AI model. Edited photos with AI parts use compositeWithTrainedAlgorithmicMedia instead.",
+      },
       faqs.inspectFree,
     ],
     related: ["ai-image-cleaner", "remove-c2pa-content-credentials", "exif-viewer"],
@@ -115,6 +133,9 @@ export const viewerPages: SeoPage[] = [
       "image location finder",
       "gps coordinates from photo",
       "check photo location",
+      "how to find where a photo was taken",
+      "find gps location from a picture",
+      "see location of a photo on a map",
     ],
     intro: {
       heading: "How a photo knows its location",

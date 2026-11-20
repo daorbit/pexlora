@@ -75,6 +75,11 @@ export const privacyPages: SeoPage[] = [
       "delete photo location",
       "remove location data from picture",
       "remove gps from video",
+      "how to remove location from a photo",
+      "remove location from photo android",
+      "hide location in photos before sharing",
+      "remove location from photo before sending on whatsapp",
+      "can someone find my location from a photo",
     ],
     intro: {
       heading: "Your photos can point to your home",
@@ -103,6 +108,16 @@ export const privacyPages: SeoPage[] = [
         question: "Should I just turn off location on my phone?",
         answer: "That stops new photos being tagged. Cleaning removes location from photos and videos you've already taken.",
       },
+      {
+        question: "Does WhatsApp remove location from photos?",
+        answer:
+          "Photos sent the normal way are compressed and usually lose their metadata. Photos sent as a document arrive untouched, location included. Clean the file first if you want to send it at full quality.",
+      },
+      {
+        question: "Can someone find my location from a photo I send?",
+        answer:
+          "Yes, if the original file still has GPS data. Anyone who saves it can read the coordinates and open them on a map. A cleaned copy has none.",
+      },
     ],
     related: ["remove-location-from-iphone-photos", "photo-location-finder", "remove-exif-data"],
   },
@@ -124,13 +139,16 @@ export const privacyPages: SeoPage[] = [
       "turn off location on iphone photos",
       "remove gps from iphone photo",
       "how to remove location from photo before sending",
+      "remove location from photos before airdrop",
+      "stop iphone saving location in photos",
+      "remove date and location from iphone photo",
     ],
     intro: {
       heading: "Three ways to keep your location private",
       paragraphs: [
         "When you share from the Photos app, tap Share, then Options at the top, and turn Location off. To strip location from a photo in your library, open it, tap the info button, tap Adjust next to the map and choose No Location. To stop new photos being tagged, go to Settings, Privacy & Security, Location Services, Camera, and choose Never.",
         "To clean a file completely, including camera details and timestamps, open this page in Safari and drop the photo or video below. Images are saved back to Photos through the share sheet.",
-        "Pexlora reads JPG and PNG photos and MOV and MP4 videos. If your iPhone shoots HEIC, share the photo with Most Compatible turned on in Options, or set Settings, Camera, Formats to Most Compatible.",
+        "Pexlora reads HEIC, JPG and PNG photos and MOV and MP4 videos, so you can drop photos straight from your iPhone without converting them. HEIC photos are cleaned on your device and stay HEIC.",
       ],
     },
     list: removedList([
@@ -149,7 +167,7 @@ export const privacyPages: SeoPage[] = [
       {
         question: "Can I clean HEIC photos?",
         answer:
-          "Not yet. Share the photo as JPEG by turning on Most Compatible in Options, or switch Camera, Formats to Most Compatible for new photos.",
+          "Yes. HEIC photos are cleaned in your browser without being uploaded, and they keep their format and rotation. Only the metadata is removed.",
       },
       {
         question: "Where do cleaned photos go on iPhone?",
