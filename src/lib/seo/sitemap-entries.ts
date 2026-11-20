@@ -51,6 +51,7 @@ export function sitemapEntries(): SitemapEntry[] {
       path: formPresetPath(preset.slug),
       sources: ["src/config/form-presets.ts", "src/components/tools/FormPresetPage.tsx", ...shared.variantPage],
     })),
+    { path: routes.about, sources: [marketingPage(routes.about), "src/content/about.ts", "src/content/facts.ts", "src/components/about"] },
     { path: routes.contact, sources: [marketingPage(routes.contact), "src/content/contact.ts"] },
     { path: routes.blog, sources: [marketingPage(routes.blog), "src/content/blog.ts", "src/components/blog"] },
     { path: routes.pricing, sources: [marketingPage(routes.pricing), "src/content/pricing.ts", "src/config/plans.ts", "src/components/pricing"] },

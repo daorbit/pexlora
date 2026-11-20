@@ -61,6 +61,7 @@ export function buildLlmsText() {
   const pages = [
     { name: llmsCopy.pricing, path: routes.pricing },
     { name: llmsCopy.blog, path: routes.blog },
+    { name: llmsCopy.about, path: routes.about },
     { name: llmsCopy.contact, path: routes.contact },
     ...legalDocuments.map((doc) => ({ name: doc.title, path: doc.path })),
   ];

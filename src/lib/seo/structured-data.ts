@@ -9,6 +9,7 @@ import { factsCopy } from "@/content/facts";
 import { faqs } from "@/content/landing";
 import { planCopy, pricingCopy } from "@/content/pricing";
 import { env } from "@/lib/env";
+import { pageUpdatedAt } from "@/lib/seo/page-updated";
 import type { PostMeta } from "@/lib/blog/types";
 
 type Faq = { question: string; answer: string };
@@ -26,6 +27,11 @@ const freeOffer = { "@type": "Offer", price: "0", priceCurrency: "USD" };
 
 function organizationId() {
   return `${env.appUrl}/#organization`;
+}
+
+function modified(path: string) {
+  const date = pageUpdatedAt(path);
+  return date ? { dateModified: date.toISOString() } : {};
 }
 
 function faqPage(items: Faq[], id: string) {
@@ -59,6 +65,8 @@ export function toolStructuredData({
         name,
         url,
         description,
+        isAccessibleForFree: true,
+        ...modified(path),
         applicationCategory: category,
         operatingSystem: "Any",
         browserRequirements: "Requires a modern web browser",
@@ -84,6 +92,14 @@ export function homeStructuredData() {
         name: siteConfig.name,
         alternateName: siteConfig.alternateNames,
         url: homeUrl,
+        description: factsCopy.summary,
+        email: company.email,
+        contactPoint: {
+          "@type": "ContactPoint",
+          contactType: "customer support",
+          email: company.email,
+          url: `${url}${routes.contact}`,
+        },
         logo: {
           "@type": "ImageObject",
           url: `${url}${brandAssets.iconLight}`,
@@ -115,11 +131,34 @@ export function homeStructuredData() {
         operatingSystem: "Any",
         browserRequirements: "Requires a modern web browser",
         isAccessibleForFree: true,
+        ...modified(routes.home),
         featureList: workspaceTools.map((tool) => tool.name),
         offers: freeOffer,
         publisher: { "@id": organizationId() },
       },
       faqPage(faqs, `${url}/#faq`),
+    ],
+  };
+}
+
+export function aboutStructuredData(description: string) {
+  const url = `${env.appUrl}${routes.about}`;
+
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "AboutPage",
+        "@id": `${url}#page`,
+        url,
+        name: `About ${siteConfig.name}`,
+        description,
+        inLanguage: "en",
+        ...modified(routes.about),
+        isPartOf: { "@id": `${env.appUrl}/#website` },
+        about: { "@id": organizationId() },
+        mainEntity: { "@id": organizationId() },
+      },
     ],
   };
 }

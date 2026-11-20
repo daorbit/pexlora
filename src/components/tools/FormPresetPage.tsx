@@ -4,6 +4,8 @@ import { formPresetCopy, toolPageCopy } from "@/content/tool-pages";
 import { seoPagesBySlug } from "@/content/seo-pages";
 import { formPresetFaqs, formPresetGuides, formPresetSteps } from "@/content/variant-guides";
 import { toolStructuredData } from "@/lib/seo/structured-data";
+import { workspaceToolFacts } from "@/lib/seo/tool-facts";
+import { ToolFactsSection } from "@/components/seo/ToolFactsSection";
 import { AccountBand } from "@/components/landing/AccountBand";
 import { FaqSection } from "@/components/landing/FaqSection";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -16,13 +18,15 @@ import { ToolHero } from "@/components/tools/ToolHero";
 export function FormPresetPage({ preset }: { preset: FormPreset }) {
   const faqs = formPresetFaqs(preset);
   const description = formPresetCopy.description(preset);
+  const name = formPresetCopy.title(preset);
+  const path = formPresetPath(preset.slug);
 
   return (
     <>
       <JsonLd
         data={toolStructuredData({
-          name: formPresetCopy.title(preset),
-          path: formPresetPath(preset.slug),
+          name,
+          path,
           description,
           faqs,
           category: "MultimediaApplication",
@@ -36,6 +40,7 @@ export function FormPresetPage({ preset }: { preset: FormPreset }) {
       />
       <SeoStepsSection title={formPresetCopy.stepsTitle(preset)} steps={formPresetSteps(preset)} />
       <FormPresetLinksSection current={preset.slug} />
+      <ToolFactsSection name={name} description={description} path={path} rows={workspaceToolFacts("form-photo")} />
       <FaqSection items={faqs} />
       <RelatedToolsSection pages={seoPagesBySlug(formPresetGuides)} />
       <HubGridSection {...toolPageCopy.moreTools} items={otherTools("form-photo")} />

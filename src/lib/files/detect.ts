@@ -21,7 +21,7 @@ export function hasPreview(format: FileFormat) {
   return format.kind === "image" || format.kind === "vector";
 }
 
-function runsInBrowser(format: FileFormat, localCapable: boolean) {
+export function runsInBrowser(format: FileFormat, localCapable: boolean) {
   return format.kind !== "image" || (localCapable && isLocalFormat(format));
 }
 

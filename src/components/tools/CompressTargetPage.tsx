@@ -5,6 +5,8 @@ import { seoPagesBySlug } from "@/content/seo-pages";
 import { compressTargetFaqs, compressTargetGuides, compressTargetSteps } from "@/content/variant-guides";
 import { DEFAULT_TOOL_OPTIONS } from "@/lib/image/options";
 import { toolStructuredData } from "@/lib/seo/structured-data";
+import { workspaceToolFacts } from "@/lib/seo/tool-facts";
+import { ToolFactsSection } from "@/components/seo/ToolFactsSection";
 import { AccountBand } from "@/components/landing/AccountBand";
 import { FaqSection } from "@/components/landing/FaqSection";
 import { FeaturesSection } from "@/components/landing/FeaturesSection";
@@ -18,13 +20,15 @@ import { ToolHero } from "@/components/tools/ToolHero";
 export function CompressTargetPage({ target }: { target: CompressTarget }) {
   const faqs = compressTargetFaqs(target);
   const description = toolPageCopy.compressTargetDescription(target.label);
+  const name = toolPageCopy.compressTargetName(target.label);
+  const path = compressTargetPath(target.slug);
 
   return (
     <>
       <JsonLd
         data={toolStructuredData({
-          name: toolPageCopy.compressTargetName(target.label),
-          path: compressTargetPath(target.slug),
+          name,
+          path,
           description,
           faqs,
           category: "MultimediaApplication",
@@ -39,6 +43,7 @@ export function CompressTargetPage({ target }: { target: CompressTarget }) {
       <SeoStepsSection title={`How to compress an image to ${target.label}`} steps={compressTargetSteps(target)} />
       <CompressTargetLinksSection current={target.slug} />
       <FeaturesSection />
+      <ToolFactsSection name={name} description={description} path={path} rows={workspaceToolFacts("compress-image")} />
       <FaqSection items={faqs} />
       <RelatedToolsSection pages={seoPagesBySlug(compressTargetGuides)} />
       <HubGridSection {...toolPageCopy.moreTools} items={otherTools("compress-image")} />

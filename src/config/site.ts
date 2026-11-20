@@ -97,6 +97,7 @@ export const routes = {
   humanizer: "/humanize-ai-text",
   faq: "/#faq",
   contact: "/contact",
+  about: "/about",
   privacy: "/privacy",
   terms: "/terms",
   cookies: "/cookies",
@@ -126,6 +127,7 @@ export const navLinks: NavLink[] = [
 export const infoLinks: NavLink[] = [
   { label: "Pricing", href: routes.pricing },
   { label: "FAQ", href: routes.faq },
+  { label: "About", href: routes.about },
   { label: "Contact", href: routes.contact },
 ];
 

@@ -63,6 +63,7 @@ export const footerColumns = [
       { label: "Pricing", href: routes.pricing },
       { label: "Blog", href: routes.blog },
       { label: "FAQ", href: routes.faq },
+      { label: "About", href: routes.about },
       { label: "Contact", href: routes.contact },
     ],
   },

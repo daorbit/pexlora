@@ -14,6 +14,7 @@ export const llmsCopy = {
   guides: "Guides",
   pages: "More",
   pricing: "Pricing: free and Pro plans, daily limits",
+  about: "About Pexlora: who builds it, how files are handled, how it is funded",
   contact: "Contact",
   blog: "Blog: guides on photo metadata, privacy and file formats",
 };

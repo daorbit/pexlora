@@ -4,6 +4,8 @@ import { seoPagesBySlug } from "@/content/seo-pages";
 import { toolGuides } from "@/content/tool-guides";
 import { toolPageCopy } from "@/content/tool-pages";
 import { toolStructuredData } from "@/lib/seo/structured-data";
+import { workspaceToolFacts } from "@/lib/seo/tool-facts";
+import { ToolFactsSection } from "@/components/seo/ToolFactsSection";
 import { AccountBand } from "@/components/landing/AccountBand";
 import { FaqSection } from "@/components/landing/FaqSection";
 import { FeaturesSection } from "@/components/landing/FeaturesSection";
@@ -46,6 +48,7 @@ export function ToolPage({ slug }: { slug: WorkspaceToolSlug }) {
       {slug === "form-photo" && <FormPresetLinksSection />}
       <SeoStepsSection title={`How to use the ${tool.name}`} steps={guide.steps} intro={guide.intro} />
       {metadataTools.includes(slug) ? <InspectorShowcase /> : !documentCategories.includes(tool.category) && <FeaturesSection />}
+      <ToolFactsSection name={tool.name} description={tool.description} path={tool.href} rows={workspaceToolFacts(slug)} />
       <FaqSection items={guide.faqs} />
       <RelatedToolsSection pages={seoPagesBySlug(guide.relatedGuides)} />
       <HubGridSection {...toolPageCopy.moreTools} items={otherTools(slug)} />
