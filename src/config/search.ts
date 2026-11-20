@@ -9,6 +9,7 @@ function categoryLabel(id: string) {
 export const publicSearchItems: DashboardNavItem[] = hubItems.map((item) => ({
   label: item.name,
   description: categoryLabel(item.category),
+  group: categoryLabel(item.category),
   subtitle: item.description,
   icon: Search,
   iconSrc: item.iconSrc,

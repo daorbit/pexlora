@@ -20,6 +20,7 @@ export type DashboardNavItem = {
   icon: IconComponent;
   iconSrc?: string;
   href: string;
+  group?: string;
   isNew?: boolean;
 };
 
@@ -107,6 +108,7 @@ function toolSection(category: ToolCategory): DashboardNavSection {
       icon: tool.icon,
       iconSrc: tool.iconSrc,
       href: tool.href,
+      group: toolCategories[category],
       isNew: newToolSlugs.includes(tool.slug),
     })),
   };
