@@ -35,7 +35,7 @@ export function BeforeAfterSlider({
   return (
     <div
       ref={frameRef}
-      className={cn("relative touch-pan-y overflow-hidden select-none", splitClasses[initialSplit], dragFrom === "anywhere" && "cursor-ew-resize", className)}
+      className={cn("relative touch-pan-y overflow-hidden select-none [-webkit-touch-callout:none] [&_img]:pointer-events-none", splitClasses[initialSplit], dragFrom === "anywhere" && "cursor-ew-resize", className)}
     >
       <div className="absolute inset-0">{after}</div>
       <div className="absolute inset-0 [clip-path:inset(0_calc(100%-var(--split))_0_0)]">{before}</div>

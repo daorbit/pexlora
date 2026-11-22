@@ -40,6 +40,7 @@ export function useSplitDrag(dragFrom: SplitDragFrom) {
       if (dragFrom === "handle" && event.pointerType !== "mouse" && !nearHandle(event.clientX)) return;
       dragging = true;
       event.stopPropagation();
+      if (event.pointerType === "mouse") event.preventDefault();
       frame.setPointerCapture(event.pointerId);
       setSplit(percentAt(event.clientX));
     };
@@ -49,12 +50,15 @@ export function useSplitDrag(dragFrom: SplitDragFrom) {
     const onUp = () => {
       dragging = false;
     };
+    const onNativeDrag = (event: DragEvent) => event.preventDefault();
 
+    frame.addEventListener("dragstart", onNativeDrag);
     frame.addEventListener("pointerdown", onDown);
     frame.addEventListener("pointermove", onMove);
     frame.addEventListener("pointerup", onUp);
     frame.addEventListener("pointercancel", onUp);
     return () => {
+      frame.removeEventListener("dragstart", onNativeDrag);
       frame.removeEventListener("pointerdown", onDown);
       frame.removeEventListener("pointermove", onMove);
       frame.removeEventListener("pointerup", onUp);
