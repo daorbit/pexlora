@@ -77,7 +77,9 @@ const toolItems: HubItem[] = [
   ...utilityItems,
 ];
 
-const heroShortcutKeys = ["remove-metadata", "compress-to-size", "resize-image", "convert-format", "image-alt-text"];
+export const freeToolCount = `${Math.floor((workspaceTools.length + textTools.length + utilityTools.length) / 5) * 5}+`;
+
+const heroShortcutKeys =["remove-metadata", "compress-to-size", "resize-image", "convert-format", "image-alt-text"];
 
 export const heroShortcuts = heroShortcutKeys.flatMap((key) => toolItems.filter((item) => item.key === key));
 

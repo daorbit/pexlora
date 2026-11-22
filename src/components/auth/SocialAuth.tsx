@@ -9,7 +9,7 @@ export function SocialAuth() {
       <Suspense fallback={null}>
         <OAuthErrorNotice />
       </Suspense>
-      <GoogleButton label={authCopy.entry.google} variant="secondary" className="h-12 sm:h-12.5" />
+      <GoogleButton label={authCopy.google} variant="secondary" className="h-12 sm:h-12.5" />
       <div className="flex items-center gap-3 text-[12.5px] text-secondary">
         <span className="h-px flex-1 bg-separator" />
         {authCopy.divider}

@@ -12,10 +12,12 @@ const emailField: AuthField = {
 
 export const credentialFields: Record<AuthMode, AuthField[]> = {
   signin: [
+    emailField,
     { name: "password", label: "Password", type: "password", autoComplete: "current-password", placeholder: "Your password" },
   ],
   signup: [
     { name: "name", label: "Name", type: "text", autoComplete: "name", placeholder: "Your name" },
+    emailField,
     {
       name: "password",
       label: "Password",

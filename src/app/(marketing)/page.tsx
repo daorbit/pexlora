@@ -8,7 +8,9 @@ import { LearnSection } from "@/components/landing/LearnSection";
 import { PopularToolsSection } from "@/components/landing/PopularToolsSection";
 import { PrivacySection } from "@/components/landing/PrivacySection";
 import { RisksSection } from "@/components/landing/RisksSection";
+import { StatsSection } from "@/components/landing/StatsSection";
 import { StepsSection } from "@/components/landing/StepsSection";
+import { TestimonialsSection } from "@/components/landing/TestimonialsSection";
 import { HomeHero } from "@/components/home/HomeHero";
 import { ToolHubSection } from "@/components/home/ToolHubSection";
 import { FactsSection } from "@/components/seo/FactsSection";
@@ -38,6 +40,8 @@ export default function HomePage() {
       <FormatsSection />
       <PopularToolsSection />
       <LearnSection />
+      <TestimonialsSection />
+      <StatsSection />
       <FactsSection
         eyebrow={factsCopy.eyebrow}
         title={factsCopy.title}

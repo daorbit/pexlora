@@ -16,6 +16,8 @@ import { PricingFreeNote } from "@/components/pricing/PricingFreeNote";
 import { PricingGuarantees } from "@/components/pricing/PricingGuarantees";
 import { PricingPlans } from "@/components/pricing/PricingPlans";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { PricingTestimonials } from "@/components/pricing/PricingTestimonials";
+import { PricingProof } from "@/components/social-proof/PricingProof";
 
 export const metadata: Metadata = pageMetadata(pricingCopy.metaTitle, pricingCopy.description, routes.pricing);
 
@@ -33,10 +35,12 @@ export default function PricingPage() {
               {pricingCopy.title} <Highlight>{pricingCopy.highlight}</Highlight>
             </h1>
             <p className="max-w-lg text-[15px] leading-relaxed text-secondary sm:text-[17px]">{pricingCopy.lead}</p>
+            <PricingProof />
           </div>
           {testAmount !== null && <Alert message={pricingCopy.testMode(formatPrice(testAmount))} />}
           <PricingPlans />
           <PricingGuarantees />
+          <PricingTestimonials />
         </Container>
       </section>
       <Section

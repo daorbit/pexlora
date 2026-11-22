@@ -59,22 +59,6 @@ export const heroCopy = {
   } as Record<string, string>,
 };
 
-export const heroProof = {
-  label: "What people say",
-  avatars: [
-    "/avatars/avatar-1.svg",
-    "/avatars/avatar-2.svg",
-    "/avatars/avatar-3.svg",
-    "/avatars/avatar-4.svg",
-    "/avatars/avatar-5.svg",
-  ],
-  rating: 4.9,
-  reviews: "320+ reviews",
-  ratingSummary: "Rated 4.9 out of 5 from 320+ reviews",
-  filesCount: "45K+",
-  filesLabel: "files cleaned",
-};
-
 export const hubCopy = {
   eyebrow: "All tools",
   title: "Pick a tool and drop your files.",

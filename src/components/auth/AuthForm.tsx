@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, type ReactNode } from "react";
+import { useActionState, type FormEvent, type ReactNode } from "react";
 import { LoaderCircle } from "lucide-react";
 import { useNextPath } from "@/hooks/useNextPath";
 import { NEXT_PARAM } from "@/lib/url/next-path";
@@ -28,16 +28,32 @@ type AuthFormProps = {
   hiddenFields?: Record<string, string>;
   beforeFields?: ReactNode;
   afterFields?: ReactNode;
+  defaultValues?: Partial<Record<AuthFieldName, string>>;
+  onValueChange?: (name: string, value: string) => void;
 };
 
-export function AuthForm({ action, fields, submitLabel, hiddenFields, beforeFields, afterFields }: AuthFormProps) {
+export function AuthForm({
+  action,
+  fields,
+  submitLabel,
+  hiddenFields,
+  beforeFields,
+  afterFields,
+  defaultValues,
+  onValueChange,
+}: AuthFormProps) {
   const [state, formAction, pending] = useActionState(action, undefined);
   const next = useNextPath();
   const shown = new Set<string>(fields.map((field) => field.name));
   const offscreenError = Object.entries(state?.errors ?? {}).find(([name]) => !shown.has(name))?.[1]?.[0];
 
+  const handleChange = (event: FormEvent<HTMLFormElement>) => {
+    const target = event.target as HTMLInputElement;
+    if (target.name) onValueChange?.(target.name, target.value);
+  };
+
   return (
-    <form action={formAction} className="flex flex-col gap-2.5 lg:gap-3" noValidate>
+    <form action={formAction} onChange={onValueChange ? handleChange : undefined} className="flex flex-col gap-2.5 lg:gap-3" noValidate>
       {next && <input type="hidden" name={NEXT_PARAM} value={next} />}
       {hiddenFields &&
         Object.entries(hiddenFields).map(([name, value]) => <input key={name} type="hidden" name={name} value={value} />)}
@@ -56,7 +72,11 @@ export function AuthForm({ action, fields, submitLabel, hiddenFields, beforeFiel
           inputMode={field.inputMode}
           maxLength={field.maxLength}
           labelPosition="above"
-          defaultValue={field.name === "name" || field.name === "email" ? state?.values?.[field.name] : undefined}
+          defaultValue={
+            field.name === "name" || field.name === "email"
+              ? (state?.values?.[field.name] ?? defaultValues?.[field.name])
+              : undefined
+          }
           errors={state?.errors?.[field.name]}
           className={cn("border-border-strong focus:ring-accent-soft sm:h-12.5", field.className)}
           required

@@ -4,30 +4,21 @@ import { DAILY_LIMITS } from "@/config/limits";
 export type AuthMode = "signin" | "signup";
 
 export const authCopy = {
-  backToTools: "Back to tools",  entry: {
-    title: "Sign in or sign up",
-    description: "One step for both. We'll ask for a password next.",
-    google: "Continue with Google",
-    emailLabel: "Email address",
-    continue: "Continue with Email",
-    invalidEmail: "Enter a valid email address.",
-    change: "Change",
-    stepsLabel: (step: number, total: number) => `Step ${step} of ${total}`,
-  },
+  backToTools: "Back to tools",
+  google: "Continue with Google",
+  modeLabel: "Sign in or create an account",
   signin: {
+    tab: "Sign In",
     title: "Welcome back",
-    description: "Enter your password to sign in.",
+    description: "Sign in to pick up where you left off.",
     submit: "Sign In",
     invalid: "Incorrect email or password. If you signed up with Google, use Continue with Google.",
-    switchPrompt: "New here?",
-    switchAction: "Create an account",
   },
   signup: {
+    tab: "Create Account",
     title: "Create your account",
-    description: "Add your name and a password. We'll email you a code to confirm it's you.",
+    description: "We'll email you a code to confirm it's you.",
     submit: "Create Account",
-    switchPrompt: "Have an account?",
-    switchAction: "Sign in instead",
   },
   forgot: {
     title: "Forgot your password?",

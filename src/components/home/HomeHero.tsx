@@ -18,14 +18,14 @@ export function HomeHero() {
             <span className="hidden h-px w-9 bg-primary sm:block" aria-hidden />
             <span className="hidden sm:inline">{heroCopy.eyebrowNote}</span>
           </span>
-          <span className="block max-w-4xl text-[clamp(30px,9.4vw,40px)] leading-[1.08] font-bold tracking-[-0.04em] motion-safe:animate-fade-up motion-safe:[animation-delay:80ms] translated:leading-[1.35] translated:tracking-normal sm:text-[52px] sm:leading-[1.08] sm:tracking-[-0.045em] sm:translated:leading-[1.3] sm:translated:tracking-normal lg:text-[68px]">
+          <span className="block max-w-4xl text-[clamp(28px,8.6vw,36px)] leading-[1.08] font-bold tracking-[-0.04em] motion-safe:animate-fade-up motion-safe:[animation-delay:80ms] translated:leading-[1.35] translated:tracking-normal sm:text-[46px] sm:leading-[1.08] sm:tracking-[-0.045em] sm:translated:leading-[1.3] sm:translated:tracking-normal lg:text-[58px]">
             {heroCopy.title}
             <br />
             {heroCopy.titleLead}{" "}
             <Highlight>{heroCopy.highlight}</Highlight>
           </span>
         </h1>
-        <p className="max-w-xl px-2 text-[14px] leading-normal text-secondary motion-safe:animate-fade-up motion-safe:[animation-delay:160ms] sm:px-0 sm:text-[17px] sm:leading-relaxed">
+        <p className="max-w-xl px-2 text-[13.5px] leading-normal text-secondary motion-safe:animate-fade-up motion-safe:[animation-delay:160ms] sm:px-0 sm:text-[15.5px] sm:leading-relaxed">
           {heroCopy.description}
         </p>
         <div className="motion-safe:animate-fade-up motion-safe:[animation-delay:200ms]">
