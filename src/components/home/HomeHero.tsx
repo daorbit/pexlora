@@ -1,6 +1,7 @@
 import { heroCopy } from "@/content/landing";
 import { Container } from "@/components/ui/Container";
 import { Highlight } from "@/components/ui/Highlight";
+import { HeroProof } from "@/components/home/HeroProof";
 import { HeroShortcuts } from "@/components/home/HeroShortcuts";
 import { HeroTrust } from "@/components/home/HeroTrust";
 import { HeroUpload } from "@/components/home/HeroUpload";
@@ -27,6 +28,9 @@ export function HomeHero() {
         <p className="max-w-xl px-2 text-[14px] leading-normal text-secondary motion-safe:animate-fade-up motion-safe:[animation-delay:160ms] sm:px-0 sm:text-[17px] sm:leading-relaxed">
           {heroCopy.description}
         </p>
+        <div className="motion-safe:animate-fade-up motion-safe:[animation-delay:200ms]">
+          <HeroProof />
+        </div>
         <div className="flex w-full max-w-5xl flex-col gap-4 motion-safe:animate-fade-up motion-safe:[animation-delay:240ms] sm:mt-2">
           <PlanPerksLoader />
           <HeroUpload />

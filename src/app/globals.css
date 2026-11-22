@@ -35,6 +35,7 @@
   --scrollbar-thumb-hover: #8a8d82;
   --warning: #b4440b;
   --warning-soft: #fdeedf;
+  --rating: #f59e0b;
   --success: #17663a;
   --success-soft: #e3f4e6;
   --danger: #b42318;
@@ -70,6 +71,7 @@
   --brand-foreground: #f4f3ee;
   --warning: #fb923c;
   --warning-soft: #2a1a0b;
+  --rating: #fbbf24;
   --success: #4ade80;
   --success-soft: #0f2416;
   --danger: #f87171;
@@ -118,6 +120,7 @@
   --color-brand-foreground: var(--brand-foreground);
   --color-warning: var(--warning);
   --color-warning-soft: var(--warning-soft);
+  --color-rating: var(--rating);
   --color-success: var(--success);
   --color-success-soft: var(--success-soft);
   --color-danger: var(--danger);
