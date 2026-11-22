@@ -6,19 +6,20 @@ export type AuthMode = "signin" | "signup";
 export const authCopy = {
   backToTools: "Back to tools",
   google: "Continue with Google",
-  modeLabel: "Sign in or create an account",
   signin: {
-    tab: "Sign In",
     title: "Welcome back",
     description: "Sign in to pick up where you left off.",
     submit: "Sign In",
     invalid: "Incorrect email or password. If you signed up with Google, use Continue with Google.",
+    switchPrompt: "New here?",
+    switchAction: "Create an account",
   },
   signup: {
-    tab: "Create Account",
     title: "Create your account",
     description: "We'll email you a code to confirm it's you.",
     submit: "Create Account",
+    switchPrompt: "Have an account?",
+    switchAction: "Sign in",
   },
   forgot: {
     title: "Forgot your password?",
