@@ -9,11 +9,11 @@ const limit = (kind: keyof typeof FILE_SIZE_LIMITS_MB) => formatMegabytes(FILE_S
 export const heroCopy = {
   eyebrow: "Free metadata remover",
   eyebrowNote: "No sign-up",
-  title: "Share the photo.",
-  titleLead: "Not the",
-  highlight: "location.",
+  title: "Strip the hidden data.",
+  titleLead: "In",
+  highlight: "one drop.",
   description:
-    "Strip AI tags, GPS, EXIF and author details from photos, PDFs, documents, audio and video in seconds. We don't keep your files.",
+    "Location, camera, dates, author and AI tags come off your photos, PDFs, documents and video. Then compress, resize or convert with 50+ more free tools.",
   shortcutsLabel: "Popular tools",
   trustLabel: "Why Pexlora",
   trust: [

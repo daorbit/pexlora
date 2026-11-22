@@ -11,17 +11,12 @@ export async function HeaderAuth() {
   if (user) return <UserMenu name={user.name} email={user.email} avatarUrl={user.avatarUrl} plan={user.plan} />;
 
   return (
-    <div className="flex items-center gap-1 sm:gap-2">
-      <ButtonLink href={routes.signIn} variant="nav" className="hidden px-3 sm:inline-flex">
-        {navCopy.signIn}
-      </ButtonLink>
-      <ButtonLink href={routes.signUp} variant="ink" size="md" className="h-9 rounded-lg px-3.5 text-[13px]">
-        {navCopy.getStarted}
-      </ButtonLink>
-    </div>
+    <ButtonLink href={routes.signUp} variant="ink" size="md" className="h-9 rounded-lg px-3.5 text-[13px]">
+      {navCopy.getStarted}
+    </ButtonLink>
   );
 }
 
 export function HeaderAuthFallback() {
-  return <Skeleton className="h-8 w-36 rounded-xl" />;
+  return <Skeleton className="h-9 w-24 rounded-lg" />;
 }

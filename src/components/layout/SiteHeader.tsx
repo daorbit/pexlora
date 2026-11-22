@@ -14,7 +14,7 @@ import { WhatsNewBadge } from "@/components/changelog/WhatsNewBadge";
 export function SiteHeader() {
   return (
     <SiteHeaderFrame>
-      <Container className="grid h-14 grid-cols-[1fr_auto] items-center gap-3 sm:h-14 sm:gap-6 md:grid-cols-[1fr_auto_1fr]">
+      <Container className="grid h-14 grid-cols-[1fr_auto] items-center gap-3 sm:gap-6 md:grid-cols-[1fr_auto_1fr]">
         <div className="flex min-w-0 items-center gap-2.5">
           <Logo size="md" />
           <WhatsNewBadge />

@@ -11,11 +11,11 @@ import { ToolSearchDialog } from "@/components/dashboard/ToolSearchDialog";
 const variants = {
   bar: "inline-flex size-10 items-center justify-center gap-2.5 rounded-xl bg-surface text-sm text-foreground shadow-thumb transition-colors hover:bg-surface hover:text-foreground focus-visible:outline-2 focus-visible:outline-ring sm:h-11 sm:w-70 sm:justify-start sm:rounded-2xl sm:bg-fill-strong/70 sm:pr-2 sm:pl-3.5 sm:text-secondary sm:shadow-none",
   header:
-    "inline-flex size-10 shrink-0 items-center justify-center gap-2 rounded-xl text-sm text-secondary transition-colors hover:bg-fill hover:text-foreground focus-visible:outline-2 focus-visible:outline-ring bg-fill 2xl:h-10 2xl:w-auto 2xl:pr-1.5 2xl:pl-3",
+    "inline-flex size-10 shrink-0 items-center justify-center gap-2 rounded-xl text-sm text-secondary transition-colors hover:bg-fill hover:text-foreground focus-visible:outline-2 focus-visible:outline-ring bg-fill xl:h-9 xl:w-44 xl:justify-start xl:pr-1.5 xl:pl-3",
 };
 
-const labelVisibility = { bar: "sm:inline", header: "2xl:inline" };
-const kbdVisibility = { bar: "sm:inline-flex", header: "2xl:inline-flex" };
+const labelVisibility = { bar: "sm:inline", header: "xl:inline" };
+const kbdVisibility = { bar: "sm:inline-flex", header: "xl:inline-flex" };
 
 type ToolSearchProps = { variant?: keyof typeof variants; items?: DashboardNavItem[] };
 
