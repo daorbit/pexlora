@@ -14,4 +14,7 @@ export const brandColors = {
   pearl: "#f4f3ee",
   night: "#0c0d0a",
   lime: "#b9f12f",
+  ink: "#10120d",
+  moss: "#3f6212",
+  white: "#ffffff",
 } as const;

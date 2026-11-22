@@ -9,6 +9,7 @@ const { links } = aboutCopy;
 const internal = [
   { label: links.privacy, href: routes.privacy },
   { label: links.security, href: routes.security },
+  { label: links.fileHandling, href: routes.fileHandling },
   { label: links.pricing, href: routes.pricing },
 ];
 

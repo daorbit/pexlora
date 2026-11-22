@@ -54,16 +54,20 @@ const textToolTitles: Record<TextToolSlug, string> = {
 
 export function textToolMetadata(slug: TextToolSlug): Metadata {
   const tool = getTextTool(slug);
-  return pageMetadata(textToolTitles[slug], tool.description, tool.href);
+  return pageMetadata(textToolTitles[slug], tool.description, tool.href, undefined, { kind: "text", slug, name: tool.name });
 }
 
 export function utilityToolMetadata(slug: UtilityToolSlug): Metadata {
   const tool = getUtilityTool(slug);
-  return pageMetadata(utilityTitles[slug], tool.description, tool.href);
+  return pageMetadata(utilityTitles[slug], tool.description, tool.href, undefined, { kind: "utility", slug, name: tool.name });
 }
 
 export function seoPageMetadata(page: SeoPage): Metadata {
-  return pageMetadata(page.title, page.description, seoPagePath(page), page.keywords);
+  return pageMetadata(page.title, page.description, seoPagePath(page), page.keywords, {
+    kind: "guide",
+    slug: page.slug,
+    name: page.name,
+  });
 }
 
 export function conversionMetadata(conversion: Conversion): Metadata {
@@ -72,6 +76,7 @@ export function conversionMetadata(conversion: Conversion): Metadata {
     toolPageCopy.conversionMetaDescription(conversion.from, conversion.toLabel),
     conversionPath(conversion.slug),
     [`${conversion.from} to ${conversion.toLabel}`, `convert ${conversion.from} to ${conversion.toLabel}`],
+    { kind: "convert", slug: conversion.slug, name: conversion.name },
   );
 }
 
@@ -81,6 +86,7 @@ export function imagePdfMetadata(variant: ImagePdfVariant): Metadata {
     toolPageCopy.imagePdfMetaDescription(variant.from),
     imagePdfPath(variant.slug),
     [`${variant.from} to PDF`, `convert ${variant.from} to PDF`],
+    { kind: "image-pdf", slug: variant.slug, name: toolPageCopy.imagePdfName(variant.from) },
   );
 }
 
@@ -90,12 +96,13 @@ export function compressTargetMetadata(target: CompressTarget): Metadata {
     toolPageCopy.compressTargetMetaDescription(target.label),
     compressTargetPath(target.slug),
     [...toolPageCopy.compressTargetKeywords(target.label, target.slug), ...compressTargetLocalKeywords(target.label, target.slug)],
+    { kind: "compress-to", slug: target.slug, name: toolPageCopy.compressTargetName(target.label) },
   );
 }
 
 export function toolMetadata(slug: WorkspaceToolSlug): Metadata {
   const tool = getWorkspaceTool(slug);
-  return pageMetadata(toolTitles[slug], tool.description, tool.href, toolKeywords[slug]);
+  return pageMetadata(toolTitles[slug], tool.description, tool.href, toolKeywords[slug], { kind: "tool", slug, name: tool.name });
 }
 
 export function formPresetMetadata(preset: FormPreset): Metadata {
@@ -104,5 +111,6 @@ export function formPresetMetadata(preset: FormPreset): Metadata {
     formPresetCopy.metaDescription(preset),
     formPresetPath(preset.slug),
     [...formPresetCopy.keywords(preset), ...formPresetLocalKeywords(preset.name)],
+    { kind: "form", slug: preset.slug, name: preset.name },
   );
 }

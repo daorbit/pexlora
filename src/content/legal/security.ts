@@ -37,7 +37,8 @@ export const securityPage: LegalDocument = {
           rows: [
             ["JPG, PNG, WebP, HEIC (remove or view metadata)", "Your browser", "Never uploaded"],
             ["AVIF, GIF, TIFF (remove or view metadata)", "Our servers, in memory (Mumbai region)", "No, discarded after the response"],
-            ["Images you convert, compress, resize or edit", "Our servers, in memory (Mumbai region)", "No, discarded after the response"],
+            ["Images you compress, resize, crop, rotate or round", "Your browser (compress and resize use our server only if your browser can't)", "Never uploaded when done in the browser"],
+            ["Images you convert or edit metadata for", "Our servers, in memory (Mumbai region)", "No, discarded after the response"],
             ["PDF, Word, Excel, PowerPoint", "Your browser", "Never uploaded"],
             ["Audio and video", "Your browser", "Never uploaded"],
             ["Images and text sent to AI tools", "Cloudflare Workers AI", "Not stored by us"],

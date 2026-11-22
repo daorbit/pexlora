@@ -9,12 +9,16 @@ import { MobileMenu } from "@/components/layout/MobileMenu";
 import { SiteHeaderFrame } from "@/components/layout/SiteHeaderFrame";
 import { SiteSearch } from "@/components/layout/SiteSearch";
 import { ToolsMenu } from "@/components/layout/ToolsMenu";
+import { WhatsNewBadge } from "@/components/changelog/WhatsNewBadge";
 
 export function SiteHeader() {
   return (
     <SiteHeaderFrame>
       <Container className="grid h-14 grid-cols-[1fr_auto] items-center gap-3 sm:h-14 sm:gap-6 md:grid-cols-[1fr_auto_1fr]">
-        <Logo size="md" />
+        <div className="flex min-w-0 items-center gap-2.5">
+          <Logo size="md" />
+          <WhatsNewBadge />
+        </div>
         <nav className="hidden items-center gap-6 md:flex lg:gap-7">
           <ToolsMenu />
           {navLinks.map((link) => (

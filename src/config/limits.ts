@@ -69,6 +69,8 @@ export const SERVER_IMAGE_SIZE_MB = 4;
 
 export const SESSION_RETENTION_HOURS = 24;
 
+export const CHANGELOG_NEW_DAYS = 14;
+
 export const MAX_IMAGE_SIZE_MB = SERVER_IMAGE_SIZE_MB;
 export const MAX_IMAGE_SIZE = MAX_IMAGE_SIZE_MB * 1024 * 1024;
 

@@ -53,6 +53,17 @@ export function sitemapEntries(): SitemapEntry[] {
     })),
     { path: routes.about, sources: [marketingPage(routes.about), "src/content/about.ts", "src/content/facts.ts", "src/components/about"] },
     { path: routes.contact, sources: [marketingPage(routes.contact), "src/content/contact.ts"] },
+    {
+      path: routes.fileHandling,
+      sources: [
+        marketingPage(routes.fileHandling),
+        "src/content/file-handling.ts",
+        "src/components/file-handling",
+        "src/components/workspace/toolBehaviors.ts",
+      ],
+    },
+    { path: routes.changelog, sources: [marketingPage(routes.changelog), "src/content/changelog.ts", "src/components/changelog"] },
+    { path: routes.brand, sources: [marketingPage(routes.brand), "src/content/brand-kit.ts", "src/components/brand"] },
     { path: routes.blog, sources: [marketingPage(routes.blog), "src/content/blog.ts", "src/components/blog"] },
     { path: routes.pricing, sources: [marketingPage(routes.pricing), "src/content/pricing.ts", "src/config/plans.ts", "src/components/pricing"] },
     ...legalDocuments.map((doc) => ({

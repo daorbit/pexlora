@@ -88,6 +88,7 @@ export const aboutCopy = {
   links: {
     privacy: "Privacy policy",
     security: "Security and data",
+    fileHandling: "How your files are handled",
     pricing: "Pricing",
     linkedin: "LinkedIn",
     instagram: "Instagram",
