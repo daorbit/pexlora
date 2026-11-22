@@ -17,6 +17,7 @@ import { useLeaveGuard } from "@/hooks/useLeaveGuard";
 import { useRememberTool } from "@/hooks/useRecentTools";
 import { useToolOptions } from "@/hooks/useToolOptions";
 import { useToolRunner } from "@/hooks/useToolRunner";
+import { useToolTracking } from "@/hooks/useToolTracking";
 import { useWorkspacePerks } from "@/hooks/useWorkspacePerks";
 import { useWorkspaceSession } from "@/hooks/useWorkspaceSession";
 import type { MetadataFields, ToolOptions } from "@/lib/image/options";
@@ -45,7 +46,7 @@ export function useWorkspaceController({ tool, accepts: acceptsOverride, initial
   const restoreMetadata = useCallback((metadata: MetadataFields) => patchOptions({ metadata }), [patchOptions]);
   useRememberTool(tool);
 
-  const run = useToolRunner(action, options, Boolean(optionsError), queue);
+  const run = useToolRunner(tool, action, options, Boolean(optionsError), queue);
 
   const addFilesAndRun = useAutoRun(addFiles, {
     enabled: Boolean(action?.autoRun),
@@ -64,9 +65,10 @@ export function useWorkspaceController({ tool, accepts: acceptsOverride, initial
     scope: conversion?.slug,
   });
 
+  const addUserFiles = useToolTracking(tool, addFilesAndRun);
   const accept = useMemo(() => acceptAttribute(accepts, localCapable, formats), [accepts, formats, localCapable]);
-  const picker = useFilePicker(addFilesAndRun, accept);
-  const { isDragging, dropProps } = useFileDrop(addFilesAndRun, !queue.isProcessing);
+  const picker = useFilePicker(addUserFiles, accept);
+  const { isDragging, dropProps } = useFileDrop(addUserFiles, !queue.isProcessing);
   const batchTotal = queue.items.filter((item) => item.status !== "error").length;
   const clearAll = useClearWithUndo(queue);
   useBatchTitle({ isProcessing: queue.isProcessing, done: queue.doneItems.length, total: batchTotal });
@@ -82,9 +84,9 @@ export function useWorkspaceController({ tool, accepts: acceptsOverride, initial
 
   const addSample = useCallback(
     async (sample: SampleImage) => {
-      addFilesAndRun([await fetchAsFile(sample.src, sample.fileName)]);
+      addUserFiles([await fetchAsFile(sample.src, sample.fileName)]);
     },
-    [addFilesAndRun],
+    [addUserFiles],
   );
 
   const results = useMemo(() => queue.doneItems.map((item) => item.result!), [queue.doneItems]);
@@ -110,7 +112,7 @@ export function useWorkspaceController({ tool, accepts: acceptsOverride, initial
     run,
     picker,
     accept,
-    importFiles: addFilesAndRun,
+    importFiles: addUserFiles,
     isDragging,
     dropProps,
     batchTotal,

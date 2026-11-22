@@ -43,6 +43,39 @@ export const PDF_PAGE_LIMIT = 200;
 
 export const PDF_RENDER_MAX_SIDE = 2400;
 
+export const PDF_COMPRESS_SETTINGS = {
+  light: { maxSide: 2200, quality: 0.8 },
+  balanced: { maxSide: 1600, quality: 0.65 },
+  strong: { maxSide: 1100, quality: 0.5 },
+} as const;
+
+export const PDF_COMPRESS_MIN_SAVING = 0.9;
+
+export const SIGN_PDF = {
+  widths: { small: 110, medium: 160, large: 220 },
+  margin: 36,
+  maxHeightShare: 0.2,
+} as const;
+
+export const SIGNATURE_IMAGE = {
+  padWidth: 600,
+  padHeight: 200,
+  stroke: 3,
+  typedSize: 96,
+  whiteCutoff: 200,
+  trimPadding: 6,
+  inks: { black: "#10120d", blue: "#1f3a93" },
+} as const;
+
+export const PHOTO_SIGN_LAYOUT = {
+  maxSide: 600,
+  gap: 8,
+  padding: 8,
+  signatureShare: 0.45,
+  shrinkStep: 0.85,
+  minSide: 160,
+} as const;
+
 export const PDF_PRINT_MAX_SIDE = 3600;
 
 export const PDF_IMAGE_DPI = { screen: 150, print: 300 } as const;

@@ -2,22 +2,24 @@
 
 import dynamic from "next/dynamic";
 import type { WorkspaceToolSlug } from "@/config/tools";
-import { optionsCopy, stageCopy } from "@/content/workspace";
+import { optionsCopy, signatureCopy, stageCopy } from "@/content/workspace";
 import { sheetLayout } from "@/lib/files/convert/sheet-layout";
 import type { ToolOptions } from "@/lib/image/options";
 import { StageCard } from "@/components/workspace/stage/StageCard";
 
 const PdfPagePicker = dynamic(() => import("@/components/workspace/organize/PdfPagePicker").then((module) => module.PdfPagePicker));
 const PdfPageSelector = dynamic(() => import("@/components/workspace/organize/PdfPageSelector").then((module) => module.PdfPageSelector));
+const ImageWatermarkPreview = dynamic(() => import("@/components/workspace/stage/ImageWatermarkPreview").then((module) => module.ImageWatermarkPreview));
 const CropPreview = dynamic(() => import("@/components/workspace/stage/CropPreview").then((module) => module.CropPreview));
 const PalettePreview = dynamic(() => import("@/components/workspace/stage/PalettePreview").then((module) => module.PalettePreview));
 const RotatePreview = dynamic(() => import("@/components/workspace/stage/RotatePreview").then((module) => module.RotatePreview));
 const ShapePreview = dynamic(() => import("@/components/workspace/stage/ShapePreview").then((module) => module.ShapePreview));
 const PagePositionPicker = dynamic(() => import("@/components/workspace/stage/PagePositionPicker").then((module) => module.PagePositionPicker));
+const SignatureMaker = dynamic(() => import("@/components/workspace/signature/SignatureMaker").then((module) => module.SignatureMaker));
 const SheetPreview = dynamic(() => import("@/components/workspace/stage/SheetPreview").then((module) => module.SheetPreview));
 const WatermarkPreview = dynamic(() => import("@/components/workspace/stage/WatermarkPreview").then((module) => module.WatermarkPreview));
 
-export const alwaysStagedTools: WorkspaceToolSlug[] = ["passport-photo", "pdf-page-numbers", "pdf-watermark"];
+export const alwaysStagedTools: WorkspaceToolSlug[] = ["passport-photo", "pdf-page-numbers", "pdf-watermark", "sign-pdf"];
 
 type ToolStageProps = {
   tool: WorkspaceToolSlug;
@@ -45,6 +47,16 @@ export function ToolStage({ tool, options, onChange, disabled, sourceFile }: Too
           <WatermarkPreview {...options.watermark} />
         </StageCard>
       );
+    case "sign-pdf":
+      return (
+        <StageCard title={signatureCopy.title} plain>
+          <SignatureMaker
+            options={options.signPdf}
+            disabled={disabled}
+            onChange={(patch) => onChange({ ...options, signPdf: { ...options.signPdf, ...patch } })}
+          />
+        </StageCard>
+      );
     case "pdf-page-numbers":
       return (
         <StageCard title={stageCopy.placeNumber} caption={optionsCopy.pageNumberPickHint}>
@@ -66,6 +78,12 @@ export function ToolStage({ tool, options, onChange, disabled, sourceFile }: Too
       return sourceFile ? (
         <StageCard title={stageCopy.preview} caption={stageCopy.sameSettings}>
           <RotatePreview file={sourceFile} options={options.rotateImage} />
+        </StageCard>
+      ) : null;
+    case "image-watermark":
+      return sourceFile ? (
+        <StageCard title={stageCopy.preview} caption={stageCopy.sameSettings}>
+          <ImageWatermarkPreview file={sourceFile} options={options.imageWatermark} />
         </StageCard>
       ) : null;
     case "shape-image":

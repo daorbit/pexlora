@@ -2,22 +2,26 @@ import { AI_NAME } from "@/config/brand";
 import { routes } from "@/config/site";
 import {
   Combine,
+  Copyright,
   Crop,
   FileImage,
   FilePen,
   FileSpreadsheet,
+  FoldVertical,
   FileText,
   IdCard,
   Images,
   Layers,
   ListOrdered,
   Palette,
+  PenLine,
   PenTool,
   Printer,
   RotateCcwSquare,
   RotateCw,
   Scissors,
   Shapes,
+  Signature,
   SquareUser,
   Stamp,
   Sheet,
@@ -44,9 +48,12 @@ export type WorkspaceToolSlug =
   | "image-alt-text"
   | "heic-to-jpg"
   | "form-photo"
+  | "photo-signature"
   | "merge-pdf"
   | "split-pdf"
   | "rotate-pdf"
+  | "compress-pdf"
+  | "sign-pdf"
   | "jpg-to-pdf"
   | "pdf-to-jpg"
   | "svg-to-image"
@@ -54,6 +61,7 @@ export type WorkspaceToolSlug =
   | "crop-image"
   | "change-dpi"
   | "rotate-image"
+  | "image-watermark"
   | "shape-image"
   | "image-palette"
   | "passport-photo"
@@ -224,6 +232,17 @@ export const workspaceTools: WorkspaceTool[] = [
       "Get a photo or signature to the exact pixel size and KB range an exam, bank or government form asks for. Done in your browser, saved as JPG.",
   },
   {
+    slug: "photo-signature",
+    category: "image",
+    href: routes.photoSignature,
+    icon: Signature,
+    name: "Join Photo and Signature",
+    shortName: "Photo + Signature",
+    headline: "Join your photo and signature into one image.",
+    description:
+      "Put your photo and signature in one JPG, signature below or beside the photo, under the KB size a form asks for. Done in your browser, nothing is uploaded.",
+  },
+  {
     slug: "change-dpi",
     category: "image",
     href: routes.changeDpi,
@@ -244,6 +263,17 @@ export const workspaceTools: WorkspaceTool[] = [
     headline: "Rotate and flip images the right way up.",
     description:
       "Rotate JPG, PNG, WebP and HEIC images by 90°, 180° or 270° and flip them horizontally or vertically, so they show upright everywhere. Done in your browser, nothing is uploaded.",
+  },
+  {
+    slug: "image-watermark",
+    category: "image",
+    href: routes.watermarkImage,
+    icon: Copyright,
+    name: "Watermark Images",
+    shortName: "Watermark Image",
+    headline: "Add a text watermark to your photos.",
+    description:
+      "Put your name, brand or copyright on JPG, PNG, WebP and HEIC images, in a corner, across the middle or tiled. Any language works. Done in your browser, nothing is uploaded.",
   },
   {
     slug: "shape-image",
@@ -310,6 +340,28 @@ export const workspaceTools: WorkspaceTool[] = [
     headline: "Rotate PDF pages and save them.",
     description:
       "Turn every page of a PDF by 90 or 180 degrees and save it. Author, title and other document metadata are removed at the same time.",
+  },
+  {
+    slug: "compress-pdf",
+    category: "pdf",
+    href: routes.compressPdf,
+    icon: FoldVertical,
+    name: "Compress PDF",
+    shortName: "Compress PDF",
+    headline: "Compress a PDF and keep the text sharp.",
+    description:
+      "Make PDFs smaller for email and form uploads by shrinking the photos inside, while text stays crisp and selectable. Runs in your browser, nothing is uploaded.",
+  },
+  {
+    slug: "sign-pdf",
+    category: "pdf",
+    href: routes.signPdf,
+    icon: PenLine,
+    name: "Sign PDF",
+    shortName: "Sign PDF",
+    headline: "Sign a PDF without printing it.",
+    description:
+      "Draw, type or upload your signature and place it on the last page, the first page or every page of a PDF. Signed in your browser, nothing is uploaded.",
   },
   {
     slug: "organize-pdf",

@@ -7,15 +7,19 @@ import type {
   CropOptions,
   DpiOptions,
   FormPhotoOptions,
+  ImageWatermarkOptions,
   OrganizeOptions,
   PageNumberOptions,
   PaletteOptions,
   PassportOptions,
+  PdfCompressOptions,
+  PhotoSignOptions,
   RasterFormat,
   ResizeOptions,
   RotateAngle,
   RotateImageOptions,
   ShapeOptions,
+  SignPdfOptions,
   SvgRasterOptions,
   TraceOptions,
   WatermarkOptions,
@@ -36,6 +40,7 @@ import { bundle, finish, guard } from "@/services/local-result";
 
 const COMBINED_PDF_NAME = "combined.pdf";
 const SVG_MIME_TYPE = "image/svg+xml";
+const PHOTO_SIGN_NAME = "photo-signature.jpg";
 
 const pdfTools = () => import("@/lib/files/pdf/pdf-tools");
 const pdfStamp = () => import("@/lib/files/pdf/pdf-stamp");
@@ -50,6 +55,13 @@ export async function rotatePdfFile(file: File, angle: RotateAngle) {
   const { rotatePdf } = await pdfTools();
   const blob = await guard(() => rotatePdf(file, Number(angle)));
   return finish(blob, withExtension(file.name, "pdf", "-rotated"));
+}
+
+export async function compressPdfFile(file: File, { level }: PdfCompressOptions) {
+  const { compressPdf } = await import("@/lib/files/pdf/pdf-compress");
+  const blob = await guard(() => compressPdf(file, level));
+  if (!blob) throw new UnreadableFileError(localToolsCopy.pdfAlreadySmall);
+  return finish(blob, withExtension(file.name, "pdf", "-compressed"));
 }
 
 export async function splitPdfFile(file: File) {
@@ -144,6 +156,11 @@ export function rotateImageFile(file: File, options: RotateImageOptions) {
   return inBrowserOrServer(file, format ? { kind: "rotate", format, options } : null, null, () => ({}));
 }
 
+export function watermarkImageFile(file: File, options: ImageWatermarkOptions) {
+  const format = browserFormatOf(file);
+  return inBrowserOrServer(file, format ? { kind: "watermark", format, options } : null, null, () => ({}), "-watermarked");
+}
+
 export function shapeImageFile(file: File, options: ShapeOptions) {
   const job: RasterJob | null = browserFormatOf(file) ? { kind: "shape", options } : null;
   return inBrowserOrServer(file, job, null, () => ({}), `-${options.shape}`);
@@ -176,6 +193,12 @@ export async function watermarkPdfFile(file: File, options: WatermarkOptions) {
   return finish(blob, withExtension(file.name, "pdf", "-watermarked"));
 }
 
+export async function signPdfFile(file: File, options: SignPdfOptions) {
+  const { signPdf } = await import("@/lib/files/pdf/pdf-sign");
+  const blob = await guard(() => signPdf(file, options));
+  return finish(blob, withExtension(file.name, "pdf", "-signed"));
+}
+
 export async function organizePdfFile(file: File, options: OrganizeOptions) {
   const { organizePdf } = await pdfTools();
   const blob = await guard(() => organizePdf(file, options.pages));
@@ -200,6 +223,15 @@ export async function changeDpiFile(file: File, { dpi }: DpiOptions) {
   const value = dpi ?? (DEFAULT_TOOL_OPTIONS.dpi.dpi as number);
   const { blob, format } = await guard(() => changeImageDpi(file, value));
   return finish(blob, withExtension(file.name, FORMAT_EXTENSIONS[format], `-${value}dpi`));
+}
+
+export async function photoSignatureFile(files: File[], options: PhotoSignOptions) {
+  const { joinPhotoAndSignature } = await import("@/lib/files/convert/photo-signature");
+  const { blob, width, height, met } = await guard(() => joinPhotoAndSignature(files, options));
+  return finish(blob, PHOTO_SIGN_NAME, {
+    dimensions: { width, height },
+    target: { bytes: Number(options.maxKb) * 1024, met },
+  });
 }
 
 export async function formPhotoFile(file: File, options: FormPhotoOptions) {

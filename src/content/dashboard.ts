@@ -96,6 +96,24 @@ export const moduleTips: Record<WorkspaceToolSlug, { title: string; tips: string
       "Everything runs in your browser",
     ],
   },
+  "sign-pdf": {
+    title: "Signing PDFs",
+    tips: [
+      "Draw with a finger on phones, or type your name",
+      "Uploaded signatures lose their white background",
+      "Pick the last page for most forms",
+      "Everything runs in your browser",
+    ],
+  },
+  "compress-pdf": {
+    title: "Compressing PDFs",
+    tips: [
+      "Photos and scans inside the PDF get smaller",
+      "Text stays sharp and selectable",
+      "Try Strong if a form still says the file is too big",
+      "Everything runs in your browser",
+    ],
+  },
   "jpg-to-pdf": {
     title: "Images to PDF",
     tips: [
@@ -189,6 +207,24 @@ export const moduleTips: Record<WorkspaceToolSlug, { title: string; tips: string
       "DPI changes the print size, not the pixels or the file quality",
       "To change the pixel size too, use the Image Resizer",
       "JPG and PNG stay lossless; WebP and HEIC are saved as JPG",
+      "Everything runs in your browser",
+    ],
+  },
+  "photo-signature": {
+    title: "Photo and signature",
+    tips: [
+      "Add your photo first, then your signature",
+      "Use the arrows if they're in the wrong order",
+      "Pick the largest size the form allows",
+      "Everything runs in your browser",
+    ],
+  },
+  "image-watermark": {
+    title: "Watermarking images",
+    tips: [
+      "The same text goes on every image in the list",
+      "White suits dark photos, black suits light ones",
+      "Any language and emoji work",
       "Everything runs in your browser",
     ],
   },

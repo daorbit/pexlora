@@ -5,6 +5,7 @@ import { resizeInBrowser } from "@/lib/files/raster/resize";
 import { rotateInBrowser } from "@/lib/files/raster/rotate";
 import { shapeInBrowser } from "@/lib/files/raster/shape";
 import type { RasterJob } from "@/lib/files/raster/types";
+import { watermarkInBrowser } from "@/lib/files/raster/watermark";
 
 export function runRasterJob(job: RasterJob, bitmap: ImageBitmap) {
   switch (job.kind) {
@@ -16,6 +17,8 @@ export function runRasterJob(job: RasterJob, bitmap: ImageBitmap) {
       return cropInBrowser(bitmap, job.format, job.options);
     case "rotate":
       return rotateInBrowser(bitmap, job.format, job.options);
+    case "watermark":
+      return watermarkInBrowser(bitmap, job.format, job.options);
     case "shape":
       return shapeInBrowser(bitmap, job.options);
     case "palette":

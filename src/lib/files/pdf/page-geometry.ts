@@ -1,4 +1,4 @@
-import { degrees, type Color, type PDFFont, type PDFPage } from "pdf-lib";
+import { degrees, type Color, type PDFFont, type PDFImage, type PDFPage } from "pdf-lib";
 
 export type PageFrame = {
   box: { x: number; y: number; width: number; height: number };
@@ -42,6 +42,16 @@ function toPagePoint({ box, rotation }: PageFrame, x: number, y: number) {
 export function drawVisualText(page: PDFPage, frame: PageFrame, text: string, { x, y, angle, ...style }: VisualText) {
   const point = toPagePoint(frame, x, y);
   page.drawText(text, { ...point, ...style, rotate: degrees(frame.rotation + angle) });
+}
+
+export function drawVisualImage(
+  page: PDFPage,
+  frame: PageFrame,
+  image: PDFImage,
+  { x, y, width, height }: { x: number; y: number; width: number; height: number },
+) {
+  const point = toPagePoint(frame, x, y);
+  page.drawImage(image, { ...point, width, height, rotate: degrees(frame.rotation) });
 }
 
 export function centeredStart(centerX: number, centerY: number, angle: number, textWidth: number, size: number) {

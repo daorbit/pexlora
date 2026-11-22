@@ -42,6 +42,8 @@ const dashboardHrefs: Record<WorkspaceToolSlug, string> = {
   "merge-pdf": routes.dashboardMergePdf,
   "split-pdf": routes.dashboardSplitPdf,
   "rotate-pdf": routes.dashboardRotatePdf,
+  "compress-pdf": routes.dashboardCompressPdf,
+  "sign-pdf": routes.dashboardSignPdf,
   "jpg-to-pdf": routes.dashboardJpgToPdf,
   "pdf-to-jpg": routes.dashboardPdfToJpg,
   "svg-to-image": routes.dashboardSvgToImage,
@@ -49,6 +51,8 @@ const dashboardHrefs: Record<WorkspaceToolSlug, string> = {
   "crop-image": routes.dashboardCropImage,
   "change-dpi": routes.dashboardChangeDpi,
   "rotate-image": routes.dashboardRotateImage,
+  "image-watermark": routes.dashboardWatermarkImage,
+  "photo-signature": routes.dashboardPhotoSignature,
   "shape-image": routes.dashboardShapeImage,
   "image-palette": routes.dashboardPalette,
   "passport-photo": routes.dashboardPassportPhoto,
@@ -66,7 +70,7 @@ const dashboardHrefs: Record<WorkspaceToolSlug, string> = {
 
 export const dashboardToolHref = (slug: WorkspaceToolSlug) => dashboardHrefs[slug];
 
-const newToolSlugs: string[] = ["excel-to-pdf", "pdf-to-excel", "word-to-pdf", "pdf-to-word", "pdf-to-text", "csv-to-excel", "excel-to-csv", "link-cleaner", "remove-personal-info", "zip-files", "change-dpi", "rotate-image", "shape-image", "image-palette", "crop-image", "passport-photo", "organize-pdf", "pdf-page-numbers", "pdf-watermark"];
+const newToolSlugs: string[] = ["compress-pdf", "sign-pdf", "image-watermark", "photo-signature", "excel-to-pdf", "pdf-to-excel", "word-to-pdf", "pdf-to-word", "pdf-to-text", "csv-to-excel", "excel-to-csv", "link-cleaner", "remove-personal-info", "zip-files", "change-dpi", "rotate-image", "shape-image", "image-palette", "crop-image", "passport-photo", "organize-pdf", "pdf-page-numbers", "pdf-watermark"];
 
 const toolCategoryOrder: ToolCategory[] = ["metadata", "image", "pdf", "convert", "ai", "utility"];
 

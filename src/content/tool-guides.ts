@@ -449,6 +449,33 @@ export const toolGuides: Record<WorkspaceToolSlug, ToolGuide> = {
     ],
     relatedGuides: ["remove-exif-data", "remove-gps-from-photo", "remove-location-from-iphone-photos", "exif-viewer"],
   },
+  "photo-signature": {
+    intro: {
+      heading: "Put your photo and signature in one image",
+      paragraphs: [
+        "Some exam, scholarship and university forms ask for a single image with your photo and your signature together. Add your photo and a picture of your signature, choose whether the signature goes below or beside the photo, and get one JPG under the size the form allows.",
+        "Both images are scaled to fit, placed on a clean white background and saved at the highest quality that stays under your KB limit. It all happens in your browser, so your photo and signature aren't uploaded, and the JPG carries no EXIF or GPS data.",
+      ],
+    },
+    steps: [
+      { title: "Add two images", body: "Your photo first, then your signature. JPG, PNG, WebP and iPhone HEIC work." },
+      { title: "Pick the layout and size", body: "Signature below or beside the photo, and the largest KB the form accepts." },
+      { title: "Download the JPG", body: "One image with both, ready to upload." },
+    ],
+    faqs: [
+      {
+        question: "My photo and signature are in the wrong order. What do I do?",
+        answer: "Use the arrows on the file list to move the photo to the top, then join them again.",
+      },
+      {
+        question: "Can I set an exact pixel size?",
+        answer: "This tool fits both images on one sheet. If the form also needs exact pixels, open the joined JPG in the Photo & Signature Resizer next.",
+      },
+      inBrowser,
+      dailyLimit,
+    ],
+    relatedGuides: ["remove-exif-data", "remove-gps-from-photo", "exif-viewer"],
+  },
   "crop-image": {
     intro: {
       heading: "Crop images to the exact shape you need",
@@ -544,6 +571,34 @@ export const toolGuides: Record<WorkspaceToolSlug, ToolGuide> = {
       dailyLimit,
     ],
     relatedGuides: ["remove-exif-data", "remove-location-from-iphone-photos", "remove-gps-from-photo", "exif-viewer"],
+  },
+  "image-watermark": {
+    intro: {
+      heading: "Put your name on your photos before you share them",
+      paragraphs: [
+        "A visible watermark tells people who took a photo and makes it harder to reuse without credit. Add your name, shop name or a copyright line in a small corner mark, one large diagonal line, or a repeated pattern that covers the whole picture.",
+        "The watermark is drawn into the pixels in your browser, in any language, including Hindi. JPG, PNG and WebP keep their format, iPhone HEIC photos are saved as JPG, and EXIF and GPS data are left out of the new copy.",
+      ],
+    },
+    steps: [
+      { title: "Add your images", body: `Pick up to ${MAX_FILES_PER_BATCH} JPG, PNG, WebP or HEIC images.` },
+      { title: "Type the watermark", body: "Choose the position, colour and strength. The preview updates as you type." },
+      { title: "Save", body: "Every image gets the same watermark and is ready to download." },
+    ],
+    faqs: [
+      {
+        question: "Can someone remove the watermark?",
+        answer:
+          "A determined person with editing software can paint over any visible watermark. Tiled watermarks across the whole image are the hardest to remove cleanly.",
+      },
+      {
+        question: "Can I write the watermark in Hindi?",
+        answer: "Yes. Any language your device can display works, including Hindi, Tamil and emoji.",
+      },
+      inBrowser,
+      dailyLimit,
+    ],
+    relatedGuides: ["remove-exif-data", "remove-gps-from-photo", "exif-viewer"],
   },
   "shape-image": {
     intro: {
@@ -787,6 +842,64 @@ export const toolGuides: Record<WorkspaceToolSlug, ToolGuide> = {
       {
         question: "Does rotating change the quality?",
         answer: "No. Only the page orientation changes; the text and images inside stay exactly as they were.",
+      },
+      inBrowser,
+      passwordPdf,
+      pdfLimit,
+    ],
+    relatedGuides: pdfGuides,
+  },
+  "sign-pdf": {
+    intro: {
+      heading: "Sign a PDF on your phone or computer",
+      paragraphs: [
+        "Forms, offer letters and rent agreements often only need your signature on the last page. Draw it with your finger or mouse, type your name in a handwriting style, or upload a photo of your signature on white paper, and place it at the bottom or top of the page.",
+        "Signing happens in your browser, so the document and your signature aren't uploaded. The signed copy has its document metadata removed. This adds a picture of your signature, which most forms accept; it isn't a certificate-based digital signature.",
+      ],
+    },
+    steps: [
+      { title: "Add your signature", body: "Draw it, type your name, or upload a photo of it." },
+      { title: "Add your PDFs", body: `Choose up to ${MAX_FILES_PER_BATCH} PDF files, then pick the page, position and size.` },
+      { title: "Sign and save", body: "Your signature is placed and the signed PDF is ready to save." },
+    ],
+    faqs: [
+      {
+        question: "Is this a legally valid digital signature?",
+        answer:
+          "It places an image of your signature on the page, like signing a printout and scanning it. Some official processes need a certificate-based digital signature (DSC) instead, so check what the receiver asks for.",
+      },
+      {
+        question: "My uploaded signature has a grey box around it. Why?",
+        answer: "The background is removed when it's close to white. Photograph the signature on plain white paper in good light for a clean result.",
+      },
+      inBrowser,
+      passwordPdf,
+      pdfLimit,
+    ],
+    relatedGuides: pdfGuides,
+  },
+  "compress-pdf": {
+    intro: {
+      heading: "Make a PDF smaller without blurring the text",
+      paragraphs: [
+        "Most of a PDF's size comes from the photos and scans inside it. Pexlora shrinks those images to a sensible resolution and saves them as lighter JPGs, so a 10 MB scan can fit an email or a form that only allows a few hundred KB.",
+        "Text, lines and vector drawings aren't touched, so they stay sharp and you can still select and search the text. The PDF is compressed in your browser and its document metadata, such as the author and editing software, is removed.",
+      ],
+    },
+    steps: [
+      { title: "Add your PDFs", body: `Choose up to ${MAX_FILES_PER_BATCH} PDF files.` },
+      { title: "Pick a level", body: "Light keeps photos sharp, Balanced suits most uploads, Strong makes the smallest file." },
+      { title: "Compress and save", body: "Check the new size on each file, then save it." },
+    ],
+    faqs: [
+      {
+        question: "Why didn't my PDF get much smaller?",
+        answer:
+          "PDFs made from text, like a Word export, are already small and have no photos to shrink. Scanned documents and PDFs full of photos shrink the most. Try Strong for the smallest result.",
+      },
+      {
+        question: "Will the text become blurry?",
+        answer: "No. Only the photos inside are re-saved. Text and drawings stay exactly as they were, sharp and selectable.",
       },
       inBrowser,
       passwordPdf,

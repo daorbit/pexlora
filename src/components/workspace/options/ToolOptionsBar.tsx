@@ -14,9 +14,13 @@ const ShapeOptionsBar = dynamic(() => import("@/components/workspace/options/Sha
 const DpiOptionsBar = dynamic(() => import("@/components/workspace/options/DpiOptionsBar").then((module) => module.DpiOptionsBar));
 const FormPhotoOptionsBar = dynamic(() => import("@/components/workspace/options/FormPhotoOptionsBar").then((module) => module.FormPhotoOptionsBar));
 const HeicOptionsBar = dynamic(() => import("@/components/workspace/options/HeicOptionsBar").then((module) => module.HeicOptionsBar));
+const ImageWatermarkOptionsBar = dynamic(() => import("@/components/workspace/options/ImageWatermarkOptionsBar").then((module) => module.ImageWatermarkOptionsBar));
 const MetadataOptionsBar = dynamic(() => import("@/components/workspace/options/MetadataOptionsBar").then((module) => module.MetadataOptionsBar));
 const OrganizeOptionsBar = dynamic(() => import("@/components/workspace/options/OrganizeOptionsBar").then((module) => module.OrganizeOptionsBar));
 const PageNumberOptionsBar = dynamic(() => import("@/components/workspace/options/PageNumberOptionsBar").then((module) => module.PageNumberOptionsBar));
+const SignPdfOptionsBar = dynamic(() => import("@/components/workspace/options/SignPdfOptionsBar").then((module) => module.SignPdfOptionsBar));
+const PhotoSignOptionsBar = dynamic(() => import("@/components/workspace/options/PhotoSignOptionsBar").then((module) => module.PhotoSignOptionsBar));
+const PdfCompressOptionsBar = dynamic(() => import("@/components/workspace/options/PdfCompressOptionsBar").then((module) => module.PdfCompressOptionsBar));
 const PdfImageOptionsBar = dynamic(() => import("@/components/workspace/options/PdfImageOptionsBar").then((module) => module.PdfImageOptionsBar));
 const PdfPageOptionsBar = dynamic(() => import("@/components/workspace/options/PdfPageOptionsBar").then((module) => module.PdfPageOptionsBar));
 const PdfSheetOptionsBar = dynamic(() => import("@/components/workspace/options/PdfSheetOptionsBar").then((module) => module.PdfSheetOptionsBar));
@@ -78,6 +82,14 @@ export function ToolOptionsBar({ tool, options, onChange, disabled, sourceFile }
       return (
         <FormPhotoOptionsBar options={options.form} onChange={(form) => onChange({ ...options, form })} disabled={disabled} />
       );
+    case "photo-signature":
+      return (
+        <PhotoSignOptionsBar
+          options={options.photoSign}
+          onChange={(photoSign) => onChange({ ...options, photoSign })}
+          disabled={disabled}
+        />
+      );
     case "svg-to-image":
       return <SvgOptionsBar options={options.svg} onChange={(svg) => onChange({ ...options, svg })} disabled={disabled} />;
     case "image-to-svg":
@@ -97,6 +109,14 @@ export function ToolOptionsBar({ tool, options, onChange, disabled, sourceFile }
         <RotateImageOptionsBar
           options={options.rotateImage}
           onChange={(rotateImage) => onChange({ ...options, rotateImage })}
+          disabled={disabled}
+        />
+      );
+    case "image-watermark":
+      return (
+        <ImageWatermarkOptionsBar
+          options={options.imageWatermark}
+          onChange={(imageWatermark) => onChange({ ...options, imageWatermark })}
           disabled={disabled}
         />
       );
@@ -161,6 +181,22 @@ export function ToolOptionsBar({ tool, options, onChange, disabled, sourceFile }
         <PdfSheetOptionsBar
           options={options.pdfSheet}
           onChange={(pdfSheet) => onChange({ ...options, pdfSheet })}
+          disabled={disabled}
+        />
+      );
+    case "sign-pdf":
+      return (
+        <SignPdfOptionsBar
+          options={options.signPdf}
+          onChange={(signPdf) => onChange({ ...options, signPdf })}
+          disabled={disabled}
+        />
+      );
+    case "compress-pdf":
+      return (
+        <PdfCompressOptionsBar
+          options={options.pdfCompress}
+          onChange={(pdfCompress) => onChange({ ...options, pdfCompress })}
           disabled={disabled}
         />
       );

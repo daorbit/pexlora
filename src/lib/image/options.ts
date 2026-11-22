@@ -80,6 +80,33 @@ export const WATERMARK_OPACITY_VALUES: Record<WatermarkOpacity, number> = {
   strong: 0.5,
 };
 
+export const IMAGE_WATERMARK_POSITIONS = ["corner", "diagonal", "tiled"] as const;
+export type ImageWatermarkPosition = (typeof IMAGE_WATERMARK_POSITIONS)[number];
+
+export const IMAGE_WATERMARK_COLORS = ["white", "black"] as const;
+export type ImageWatermarkColor = (typeof IMAGE_WATERMARK_COLORS)[number];
+
+export const IMAGE_WATERMARK_ALPHA: Record<WatermarkOpacity, number> = {
+  light: 0.35,
+  medium: 0.55,
+  strong: 0.8,
+};
+
+export const SIGN_SIZES = ["small", "medium", "large"] as const;
+export type SignSize = (typeof SIGN_SIZES)[number];
+
+export const SIGN_PAGES = ["last", "first", "all"] as const;
+export type SignPages = (typeof SIGN_PAGES)[number];
+
+export const SIGN_INKS = ["black", "blue"] as const;
+export type SignInk = (typeof SIGN_INKS)[number];
+
+export const PHOTO_SIGN_LAYOUTS = ["below", "beside"] as const;
+export type PhotoSignLayout = (typeof PHOTO_SIGN_LAYOUTS)[number];
+
+export const PHOTO_SIGN_SIZES = ["20", "50", "100", "200"] as const;
+export type PhotoSignSize = (typeof PHOTO_SIGN_SIZES)[number];
+
 export const DPI_PRESETS = ["72", "96", "150", "200", "300", "600"] as const;
 export type DpiPreset = (typeof DPI_PRESETS)[number];
 
@@ -117,6 +144,21 @@ export const PDF_SHEET_LAYOUTS = ["single", "page"] as const;
 export type PdfSheetLayout = (typeof PDF_SHEET_LAYOUTS)[number];
 
 export type ConvertOptions = { format: OutputFormat };
+export type PdfCompressOptions = { level: CompressionLevel };
+export type SignPdfOptions = {
+  signature: string | null;
+  position: PageNumberPosition;
+  size: SignSize;
+  pages: SignPages;
+  ink: SignInk;
+};
+export type PhotoSignOptions = { layout: PhotoSignLayout; maxKb: PhotoSignSize };
+export type ImageWatermarkOptions = {
+  text: string;
+  position: ImageWatermarkPosition;
+  opacity: WatermarkOpacity;
+  color: ImageWatermarkColor;
+};
 export type DpiOptions = { dpi: number | null };
 export type RotateImageOptions = { angle: ImageRotation; flip: ImageFlip };
 export type ShapeOptions = { shape: ImageShape; corners: ShapeCorners; background: ShapeBackground };
@@ -174,6 +216,10 @@ export type ToolOptions = {
   palette: PaletteOptions;
   pdfPage: PdfPageOptions;
   pdfSheet: PdfSheetOptions;
+  pdfCompress: PdfCompressOptions;
+  imageWatermark: ImageWatermarkOptions;
+  photoSign: PhotoSignOptions;
+  signPdf: SignPdfOptions;
 };
 
 export const DEFAULT_TOOL_OPTIONS: ToolOptions = {
@@ -198,7 +244,15 @@ export const DEFAULT_TOOL_OPTIONS: ToolOptions = {
   palette: { size: "8" },
   pdfPage: { size: "a4", orientation: "auto" },
   pdfSheet: { layout: "single" },
+  pdfCompress: { level: "balanced" },
+  imageWatermark: { text: "© Your Name", position: "corner", opacity: "medium", color: "white" },
+  photoSign: { layout: "below", maxKb: "50" },
+  signPdf: { signature: null, position: "bottom-right", size: "medium", pages: "last", ink: "black" },
 };
+
+export function getSignPdfError({ signature }: SignPdfOptions) {
+  return signature ? null : "Draw, type or upload your signature first.";
+}
 
 export function getRotateImageError({ angle, flip }: RotateImageOptions) {
   return angle === "0" && flip === "none" ? "Pick a rotation or a flip." : null;
@@ -280,6 +334,13 @@ export function getWatermarkError({ text }: WatermarkOptions) {
   if (!value) return "Type the watermark text.";
   if (value.length > MAX_WATERMARK_LENGTH) return `Keep the watermark under ${MAX_WATERMARK_LENGTH} characters.`;
   if (!WATERMARK_CHARACTERS.test(value)) return "Use English letters, numbers and common symbols. Other scripts aren't supported yet.";
+  return null;
+}
+
+export function getImageWatermarkError({ text }: ImageWatermarkOptions) {
+  const value = text.trim();
+  if (!value) return "Type the watermark text.";
+  if (value.length > MAX_WATERMARK_LENGTH) return `Keep the watermark under ${MAX_WATERMARK_LENGTH} characters.`;
   return null;
 }
 

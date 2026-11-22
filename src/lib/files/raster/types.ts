@@ -1,6 +1,7 @@
 import type {
   CompressOptions,
   CropOptions,
+  ImageWatermarkOptions,
   PaletteOptions,
   ResizeOptions,
   RotateImageOptions,
@@ -14,6 +15,7 @@ export type RasterJob =
   | { kind: "resize"; format: BrowserFormat; options: ResizeOptions }
   | { kind: "crop"; format: BrowserFormat; options: CropOptions }
   | { kind: "rotate"; format: BrowserFormat; options: RotateImageOptions }
+  | { kind: "watermark"; format: BrowserFormat; options: ImageWatermarkOptions }
   | { kind: "shape"; options: ShapeOptions }
   | { kind: "palette"; options: PaletteOptions };
 

@@ -1,8 +1,10 @@
 "use client";
 
 import { createContext, useCallback, useContext, useState, type ReactNode } from "react";
+import { analyticsEvents } from "@/config/analytics";
 import { routes } from "@/config/site";
 import { useSignedIn } from "@/hooks/useSignedIn";
+import { track } from "@/lib/analytics/track";
 import { SignupPromptDialog } from "@/components/workspace/SignupPromptDialog";
 
 type Run = () => void;
@@ -36,6 +38,7 @@ export function DownloadGateProvider({ children }: { children: ReactNode }) {
 
   const guard = useCallback(
     (run: Run, count = 1) => {
+      track(analyticsEvents.fileSave, { count });
       const { pathname, search } = window.location;
       if (signedIn || pathname.startsWith(routes.dashboard) || promptSeen()) return run();
       setPending({ run, next: `${pathname}${search}`, count });

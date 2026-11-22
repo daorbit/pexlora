@@ -121,7 +121,7 @@ const MENU_ITEMS_PER_GROUP = 5;
 
 const menuPicks: Partial<Record<HubCategory, string[]>> = {
   image: ["compress-image", "compress-to-size", "resize-image", "crop-image", "form-photo"],
-  pdf: ["merge-pdf", "split-pdf", "organize-pdf", "jpg-to-pdf", "pdf-to-jpg"],
+  pdf: ["merge-pdf", "compress-pdf", "split-pdf", "jpg-to-pdf", "pdf-to-jpg"],
   convert: ["pdf-to-word", "word-to-pdf", "pdf-to-excel", "excel-to-pdf", "csv-to-excel"],
 };
 

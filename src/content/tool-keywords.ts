@@ -53,6 +53,10 @@ export const toolKeywords: Partial<Record<WorkspaceToolSlug, string[]>> = {
   "change-dpi": ["photo ka dpi kaise badle", "photo ko 300 dpi kaise kare"],
   "rotate-image": ["photo ko seedha kaise kare", "photo rotate kaise kare"],
   "organize-pdf": ["pdf se page kaise delete kare", "pdf ke pages ka order kaise badle"],
+  "compress-pdf": ["pdf ka size kaise kam kare", "pdf ko 200 kb me kaise kare"],
+  "sign-pdf": ["pdf par signature kaise kare", "mobile se pdf sign kaise kare"],
+  "image-watermark": ["photo par naam kaise likhe", "photo me watermark kaise lagaye"],
+  "photo-signature": ["photo aur signature ek sath kaise jode", "photo ke niche signature kaise lagaye"],
 };
 
 export const compressTargetLocalKeywords = (size: string, slug: string) => [

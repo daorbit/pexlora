@@ -7,6 +7,8 @@ import {
   IMAGE_FLIPS,
   IMAGE_ROTATIONS,
   IMAGE_SHAPES,
+  IMAGE_WATERMARK_COLORS,
+  IMAGE_WATERMARK_POSITIONS,
   PAGE_ORIENTATIONS,
   PALETTE_SIZES,
   PDF_IMAGE_QUALITIES,
@@ -14,6 +16,8 @@ import {
   PDF_SHEET_LAYOUTS,
   SHAPE_BACKGROUNDS,
   SHAPE_CORNERS,
+  SIGN_PAGES,
+  SIGN_SIZES,
   isCompressionLevel,
   isOneOf,
   isRotateAngle,
@@ -22,6 +26,8 @@ import {
   PASSPORT_COPIES,
   PASSPORT_OUTPUTS,
   PASSPORT_SIZES,
+  PHOTO_SIGN_LAYOUTS,
+  PHOTO_SIGN_SIZES,
   PRINT_SHEETS,
   WATERMARK_LAYOUTS,
   WATERMARK_OPACITIES,
@@ -98,6 +104,20 @@ export function optionsFromParams(tool: WorkspaceToolSlug, params: URLSearchPara
           maxKb: readInt(params, "max", FORM_PHOTO_KB_RANGE.min, FORM_PHOTO_KB_RANGE.max) ?? base.form.maxKb,
         },
       };
+    case "sign-pdf":
+      return {
+        ...base,
+        signPdf: {
+          ...base.signPdf,
+          position: readOneOf(params, "position", PAGE_NUMBER_POSITIONS, base.signPdf.position),
+          size: readOneOf(params, "size", SIGN_SIZES, base.signPdf.size),
+          pages: readOneOf(params, "pages", SIGN_PAGES, base.signPdf.pages),
+        },
+      };
+    case "compress-pdf": {
+      const level = params.get("level");
+      return { ...base, pdfCompress: { level: isCompressionLevel(level) ? level : base.pdfCompress.level } };
+    }
     case "rotate-pdf": {
       const angle = params.get("angle");
       return { ...base, rotate: { angle: isRotateAngle(angle) ? angle : base.rotate.angle } };
@@ -139,6 +159,24 @@ export function optionsFromParams(tool: WorkspaceToolSlug, params: URLSearchPara
           shape: readOneOf(params, "shape", IMAGE_SHAPES, base.shape.shape),
           corners: readOneOf(params, "corners", SHAPE_CORNERS, base.shape.corners),
           background: readOneOf(params, "bg", SHAPE_BACKGROUNDS, base.shape.background),
+        },
+      };
+    case "photo-signature":
+      return {
+        ...base,
+        photoSign: {
+          layout: readOneOf(params, "layout", PHOTO_SIGN_LAYOUTS, base.photoSign.layout),
+          maxKb: readOneOf(params, "max", PHOTO_SIGN_SIZES, base.photoSign.maxKb),
+        },
+      };
+    case "image-watermark":
+      return {
+        ...base,
+        imageWatermark: {
+          ...base.imageWatermark,
+          position: readOneOf(params, "position", IMAGE_WATERMARK_POSITIONS, base.imageWatermark.position),
+          color: readOneOf(params, "color", IMAGE_WATERMARK_COLORS, base.imageWatermark.color),
+          opacity: readOneOf(params, "strength", WATERMARK_OPACITIES, base.imageWatermark.opacity),
         },
       };
     case "image-palette":
@@ -230,6 +268,12 @@ export function optionsToParams(tool: WorkspaceToolSlug, options: ToolOptions): 
       return { format: FORMAT_EXTENSIONS[options.heic.format] };
     case "rotate-pdf":
       return { angle: options.rotate.angle };
+    case "compress-pdf":
+      return { level: options.pdfCompress.level };
+    case "sign-pdf": {
+      const { position, size, pages } = options.signPdf;
+      return { position, size, pages };
+    }
     case "svg-to-image":
       return { format: FORMAT_EXTENSIONS[options.svg.format], size: options.svg.size };
     case "image-to-svg":
@@ -244,6 +288,12 @@ export function optionsToParams(tool: WorkspaceToolSlug, options: ToolOptions): 
     }
     case "image-palette":
       return { colors: options.palette.size };
+    case "photo-signature":
+      return { layout: options.photoSign.layout, max: options.photoSign.maxKb };
+    case "image-watermark": {
+      const { position, color, opacity } = options.imageWatermark;
+      return { position, color, strength: opacity };
+    }
     case "excel-to-pdf":
     case "word-to-pdf":
       return { size: options.pdfPage.size, orientation: options.pdfPage.orientation };
