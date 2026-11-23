@@ -1,5 +1,5 @@
 import { compressTargetPath, type CompressTarget } from "@/config/compress-targets";
-import { otherTools } from "@/config/tool-hub";
+import { compressTargetHubKey } from "@/config/tool-hub";
 import { toolPageCopy } from "@/content/tool-pages";
 import { seoPagesBySlug } from "@/content/seo-pages";
 import { compressTargetFaqs, compressTargetGuides, compressTargetSteps } from "@/content/variant-guides";
@@ -12,7 +12,7 @@ import { FaqSection } from "@/components/landing/FaqSection";
 import { FeaturesSection } from "@/components/landing/FeaturesSection";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { CompressTargetLinksSection } from "@/components/tools/CompressTargetLinksSection";
-import { HubGridSection } from "@/components/tools/HubGridSection";
+import { MoreToolsSection } from "@/components/tools/MoreToolsSection";
 import { RelatedToolsSection } from "@/components/tools/RelatedToolsSection";
 import { SeoStepsSection } from "@/components/tools/SeoStepsSection";
 import { ToolHero } from "@/components/tools/ToolHero";
@@ -46,7 +46,7 @@ export function CompressTargetPage({ target }: { target: CompressTarget }) {
       <ToolFactsSection name={name} description={description} path={path} rows={workspaceToolFacts("compress-image")} />
       <FaqSection items={faqs} />
       <RelatedToolsSection pages={seoPagesBySlug(compressTargetGuides)} />
-      <HubGridSection {...toolPageCopy.moreTools} items={otherTools("compress-image")} />
+      <MoreToolsSection current={compressTargetHubKey} />
       <AccountBand />
     </>
   );

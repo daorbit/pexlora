@@ -39,7 +39,7 @@ export function ToolHub() {
       <ul key={filter} className={hubTileGridClass}>
         {items.map((item, index) => (
           <li key={item.key} className={cn("min-w-0 motion-safe:animate-fade-up", staggerDelay(index))}>
-            <HubCard item={item} tile />
+            <HubCard item={item} />
           </li>
         ))}
       </ul>

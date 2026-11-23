@@ -113,8 +113,33 @@ export function toolItem(key: string) {
   return toolItems.find((item) => item.key === key);
 }
 
-export function otherTools(current: string) {
-  return toolItems.filter((item) => item.key !== current);
+const RELATED_TOOLS_COUNT = 8;
+const RELATED_SIBLINGS_COUNT = 6;
+
+const popularToolKeys = [
+  "remove-metadata",
+  compressTargetHubKey,
+  "merge-pdf",
+  "convert-format",
+  "form-photo",
+  "pdf-to-word",
+  "image-alt-text",
+  "jpg-to-pdf",
+];
+
+const popularTools = popularToolKeys.flatMap((key) => toolItem(key) ?? []);
+
+export function relatedTools(current: string) {
+  const category = toolItem(current)?.category;
+  const sameCategory = toolItems.filter((item) => item.category === category);
+  const position = sameCategory.findIndex((item) => item.key === current);
+  const siblings = [...sameCategory.slice(position + 1), ...sameCategory.slice(0, Math.max(position, 0))].slice(
+    0,
+    RELATED_SIBLINGS_COUNT,
+  );
+  const popular = popularTools.filter((item) => item.category !== category && item.key !== current);
+
+  return [...siblings, ...popular].slice(0, RELATED_TOOLS_COUNT);
 }
 
 const MENU_ITEMS_PER_GROUP = 5;

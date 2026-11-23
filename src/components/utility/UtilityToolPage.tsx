@@ -1,7 +1,5 @@
 import { getUtilityTool, type UtilityToolSlug } from "@/config/utility-tools";
-import { otherTools } from "@/config/tool-hub";
 import { seoPagesBySlug } from "@/content/seo-pages";
-import { toolPageCopy } from "@/content/tool-pages";
 import { utilityFaqs, utilityRelatedGuides } from "@/content/utility-tools";
 import { toolStructuredData } from "@/lib/seo/structured-data";
 import { utilityToolFacts } from "@/lib/seo/tool-facts";
@@ -9,7 +7,7 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { ToolFactsSection } from "@/components/seo/ToolFactsSection";
 import { AccountBand } from "@/components/landing/AccountBand";
 import { FaqSection } from "@/components/landing/FaqSection";
-import { HubGridSection } from "@/components/tools/HubGridSection";
+import { MoreToolsSection } from "@/components/tools/MoreToolsSection";
 import { PageIntroHero } from "@/components/tools/PageIntroHero";
 import { RelatedToolsSection } from "@/components/tools/RelatedToolsSection";
 import { UtilityWorkspace } from "@/components/utility/UtilityWorkspace";
@@ -26,7 +24,7 @@ export function UtilityToolPage({ slug }: { slug: UtilityToolSlug }) {
       <ToolFactsSection name={tool.name} description={tool.description} path={tool.href} rows={utilityToolFacts(slug)} />
       <FaqSection items={utilityFaqs[slug]} />
       <RelatedToolsSection pages={seoPagesBySlug(utilityRelatedGuides[slug])} />
-      <HubGridSection {...toolPageCopy.moreTools} items={otherTools(slug)} />
+      <MoreToolsSection current={slug} />
       <AccountBand />
     </>
   );

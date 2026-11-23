@@ -1,8 +1,6 @@
-import { otherTools } from "@/config/tool-hub";
 import { getWorkspaceTool, type ToolCategory, type WorkspaceToolSlug } from "@/config/tools";
 import { seoPagesBySlug } from "@/content/seo-pages";
 import { toolGuides } from "@/content/tool-guides";
-import { toolPageCopy } from "@/content/tool-pages";
 import { toolStructuredData } from "@/lib/seo/structured-data";
 import { workspaceToolFacts } from "@/lib/seo/tool-facts";
 import { ToolFactsSection } from "@/components/seo/ToolFactsSection";
@@ -14,7 +12,7 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { CompressTargetLinksSection } from "@/components/tools/CompressTargetLinksSection";
 import { FormPresetLinksSection } from "@/components/tools/FormPresetLinksSection";
 import { ConversionLinksSection } from "@/components/tools/ConversionLinksSection";
-import { HubGridSection } from "@/components/tools/HubGridSection";
+import { MoreToolsSection } from "@/components/tools/MoreToolsSection";
 import { RelatedToolsSection } from "@/components/tools/RelatedToolsSection";
 import { SeoStepsSection } from "@/components/tools/SeoStepsSection";
 import { ToolHero } from "@/components/tools/ToolHero";
@@ -51,7 +49,7 @@ export function ToolPage({ slug }: { slug: WorkspaceToolSlug }) {
       <ToolFactsSection name={tool.name} description={tool.description} path={tool.href} rows={workspaceToolFacts(slug)} />
       <FaqSection items={guide.faqs} />
       <RelatedToolsSection pages={seoPagesBySlug(guide.relatedGuides)} />
-      <HubGridSection {...toolPageCopy.moreTools} items={otherTools(slug)} />
+      <MoreToolsSection current={slug} />
       <AccountBand />
     </>
   );

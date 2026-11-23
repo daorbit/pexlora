@@ -1,5 +1,4 @@
 import { conversionPath, type Conversion } from "@/config/conversions";
-import { otherTools } from "@/config/tool-hub";
 import { toolPageCopy } from "@/content/tool-pages";
 import { seoPagesBySlug } from "@/content/seo-pages";
 import { conversionFaqs, conversionGuides, conversionSteps } from "@/content/variant-guides";
@@ -11,7 +10,7 @@ import { FaqSection } from "@/components/landing/FaqSection";
 import { FeaturesSection } from "@/components/landing/FeaturesSection";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { ConversionLinksSection } from "@/components/tools/ConversionLinksSection";
-import { HubGridSection } from "@/components/tools/HubGridSection";
+import { MoreToolsSection } from "@/components/tools/MoreToolsSection";
 import { RelatedToolsSection } from "@/components/tools/RelatedToolsSection";
 import { SeoStepsSection } from "@/components/tools/SeoStepsSection";
 import { ToolHero } from "@/components/tools/ToolHero";
@@ -46,7 +45,7 @@ export function ConversionPage({ conversion }: { conversion: Conversion }) {
       <ToolFactsSection name={name} description={description} path={path} rows={workspaceToolFacts("convert-format")} />
       <FaqSection items={faqs} />
       <RelatedToolsSection pages={seoPagesBySlug(conversionGuides)} />
-      <HubGridSection {...toolPageCopy.moreTools} items={otherTools("convert-format")} />
+      <MoreToolsSection current="convert-format" />
       <AccountBand />
     </>
   );
