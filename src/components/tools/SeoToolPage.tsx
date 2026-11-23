@@ -8,8 +8,10 @@ import { AccountBand } from "@/components/landing/AccountBand";
 import { FaqSection } from "@/components/landing/FaqSection";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { ChecklistSection } from "@/components/tools/ChecklistSection";
+import { GuideSection } from "@/components/tools/GuideSection";
 import { RelatedToolsSection } from "@/components/tools/RelatedToolsSection";
 import { SeoStepsSection } from "@/components/tools/SeoStepsSection";
+import { ToolPostsSection } from "@/components/tools/ToolPostsSection";
 import { ToolHero } from "@/components/tools/ToolHero";
 
 export function SeoToolPage({ page }: { page: SeoPage }) {
@@ -31,9 +33,11 @@ export function SeoToolPage({ page }: { page: SeoPage }) {
         accepts={page.kinds}
       />
       <SeoStepsSection title={`How to use the ${page.name}`} steps={howToSteps[page.tool]} intro={page.intro} />
+      {page.guide && <GuideSection {...page.guide} />}
       <ChecklistSection eyebrow={page.list.eyebrow} title={page.list.title} items={page.list.items} />
       <ToolFactsSection name={page.name} description={page.description} path={seoPagePath(page)} rows={workspaceToolFacts(page.tool, page.kinds)} />
       <FaqSection items={page.faqs} />
+      <ToolPostsSection tool={page.tool} />
       <RelatedToolsSection leading={toolItem(page.tool)} pages={relatedSeoPages(page)} />
       <AccountBand />
     </>

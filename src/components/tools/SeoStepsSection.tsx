@@ -1,10 +1,9 @@
-import type { ToolStep } from "@/content/seo-pages/types";
+import type { GuideBlock, ToolStep } from "@/content/seo-pages/types";
 import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { SeoStepsList } from "@/components/tools/SeoStepsList";
 
-type SeoIntro = { heading: string; paragraphs: string[] };
-type SeoStepsSectionProps = { title: string; steps: ToolStep[]; intro?: SeoIntro };
+type SeoStepsSectionProps = { title: string; steps: ToolStep[]; intro?: GuideBlock };
 
 const STEPS_EYEBROW = "How it works";
 

@@ -7,6 +7,15 @@ export type SeoFaq = { question: string; answer: string };
 
 export type ToolStep = { title: string; body: string };
 
+export type GuideBlock = { heading: string; paragraphs: string[] };
+
+export type GuideContent = {
+  eyebrow: string;
+  title: string;
+  blocks: GuideBlock[];
+  sources?: { label: string; href: string }[];
+};
+
 export type SeoPage = {
   slug: string;
   category: SeoCategory;
@@ -18,7 +27,8 @@ export type SeoPage = {
   headline: string;
   description: string;
   keywords: string[];
-  intro: { heading: string; paragraphs: string[] };
+  intro: GuideBlock;
+  guide?: GuideContent;
   list: { eyebrow: string; title: string; items: string[] };
   faqs: SeoFaq[];
   related: string[];

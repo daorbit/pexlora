@@ -70,6 +70,16 @@ export async function getLatestPosts(limit: number) {
   }
 }
 
+export async function getPostsBySlugs(slugs: string[]) {
+  if (!slugs.length) return [];
+  try {
+    const posts = await getListedPosts();
+    return slugs.flatMap((slug) => posts.find((post) => post.slug === slug) ?? []);
+  } catch {
+    return [];
+  }
+}
+
 export async function getPrerenderSlugs() {
   try {
     const slugs = (await getAllPosts()).map((post) => post.slug);

@@ -3,6 +3,7 @@ import type { Conversion } from "@/config/conversions";
 import type { FormPreset } from "@/config/form-presets";
 import type { ImagePdfVariant } from "@/config/image-pdf-variants";
 import { formPresetCopy } from "@/content/tool-pages";
+import { pixelSizeFaqs } from "@/lib/seo/compress-guide";
 import { hindiCompressTargetFaq, hinglishCompressTargetFaq, hinglishFormPresetFaq } from "@/content/hinglish-faqs";
 import { MAX_FILES_PER_BATCH } from "@/config/limits";
 import { serverImageLimit } from "@/content/seo-pages/shared";
@@ -71,8 +72,10 @@ export function compressTargetSteps({ label }: CompressTarget): ToolStep[] {
   ];
 }
 
-export function compressTargetFaqs({ label }: CompressTarget): SeoFaq[] {
+export function compressTargetFaqs(target: CompressTarget): SeoFaq[] {
+  const { label } = target;
   return [
+    ...pixelSizeFaqs(target),
     {
       question: `How does Pexlora get an image under ${label}?`,
       answer: `It lowers the quality step by step until the file fits under ${label}. If quality alone isn't enough, it scales the image down as well.`,

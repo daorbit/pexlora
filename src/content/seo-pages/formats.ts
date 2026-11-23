@@ -166,7 +166,7 @@ export const formatPages: SeoPage[] = [
     name: "Video Metadata Remover",
     title: "Remove Video Metadata from MP4, MOV & WebM Online",
     headline: "Remove metadata from videos.",
-    description: `Strip GPS location, recording dates, C2PA credentials and encoder tags from ${extensions(["video"])} files without re-encoding.`,
+    description: `Strip GPS, recording dates, C2PA and encoder tags from ${extensions(["video"])} files without re-encoding.`,
     keywords: [
       "remove metadata from video",
       "video metadata remover",

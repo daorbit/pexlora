@@ -38,7 +38,7 @@ export const textTools: TextTool[] = [
     shortName: "Humanize Text",
     headline: "Make AI text sound natural and human.",
     description:
-      `${AI_NAME} rewrites stiff, AI-sounding text into natural writing in your tone and shows a live human score before and after. Facts, names and numbers stay the same.`,
+      `${AI_NAME} rewrites stiff, AI-sounding text into natural writing in your tone and shows a human score before and after. Facts, names and numbers stay the same.`,
   },
 ];
 

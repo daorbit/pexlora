@@ -13,6 +13,7 @@ import { ConversionLinksSection } from "@/components/tools/ConversionLinksSectio
 import { MoreToolsSection } from "@/components/tools/MoreToolsSection";
 import { RelatedToolsSection } from "@/components/tools/RelatedToolsSection";
 import { SeoStepsSection } from "@/components/tools/SeoStepsSection";
+import { ToolPostsSection } from "@/components/tools/ToolPostsSection";
 import { ToolHero } from "@/components/tools/ToolHero";
 
 export function ConversionPage({ conversion }: { conversion: Conversion }) {
@@ -44,6 +45,7 @@ export function ConversionPage({ conversion }: { conversion: Conversion }) {
       <FeaturesSection />
       <ToolFactsSection name={name} description={description} path={path} rows={workspaceToolFacts("convert-format")} />
       <FaqSection items={faqs} />
+      <ToolPostsSection tool="convert-format" />
       <RelatedToolsSection pages={seoPagesBySlug(conversionGuides)} />
       <MoreToolsSection current="convert-format" />
       <AccountBand />

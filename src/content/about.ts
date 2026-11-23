@@ -8,7 +8,7 @@ const { name } = siteConfig;
 
 export const aboutCopy = {
   metaTitle: `About ${name}`,
-  description: `${name} is a free toolkit for removing photo metadata and working with images, PDFs and documents, built by ${company.legalName} in ${company.country}. How it works, how files are handled and how it is funded.`,
+  description: `${name} is a free toolkit for removing photo metadata and working with images, PDFs and documents, built by ${company.legalName} in ${company.country}.`,
   eyebrow: "About",
   title: "Free file tools that",
   highlight: "respect privacy.",

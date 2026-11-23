@@ -45,11 +45,22 @@ export function sitemapEntries(): SitemapEntry[] {
     })),
     ...compressTargets.map((target) => ({
       path: compressTargetPath(target.slug),
-      sources: ["src/config/compress-targets.ts", "src/components/tools/CompressTargetPage.tsx", ...shared.variantPage],
+      sources: [
+        "src/config/compress-targets.ts",
+        "src/content/compress-target-guides.ts",
+        "src/content/compress-measurements.ts",
+        "src/components/tools/CompressTargetPage.tsx",
+        ...shared.variantPage,
+      ],
     })),
     ...formPresets.map((preset) => ({
       path: formPresetPath(preset.slug),
-      sources: ["src/config/form-presets.ts", "src/components/tools/FormPresetPage.tsx", ...shared.variantPage],
+      sources: [
+        "src/config/form-presets.ts",
+        "src/content/form-preset-guides.ts",
+        "src/components/tools/FormPresetPage.tsx",
+        ...shared.variantPage,
+      ],
     })),
     { path: routes.about, sources: [marketingPage(routes.about), "src/content/about.ts", "src/content/facts.ts", "src/components/about"] },
     { path: routes.contact, sources: [marketingPage(routes.contact), "src/content/contact.ts"] },

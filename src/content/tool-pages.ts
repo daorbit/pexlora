@@ -19,16 +19,50 @@ function presetKilobytes({ minKb, maxKb }: FormPreset) {
   return minKb ? `${minKb}–${maxKb} KB` : `under ${maxKb} KB`;
 }
 
+const PRESET_TITLE_LIMIT = 50;
+
+function presetTitle(preset: FormPreset) {
+  const { name, width, height, minKb, maxKb } = preset;
+  const pixels = width || height ? `${presetDimensions(preset).replace(" × ", "×")}, ` : "";
+  const size = `${pixels}${minKb ? `${minKb}–${maxKb}` : maxKb} KB`;
+  const full = `${name} Resizer: ${size}`;
+  return full.length > PRESET_TITLE_LIMIT ? `${name}: ${size}` : full;
+}
+
+function presetShape({ width, height }: FormPreset) {
+  if (!width || !height) return "";
+  if (width === height) return " (square)";
+  return width > height ? " (landscape)" : " (portrait)";
+}
+
 export const formPresetCopy = {
+  facts: {
+    eyebrow: "Size",
+    title: (preset: FormPreset) => `${preset.name} size in pixels and KB`,
+    summary: "The values this page is set to. Rules can change between years, so compare them with your notice and edit any number above.",
+    form: "Form",
+    pixels: "Width and height",
+    pixelsValue: (preset: FormPreset) =>
+      preset.width || preset.height
+        ? `${presetDimensions(preset)}${presetShape(preset)}`
+        : "Not set. The picture keeps its shape and only the file size changes.",
+    paper: "On paper",
+    paperSize: (width: number, height: number, dpi: number) => `${width} × ${height} mm at ${dpi} DPI`,
+    fileSize: "File size",
+    fileSizeValue: ({ minKb, maxKb }: FormPreset) =>
+      minKb ? `Between ${minKb} and ${maxKb} KB. A file below ${minKb} KB can be rejected too.` : `Up to ${maxKb} KB.`,
+    format: "Format",
+    formatValue: "JPG, without EXIF or GPS data.",
+  },
   noun: (preset: FormPreset) => presetNouns[preset.kind],
   specs: (preset: FormPreset) => `${presetDimensions(preset)} · ${presetKilobytes(preset)} · JPG`,
   section: { eyebrow: "Form presets", title: "Ready-made sizes for popular forms." },
   headline: (preset: FormPreset) => `${preset.name} resizer.`,
   description: (preset: FormPreset) =>
     `Set to ${presetDimensions(preset)} and ${presetKilobytes(preset)} for ${preset.exam}. Drop your ${presetNouns[preset.kind]} and download a JPG that fits, made in your browser.`,
-  title: (preset: FormPreset) => `${preset.name} Resizer: ${presetDimensions(preset)}, ${presetKilobytes(preset)}`,
+  title: presetTitle,
   metaDescription: (preset: FormPreset) =>
-    `Resize your ${presetNouns[preset.kind]} for ${preset.exam}: ${presetDimensions(preset)}, ${presetKilobytes(preset)}, JPG. Free, no upload, no sign-up.`,
+    `Resize your ${presetNouns[preset.kind]} for ${preset.exam}: ${presetDimensions(preset)}, ${presetKilobytes(preset)}, JPG. Done in your browser on phone or PC. Free, no sign-up.`,
   keywords: (preset: FormPreset) => [
     `${preset.name.toLowerCase()} size`,
     `${preset.name.toLowerCase()} resize`,
@@ -54,6 +88,7 @@ export const toolPageCopy = {
   imagePdfTitle: (from: string) => `${from} to PDF: Combine ${from} Images into One PDF`,
   imagePdfMetaDescription: (from: string) =>
     `Free ${from} to PDF converter. Combine ${from} images into a single PDF in your browser, one image per page, with no upload and no sign-up.`,
+  imagePdfLinks: { eyebrow: "Image to PDF", title: "Pick an image format." },
   compressTargets: { eyebrow: "Target sizes", title: "Compress to an exact size." },
   compressTargetLink: (size: string) => `Under ${size}`,
   compressTargetName: (size: string) => `Compress to ${size}`,
@@ -64,9 +99,9 @@ export const toolPageCopy = {
   compressTargetHeadline: (size: string) => `Compress images to ${size}.`,
   compressTargetDescription: (size: string) =>
     `Get any photo under ${size} for job portals, exam forms and ID uploads. Quality is lowered only as much as needed, and every metadata tag is removed.`,
-  compressTargetTitle: (size: string) => `Image to ${size} Converter: Compress Photo Online Free`,
+  compressTargetTitle: (size: string) => `Image to ${size} Converter: Compress Photo Free`,
   compressTargetMetaDescription: (size: string) =>
-    `Convert any photo to under ${size} online for free. JPG, PNG, WebP and iPhone HEIC on phone or PC, batch compression to an exact size, metadata removed. No sign-up.`,
+    `Convert any photo to under ${size} online for free. JPG, PNG, WebP and iPhone HEIC, on phone or PC, many at once, metadata removed. No sign-up.`,
   compressTargetKeywords: (size: string, slug: string) => [
     `compress image to ${size}`,
     `image to ${size} converter`,

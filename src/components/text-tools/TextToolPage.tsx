@@ -8,6 +8,7 @@ import { ToolFactsSection } from "@/components/seo/ToolFactsSection";
 import { AccountBand } from "@/components/landing/AccountBand";
 import { FaqSection } from "@/components/landing/FaqSection";
 import { MoreToolsSection } from "@/components/tools/MoreToolsSection";
+import { ToolPostsSection } from "@/components/tools/ToolPostsSection";
 import { RelatedToolsSection } from "@/components/tools/RelatedToolsSection";
 import { PageIntroHero } from "@/components/tools/PageIntroHero";
 import { TextToolWorkspace } from "@/components/text-tools/TextToolWorkspace";
@@ -34,6 +35,7 @@ export function TextToolPage({ slug }: { slug: TextToolSlug }) {
       </PageIntroHero>
       <ToolFactsSection name={tool.name} description={tool.description} path={tool.href} rows={textToolFacts()} />
       <FaqSection items={aiToolFaqs[slug]} />
+      <ToolPostsSection tool={slug} />
       <RelatedToolsSection pages={seoPagesBySlug(aiToolRelatedGuides[slug])} />
       <MoreToolsSection current={slug} />
       <AccountBand />

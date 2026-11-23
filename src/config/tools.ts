@@ -218,7 +218,7 @@ export const workspaceTools: WorkspaceTool[] = [
     shortName: "PNG to SVG",
     headline: "Convert PNG and JPG to SVG vectors.",
     description:
-      "Trace logos, icons, signatures and simple artwork from PNG, JPG or WebP into real SVG vector paths you can scale and edit. Traced in your browser, nothing is uploaded.",
+      "Trace logos, icons, signatures and simple artwork from PNG, JPG or WebP into real SVG vector paths you can scale and edit. Traced in your browser.",
   },
   {
     slug: "form-photo",
@@ -251,7 +251,7 @@ export const workspaceTools: WorkspaceTool[] = [
     shortName: "Change DPI",
     headline: "Change image DPI to 300, 200 or any value.",
     description:
-      "Set the DPI of JPG and PNG images to 300, 200, 96 or any value without touching a single pixel, for forms, print shops and documents. Done in your browser, nothing is uploaded.",
+      "Set the DPI of JPG and PNG images to 300, 200, 96 or any value without touching a single pixel, for forms, print shops and documents. Done in your browser.",
   },
   {
     slug: "rotate-image",
@@ -262,7 +262,7 @@ export const workspaceTools: WorkspaceTool[] = [
     shortName: "Rotate Image",
     headline: "Rotate and flip images the right way up.",
     description:
-      "Rotate JPG, PNG, WebP and HEIC images by 90°, 180° or 270° and flip them horizontally or vertically, so they show upright everywhere. Done in your browser, nothing is uploaded.",
+      "Rotate JPG, PNG, WebP and HEIC images by 90°, 180° or 270° and flip them horizontally or vertically, so they show upright everywhere. Done in your browser.",
   },
   {
     slug: "image-watermark",
@@ -273,7 +273,7 @@ export const workspaceTools: WorkspaceTool[] = [
     shortName: "Watermark Image",
     headline: "Add a text watermark to your photos.",
     description:
-      "Put your name, brand or copyright on JPG, PNG, WebP and HEIC images, in a corner, across the middle or tiled. Any language works. Done in your browser, nothing is uploaded.",
+      "Put your name, brand or copyright on JPG, PNG, WebP and HEIC images, in a corner, across the middle or tiled. Any language works. Done in your browser.",
   },
   {
     slug: "shape-image",
@@ -284,7 +284,7 @@ export const workspaceTools: WorkspaceTool[] = [
     shortName: "Round Image",
     headline: "Round the corners or crop images into a circle, heart or star.",
     description:
-      "Give images rounded corners or crop them into a circle, heart, star, hexagon or arch, saved as a transparent PNG or on white. Done in your browser, nothing is uploaded.",
+      "Give images rounded corners or crop them into a circle, heart, star, hexagon or arch, saved as a transparent PNG or on white. Done in your browser.",
   },
   {
     slug: "image-palette",
@@ -295,7 +295,7 @@ export const workspaceTools: WorkspaceTool[] = [
     shortName: "Color Palette",
     headline: "Pull the main colours out of any image.",
     description:
-      "Get the 5, 8 or 12 main colours of a photo, logo or design as hex codes you can copy, plus a palette card to download. Done in your browser, nothing is uploaded.",
+      "Get the 5, 8 or 12 main colours of a photo, logo or design as hex codes you can copy, plus a palette card to download. Done in your browser.",
   },
   {
     slug: "passport-photo",
@@ -427,7 +427,7 @@ export const workspaceTools: WorkspaceTool[] = [
     shortName: "Excel to PDF",
     headline: "Convert Excel spreadsheets to PDF.",
     description:
-      "Turn XLSX, XLS, ODS and CSV sheets into a clean, printable PDF table, one section per sheet, fitted to A4 or Letter. Converted in your browser, nothing is uploaded.",
+      "Turn XLSX, XLS, ODS and CSV sheets into a clean, printable PDF table, one section per sheet, fitted to A4 or Letter. Converted in your browser.",
   },
   {
     slug: "pdf-to-excel",
@@ -438,7 +438,7 @@ export const workspaceTools: WorkspaceTool[] = [
     shortName: "PDF to Excel",
     headline: "Convert PDF tables to Excel.",
     description:
-      "Pull tables and text out of a PDF into an editable Excel sheet, with numbers kept as numbers. Works on PDFs with real text, read in your browser, nothing is uploaded.",
+      "Pull tables and text out of a PDF into an editable Excel sheet, with numbers kept as numbers. Works on PDFs with real text, read in your browser.",
   },
   {
     slug: "word-to-pdf",
@@ -482,7 +482,7 @@ export const workspaceTools: WorkspaceTool[] = [
     shortName: "CSV to Excel",
     headline: "Convert CSV files to Excel.",
     description:
-      "Turn CSV files into XLSX workbooks with numbers as numbers, leading zeros and long IDs kept intact, and Hindi or other scripts shown correctly. Converted in your browser.",
+      "Turn CSV files into XLSX with numbers as numbers, leading zeros and long IDs kept, and Hindi or other scripts shown correctly. Converted in your browser.",
   },
   {
     slug: "excel-to-csv",

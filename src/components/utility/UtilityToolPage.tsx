@@ -8,6 +8,7 @@ import { ToolFactsSection } from "@/components/seo/ToolFactsSection";
 import { AccountBand } from "@/components/landing/AccountBand";
 import { FaqSection } from "@/components/landing/FaqSection";
 import { MoreToolsSection } from "@/components/tools/MoreToolsSection";
+import { ToolPostsSection } from "@/components/tools/ToolPostsSection";
 import { PageIntroHero } from "@/components/tools/PageIntroHero";
 import { RelatedToolsSection } from "@/components/tools/RelatedToolsSection";
 import { UtilityWorkspace } from "@/components/utility/UtilityWorkspace";
@@ -23,6 +24,7 @@ export function UtilityToolPage({ slug }: { slug: UtilityToolSlug }) {
       </PageIntroHero>
       <ToolFactsSection name={tool.name} description={tool.description} path={tool.href} rows={utilityToolFacts(slug)} />
       <FaqSection items={utilityFaqs[slug]} />
+      <ToolPostsSection tool={slug} />
       <RelatedToolsSection pages={seoPagesBySlug(utilityRelatedGuides[slug])} />
       <MoreToolsSection current={slug} />
       <AccountBand />

@@ -29,6 +29,7 @@ export const blogCopy = {
     related: "Keep reading",
     relatedAll: "All Articles",
   },
+  toolPosts: "Read more",
   footerPosts: {
     eyebrow: "From the blog",
     title: "Guides on photos, files and privacy",

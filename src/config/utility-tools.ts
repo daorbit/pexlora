@@ -24,7 +24,7 @@ export const utilityTools: UtilityTool[] = [
     shortName: "Link Cleaner",
     headline: "Remove tracking from links before you share them.",
     description:
-      "Paste links or a whole message and strip utm tags, fbclid, gclid, YouTube and Spotify share codes and Amazon referral tags, and unwrap Google and Facebook redirects. Runs in your browser.",
+      "Paste links or a whole message to strip utm, fbclid, gclid, share codes and Amazon referral tags, and unwrap redirects. Runs in your browser.",
   },
   {
     slug: "remove-personal-info",
@@ -35,7 +35,7 @@ export const utilityTools: UtilityTool[] = [
     shortName: "Hide Personal Info",
     headline: "Hide emails, phone numbers and IDs in text before you share it.",
     description:
-      "Mask emails, phone numbers, card numbers, Aadhaar, PAN, UPI IDs and IP addresses in chats, logs or documents before you paste them anywhere. Runs in your browser, nothing is uploaded.",
+      "Mask emails, phone numbers, card numbers, Aadhaar, PAN, UPI IDs and IP addresses before you paste text anywhere. Runs in your browser.",
   },
   {
     slug: "zip-files",

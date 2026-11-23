@@ -8,9 +8,11 @@ import { ToolFactsSection } from "@/components/seo/ToolFactsSection";
 import { AccountBand } from "@/components/landing/AccountBand";
 import { FaqSection } from "@/components/landing/FaqSection";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { ImagePdfLinksSection } from "@/components/tools/ImagePdfLinksSection";
 import { MoreToolsSection } from "@/components/tools/MoreToolsSection";
 import { RelatedToolsSection } from "@/components/tools/RelatedToolsSection";
 import { SeoStepsSection } from "@/components/tools/SeoStepsSection";
+import { ToolPostsSection } from "@/components/tools/ToolPostsSection";
 import { ToolHero } from "@/components/tools/ToolHero";
 
 export function ImagePdfPage({ variant }: { variant: ImagePdfVariant }) {
@@ -32,8 +34,10 @@ export function ImagePdfPage({ variant }: { variant: ImagePdfVariant }) {
       />
       <ToolHero headline={toolPageCopy.imagePdfHeadline(variant.from)} description={description} tool="jpg-to-pdf" />
       <SeoStepsSection title={`How to convert ${variant.from} to PDF`} steps={imagePdfSteps(variant)} />
+      <ImagePdfLinksSection current={path} />
       <ToolFactsSection name={name} description={description} path={path} rows={workspaceToolFacts("jpg-to-pdf")} />
       <FaqSection items={faqs} />
+      <ToolPostsSection tool="jpg-to-pdf" />
       <RelatedToolsSection pages={seoPagesBySlug(imagePdfGuides)} />
       <MoreToolsSection current="jpg-to-pdf" />
       <AccountBand />

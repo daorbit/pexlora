@@ -9,7 +9,7 @@ export type ChangelogEntry = { date: string; title: string; changes: Change[] };
 
 export const changelogCopy = {
   metaTitle: `What's New in ${siteConfig.name}`,
-  description: `Every new tool, improvement and fix in ${siteConfig.name}, newest first.`,
+  description: `Every new tool, improvement and fix in ${siteConfig.name}, newest first, with links to try each one for images, PDFs and documents.`,
   eyebrow: "Changelog",
   title: "What's new in",
   highlight: `${siteConfig.name}.`,
@@ -21,6 +21,15 @@ export const changelogCopy = {
 };
 
 export const changelog: ChangelogEntry[] = [
+  {
+    date: "2026-11-23",
+    title: "Better size guides",
+    changes: [
+      { type: "new", text: "Tested results on compress-to-size pages, showing how photos look at each KB limit.", href: `${routes.compressTo}/30kb` },
+      { type: "new", text: "A size table on every form preset, and a longer guide for PAN photos.", href: `${routes.formPhoto}/pan-card-photo` },
+      { type: "improved", text: "The Instagram AI info guide now covers posts, Reels and Stories.", href: "/remove-ai-info-label-instagram" },
+    ],
+  },
   {
     date: "2026-11-22",
     title: "Clearer sign-in and better link previews",
