@@ -4,24 +4,26 @@ import { useMemo, useState } from "react";
 import { Download } from "lucide-react";
 import { ZIP_LIST_PAGE } from "@/config/limits";
 import { zipCopy, zipExtractCopy } from "@/content/utility-tools";
+import type { FolderProgress } from "@/hooks/useSaveToFolder";
 import type { Archive } from "@/hooks/useUnzip";
 import type { ZipEntry } from "@/lib/files/zip/read-zip";
-import { entryFileName, entryFolder, savableEntries, searchEntries } from "@/lib/files/zip/zip-entries";
+import { entryFileName, entryFolder, searchEntries } from "@/lib/files/zip/zip-entries";
 import { formatBytes } from "@/lib/utils/format-bytes";
 import { Button } from "@/components/ui/Button";
 import { SearchInput } from "@/components/ui/SearchInput";
-import { SaveToDriveButton } from "@/components/drive/SaveToDriveButton";
 import { ANIMATED_ROWS } from "@/components/utility/zip/row-delays";
+import { ZipSaveBar } from "@/components/utility/zip/ZipSaveBar";
 import { ZipFileRow } from "@/components/utility/zip/ZipFileRow";
 
 type ZipFilesPanelProps = {
   archive: Archive;
   selected: string | null;
+  saving: FolderProgress | null;
   onSelect: (entry: ZipEntry) => void;
   onSave: (entries: ZipEntry[]) => void;
 };
 
-export function ZipFilesPanel({ archive, selected, onSelect, onSave }: ZipFilesPanelProps) {
+export function ZipFilesPanel({ archive, selected, saving, onSelect, onSave }: ZipFilesPanelProps) {
   const [query, setQuery] = useState("");
   const [limit, setLimit] = useState(ZIP_LIST_PAGE);
   const { entries } = archive;
@@ -75,15 +77,7 @@ export function ZipFilesPanel({ archive, selected, onSelect, onSave }: ZipFilesP
         {!matches.length && <li className="m-auto py-10 text-sm text-tertiary">{zipExtractCopy.noMatches}</li>}
       </ul>
 
-      {matches.length > 0 && (
-        <div className="flex flex-wrap gap-2 border-t border-separator p-3.5 sm:p-4">
-          <Button size="lg" onClick={() => onSave(matches)} className="flex-1 transition-transform motion-safe:active:scale-[0.98]">
-            <Download className="size-4" aria-hidden />
-            {searching ? zipExtractCopy.saveMatches(matches.length) : zipExtractCopy.saveAll(matches.length)}
-          </Button>
-          <SaveToDriveButton files={savableEntries(matches)} size="lg" className="flex-1" />
-        </div>
-      )}
+      {matches.length > 0 && <ZipSaveBar entries={matches} searching={searching} saving={saving} onSave={onSave} />}
     </>
   );
 }

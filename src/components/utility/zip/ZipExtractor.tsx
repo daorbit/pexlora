@@ -4,9 +4,11 @@ import { useCallback, useState } from "react";
 import { zipExtractCopy } from "@/content/utility-tools";
 import { useEntryPreview } from "@/hooks/useEntryPreview";
 import { useFileInput } from "@/hooks/useFileInput";
+import { useSaveToFolder } from "@/hooks/useSaveToFolder";
 import { useScrollToResult } from "@/hooks/useScrollToResult";
 import { useUnzip } from "@/hooks/useUnzip";
 import type { ZipEntry } from "@/lib/files/zip/read-zip";
+import { canSaveToFolder } from "@/lib/files/zip/save-to-folder";
 import { firstPreviewable, savableEntries } from "@/lib/files/zip/zip-entries";
 import { cn } from "@/lib/utils/cn";
 import { downloadEach } from "@/lib/utils/download";
@@ -40,6 +42,7 @@ export function ZipExtractor() {
 
   const { archive, opening, error, phase, openZip, reset } = useUnzip(onOpened);
   const { open, inputProps, isDragging, dropProps } = useFileInput(openZip, ZIP_ACCEPT, !opening);
+  const folder = useSaveToFolder();
   const previewRef = useScrollToResult(picked);
 
   const select = (entry: ZipEntry) => {
@@ -60,7 +63,9 @@ export function ZipExtractor() {
   const save = (entries: ZipEntry[]) => {
     const files = savableEntries(entries);
     const toPhotos = canSaveToPhotos() && files.every((file) => isGalleryMedia(file.blob.type));
-    if (toPhotos || files.length === 1) return saveFiles(files, `${baseName(archive?.name ?? "")}.zip`);
+    const zipName = baseName(archive?.name ?? "");
+    if (toPhotos || files.length === 1) return saveFiles(files, `${zipName}.zip`);
+    if (canSaveToFolder()) return folder.save(entries, zipName);
     return downloadEach(files);
   };
 
@@ -107,7 +112,13 @@ export function ZipExtractor() {
           className={cn("flex min-h-0 min-w-0 flex-col overflow-clip", workspaceCard, !archive && "max-lg:hidden")}
         >
           {archive ? (
-            <ZipFilesPanel archive={archive} selected={preview?.entry.name ?? null} onSelect={select} onSave={save} />
+            <ZipFilesPanel
+              archive={archive}
+              selected={preview?.entry.name ?? null}
+              saving={folder.progress}
+              onSelect={select}
+              onSave={save}
+            />
           ) : (
             <ZipFilesPlaceholder loading={Boolean(opening)} />
           )}

@@ -34,6 +34,8 @@ export const ZIP_LIST_PAGE = 100;
 
 export const ZIP_PARALLEL_READS = 8;
 
+export const FOLDER_PARALLEL_WRITES = 6;
+
 export const UTILITY_TEXT_MAX_CHARACTERS = 50000;
 
 export const MAX_METADATA_TEXT_LENGTH = 300;

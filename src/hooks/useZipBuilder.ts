@@ -5,12 +5,12 @@ import { ZIP_MAX_TOTAL_MB } from "@/config/limits";
 import { zipCreateCopy } from "@/content/utility-tools";
 import { toast } from "@/lib/toast/store";
 import { createZip, downloadBlob } from "@/lib/utils/download";
+import { safeFileName } from "@/lib/utils/file-name";
 import { vibrate } from "@/lib/utils/haptics";
 import { wait } from "@/lib/utils/wait";
 import { workspacePhase } from "@/lib/workspace/phase";
 
 const MAX_BYTES = ZIP_MAX_TOTAL_MB * 1024 * 1024;
-const UNSAFE_NAME = /[\\/:*?"<>|]+/g;
 const MIN_ZIP_MS = 900;
 
 export function useZipBuilder() {
@@ -51,7 +51,7 @@ export function useZipBuilder() {
     }
   };
 
-  const fileName = `${name.replace(UNSAFE_NAME, "").trim() || zipCreateCopy.namePlaceholder}${zipCreateCopy.extension}`;
+  const fileName = `${safeFileName(name) || zipCreateCopy.namePlaceholder}${zipCreateCopy.extension}`;
   const save = () => {
     if (result) downloadBlob(result, fileName);
   };

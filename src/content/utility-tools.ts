@@ -131,6 +131,10 @@ export const zipExtractCopy = {
   saveAll: (count: number) => `Save All (${count.toLocaleString("en-IN")})`,
   saveMatches: (count: number) => `Save Found (${count.toLocaleString("en-IN")})`,
   save: (name: string) => `Save ${name}`,
+  folderHint: "You pick a folder once. Folders inside the ZIP are kept.",
+  savedTo: (count: number, folder: string) => `${fileCount(count)} saved in "${folder}"`,
+  savedSome: (saved: number, failed: number) => `${fileCount(saved)} saved, ${fileCount(failed)} couldn't be saved`,
+  folderFailed: "The files couldn't be saved in that folder. Pick another one and try again.",
   preview: (name: string) => `Preview ${name}`,
   previewEmpty: "Pick a file from the list to preview it here.",
   closePreview: "Close preview",
@@ -199,6 +203,11 @@ export const utilityFaqs: Record<UtilityToolSlug, Faq[]> = {
     {
       question: "Can I open password-protected ZIP files?",
       answer: "Not yet. Encrypted ZIPs can't be opened here; use your computer's built-in tool or an app like 7-Zip.",
+    },
+    {
+      question: "How does Save All work?",
+      answer:
+        "In Chrome and Edge on a computer you pick a folder once, and every file is written into a new folder named after the ZIP, with its folders kept. Other browsers download the files one by one.",
     },
     {
       question: "How do I unzip on an iPhone?",
