@@ -169,6 +169,90 @@
   --animate-zip-in: zip-sheet 1.8s cubic-bezier(0.7, 0, 0.7, 0.4) var(--zip-delay, 0s) infinite reverse both;
   --animate-zip-pull: zip-pull 1.8s ease-in-out infinite;
 
+  --animate-wave-y: wave-y 3.2s ease-in-out var(--wave-delay, 0s) infinite;
+  --animate-case-shrink: case-shrink 5s cubic-bezier(0.7, 0, 0.2, 1) infinite;
+  --animate-case-row: case-row 5s cubic-bezier(0.2, 0.7, 0.2, 1) var(--case-delay, 0s) infinite both;
+  --animate-case-merge: case-merge 5s cubic-bezier(0.7, 0, 0.2, 1) infinite;
+  --animate-case-pop: case-pop 5s cubic-bezier(0.3, 1.5, 0.5, 1) infinite;
+  --animate-case-type: case-type 5s cubic-bezier(0.4, 0, 0.2, 1) var(--case-delay, 0s) infinite both;
+
+  @keyframes wave-y {
+    0%,
+    24%,
+    100% {
+      translate: 0 0;
+    }
+    12% {
+      translate: 0 -6px;
+    }
+  }
+
+  @keyframes case-shrink {
+    0%,
+    35%,
+    98%,
+    100% {
+      scale: 1 1;
+    }
+    45%,
+    88% {
+      scale: 0.2 1;
+    }
+  }
+
+  @keyframes case-row {
+    0%,
+    100% {
+      opacity: 0;
+      translate: 14px 0;
+    }
+    12%,
+    84% {
+      opacity: 1;
+      translate: 0 0;
+    }
+  }
+
+  @keyframes case-merge {
+    0%,
+    12%,
+    100% {
+      translate: var(--case-x, 0) 0;
+      rotate: var(--case-r, 0deg);
+    }
+    38%,
+    86% {
+      translate: 0 0;
+      rotate: 0deg;
+    }
+  }
+
+  @keyframes case-pop {
+    0%,
+    36%,
+    92%,
+    100% {
+      opacity: 0;
+      scale: 0.4;
+    }
+    46%,
+    86% {
+      opacity: 1;
+      scale: 1;
+    }
+  }
+
+  @keyframes case-type {
+    0%,
+    100% {
+      scale: 0 1;
+    }
+    22%,
+    82% {
+      scale: 1 1;
+    }
+  }
+
   @keyframes row-in {
     from {
       opacity: 0;

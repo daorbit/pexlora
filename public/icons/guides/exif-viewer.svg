@@ -1,3 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
-<rect width="48" height="48" rx="12" fill="#7457F5"/><path d="M17 13l2.2-3.2A2 2 0 0 1 20.9 9h6.2a2 2 0 0 1 1.7.8L31 13h5a4 4 0 0 1 4 4v15a4 4 0 0 1-4 4H12a4 4 0 0 1-4-4V17a4 4 0 0 1 4-4z" fill="#fff"/><circle cx="24" cy="24" r="7.5" fill="#7457F5"/><path d="M20.5 22.5h7M20.5 25.5h4.5" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48" fill="none" stroke-linecap="round" stroke-linejoin="round">
+<path d="M9 2h30a5 5 0 0 1 5 5v22a5 5 0 0 1 -5 5h-30a5 5 0 0 1 -5 -5v-22a5 5 0 0 1 5 -5z" fill="#CABBFF"/>
+<path d="M4 28.24L17.2 15.44L26 24.4L32 19.6L44 28.88V29a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5z" fill="#7451F8"/>
+<path d="M28.8 10.96a4 4 0 1 0 8 0a4 4 0 1 0 -8 0z" fill="#FFC531"/>
+<path d="M13 27h24a7 7 0 0 1 7 7v4a7 7 0 0 1 -7 7h-24a7 7 0 0 1 -7 -7v-4a7 7 0 0 1 7 -7z" fill="#4224BE"/>
+<path d="M18.81 31.7L14.44 31.7L14.44 39.4L18.81 39.4M14.44 35.55L18.17 35.55M21.05 31.7L26.19 39.4M26.19 31.7L21.05 39.4M28.43 31.7L28.43 39.4M35.56 31.7L31.19 31.7L31.19 39.4M31.19 35.55L34.91 35.55" stroke="#ffffff" stroke-width="1.82"/>
 </svg>

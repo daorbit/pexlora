@@ -8,7 +8,7 @@ export type HandledTool = { key: string; name: string; href: string; iconSrc: st
 
 const mixedNotes: Partial<Record<string, string>> = fileHandlingCopy.mixedNotes;
 
-function pathOf(tool: WorkspaceTool): HandlingPath {
+export function pathOf(tool: WorkspaceTool): HandlingPath {
   if (tool.category === "ai") return "ai";
   if (mixedNotes[tool.slug]) return "mixed";
   return toolBehaviors[tool.slug].localCapable ? "device" : "server";

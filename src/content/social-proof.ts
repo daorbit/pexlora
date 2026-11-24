@@ -1,134 +1,122 @@
-import type { WorkspaceToolSlug } from "@/config/tools";
+import { AI_NAME } from "@/config/brand";
+import { AI_DAILY_LIMITS, DAILY_LIMITS } from "@/config/limits";
+import { PRO_FILES_PER_BATCH, PRO_LIMITS, REFUND_WINDOW_DAYS } from "@/config/plans";
+import { conversions } from "@/config/conversions";
+import { freeToolCount } from "@/config/tool-hub";
+import { getWorkspaceTool, toolIconSrc, type WorkspaceToolSlug } from "@/config/tools";
+import type { HandlingPath } from "@/content/file-handling";
+import { formatCount } from "@/lib/utils/format-count";
 
-export const ratingProof = {
-  value: 4.9,
-  reviews: "320+ reviews",
-  summary: "Rated 4.9 out of 5 from 320+ reviews",
+const plural = (count: number, noun: string) => `${formatCount(count)} ${noun}${count === 1 ? "" : "s"}`;
+
+export const proofCopy = {
+  label: "Why Pexlora",
+  rating: {
+    count: (count: number) => plural(count, "rating"),
+    summary: (average: number, count: number) => `Rated ${average} out of 5 from ${plural(count, "rating")}`,
+  },
+  filesLabel: "files processed",
+  tools: { value: freeToolCount, label: "free tools" },
+  device: { value: (count: number) => `${count} tools`, label: "never upload your files" },
 };
 
-export const filesProof = {
-  count: "45K+",
-  label: "files cleaned",
+export const toolProofCopy = {
+  free: { value: "Free", label: "no sign-up" },
+  ai: { value: `${AI_DAILY_LIMITS.anonymous} free`, label: "runs a day, no account" },
+  paths: {
+    device: { value: "Private", label: "runs on your device" },
+    mixed: { value: "In your browser", label: "for common formats" },
+    server: { value: "Not saved", label: "processed in memory" },
+    ai: { value: AI_NAME, label: "results stay in your browser" },
+  } satisfies Record<HandlingPath, { value: string; label: string }>,
 };
 
-export const heroProof = {
-  label: "What people say",
+export type UseCaseSceneId = "travel" | "form" | "viewer" | "merge" | "compress" | "altText";
+
+export type UseCase = {
+  id: string;
+  scene?: UseCaseSceneId;
+  iconSrc: string;
+  title: string;
+  body: string;
+  badge?: string;
+  href?: string;
+  toolName?: string;
 };
 
-type ToolProof = { count: string; label: string };
+function forTool(slug: WorkspaceToolSlug, scene: UseCaseSceneId, title: string, body: string): UseCase {
+  const tool = getWorkspaceTool(slug);
+  return { id: slug, scene, iconSrc: toolIconSrc(slug), title, body, href: tool.href, toolName: tool.shortName };
+}
 
-export const toolProof: Partial<Record<WorkspaceToolSlug, ToolProof>> = {
-  "remove-metadata": { count: "45K+", label: "files cleaned" },
-  "view-metadata": { count: "18K+", label: "files checked" },
-  "edit-metadata": { count: "3K+", label: "files edited" },
-  "compress-image": { count: "22K+", label: "images compressed" },
-  "resize-image": { count: "14K+", label: "images resized" },
-  "crop-image": { count: "6K+", label: "images cropped" },
-  "convert-format": { count: "19K+", label: "images converted" },
-  "heic-to-jpg": { count: "9K+", label: "photos converted" },
-  "form-photo": { count: "11K+", label: "form photos resized" },
-  "passport-photo": { count: "4K+", label: "sheets made" },
-  "merge-pdf": { count: "7K+", label: "PDFs merged" },
-  "split-pdf": { count: "3K+", label: "PDFs split" },
-  "jpg-to-pdf": { count: "8K+", label: "PDFs created" },
-  "pdf-to-jpg": { count: "5K+", label: "PDFs converted" },
-};
-
-export const toolProofFallback: ToolProof = { count: "45K+", label: "files processed" };
-
-export const testimonialsCopy = {
-  title: "People clean their files here",
-  titleMarker: "every day.",
-  carouselLabel: "What people say about Pexlora",
+export const useCasesCopy = {
+  title: "Made for the files you",
+  titleMarker: "share every day.",
+  carouselLabel: "What people use Pexlora for",
   audienceLabel: "Made for",
   audience: ["Photographers", "Journalists", "Students", "Online sellers", "Designers", "Travellers"],
+  reviewsTitle: "What people say",
+  reviewsLabel: "Reviews from people who used Pexlora",
 };
 
-export type Testimonial = {
-  quote: string;
-  name: string;
-  role: string;
-  avatar: string;
-};
-
-export const testimonials: Testimonial[] = [
-  {
-    quote: "Every travel photo I posted had my hotel's exact location in it. Now I clean them before sharing.",
-    name: "Priya S.",
-    role: "Travel blogger",
-    avatar: "/avatars/avatar-1.svg",
-  },
-  {
-    quote: "Client product shots carried my editor's name and software. One drop and it's gone, nothing to install.",
-    name: "Daniel K.",
-    role: "Freelance designer",
-    avatar: "/avatars/avatar-2.svg",
-  },
-  {
-    quote: "Getting a photo under 50 KB for exam forms used to take an hour of guessing. Here it's one step.",
-    name: "Ankit R.",
-    role: "Student",
-    avatar: "/avatars/avatar-3.svg",
-  },
-  {
-    quote: "I check images from sources for camera and location data before we publish. The viewer makes it quick.",
-    name: "Meera J.",
-    role: "Journalist",
-    avatar: "/avatars/avatar-4.svg",
-  },
-  {
-    quote: "Merged twelve invoices into one PDF on my phone, right in the browser. No uploads, no app.",
-    name: "Rahul V.",
-    role: "Small business owner",
-    avatar: "/avatars/avatar-5.svg",
-  },
-  {
-    quote: "My generated images carried the prompt and model name in the file. I strip that before posting my work.",
-    name: "Sara L.",
-    role: "Digital artist",
-    avatar: "/avatars/avatar-6.svg",
-  },
+export const useCases: UseCase[] = [
+  forTool("remove-metadata", "travel", "Posting a travel photo", "Phone photos can carry the exact place they were taken. Clean them before you share."),
+  forTool("form-photo", "form", "Filling an exam form", "Set the exact pixels and KB range, then check it against the latest notice."),
+  forTool("view-metadata", "viewer", "Checking a photo", "See the camera, date, location and AI tags saved inside a file before you publish it."),
+  forTool("merge-pdf", "merge", "Sending one PDF", "Join invoices or scans into a single file, right in your browser."),
+  forTool("compress-image", "compress", "Listing a product", "Make product photos smaller so your shop pages load faster."),
+  forTool("image-alt-text", "altText", "Publishing a blog post", `Get alt text and a short description from ${AI_NAME}, then edit it in your own words.`),
 ];
+
+export const useCaseScenes = {
+  travel: { before: "Location found", after: "Location removed" },
+  form: { from: "2.4 MB", to: "48 KB", target: "Target: under 50 KB" },
+  viewer: [
+    { label: "Camera", value: "Phone, 24 mm" },
+    { label: "Date", value: "14 Mar, 09:41" },
+    { label: "Location", value: "28.61, 77.20" },
+  ],
+  compress: { from: "3.8 MB", to: "420 KB" },
+  altText: "Writing alt text",
+};
 
 export const statsCopy = {
   eyebrow: "Pexlora in numbers",
   liveBadge: "Live",
   liveLabel: "files processed today",
-  toolsLabel: "free tools",
   ratingLabel: "average rating",
-  countries: { value: "60+", label: "countries" },
-};
-
-export const signupProof = {
-  text: "Join 3,000+ people already using Pexlora",
+  conversions: { value: String(conversions.length), label: "image format conversions" },
+  accountFiles: { value: String(DAILY_LIMITS.user), label: "files a day with a free account" },
+  price: { value: "₹0", label: "to start, no card needed" },
 };
 
 export const pricingProof = {
-  text: "Trusted by 320+ Pro members",
-  title: "What Pro members say",
-  carouselLabel: "What Pro members say about Pexlora",
-  testimonials: [
+  refund: { value: `${REFUND_WINDOW_DAYS}-day`, label: "refund" },
+  tools: { value: freeToolCount, label: "tools on every plan" },
+  title: "Who Pro is for",
+  reviewsTitle: "What people say",
+  carouselLabel: "Who Pro is for",
+  useCases: [
     {
-      quote: "Pro paid for itself in the first week. I clean and resize every listing photo here now.",
-      name: "Kavya M.",
-      role: "Online seller",
-      avatar: "/avatars/avatar-3.svg",
+      id: "sellers",
+      iconSrc: toolIconSrc("compress-image"),
+      title: "Online sellers",
+      body: "Clean, resize and compress a whole set of listing photos in one run.",
+      badge: `${PRO_FILES_PER_BATCH} files per batch`,
     },
     {
-      quote: "I deliver hundreds of photos per shoot. Bigger batches mean a few runs instead of dozens.",
-      name: "Arjun T.",
-      role: "Wedding photographer",
-      avatar: "/avatars/avatar-2.svg",
+      id: "photographers",
+      iconSrc: toolIconSrc("remove-metadata"),
+      title: "Photographers",
+      body: "Remove location and camera details from a full shoot before you deliver it.",
+      badge: `${formatCount(PRO_LIMITS.files)} files a day`,
     },
     {
-      quote: "The extra Orbit AI runs are why I upgraded. Alt text for a whole blog post in one sitting.",
-      name: "Neha P.",
-      role: "Content writer",
-      avatar: "/avatars/avatar-6.svg",
+      id: "writers",
+      iconSrc: toolIconSrc("image-alt-text"),
+      title: "Writers and bloggers",
+      body: "Write alt text and descriptions for every image in a long post in one sitting.",
+      badge: `${PRO_LIMITS.ai} ${AI_NAME} requests a day`,
     },
-  ] satisfies Testimonial[],
-};
-
-export const doneProof = {
-  text: (count: string) => `Done. Your files join ${count} processed on Pexlora.`,
+  ] satisfies UseCase[],
 };

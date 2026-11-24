@@ -1,8 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
-<path d="M17 10h16l11 11v20a5 5 0 0 1-5 5H17a5 5 0 0 1-5-5V15a5 5 0 0 1 5-5z" fill="#F0504A"/>
-<path d="M33 10v7a4 4 0 0 0 4 4h7z" fill="#FFFFFF" fill-opacity="0.35"/>
-<path d="M21 28.5h11m-4-4 4 4-4 4" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
-<text x="28" y="42" font-size="9" fill="#FFFFFF" font-family="Inter, -apple-system, 'Segoe UI', Arial, sans-serif" font-weight="800" text-anchor="middle">AVIF</text>
-<rect x="2" y="3" width="25" height="14" rx="5" fill="#6B6F64" stroke="#FFFFFF" stroke-width="2"/>
-<text x="14.5" y="12.9" font-size="7" fill="#FFFFFF" font-family="Inter, -apple-system, 'Segoe UI', Arial, sans-serif" font-weight="800" text-anchor="middle">TIFF</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48" fill="none" stroke-linecap="round" stroke-linejoin="round">
+<path d="M7 2H21L29 10V30a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V6a4 4 0 0 1 4-4z" fill="#C3CAD6"/>
+<path d="M21 2v5a3 3 0 0 0 3 3h5z" fill="#566174"/>
+<path d="M7.04 10.3L9.84 10.3M8.44 10.3L8.44 14.5M11.07 10.3L11.07 14.5M14.95 10.3L12.57 10.3L12.57 14.5M12.57 12.4L14.6 12.4M18.56 10.3L16.18 10.3L16.18 14.5M16.18 12.4L18.21 12.4" stroke="#2B323E" stroke-width="0.99"/>
+<path d="M23 17H37L45 25V42a4 4 0 0 1-4 4H23a4 4 0 0 1-4-4V21a4 4 0 0 1 4-4z" fill="#7451F8"/>
+<path d="M37 17v5a3 3 0 0 0 3 3h5z" fill="#CABBFF"/>
+<path d="M25.54 37.5L27.05 32.95L28.57 37.5M26.07 35.98L28.04 35.98M29.9 32.95L31.41 37.5L32.93 32.95M34.26 32.95L34.26 37.5M38.46 32.95L35.89 32.95L35.89 37.5M35.89 35.23L38.09 35.23" stroke="#ffffff" stroke-width="1.07"/>
+<path d="M8 38v1.5a3.5 3.5 0 0 0 3.5 3.5H14M12 40l3 3-3 3" stroke="#7451F8" stroke-width="2.8"/>
 </svg>

@@ -26,6 +26,8 @@ export const changelog: ChangelogEntry[] = [
     title: "Unzip has its own page",
     changes: [
       { type: "new", text: "Unzip Files: search the files inside a ZIP and preview them before you save.", href: routes.unzipFiles },
+      { type: "improved", text: "Every tool, converter and guide has a new icon that shows what it does." },
+      { type: "new", text: "Rate any tool after you use it, with an optional comment." },
       { type: "improved", text: "ZIP Files now uses the full-width workspace, with the same steps as the other tools.", href: routes.zipFiles },
     ],
   },

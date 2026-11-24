@@ -1,10 +1,12 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { housePromos, resultsPromoTools } from "@/config/house-promos";
 import type { WorkspaceController } from "@/hooks/useWorkspaceController";
 import { HousePromoCard } from "@/components/promo/HousePromoCard";
 import { NextSteps } from "@/components/workspace/NextSteps";
-import { DoneProof } from "@/components/social-proof/DoneProof";
+
+const RateTool = dynamic(() => import("@/components/reviews/RateTool").then((module) => module.RateTool));
 
 export function ResultExtras({ controller }: { controller: WorkspaceController }) {
   const { queue, results, tool } = controller;
@@ -13,7 +15,7 @@ export function ResultExtras({ controller }: { controller: WorkspaceController }
   return (
     <>
       <div className="flex flex-col gap-3 sm:gap-4">
-        <DoneProof />
+        <RateTool key={tool} tool={tool} />
         <NextSteps current={tool} results={results} />
       </div>
       {resultsPromoTools.includes(tool) && <HousePromoCard promo={housePromos.results} placement="results" dismissible />}

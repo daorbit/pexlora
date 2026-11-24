@@ -1,3 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
-<rect width="48" height="48" rx="12" fill="#E03131"/><path d="M14 6h14l9 9v23a4 4 0 0 1-4 4H14a4 4 0 0 1-4-4V10a4 4 0 0 1 4-4z" fill="#fff"/><path d="M28 6v6a3 3 0 0 0 3 3h6" fill="#ffc9c9"/><rect x="6" y="23" width="26" height="11" rx="3" fill="#10120D"/><text x="19" y="31.3" text-anchor="middle" font-family="Inter, Arial, Helvetica, sans-serif" font-weight="800" font-size="8.5" fill="#fff">PDF</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48" fill="none" stroke-linecap="round" stroke-linejoin="round">
+<path d="M8 2H28L36 10V38a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4V6a4 4 0 0 1 4-4z" fill="#E5322E"/>
+<path d="M28 2v5a3 3 0 0 0 3 3h5z" fill="#FFB2AC"/>
+<path d="M11.74 27L11.74 20.35L14.18 20.35Q16.18 20.35 16.18 22.29Q16.18 24.23 14.18 24.23L11.74 24.23M18.12 20.35L18.12 27L19.89 27Q22.55 27 22.55 23.68Q22.55 20.35 19.89 20.35L18.12 20.35M28.26 20.35L24.49 20.35L24.49 27M24.49 23.68L27.7 23.68" stroke="#ffffff" stroke-width="1.57"/>
+<path d="M25.5 36a10.5 10.5 0 1 0 21 0a10.5 10.5 0 1 0 -21 0z" fill="#9C1816"/>
+<path d="M32.2 32.2l7.6 7.6M39.8 32.2l-7.6 7.6" stroke="#ffffff" stroke-width="3.2"/>
 </svg>

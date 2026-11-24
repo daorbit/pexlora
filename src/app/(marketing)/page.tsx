@@ -10,10 +10,10 @@ import { PrivacySection } from "@/components/landing/PrivacySection";
 import { RisksSection } from "@/components/landing/RisksSection";
 import { StatsSection } from "@/components/landing/StatsSection";
 import { StepsSection } from "@/components/landing/StepsSection";
-import { TestimonialsSection } from "@/components/landing/TestimonialsSection";
+import { UseCasesSection } from "@/components/landing/UseCasesSection";
 import { HomeHero } from "@/components/home/HomeHero";
 import { ToolHubSection } from "@/components/home/ToolHubSection";
-import { FactsSection } from "@/components/seo/FactsSection";
+import { GlanceSection } from "@/components/seo/glance/GlanceSection";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { seo } from "@/config/seo";
 import { routes } from "@/config/site";
@@ -40,9 +40,9 @@ export default function HomePage() {
       <FormatsSection />
       <PopularToolsSection />
       <LearnSection />
-      <TestimonialsSection />
+      <UseCasesSection />
       <StatsSection />
-      <FactsSection
+      <GlanceSection
         eyebrow={factsCopy.eyebrow}
         title={factsCopy.title}
         summary={factsCopy.summary}

@@ -1,3 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
-<rect width="48" height="48" rx="12" fill="#E11D48"/><rect x="8" y="7" width="32" height="9" rx="4.5" fill="#fff"/><path d="M13 11.5h12" stroke="#E11D48" stroke-width="2.4" stroke-linecap="round"/><circle cx="34.5" cy="11.5" r="2.3" fill="#E11D48"/><rect x="8" y="19" width="32" height="22" rx="5" fill="#fff"/><path d="M11 38l7.5-8.5a1.5 1.5 0 0 1 2.2 0L26 35l3-3a1.5 1.5 0 0 1 2.2 0L37 38z" fill="#E11D48"/><circle cx="32" cy="25" r="2.6" fill="#E11D48"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48" fill="none" stroke-linecap="round" stroke-linejoin="round">
+<path d="M12 3h20a9 9 0 0 1 9 9v20a9 9 0 0 1 -9 9h-20a9 9 0 0 1 -9 -9v-20a9 9 0 0 1 9 -9z" fill="#FFCFA6"/>
+<path d="M8 22a7 7 0 1 0 14 0a7 7 0 1 0 -14 0z" fill="#F97316"/>
+<path d="M22 22a7 7 0 1 0 14 0a7 7 0 1 0 -14 0z" fill="#F97316"/>
+<path d="M22 16.2a7 7 0 0 1 0 11.6 7 7 0 0 1 0-11.6z" fill="#FFC531"/>
+<path d="M25.5 36a10.5 10.5 0 1 0 21 0a10.5 10.5 0 1 0 -21 0z" fill="#A34708"/>
+<path d="M32.2 32.2l7.6 7.6M39.8 32.2l-7.6 7.6" stroke="#ffffff" stroke-width="3.2"/>
 </svg>

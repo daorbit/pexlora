@@ -1,5 +1,6 @@
 import { SIGNUP_CODE } from "@/config/security";
-import { DAILY_LIMITS } from "@/config/limits";
+import { AI_NAME } from "@/config/brand";
+import { AI_DAILY_LIMITS, DAILY_LIMITS } from "@/config/limits";
 
 export type AuthMode = "signin" | "signup";
 
@@ -54,6 +55,10 @@ export const authCopy = {
     startOver: "Use a different email",
   },
   divider: "or",
+};
+
+export const signupProof = {
+  text: `Every tool stays free, with ${AI_DAILY_LIMITS.user} ${AI_NAME} requests a day.`,
 };
 
 export const authLegal = {

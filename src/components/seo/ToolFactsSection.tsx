@@ -1,11 +1,11 @@
 import { toolFactsCopy, type FactRow } from "@/content/facts";
-import { FactsSection } from "@/components/seo/FactsSection";
+import { GlanceSection } from "@/components/seo/glance/GlanceSection";
 
 type ToolFactsSectionProps = { name: string; description: string; path: string; rows: FactRow[] };
 
 export function ToolFactsSection({ name, description, path, rows }: ToolFactsSectionProps) {
   return (
-    <FactsSection
+    <GlanceSection
       eyebrow={toolFactsCopy.eyebrow}
       title={toolFactsCopy.title(name)}
       summary={toolFactsCopy.summary(name, description)}

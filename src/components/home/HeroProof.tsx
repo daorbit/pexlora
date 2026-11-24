@@ -1,19 +1,22 @@
-import { HERO_AVATAR_COUNT, PROOF_AVATARS } from "@/config/social-proof";
-import { filesProof, heroProof } from "@/content/social-proof";
-import { AvatarStack } from "@/components/ui/AvatarStack";
+import { ShieldCheck } from "lucide-react";
+import { proofIcons } from "@/config/social-proof";
+import { proofCopy } from "@/content/social-proof";
+import { toolsByPath } from "@/lib/file-handling/tool-paths";
+import { getFilesTotal } from "@/lib/stats/social-proof";
+import { formatCount } from "@/lib/utils/format-count";
+import { IconStack } from "@/components/ui/IconStack";
 import { CountProof } from "@/components/social-proof/CountProof";
-import { ProofDivider, ProofRow } from "@/components/social-proof/ProofRow";
-import { RatingSummary } from "@/components/social-proof/RatingSummary";
+import { SiteProof } from "@/components/social-proof/SiteProof";
 
-export function HeroProof() {
-  return (
-    <ProofRow label={heroProof.label} className="sm:text-[14.5px]">
-      <div className="flex items-center gap-2.5 sm:gap-3">
-        <AvatarStack srcs={PROOF_AVATARS.slice(0, HERO_AVATAR_COUNT)} />
-        <RatingSummary reviews="sm" />
-      </div>
-      <ProofDivider />
-      <CountProof count={filesProof.count} label={filesProof.label} />
-    </ProofRow>
-  );
+const deviceTools = toolsByPath().device.length;
+
+export async function HeroProof() {
+  const files = await getFilesTotal();
+  const items = [
+    ...(files === null ? [] : [{ id: "files", content: <CountProof value={formatCount(files)} label={proofCopy.filesLabel} /> }]),
+    { id: "tools", content: <CountProof {...proofCopy.tools} visual={<IconStack srcs={proofIcons} />} /> },
+    { id: "device", content: <CountProof value={proofCopy.device.value(deviceTools)} label={proofCopy.device.label} icon={ShieldCheck} /> },
+  ];
+
+  return <SiteProof items={items} />;
 }

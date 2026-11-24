@@ -1,4 +1,5 @@
 import "server-only";
+import { after } from "next/server";
 import { AI_DAILY_LIMITS, DAILY_LIMITS } from "@/config/limits";
 import type { RateLimitScope } from "@/config/security";
 import { aiCopy } from "@/content/ai";
@@ -12,6 +13,7 @@ import { clientId } from "@/lib/security/client";
 import { hasAiBudget } from "@/services/ai-budget.service";
 import { hitRateLimit } from "@/services/rate-limit.service";
 import { incrementUsage, usageKeys } from "@/services/usage.service";
+import { countProcessedFile } from "@/services/site-stats.service";
 import { findUserLimits } from "@/services/user.service";
 
 type QuotaKind = "files" | "ai";
@@ -75,6 +77,7 @@ async function consumeQuota(request: Request, kind: QuotaKind) {
     );
   }
 
+  if (kind === "files") after(countProcessedFile);
   return limit - used;
 }
 

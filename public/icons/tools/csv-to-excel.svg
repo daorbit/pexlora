@@ -1,3 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
-<defs><linearGradient id="t" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3CC774"/><stop offset="1" stop-color="#15803D"/></linearGradient><linearGradient id="h" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity="0.5"/><stop offset=".45" stop-color="#fff" stop-opacity="0"/></linearGradient><filter id="s" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="1.2" stdDeviation="1.1" flood-color="#0B4D24" flood-opacity="0.4"/></filter></defs><rect width="48" height="48" rx="12" fill="url(#t)"/><rect x=".5" y=".5" width="47" height="47" rx="11.5" fill="none" stroke="url(#h)"/><g filter="url(#s)"><rect x="9" y="11" width="30" height="26" rx="5" fill="#fff"/><path d="M9 19.5h30M9 28.2h30M19 11v26M29 11v26" fill="none" stroke="#178A45" stroke-width="2.6"/><path d="M14 11h20a5 5 0 0 1 5 5v3.5H9V16a5 5 0 0 1 5-5z" fill="#178A45" fill-opacity=".35"/></g>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48" fill="none" stroke-linecap="round" stroke-linejoin="round">
+<path d="M7 2H21L29 10V30a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V6a4 4 0 0 1 4-4z" fill="#97E4DF"/>
+<path d="M21 2v5a3 3 0 0 0 3 3h5z" fill="#0AA3A0"/>
+<path d="M9.52 10.3Q8.99 9.25 7.86 9.25Q6.02 9.25 6.02 11.88Q6.02 14.5 7.86 14.5Q8.99 14.5 9.52 13.45M14.38 10.21Q13.85 9.25 12.8 9.25Q11.23 9.25 11.23 10.56Q11.23 11.61 12.8 11.88Q14.55 12.14 14.55 13.19Q14.55 14.5 12.8 14.5Q11.58 14.5 11.05 13.54M16.08 9.25L17.83 14.5L19.58 9.25" stroke="#075F5E" stroke-width="1.24"/>
+<path d="M23 17H37L45 25V42a4 4 0 0 1-4 4H23a4 4 0 0 1-4-4V21a4 4 0 0 1 4-4z" fill="#12A55F"/>
+<path d="M37 17v5a3 3 0 0 0 3 3h5z" fill="#9BE5C0"/>
+<path d="M24.63 31.48L28.64 37.5M28.64 31.48L24.63 37.5M30.39 31.48L30.39 37.5L33.61 37.5M39.17 32.58Q38.57 31.48 37.37 31.48Q35.56 31.48 35.56 32.98Q35.56 34.19 37.37 34.49Q39.37 34.79 39.37 36Q39.37 37.5 37.37 37.5Q35.96 37.5 35.36 36.4" stroke="#ffffff" stroke-width="1.42"/>
+<path d="M8 38v1.5a3.5 3.5 0 0 0 3.5 3.5H14M12 40l3 3-3 3" stroke="#12A55F" stroke-width="2.8"/>
 </svg>

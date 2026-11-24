@@ -1,3 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
-<defs><linearGradient id="t" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#D4FF5E"/><stop offset="1" stop-color="#A3DA1B"/></linearGradient><linearGradient id="h" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity="0.6"/><stop offset=".45" stop-color="#fff" stop-opacity="0"/></linearGradient><filter id="s" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="1.2" stdDeviation="1.1" flood-color="#3F6212" flood-opacity="0"/></filter></defs><rect width="48" height="48" rx="12" fill="url(#t)"/><rect x=".5" y=".5" width="47" height="47" rx="11.5" fill="none" stroke="url(#h)"/><g filter="url(#s)"><path d="M13 17.5h21M28.5 12l5.5 5.5-5.5 5.5M35 30.5H14M19.5 25 14 30.5l5.5 5.5" fill="none" stroke="#10120D" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></g>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48" fill="none" stroke-linecap="round" stroke-linejoin="round">
+<path d="M8 3h15a5 5 0 0 1 5 5v13a5 5 0 0 1 -5 5h-15a5 5 0 0 1 -5 -5v-13a5 5 0 0 1 5 -5z" fill="#D0F27C"/>
+<path d="M3 21.86L11.25 12.66L16.75 19.1L20.5 15.65L28 22.32V21a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5z" fill="#7DB50B"/>
+<path d="M18.5 9.44a2.5 2.5 0 1 0 5 0a2.5 2.5 0 1 0 -5 0z" fill="#FFC531"/>
+<path d="M25 22h15a5 5 0 0 1 5 5v13a5 5 0 0 1 -5 5h-15a5 5 0 0 1 -5 -5v-13a5 5 0 0 1 5 -5z" fill="#7DB50B"/>
+<path d="M25.72 36.3L25.72 31.05L27.64 31.05Q29.22 31.05 29.22 32.58Q29.22 34.11 27.64 34.11L25.72 34.11M30.75 36.3L30.75 31.05L34.25 36.3L34.25 31.05M39.28 32.1Q38.76 31.05 37.62 31.05Q35.78 31.05 35.78 33.67Q35.78 36.3 37.62 36.3Q39.28 36.3 39.28 34.55L39.28 34.02L37.97 34.02" stroke="#ffffff" stroke-width="1.24"/>
+<path d="M35 5.5c4 0.5 6.5 3.5 6.5 8M38.5 11.5l3 3 3-3M13 42.5c-4-0.5-6.5-3.5-6.5-8M3.5 36.5l3-3 3 3" stroke="#7DB50B" stroke-width="2.8"/>
 </svg>

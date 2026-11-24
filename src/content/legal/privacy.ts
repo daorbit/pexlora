@@ -104,6 +104,20 @@ export const privacyPolicy: LegalDocument = {
       ],
     },
     {
+      id: "ratings",
+      heading: "Ratings and comments",
+      blocks: [
+        {
+          type: "p",
+          text: "After you use a tool you can rate it. If you do, we keep the star rating, the tool, the time and, if you add them, your comment and name. Ratings aren't linked to your account. Your comment is shown on the site only if you tick the box that allows it. Email us to have a comment removed.",
+        },
+        {
+          type: "p",
+          text: "We also keep one running total of how many files everyone has processed. It isn't linked to any person or file.",
+        },
+      ],
+    },
+    {
       id: "analytics",
       heading: "Analytics",
       blocks: [

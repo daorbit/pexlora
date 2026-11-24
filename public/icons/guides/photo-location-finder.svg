@@ -1,3 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
-<rect width="48" height="48" rx="12" fill="#7457F5"/><path d="M6 14l11-4 14 4 11-4v24l-11 4-14-4-11 4z" fill="#fff"/><path d="M17 10v24M31 14v24" stroke="#7457F5" stroke-width="1.6" opacity=".35"/><path d="M24 13c-4 0-7 3.1-7 7 0 5.2 7 12 7 12s7-6.8 7-12c0-3.9-3-7-7-7z" fill="#7457F5"/><circle cx="24" cy="20" r="2.6" fill="#fff"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48" fill="none" stroke-linecap="round" stroke-linejoin="round">
+<path d="M8 4h22a5 5 0 0 1 5 5v20a5 5 0 0 1 -5 5h-22a5 5 0 0 1 -5 -5v-20a5 5 0 0 1 5 -5z" fill="#CABBFF"/>
+<path d="M3 28.6L13.56 16.6L20.6 25L25.4 20.5L35 29.2V29a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5z" fill="#7451F8"/>
+<path d="M22.84 12.4a3.2 3.2 0 1 0 6.4 0a3.2 3.2 0 1 0 -6.4 0z" fill="#FFC531"/>
+<path d="M22 34a12 12 0 1 0 24 0a12 12 0 1 0 -24 0z" fill="#4224BE"/>
+<path d="M34 26.5a5.2 5.2 0 0 0 -5.2 5.2c0 3.8 5.2 9 5.2 9s5.2 -5.2 5.2 -9a5.2 5.2 0 0 0 -5.2 -5.2z" fill="#ffffff"/>
+<path d="M32.1 31.6a1.9 1.9 0 1 0 3.8 0a1.9 1.9 0 1 0 -3.8 0z" fill="#4224BE"/>
 </svg>

@@ -60,6 +60,7 @@ export const routes = {
   dashboardPdfWatermark: "/dashboard/pdf-watermark",
   dashboardOrganizePdf: "/dashboard/organize-pdf",
   dashboardAdmin: "/dashboard/admin",
+  dashboardAdminReviews: "/dashboard/admin/reviews",
   sessionExpired: "/api/auth/session-expired",
   verifyEmail: "/verify-email",
   removeMetadata: "/remove-ai-metadata",

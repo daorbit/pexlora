@@ -17,6 +17,7 @@ export const RATE_LIMITS = {
   aiApi: { limit: 15, windowSeconds: MINUTE },
   urlImport: { limit: 20, windowSeconds: MINUTE },
   createOrder: { limit: 10, windowSeconds: HOUR },
+  review: { limit: 10, windowSeconds: HOUR },
   verifyPayment: { limit: 30, windowSeconds: HOUR },
 } satisfies Record<string, RateLimitRule>;
 

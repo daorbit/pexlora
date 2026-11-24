@@ -74,5 +74,8 @@ export const env = {
     const rupees = Number(process.env.PAYMENT_TEST_PRICE_INR);
     return Number.isFinite(rupees) && rupees >= 1 ? Math.round(rupees * 100) : null;
   },
+  get isLiveSite() {
+    return process.env.VERCEL_ENV === "production";
+  },
   isProduction: process.env.NODE_ENV === "production",
 };

@@ -1,12 +1,11 @@
-import { PROOF_AVATARS } from "@/config/social-proof";
-import { signupProof } from "@/content/social-proof";
-import { AvatarStack } from "@/components/ui/AvatarStack";
+import { BadgeCheck } from "lucide-react";
+import { signupProof } from "@/content/auth";
 
 export function SignupProof() {
   return (
-    <div className="-mt-1 flex items-center justify-center gap-2.5 text-[13px] text-secondary sm:-mt-1.5">
-      <AvatarStack srcs={PROOF_AVATARS.slice(0, 4)} size="xs" />
-      <p>{signupProof.text}</p>
-    </div>
+    <p className="-mt-1 flex items-center justify-center gap-1.5 text-[13px] text-secondary sm:-mt-1.5">
+      <BadgeCheck className="size-4 shrink-0 text-accent-text" strokeWidth={2.2} aria-hidden />
+      {signupProof.text}
+    </p>
   );
 }
