@@ -1,100 +1,79 @@
 "use client";
 
-import { useCallback, useState } from "react";
 import { X } from "lucide-react";
-import { ZIP_MAX_TOTAL_MB } from "@/config/limits";
-import { zipCopy } from "@/content/utility-tools";
+import { zipCreateCopy } from "@/content/utility-tools";
 import { useFileInput } from "@/hooks/useFileInput";
-import { toast } from "@/lib/toast/store";
-import { createZip, downloadBlob } from "@/lib/utils/download";
-import { cn } from "@/lib/utils/cn";
-import { formatBytes } from "@/lib/utils/format-bytes";
-import { Alert } from "@/components/ui/Alert";
+import { useZipBuilder } from "@/hooks/useZipBuilder";
 import { Button } from "@/components/ui/Button";
-import { Dropzone } from "@/components/workspace/Dropzone";
-import { optionFieldInput, optionFieldShell } from "@/components/workspace/options/styles";
-import { ZipFileList, ZipFileRow } from "@/components/utility/zip/ZipFileRow";
-
-const BYTES_PER_MB = 1024 * 1024;
-const UNSAFE_NAME = /[\\/:*?"<>|]+/g;
-
-const dropOverride = { ...zipCopy.create, samples: false, batch: false };
+import { ImportSources } from "@/components/import/ImportSources";
+import { FilesCard } from "@/components/workspace/FilesCard";
+import { mobileActionBar } from "@/components/workspace/layouts/styles";
+import { ANIMATED_ROWS } from "@/components/utility/zip/row-delays";
+import { ZipActions } from "@/components/utility/zip/ZipActions";
+import { ZipCreatePanel } from "@/components/utility/zip/ZipCreatePanel";
+import { ZipDropCard } from "@/components/utility/zip/ZipDropCard";
+import { ZipFileRow } from "@/components/utility/zip/ZipFileRow";
+import { ZipSteps } from "@/components/utility/zip/ZipSteps";
 
 export function ZipCreator() {
-  const [files, setFiles] = useState<File[]>([]);
-  const [name, setName] = useState("");
-  const [working, setWorking] = useState(false);
-  const add = useCallback((incoming: File[]) => setFiles((current) => [...current, ...incoming]), []);
+  const builder = useZipBuilder();
+  const { files, working, phase, add } = builder;
   const { open, inputProps, isDragging, dropProps } = useFileInput(add, "", !working);
-
-  const total = files.reduce((sum, file) => sum + file.size, 0);
-  const tooLarge = total > ZIP_MAX_TOTAL_MB * BYTES_PER_MB;
-
-  const create = async () => {
-    setWorking(true);
-    try {
-      const zip = await createZip(files.map((file) => ({ blob: file, name: file.name })));
-      const fileName = name.replace(UNSAFE_NAME, "").trim() || zipCopy.create.namePlaceholder;
-      downloadBlob(zip, `${fileName}.zip`);
-      toast.success(zipCopy.create.done(files.length));
-    } finally {
-      setWorking(false);
-    }
-  };
+  const hasFiles = files.length > 0;
 
   return (
-    <div {...dropProps} className="flex flex-col gap-3">
+    <div {...dropProps} className="flex flex-col gap-3 text-left sm:gap-4">
       <input {...inputProps} />
-      <Dropzone accepts={[]} localCapable isDragging={isDragging} onBrowse={open} onFiles={add} onSample={() => {}} short={files.length > 0} override={dropOverride} />
-      {files.length > 0 && (
-        <>
-          <ZipFileList
-            header={
-              <>
-                <span className="text-sm font-semibold tabular-nums">{zipCopy.files(files.length, formatBytes(total))}</span>
-                <Button variant="plain" onClick={() => setFiles([])} disabled={working}>
-                  {zipCopy.clear}
-                </Button>
-              </>
-            }
-          >
-            {files.map((file, index) => (
-              <ZipFileRow
-                key={`${file.name}-${index}`}
-                name={file.name}
-                size={file.size}
-                action={
-                  <Button
-                    variant="icon"
-                    size="sm"
-                    aria-label={zipCopy.remove(file.name)}
-                    disabled={working}
-                    onClick={() => setFiles((current) => current.filter((_, position) => position !== index))}
-                  >
-                    <X className="size-4" aria-hidden />
-                  </Button>
-                }
-              />
-            ))}
-          </ZipFileList>
-          {tooLarge && <Alert message={zipCopy.tooLarge} />}
-          <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
-            <label className={cn(optionFieldShell, "flex flex-1 items-center gap-1 px-3")}>
-              <span className="sr-only">{zipCopy.create.nameLabel}</span>
-              <input
-                value={name}
-                onChange={(event) => setName(event.target.value)}
-                placeholder={zipCopy.create.namePlaceholder}
-                className={cn(optionFieldInput, "min-w-0 flex-1")}
-              />
-              <span className="text-sm text-tertiary">.zip</span>
-            </label>
-            <Button size="lg" onClick={create} disabled={working || tooLarge} className="max-sm:w-full">
-              {working ? zipCopy.create.working : zipCopy.create.action}
-            </Button>
-          </div>
-        </>
-      )}
+      <ZipSteps
+        mode="create"
+        phase={phase}
+        fileCount={files.length}
+        doneCount={builder.zippedCount}
+        total={files.length}
+        chooseLabel={zipCreateCopy.step}
+        doneLabel={zipCreateCopy.stepDone}
+        onStartOver={builder.clear}
+      />
+      <div className="grid grid-cols-1 items-start gap-3 sm:gap-4 lg:grid-cols-[minmax(0,1fr)_340px]">
+        <div className="flex min-w-0 flex-col lg:min-h-105 lg:self-stretch">
+          {hasFiles ? (
+            <FilesCard
+              fileCount={files.length}
+              totalBytes={builder.totalBytes}
+              isDragging={isDragging}
+              canAddMore
+              disabled={working}
+              onAdd={open}
+              onClear={builder.clear}
+              importSlot={<ImportSources size="sm" onFiles={add} accept="" disabled={working} className="max-sm:hidden" />}
+            >
+              {files.map((file, index) => (
+                <ZipFileRow
+                  key={`${file.name}-${index}`}
+                  name={file.name}
+                  size={file.size}
+                  order={index < ANIMATED_ROWS ? index : undefined}
+                  action={
+                    <Button
+                      variant="icon"
+                      size="sm"
+                      aria-label={zipCreateCopy.remove(file.name)}
+                      disabled={working}
+                      onClick={() => builder.removeAt(index)}
+                    >
+                      <X className="size-4" aria-hidden />
+                    </Button>
+                  }
+                />
+              ))}
+            </FilesCard>
+          ) : (
+            <ZipDropCard isDragging={isDragging} onBrowse={open} onFiles={add} override={zipCreateCopy.drop} />
+          )}
+        </div>
+        <ZipCreatePanel builder={builder} />
+      </div>
+      {hasFiles && <ZipActions builder={builder} className={mobileActionBar} />}
     </div>
   );
 }

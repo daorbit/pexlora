@@ -70,7 +70,7 @@ const dashboardHrefs: Record<WorkspaceToolSlug, string> = {
 
 export const dashboardToolHref = (slug: WorkspaceToolSlug) => dashboardHrefs[slug];
 
-const newToolSlugs: string[] = ["compress-pdf", "sign-pdf", "image-watermark", "photo-signature", "excel-to-pdf", "pdf-to-excel", "word-to-pdf", "pdf-to-word", "pdf-to-text", "csv-to-excel", "excel-to-csv", "link-cleaner", "remove-personal-info", "zip-files", "change-dpi", "rotate-image", "shape-image", "image-palette", "crop-image", "passport-photo", "organize-pdf", "pdf-page-numbers", "pdf-watermark"];
+const newToolSlugs: string[] = ["compress-pdf", "sign-pdf", "image-watermark", "photo-signature", "excel-to-pdf", "pdf-to-excel", "word-to-pdf", "pdf-to-word", "pdf-to-text", "csv-to-excel", "excel-to-csv", "link-cleaner", "remove-personal-info", "zip-files", "unzip-files", "change-dpi", "rotate-image", "shape-image", "image-palette", "crop-image", "passport-photo", "organize-pdf", "pdf-page-numbers", "pdf-watermark"];
 
 const toolCategoryOrder: ToolCategory[] = ["metadata", "image", "pdf", "convert", "ai", "utility"];
 

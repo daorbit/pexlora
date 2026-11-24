@@ -164,6 +164,49 @@
   --animate-orbit-spin: orbit-spin 2.4s linear infinite;
   --animate-float-y: float-y 3.2s ease-in-out infinite;
   --animate-done-flash: done-flash 1.4s ease-out both;
+  --animate-row-in: row-in 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) var(--row-delay, 0s) both;
+  --animate-zip-out: zip-sheet 1.8s cubic-bezier(0.3, 0.6, 0.3, 1) var(--zip-delay, 0s) infinite both;
+  --animate-zip-in: zip-sheet 1.8s cubic-bezier(0.7, 0, 0.7, 0.4) var(--zip-delay, 0s) infinite reverse both;
+  --animate-zip-pull: zip-pull 1.8s ease-in-out infinite;
+
+  @keyframes row-in {
+    from {
+      opacity: 0;
+      translate: 24px 0;
+    }
+    to {
+      opacity: 1;
+      translate: 0 0;
+    }
+  }
+
+  @keyframes zip-sheet {
+    0% {
+      opacity: 0;
+      transform: translateY(34px) scale(0.7);
+    }
+    20% {
+      opacity: 1;
+    }
+    70% {
+      opacity: 1;
+      transform: translateY(-26px) rotate(var(--zip-tilt, 0deg));
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(-48px) rotate(var(--zip-tilt, 0deg)) scale(0.92);
+    }
+  }
+
+  @keyframes zip-pull {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(36px);
+    }
+  }
 
   @keyframes step-row {
     0%,

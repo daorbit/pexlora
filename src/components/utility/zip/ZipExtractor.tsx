@@ -1,110 +1,118 @@
 "use client";
 
 import { useCallback, useState } from "react";
-import { Download } from "lucide-react";
-import { ZIP_MAX_TOTAL_MB } from "@/config/limits";
-import { zipCopy } from "@/content/utility-tools";
+import { zipExtractCopy } from "@/content/utility-tools";
+import { useEntryPreview } from "@/hooks/useEntryPreview";
 import { useFileInput } from "@/hooks/useFileInput";
+import { useScrollToResult } from "@/hooks/useScrollToResult";
+import { useUnzip } from "@/hooks/useUnzip";
 import type { ZipEntry } from "@/lib/files/zip/read-zip";
+import { firstPreviewable, savableEntries } from "@/lib/files/zip/zip-entries";
+import { cn } from "@/lib/utils/cn";
 import { downloadEach } from "@/lib/utils/download";
-import { formatBytes } from "@/lib/utils/format-bytes";
 import { baseName } from "@/lib/utils/file-name";
 import { canSaveToPhotos, isGalleryMedia, saveFiles } from "@/lib/utils/save-file";
 import { Alert } from "@/components/ui/Alert";
-import { Button } from "@/components/ui/Button";
-import { Dropzone } from "@/components/workspace/Dropzone";
-import { SaveToDriveButton } from "@/components/drive/SaveToDriveButton";
-import { ZipFileList, ZipFileRow } from "@/components/utility/zip/ZipFileRow";
+import { workspaceCard } from "@/components/workspace/layouts/styles";
+import { ZipArchiveCard } from "@/components/utility/zip/ZipArchiveCard";
+import { ZipDropCard } from "@/components/utility/zip/ZipDropCard";
+import { ZipFilesPanel } from "@/components/utility/zip/ZipFilesPanel";
+import { ZipFilesPlaceholder } from "@/components/utility/zip/ZipFilesPlaceholder";
+import { ZipPreviewCard } from "@/components/utility/zip/ZipPreviewCard";
+import { ZipSteps } from "@/components/utility/zip/ZipSteps";
+import { ZipWorkingCard } from "@/components/utility/zip/ZipWorkingCard";
 
-const BYTES_PER_MB = 1024 * 1024;
 const ZIP_ACCEPT = ".zip,application/zip,application/x-zip-compressed";
 
-const dropOverride = { ...zipCopy.extract, samples: false, batch: false };
-
-type Opened = { name: string; entries: ZipEntry[] };
-
-function fileNameOf(path: string) {
-  return path.split("/").pop() || path;
-}
-
-function savable(entries: ZipEntry[]) {
-  return entries.map((entry) => ({ blob: entry.blob, name: fileNameOf(entry.name) }));
-}
-
 export function ZipExtractor() {
-  const [opened, setOpened] = useState<Opened | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [working, setWorking] = useState(false);
+  const { preview, show, close } = useEntryPreview();
+  const [picked, setPicked] = useState<string | null>(null);
 
-  const openZip = useCallback(async ([file]: File[]) => {
-    setError(null);
-    if (!/\.zip$/i.test(file.name)) return setError(zipCopy.extract.notZip);
-    if (file.size > ZIP_MAX_TOTAL_MB * BYTES_PER_MB) return setError(zipCopy.tooLarge);
+  const onOpened = useCallback(
+    (entries: ZipEntry[]) => {
+      const first = firstPreviewable(entries);
+      setPicked(null);
+      if (first) show(first);
+      else close();
+    },
+    [show, close],
+  );
 
-    setWorking(true);
-    try {
-      const { readZip } = await import("@/lib/files/zip/read-zip");
-      const entries = await readZip(file);
-      if (!entries.length) setError(zipCopy.extract.empty);
-      setOpened({ name: baseName(file.name), entries });
-    } catch {
-      setOpened(null);
-      setError(zipCopy.extract.unreadable);
-    } finally {
-      setWorking(false);
-    }
-  }, []);
+  const { archive, opening, error, phase, openZip, reset } = useUnzip(onOpened);
+  const { open, inputProps, isDragging, dropProps } = useFileInput(openZip, ZIP_ACCEPT, !opening);
+  const previewRef = useScrollToResult(picked);
 
-  const { open, inputProps, isDragging, dropProps } = useFileInput(openZip, ZIP_ACCEPT, !working);
-  const entries = opened?.entries ?? [];
-  const total = entries.reduce((sum, entry) => sum + entry.blob.size, 0);
+  const select = (entry: ZipEntry) => {
+    setPicked(entry.name);
+    show(entry);
+  };
 
-  const saveAll = () => {
-    const files = savable(entries);
-    if (canSaveToPhotos() && files.every((file) => isGalleryMedia(file.blob.type))) return saveFiles(files, `${opened?.name}.zip`);
+  const closePreview = () => {
+    setPicked(null);
+    close();
+  };
+
+  const startOver = () => {
+    closePreview();
+    reset();
+  };
+
+  const save = (entries: ZipEntry[]) => {
+    const files = savableEntries(entries);
+    const toPhotos = canSaveToPhotos() && files.every((file) => isGalleryMedia(file.blob.type));
+    if (toPhotos || files.length === 1) return saveFiles(files, `${baseName(archive?.name ?? "")}.zip`);
     return downloadEach(files);
   };
 
   return (
-    <div {...dropProps} className="flex flex-col gap-3">
+    <div {...dropProps} className="flex flex-col gap-3 text-left sm:gap-4">
       <input {...inputProps} multiple={false} />
-      <Dropzone accepts={[]} localCapable isDragging={isDragging} onBrowse={open} onFiles={openZip} accept={ZIP_ACCEPT} multiple={false} onSample={() => {}} short={entries.length > 0} override={dropOverride} />
-      {working && <p className="text-center text-sm text-secondary">{zipCopy.extract.working}</p>}
+      <ZipSteps
+        mode="extract"
+        phase={phase}
+        fileCount={archive || opening ? 1 : 0}
+        doneCount={opening?.done ?? 0}
+        total={opening?.total || 1}
+        chooseLabel={zipExtractCopy.step}
+        doneLabel={zipExtractCopy.stepDone}
+        onStartOver={startOver}
+      />
       {error && <Alert message={error} />}
-      {entries.length > 0 && (
-        <ZipFileList
-          header={
+      <div className={cn("grid grid-cols-1 gap-3 sm:gap-4 lg:grid-cols-2", archive || opening ? "lg:h-160 lg:grid-rows-[minmax(0,1fr)]" : "lg:min-h-105")}>
+        <div className="flex min-h-0 min-w-0 flex-col gap-3 sm:gap-4">
+          {opening ? (
+            <div className={cn("flex flex-1 flex-col", workspaceCard)}>
+              <ZipWorkingCard direction="out" title={zipExtractCopy.working} detail={opening.name} done={opening.done} total={opening.total} />
+            </div>
+          ) : archive ? (
             <>
-              <span className="text-sm font-semibold tabular-nums">{zipCopy.files(entries.length, formatBytes(total))}</span>
-              <span className="flex items-center gap-1">
-                <SaveToDriveButton files={savable(entries)} size="sm" />
-                <Button size="sm" onClick={saveAll}>
-                  <Download className="size-3.5" aria-hidden />
-                  {zipCopy.extract.saveAll}
-                </Button>
-              </span>
+              <ZipArchiveCard archive={archive} onOpenAnother={open} />
+              <div ref={previewRef} className={cn("flex min-h-0 flex-1 scroll-mt-20 flex-col", !picked && "max-lg:hidden")}>
+                <ZipPreviewCard preview={preview} onClose={closePreview} />
+              </div>
             </>
-          }
-        >
-          {entries.map((entry) => (
-            <ZipFileRow
-              key={entry.name}
-              name={entry.name}
-              size={entry.blob.size}
-              action={
-                <Button
-                  variant="secondary"
-                  size="sm"
-                  aria-label={zipCopy.extract.save(fileNameOf(entry.name))}
-                  onClick={() => saveFiles(savable([entry]), `${opened?.name}.zip`)}
-                >
-                  <Download className="size-3.5" aria-hidden />
-                </Button>
-              }
+          ) : (
+            <ZipDropCard
+              isDragging={isDragging}
+              onBrowse={open}
+              onFiles={openZip}
+              accept={ZIP_ACCEPT}
+              multiple={false}
+              override={zipExtractCopy.drop}
             />
-          ))}
-        </ZipFileList>
-      )}
+          )}
+        </div>
+        <section
+          aria-label={zipExtractCopy.listLabel}
+          className={cn("flex min-h-0 min-w-0 flex-col overflow-clip", workspaceCard, !archive && "max-lg:hidden")}
+        >
+          {archive ? (
+            <ZipFilesPanel archive={archive} selected={preview?.entry.name ?? null} onSelect={select} onSave={save} />
+          ) : (
+            <ZipFilesPlaceholder loading={Boolean(opening)} />
+          )}
+        </section>
+      </div>
     </div>
   );
 }

@@ -3,7 +3,8 @@ import type { UtilityToolSlug } from "@/config/utility-tools";
 
 const LinkCleanerWorkspace = dynamic(() => import("@/components/utility/LinkCleanerWorkspace").then((module) => module.LinkCleanerWorkspace));
 const PiiRedactorWorkspace = dynamic(() => import("@/components/utility/PiiRedactorWorkspace").then((module) => module.PiiRedactorWorkspace));
-const ZipWorkspace = dynamic(() => import("@/components/utility/zip/ZipWorkspace").then((module) => module.ZipWorkspace));
+const ZipCreator = dynamic(() => import("@/components/utility/zip/ZipCreator").then((module) => module.ZipCreator));
+const ZipExtractor = dynamic(() => import("@/components/utility/zip/ZipExtractor").then((module) => module.ZipExtractor));
 
 export function UtilityWorkspace({ slug }: { slug: UtilityToolSlug }) {
   switch (slug) {
@@ -12,6 +13,8 @@ export function UtilityWorkspace({ slug }: { slug: UtilityToolSlug }) {
     case "remove-personal-info":
       return <PiiRedactorWorkspace />;
     case "zip-files":
-      return <ZipWorkspace />;
+      return <ZipCreator />;
+    case "unzip-files":
+      return <ZipExtractor />;
   }
 }

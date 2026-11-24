@@ -47,6 +47,7 @@ const utilityLimits: Record<UtilityToolSlug, FactRow> = {
   "link-cleaner": toolFactsCopy.textLimit(UTILITY_TEXT_MAX_CHARACTERS),
   "remove-personal-info": toolFactsCopy.textLimit(UTILITY_TEXT_MAX_CHARACTERS),
   "zip-files": toolFactsCopy.zipLimit(ZIP_MAX_TOTAL_MB),
+  "unzip-files": toolFactsCopy.unzipLimit(ZIP_MAX_TOTAL_MB),
 };
 
 export function utilityToolFacts(slug: UtilityToolSlug): FactRow[] {

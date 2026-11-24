@@ -129,6 +129,10 @@ export const toolFactsCopy = {
   }),
   zipLimit: (megabytes: number) => ({
     label: "Size limit",
-    value: `Up to ${formatMegabytes(megabytes)} in total. Encrypted ZIPs aren't supported.`,
+    value: `Up to ${formatMegabytes(megabytes)} of files in one ZIP.`,
+  }),
+  unzipLimit: (megabytes: number) => ({
+    label: "Size limit",
+    value: `ZIPs up to ${formatMegabytes(megabytes)}. Encrypted ZIPs aren't supported.`,
   }),
 };

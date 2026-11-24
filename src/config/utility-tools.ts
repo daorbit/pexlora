@@ -1,7 +1,7 @@
-import { FileArchive, Link2Off, ShieldCheck, type LucideIcon } from "lucide-react";
+import { FileArchive, FolderOpen, Link2Off, ShieldCheck, type LucideIcon } from "lucide-react";
 import { routes } from "@/config/site";
 
-export type UtilityToolSlug = "link-cleaner" | "remove-personal-info" | "zip-files";
+export type UtilityToolSlug = "link-cleaner" | "remove-personal-info" | "zip-files" | "unzip-files";
 
 export type UtilityTool = {
   slug: UtilityToolSlug;
@@ -42,11 +42,20 @@ export const utilityTools: UtilityTool[] = [
     href: routes.zipFiles,
     dashboardHref: routes.dashboardZipFiles,
     icon: FileArchive,
-    name: "ZIP & Unzip Files",
+    name: "ZIP Files",
     shortName: "ZIP Files",
-    headline: "Make a ZIP or open one, right in your browser.",
-    description:
-      "Put any files into one ZIP, or open a ZIP and save the files inside, without installing anything. Everything stays on your device.",
+    headline: "Put your files into one ZIP, right in your browser.",
+    description: "Add any files, name the ZIP and save it, without installing anything. Everything stays on your device.",
+  },
+  {
+    slug: "unzip-files",
+    href: routes.unzipFiles,
+    dashboardHref: routes.dashboardUnzipFiles,
+    icon: FolderOpen,
+    name: "Unzip Files",
+    shortName: "Unzip Files",
+    headline: "Open a ZIP and see every file inside.",
+    description: "Unzip in your browser, search and preview the files, then save the ones you need. Everything stays on your device.",
   },
 ];
 

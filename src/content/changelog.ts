@@ -22,6 +22,14 @@ export const changelogCopy = {
 
 export const changelog: ChangelogEntry[] = [
   {
+    date: "2026-11-24",
+    title: "Unzip has its own page",
+    changes: [
+      { type: "new", text: "Unzip Files: search the files inside a ZIP and preview them before you save.", href: routes.unzipFiles },
+      { type: "improved", text: "ZIP Files now uses the full-width workspace, with the same steps as the other tools.", href: routes.zipFiles },
+    ],
+  },
+  {
     date: "2026-11-23",
     title: "Better size guides",
     changes: [

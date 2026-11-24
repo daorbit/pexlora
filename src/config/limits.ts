@@ -30,6 +30,10 @@ export const DPI_RANGE = { min: 10, max: 2400 } as const;
 
 export const ZIP_MAX_TOTAL_MB = 500;
 
+export const ZIP_LIST_PAGE = 100;
+
+export const ZIP_PARALLEL_READS = 8;
+
 export const UTILITY_TEXT_MAX_CHARACTERS = 50000;
 
 export const MAX_METADATA_TEXT_LENGTH = 300;
@@ -83,6 +87,8 @@ export const PDF_IMAGE_DPI = { screen: 150, print: 300 } as const;
 export const SHEET_CELL_LIMIT = 300_000;
 
 export const PREVIEW_TEXT_LINES = 200;
+
+export const PREVIEW_TEXT_MAX_BYTES = 2 * 1024 * 1024;
 
 export const PREVIEW_SHEET_ROWS = 50;
 

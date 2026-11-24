@@ -7,13 +7,15 @@ type Faq = { question: string; answer: string };
 export const utilityTitles: Record<UtilityToolSlug, string> = {
   "link-cleaner": "Link Cleaner: Remove Tracking from URLs Free",
   "remove-personal-info": "Remove Personal Info from Text Free",
-  "zip-files": "ZIP & Unzip Files Online Free",
+  "zip-files": "ZIP Files Online Free: Make a ZIP",
+  "unzip-files": "Unzip Files Online Free: Open a ZIP",
 };
 
 export const utilityShortLabels: Record<UtilityToolSlug, string> = {
   "link-cleaner": "Links",
   "remove-personal-info": "Redact",
   "zip-files": "ZIP",
+  "unzip-files": "Unzip",
 };
 
 export const linkCleanerCopy = {
@@ -67,36 +69,75 @@ export const piiCopy = {
   shareTitle: "Redacted text",
 };
 
+const fileCount = (count: number) => `${count.toLocaleString("en-IN")} ${count === 1 ? "file" : "files"}`;
+
 export const zipCopy = {
+  modeLabel: "ZIP tools",
   modes: { create: "Create ZIP", extract: "Unzip" },
-  modeLabel: "ZIP mode",
-  create: {
+  files: (count: number, size: string) => `${fileCount(count)} · ${size}`,
+};
+
+export const zipCreateCopy = {
+  drop: {
     title: "Drop files or click to browse",
     mobileTitle: "Tap to add files",
     formats: `Any file type · up to ${ZIP_MAX_TOTAL_MB} MB in total`,
     note: "Files are zipped in your browser and never uploaded.",
-    nameLabel: "ZIP name",
-    namePlaceholder: "files",
-    action: "Create ZIP",
-    working: "Zipping…",
-    done: (count: number) => `ZIP with ${count} file${count === 1 ? "" : "s"} saved`,
+    samples: false,
+    batch: false,
   },
-  extract: {
+  step: "Name your ZIP",
+  stepDone: "ZIP created",
+  help: {
+    title: "How it works",
+    items: ["Add any files, up to the size limit", "Give the ZIP a name", "Save it, nothing is uploaded"],
+  },
+  resultLabel: "Your ZIP",
+  count: fileCount,
+  before: (size: string) => `${size} of files`,
+  after: (size: string) => `${size} ZIP, ready to save`,
+  nameLabel: "ZIP name",
+  namePlaceholder: "files",
+  extension: ".zip",
+  action: "Create ZIP",
+  working: "Zipping your files",
+  save: "Save ZIP",
+  failed: "The ZIP couldn't be created. Remove very large files and try again.",
+  tooLarge: `Files are over ${ZIP_MAX_TOTAL_MB} MB in total. Remove some and try again.`,
+  remove: (name: string) => `Remove ${name}`,
+  cleared: (count: number) => `Cleared ${fileCount(count)}`,
+};
+
+export const zipExtractCopy = {
+  drop: {
     title: "Drop a ZIP file or click to browse",
     mobileTitle: "Tap to add a ZIP",
     formats: `ZIP · up to ${ZIP_MAX_TOTAL_MB} MB`,
     note: "The ZIP is opened in your browser and never uploaded.",
-    working: "Opening ZIP…",
-    saveAll: "Save All",
-    save: (name: string) => `Save ${name}`,
-    notZip: "That isn't a ZIP file. Pick a file ending in .zip.",
-    unreadable: "This ZIP couldn't be opened. It may be damaged or password protected.",
-    empty: "This ZIP is empty.",
+    samples: false,
+    batch: false,
   },
-  files: (count: number, size: string) => `${count} file${count === 1 ? "" : "s"} · ${size}`,
-  remove: (name: string) => `Remove ${name}`,
-  clear: "Clear",
-  tooLarge: `Files are over ${ZIP_MAX_TOTAL_MB} MB in total. Remove some and try again.`,
+  step: "Unzip",
+  stepDone: "Unzipped",
+  working: "Opening your ZIP",
+  another: "Open Another",
+  listLabel: "Files in this ZIP",
+  search: "Search files",
+  matches: (count: number, total: number) => `${count.toLocaleString("en-IN")} of ${fileCount(total)}`,
+  emptyTitle: "Your files show up here",
+  emptyBody: "Add a ZIP to search, preview and save the files inside.",
+  noMatches: "No files match your search.",
+  more: (count: number) => `Show ${count.toLocaleString("en-IN")} More`,
+  saveAll: (count: number) => `Save All (${count.toLocaleString("en-IN")})`,
+  saveMatches: (count: number) => `Save Found (${count.toLocaleString("en-IN")})`,
+  save: (name: string) => `Save ${name}`,
+  preview: (name: string) => `Preview ${name}`,
+  previewEmpty: "Pick a file from the list to preview it here.",
+  closePreview: "Close preview",
+  notZip: "That isn't a ZIP file. Pick a file ending in .zip.",
+  unreadable: "This ZIP couldn't be opened. It may be damaged or password protected.",
+  empty: "This ZIP is empty.",
+  tooLarge: `ZIPs can be up to ${ZIP_MAX_TOTAL_MB} MB.`,
 };
 
 const inBrowser: Faq = {
@@ -145,12 +186,28 @@ export const utilityFaqs: Record<UtilityToolSlug, Faq[]> = {
       answer: `Yes. Photos, documents, videos or anything else, up to ${ZIP_MAX_TOTAL_MB} MB in total. Files with the same name are renamed so nothing is overwritten.`,
     },
     {
+      question: "Does zipping make files smaller?",
+      answer: "The files are packed together without extra compression, so the ZIP is about as big as the files inside it.",
+    },
+    {
+      question: "Can I add a password to the ZIP?",
+      answer: "Not yet. ZIPs made here aren't encrypted, so anyone who has the file can open it.",
+    },
+    inBrowser,
+  ],
+  "unzip-files": [
+    {
       question: "Can I open password-protected ZIP files?",
       answer: "Not yet. Encrypted ZIPs can't be opened here; use your computer's built-in tool or an app like 7-Zip.",
     },
     {
       question: "How do I unzip on an iPhone?",
-      answer: "Choose Unzip, add the ZIP and tap Save All. Photos and videos go through the share sheet so you can save them to Photos.",
+      answer: "Add the ZIP and tap Save All. Photos and videos go through the share sheet so you can save them to Photos.",
+    },
+    {
+      question: "Can I look at a file before saving it?",
+      answer:
+        "Yes. Pick a file from the list to preview images, PDFs, videos, audio, spreadsheets and text files such as JSON. Search finds files by name or folder.",
     },
     inBrowser,
   ],
@@ -160,4 +217,5 @@ export const utilityRelatedGuides: Record<UtilityToolSlug, string[]> = {
   "link-cleaner": ["remove-exif-data", "remove-gps-from-photo", "remove-location-from-iphone-photos", "exif-viewer"],
   "remove-personal-info": ["remove-exif-data", "remove-gps-from-photo", "remove-location-from-iphone-photos", "exif-viewer"],
   "zip-files": ["remove-exif-data", "remove-gps-from-photo", "exif-viewer", "remove-location-from-iphone-photos"],
+  "unzip-files": ["exif-viewer", "remove-exif-data", "remove-gps-from-photo", "remove-location-from-iphone-photos"],
 };

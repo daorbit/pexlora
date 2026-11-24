@@ -1,3 +1,5 @@
+import { wait } from "@/lib/utils/wait";
+
 export function downloadBlob(blob: Blob, fileName: string) {
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
@@ -19,12 +21,12 @@ function uniqueName(name: string, used: Set<string>) {
   return candidate;
 }
 
-export async function createZip(files: { blob: Blob; name: string }[]) {
+export async function createZip(files: { blob: Blob; name: string }[], onProgress?: (percent: number) => void) {
   const { default: JSZip } = await import("jszip");
   const zip = new JSZip();
   const used = new Set<string>();
   files.forEach((file) => zip.file(uniqueName(file.name, used), file.blob));
-  return zip.generateAsync({ type: "blob", mimeType: "application/zip" });
+  return zip.generateAsync({ type: "blob", mimeType: "application/zip" }, ({ percent }) => onProgress?.(percent));
 }
 
 const DOWNLOAD_GAP_MS = 250;
@@ -32,7 +34,7 @@ const DOWNLOAD_GAP_MS = 250;
 export async function downloadEach(files: { blob: Blob; name: string }[]) {
   for (const file of files) {
     downloadBlob(file.blob, file.name);
-    await new Promise((resolve) => setTimeout(resolve, DOWNLOAD_GAP_MS));
+    await wait(DOWNLOAD_GAP_MS);
   }
 }
 
