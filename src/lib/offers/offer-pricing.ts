@@ -3,11 +3,10 @@ import type { Plan } from "@/config/plans";
 
 const PAISE_PER_RUPEE = 100;
 
-export const offerStart = Date.parse(seasonalOffer.startsAt);
 export const offerEnd = Date.parse(seasonalOffer.endsAt);
 
 export function isOfferActive(now: number, graceMs = 0) {
-  return offerPreview || (now >= offerStart && now < offerEnd + graceMs);
+  return offerPreview || now < offerEnd + graceMs;
 }
 
 export function offerAmountPaise(amountPaise: number) {

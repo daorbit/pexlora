@@ -1,14 +1,12 @@
 export type SeasonalOffer = {
   id: string;
   percentOff: number;
-  startsAt: string;
   endsAt: string;
 };
 
 export const seasonalOffer: SeasonalOffer = {
   id: "christmas-2026",
   percentOff: 30,
-  startsAt: "2026-12-01T00:00:00+05:30",
   endsAt: "2027-01-01T00:00:00+05:30",
 };
 
