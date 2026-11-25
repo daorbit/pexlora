@@ -176,6 +176,9 @@
   --animate-zip-in: zip-sheet 1.8s cubic-bezier(0.7, 0, 0.7, 0.4) var(--zip-delay, 0s) infinite reverse both;
   --animate-zip-pull: zip-pull 1.8s ease-in-out infinite;
   --animate-snow-fall: snow-fall var(--snow-time, 8s) linear var(--snow-delay, 0s) infinite;
+  --animate-intro-fade: intro-fade 12s linear both;
+  --animate-ground-rise: ground-rise 12s ease both;
+  --animate-train-run: train-run 9.6s 0.9s both;
   --animate-twinkle: twinkle 2.4s ease-in-out var(--twinkle-delay, 0s) infinite;
   --animate-sway: sway 3s ease-in-out infinite;
   --animate-gift-wiggle: gift-wiggle 6s ease-in-out infinite;
@@ -192,6 +195,46 @@
     }
     to {
       translate: var(--snow-drift, 10px) calc(100% + 6px);
+    }
+  }
+
+  @keyframes intro-fade {
+    0%,
+    100% {
+      opacity: 0;
+    }
+    6%,
+    90% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes ground-rise {
+    0%,
+    100% {
+      translate: 0 100%;
+    }
+    8%,
+    92% {
+      translate: 0 0;
+    }
+  }
+
+  @keyframes train-run {
+    0% {
+      translate: -100% 0;
+      animation-timing-function: cubic-bezier(0.2, 0.7, 0.4, 1);
+    }
+    38% {
+      translate: calc(50vw - 62%) 0;
+      animation-timing-function: linear;
+    }
+    66% {
+      translate: calc(50vw - 46%) 0;
+      animation-timing-function: cubic-bezier(0.6, 0, 0.8, 0.3);
+    }
+    100% {
+      translate: 100vw 0;
     }
   }
 

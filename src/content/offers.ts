@@ -13,12 +13,30 @@ export const offerCopy = {
   scope: "All Pro Passes",
   scopeShort: "Pro Passes",
   endsIn: "Ends in",
+  note: "Taken off automatically at checkout. No code needed.",
+  greeting: "Merry Christmas!",
   cta: "See Plans",
   regularPrice: "Regular price",
 };
 
-export function formatTimeLeft(minutes: number) {
-  const days = Math.floor(minutes / MINUTES_PER_DAY);
-  const hours = Math.floor((minutes % MINUTES_PER_DAY) / MINUTES_PER_HOUR);
-  return days > 0 ? `${pad(days)}d ${pad(hours)}h` : `${pad(hours)}h ${pad(minutes % MINUTES_PER_HOUR)}m`;
+function timeParts(minutes: number) {
+  return {
+    days: Math.floor(minutes / MINUTES_PER_DAY),
+    hours: Math.floor((minutes % MINUTES_PER_DAY) / MINUTES_PER_HOUR),
+    minutes: minutes % MINUTES_PER_HOUR,
+  };
+}
+
+export function formatTimeLeft(total: number) {
+  const { days, hours, minutes } = timeParts(total);
+  return days > 0 ? `${pad(days)}d ${pad(hours)}h` : `${pad(hours)}h ${pad(minutes)}m`;
+}
+
+export function countdownUnits(total: number) {
+  const { days, hours, minutes } = timeParts(total);
+  return [
+    { label: "days", value: pad(days) },
+    { label: "hours", value: pad(hours) },
+    { label: "min", value: pad(minutes) },
+  ];
 }

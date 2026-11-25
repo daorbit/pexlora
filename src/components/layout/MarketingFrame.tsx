@@ -5,6 +5,7 @@ import { BlogFooterPosts } from "@/components/blog/BlogFooterPosts";
 import { HideOnPaths } from "@/components/layout/HideOnPaths";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
+import { ChristmasIntroHost } from "@/components/offer/intro/ChristmasIntroHost";
 import { OfferRibbon } from "@/components/offer/OfferRibbon";
 
 export function MarketingFrame({ children, oneTap = true }: { children: ReactNode; oneTap?: boolean }) {
@@ -17,6 +18,7 @@ export function MarketingFrame({ children, oneTap = true }: { children: ReactNod
         <BlogFooterPosts />
       </HideOnPaths>
       <SiteFooter />
+      <ChristmasIntroHost />
       {oneTap && (
         <Suspense fallback={null}>
           <OneTapGate />

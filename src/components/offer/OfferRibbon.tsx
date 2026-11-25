@@ -1,17 +1,19 @@
 "use client";
 
-import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import Image from "next/image";
 import { routes } from "@/config/site";
 import { formatTimeLeft, offerCopy } from "@/content/offers";
 import { useOfferMinutesLeft } from "@/hooks/useOfferMinutesLeft";
 import { cn } from "@/lib/utils/cn";
 import { ChristmasTreeIcon } from "@/components/icons/ChristmasTreeIcon";
 import { LightString } from "@/components/offer/LightString";
-import { OfferSavingChip } from "@/components/offer/OfferSavingChip";
+import { OfferCountdown } from "@/components/offer/OfferCountdown";
+import { SnowDrift } from "@/components/offer/SnowDrift";
 import { Snowfall } from "@/components/offer/Snowfall";
 import { TreeCluster } from "@/components/offer/TreeCluster";
+import { ButtonLink } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
+import { Highlight } from "@/components/ui/Highlight";
 import { ResponsiveLabel } from "@/components/ui/ResponsiveLabel";
 
 export function OfferRibbon() {
@@ -20,34 +22,46 @@ export function OfferRibbon() {
   return (
     <aside aria-label={offerCopy.region} data-nosnippet className="relative z-46 hidden offer-ribbon:block">
       <div className="theme-dark relative overflow-hidden bg-festive-pine text-foreground">
-        <TreeCluster className="left-4 xl:left-8" />
-        <TreeCluster className="right-4 -scale-x-100 xl:right-8" />
+        <TreeCluster className="bottom-1.5 left-4 2xl:left-8" />
+        <TreeCluster className="right-4 bottom-1.5 -scale-x-100 2xl:right-8" />
         <Snowfall className="text-foreground/70" />
-        <Container className="relative flex h-10 items-center justify-center">
-          <Link
-            href={routes.pricing}
-            className="group flex h-full min-w-0 items-center justify-center gap-1.5 text-[12.5px] font-semibold whitespace-nowrap focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring sm:gap-2.5 sm:text-[13.5px]"
-          >
-            <ChristmasTreeIcon className="size-6 shrink-0 origin-bottom motion-safe:animate-sway" />
-            <span>
-              <ResponsiveLabel short={offerCopy.nameShort} full={offerCopy.name} />
-            </span>
-            <OfferSavingChip className="motion-safe:animate-gift-wiggle" />
-            <span>
-              <ResponsiveLabel short={offerCopy.scopeShort} full={offerCopy.scope} />
-            </span>
-            <span className={cn("font-medium text-foreground/85 tabular-nums", minutesLeft === null && "invisible")}>
-              <span className="max-sm:sr-only">{offerCopy.endsIn} </span>
-              {formatTimeLeft(minutesLeft ?? 0)}
-            </span>
-            <span className="underline decoration-primary decoration-2 underline-offset-4 max-sm:sr-only">
-              {offerCopy.cta}
-            </span>
-            <ArrowRight className="size-3.5 shrink-0 transition-transform group-hover:translate-x-0.5" aria-hidden />
-          </Link>
+        <LightString className="top-0" />
+
+        <Container className="relative flex h-18 items-center gap-3 pt-2.5 pb-2 sm:h-24 sm:gap-5 sm:pt-3 lg:justify-center lg:gap-8">
+          <ChristmasTreeIcon className="size-9 shrink-0 origin-bottom motion-safe:animate-sway sm:hidden" />
+          <Image
+            src="/christmas/snowman.svg"
+            alt=""
+            width={130}
+            height={120}
+            unoptimized
+            className="h-19 w-auto shrink-0 self-end max-sm:hidden"
+          />
+
+          <div className="min-w-0 flex-1 lg:flex-none">
+            <p className="text-[15px] leading-tight font-bold tracking-[-0.02em] sm:text-[21px] lg:text-[26px]">
+              <ResponsiveLabel short={offerCopy.nameShort} full={offerCopy.name} /> <Highlight>{offerCopy.saving}</Highlight>{" "}
+              <span className="max-sm:sr-only">{offerCopy.scope}</span>
+            </p>
+            <p
+              className={cn(
+                "mt-1 text-[12px] leading-tight text-foreground/85 tabular-nums sm:hidden",
+                minutesLeft === null && "invisible",
+              )}
+            >
+              {offerCopy.endsIn} {formatTimeLeft(minutesLeft ?? 0)}
+            </p>
+            <p className="mt-1.5 text-[13px] leading-tight text-foreground/85 max-sm:hidden">{offerCopy.note}</p>
+          </div>
+
+          <OfferCountdown minutesLeft={minutesLeft} className="max-lg:hidden" />
+
+          <ButtonLink href={routes.pricing} arrow className="h-9 shrink-0 px-3.5 text-[13px] sm:h-10 sm:px-4.5 sm:text-sm">
+            {offerCopy.cta}
+          </ButtonLink>
         </Container>
       </div>
-      <LightString />
+      <SnowDrift className="absolute -bottom-px left-0 h-2.5 fill-background dark:fill-ink-hover sm:h-3.5" />
     </aside>
   );
 }

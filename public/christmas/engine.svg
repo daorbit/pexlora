@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 292 200" width="292" height="200">
+  <style>
+    .wheel { transform-box: fill-box; transform-origin: center; animation: spin 1.1s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @media (prefers-reduced-motion: reduce) { .wheel, .puff, .beam { animation: none; } }
+    .puff { transform-box: fill-box; transform-origin: center; animation: puff 2.1s ease-out infinite; }
+    .p2 { animation-delay: -0.7s; } .p3 { animation-delay: -1.4s; }
+    .beam { animation: beam 1.2s ease-in-out infinite alternate; }
+    @keyframes puff { 0% { opacity: 0; transform: translate(0, 0) scale(0.4); } 20% { opacity: 0.95; } 100% { opacity: 0; transform: translate(-62px, -34px) scale(1.9); } }
+    @keyframes beam { from { opacity: 0.18; } to { opacity: 0.42; } }
+  </style>
+  
+  <g fill="#e7e5dd" stroke="#d3cfc3" stroke-width="1.500"><circle class="puff" cx="188" cy="52" r="10"/><circle class="puff p2" cx="188" cy="52" r="10"/><circle class="puff p3" cx="188" cy="52" r="10"/></g>
+  <path class="beam" fill="#ffc43d" d="M234 106L290 84V142L234 122Z"/>
+  <path fill="#10120d" d="M0 161H40V167H0Z"/>
+  <path fill="#ff5c4d" d="M228 156L264 188H224Z"/>
+  <path fill="none" stroke="#10120d" stroke-width="3" d="M236 170L240 187M246 176L249 187"/>
+  <rect x="84" y="98" width="130" height="64" rx="10" fill="#0f5132"/>
+  <rect x="84" y="126" width="126" height="9" fill="#b9f12f"/>
+  <rect x="118" y="98" width="7" height="64" fill="#ffc43d"/>
+  <rect x="168" y="98" width="7" height="64" fill="#ffc43d"/>
+  <path fill="#ffc43d" d="M130 99C130 80 158 80 158 99Z"/>
+  <path fill="#10120d" d="M178 99L172 68H206L200 99Z"/>
+  <rect x="167" y="58" width="44" height="12" rx="6" fill="#ff5c4d"/>
+  <rect x="206" y="93" width="16" height="74" rx="8" fill="#ffc43d"/>
+  <rect x="214" y="104" width="14" height="20" rx="4" fill="#10120d"/>
+  <circle cx="230" cy="114" r="10" fill="#fff4d6" stroke="#ffc43d" stroke-width="4"/>
+  <rect x="12" y="68" width="80" height="94" rx="8" fill="#ff5c4d"/>
+  <rect x="12" y="140" width="80" height="22" fill="#d9412f"/>
+  <rect x="24" y="82" width="56" height="44" rx="8" fill="#fff4d6"/>
+  <clipPath id="w"><rect x="24" y="82" width="56" height="44" rx="8"/></clipPath>
+  <g clip-path="url(#w)">
+    <path fill="#d9412f" d="M30 130C32 116 42 112 52 112C64 112 72 118 74 130Z"/>
+    <circle cx="54" cy="104" r="12" fill="#f6c9a5"/>
+    <path fill="#ffffff" d="M42 104C40 118 50 124 56 122C66 120 68 110 66 104C60 110 48 110 42 104Z"/>
+    <path fill="#d9412f" d="M41 98C42 84 58 80 67 97Z"/>
+    <path fill="#d9412f" d="M50 86C42 82 34 88 32 98C38 94 44 94 48 96Z"/>
+    <circle cx="32" cy="99" r="4.500" fill="#ffffff"/>
+    <rect x="39" y="94" width="30" height="6" rx="3" fill="#ffffff"/>
+    <circle cx="59" cy="103" r="1.700" fill="#10120d"/><circle cx="65" cy="107" r="2.600" fill="#ee8f78"/>
+  </g>
+  <rect x="2" y="56" width="100" height="15" rx="7.500" fill="#0f5132"/>
+  <path fill="#ffffff" d="M6 58C6 48 22 50 30 49C46 46 60 50 74 48C88 48 98 50 98 58C92 64 86 58 80 61C72 65 66 58 58 61C50 66 42 58 34 61C24 65 12 64 6 58Z"/>
+  <rect x="8" y="158" width="224" height="13" rx="4" fill="#10120d"/>
+  <g class="wheel"><circle cx="40" cy="169" r="21" fill="#10120d"/><circle cx="40" cy="169" r="17" fill="none" stroke="#ffc43d" stroke-width="3"/><path stroke="#ffc43d" stroke-width="3" d="M23 169H57M40 152V186"/><circle cx="40" cy="169" r="4" fill="#ffc43d"/></g><g class="wheel"><circle cx="92" cy="169" r="21" fill="#10120d"/><circle cx="92" cy="169" r="17" fill="none" stroke="#ffc43d" stroke-width="3"/><path stroke="#ffc43d" stroke-width="3" d="M75 169H109M92 152V186"/><circle cx="92" cy="169" r="4" fill="#ffc43d"/></g><g class="wheel"><circle cx="146" cy="175" r="15" fill="#10120d"/><circle cx="146" cy="175" r="11" fill="none" stroke="#ffc43d" stroke-width="3"/><path stroke="#ffc43d" stroke-width="3" d="M135 175H157M146 164V186"/><circle cx="146" cy="175" r="4" fill="#ffc43d"/></g><g class="wheel"><circle cx="192" cy="175" r="15" fill="#10120d"/><circle cx="192" cy="175" r="11" fill="none" stroke="#ffc43d" stroke-width="3"/><path stroke="#ffc43d" stroke-width="3" d="M181 175H203M192 164V186"/><circle cx="192" cy="175" r="4" fill="#ffc43d"/></g>
+  <path stroke="#e7e5dd" stroke-width="6" stroke-linecap="round" d="M40 169H92"/>
+
+</svg>

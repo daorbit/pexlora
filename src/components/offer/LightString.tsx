@@ -9,12 +9,12 @@ const bulbTones = [
   "bg-festive-gold [--twinkle-delay:-1.6s]",
 ];
 
-export function LightString() {
+export function LightString({ className }: { className?: string }) {
   return (
-    <div aria-hidden className="pointer-events-none absolute inset-x-0 top-full flex overflow-hidden">
+    <div aria-hidden className={cn("pointer-events-none absolute inset-x-0 flex overflow-hidden", className)}>
       {SEGMENTS.map((segment) => (
         <span key={segment} className="relative h-3 min-w-20 flex-1">
-          <svg viewBox="0 0 100 8" preserveAspectRatio="none" className="block h-2 w-full text-border-strong">
+          <svg viewBox="0 0 100 8" preserveAspectRatio="none" className="block h-2 w-full text-background">
             <path d="M0 0Q50 10 100 0" fill="none" stroke="currentColor" vectorEffect="non-scaling-stroke" />
           </svg>
           {BULB_POSITIONS.map((position, index) => (
