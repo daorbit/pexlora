@@ -10,8 +10,8 @@ export function SiteHeaderFrame({ children }: { children: ReactNode }) {
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 text-foreground transition-colors duration-300",
-        overlay ? "bg-transparent" : "bg-background sm:bg-background/85 sm:backdrop-blur-md",
+        "sticky top-0 z-45 text-foreground transition-colors duration-300",
+        overlay ? "bg-transparent has-[[aria-expanded=true]]:bg-background" : "bg-background sm:bg-background/85 sm:backdrop-blur-md",
       )}
     >
       {children}

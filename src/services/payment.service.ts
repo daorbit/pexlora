@@ -5,6 +5,7 @@ import { PLANS, PAYMENT_APP_TAG, formatPrice, type PlanId } from "@/config/plans
 import { planCopy } from "@/content/pricing";
 import { connectToDatabase } from "@/lib/db/mongoose";
 import { env } from "@/lib/env";
+import { checkoutPrice } from "@/lib/offers/offer-pricing";
 import { createRazorpayOrder } from "@/lib/payments/razorpay";
 import { formatDate } from "@/lib/utils/format-date";
 import { sendPaymentReceiptEmail } from "@/services/mail.service";
@@ -17,11 +18,12 @@ export type GrantResult = { ok: true; expiresAt: Date | null } | { ok: false };
 
 export async function createPurchaseOrder(userId: string, planId: PlanId) {
   const plan = PLANS[planId];
+  const price = checkoutPrice(plan, Date.now());
   const order = await createRazorpayOrder({
-    amount: env.paymentTestAmountPaise ?? plan.amountPaise,
+    amount: env.paymentTestAmountPaise ?? price.amount,
     currency: plan.currency,
     receipt: `${PAYMENT_APP_TAG}-${Date.now().toString(36)}`,
-    notes: { app: PAYMENT_APP_TAG, userId, plan: plan.id },
+    notes: { app: PAYMENT_APP_TAG, userId, plan: plan.id, ...(price.offerId && { offer: price.offerId }) },
   });
 
   await connectToDatabase();

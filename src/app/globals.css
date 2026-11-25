@@ -4,6 +4,8 @@
 @custom-variant rail-collapsed (&:where([data-sidebar="collapsed"] .sidebar-rail, [data-sidebar="collapsed"] .sidebar-rail *));
 @custom-variant slot-collapsed (&:where([data-sidebar="collapsed"] .sidebar-slot));
 @custom-variant page-dark (&:where([data-theme="dark"] *));
+@custom-variant offer-on (&:where([data-offer] *));
+@custom-variant offer-ribbon (&:where([data-offer]:not(:has(#mobile-menu)) *));
 @custom-variant translated (&:where(.translated-ltr *, .translated-rtl *));
 
 @utility tokens-light {
@@ -125,6 +127,11 @@
   --color-success-soft: var(--success-soft);
   --color-danger: var(--danger);
   --color-danger-soft: var(--danger-soft);
+  --color-festive-red: #ff5c4d;
+  --color-festive-gold: #ffc43d;
+  --color-festive-pine: #0f5132;
+  --color-festive-tree: #52b96a;
+  --color-festive-trunk: #a9713f;
   --shadow-thumb: var(--thumb-shadow);
   --shadow-card: var(--card-shadow);
   --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", var(--font-inter), "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -168,13 +175,63 @@
   --animate-zip-out: zip-sheet 1.8s cubic-bezier(0.3, 0.6, 0.3, 1) var(--zip-delay, 0s) infinite both;
   --animate-zip-in: zip-sheet 1.8s cubic-bezier(0.7, 0, 0.7, 0.4) var(--zip-delay, 0s) infinite reverse both;
   --animate-zip-pull: zip-pull 1.8s ease-in-out infinite;
-
+  --animate-snow-fall: snow-fall var(--snow-time, 8s) linear var(--snow-delay, 0s) infinite;
+  --animate-twinkle: twinkle 2.4s ease-in-out var(--twinkle-delay, 0s) infinite;
+  --animate-sway: sway 3s ease-in-out infinite;
+  --animate-gift-wiggle: gift-wiggle 6s ease-in-out infinite;
   --animate-wave-y: wave-y 3.2s ease-in-out var(--wave-delay, 0s) infinite;
   --animate-case-shrink: case-shrink 5s cubic-bezier(0.7, 0, 0.2, 1) infinite;
   --animate-case-row: case-row 5s cubic-bezier(0.2, 0.7, 0.2, 1) var(--case-delay, 0s) infinite both;
   --animate-case-merge: case-merge 5s cubic-bezier(0.7, 0, 0.2, 1) infinite;
   --animate-case-pop: case-pop 5s cubic-bezier(0.3, 1.5, 0.5, 1) infinite;
   --animate-case-type: case-type 5s cubic-bezier(0.4, 0, 0.2, 1) var(--case-delay, 0s) infinite both;
+
+  @keyframes snow-fall {
+    from {
+      translate: 0 -6px;
+    }
+    to {
+      translate: var(--snow-drift, 10px) calc(100% + 6px);
+    }
+  }
+
+  @keyframes twinkle {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.25;
+    }
+  }
+
+  @keyframes sway {
+    0%,
+    100% {
+      rotate: -9deg;
+    }
+    50% {
+      rotate: 9deg;
+    }
+  }
+
+  @keyframes gift-wiggle {
+    0%,
+    12%,
+    100% {
+      rotate: 0deg;
+      scale: 1;
+    }
+    3%,
+    9% {
+      rotate: -4deg;
+      scale: 1.06;
+    }
+    6% {
+      rotate: 4deg;
+      scale: 1.06;
+    }
+  }
 
   @keyframes wave-y {
     0%,

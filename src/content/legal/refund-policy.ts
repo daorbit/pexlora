@@ -35,7 +35,7 @@ export const refundPolicy: LegalDocument = {
         },
         {
           type: "p",
-          text: "Prices are in Indian rupees. Buying again while a pass is active adds the new days to the end of your current pass.",
+          text: "Prices are in Indian rupees and are our regular prices. During a limited-time offer, the pricing page and Checkout show the lower price. Buying again while a pass is active adds the new days to the end of your current pass.",
         },
       ],
     },

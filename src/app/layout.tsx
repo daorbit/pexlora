@@ -13,6 +13,7 @@ import { brandColors } from "@/config/brand";
 import { openGraphDefaults, seo, twitterDefaults } from "@/config/seo";
 import { siteConfig } from "@/config/site";
 import { env } from "@/lib/env";
+import { offerInitScript } from "@/lib/offers/offer-state";
 import { sidebarInitScript } from "@/lib/sidebar";
 import { themeInitScript } from "@/lib/theme";
 import "./globals.css";
@@ -73,6 +74,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <BlockingScript id="theme-init" code={themeInitScript} />
         <BlockingScript id="sidebar-init" code={sidebarInitScript} />
+        <BlockingScript id="offer-init" code={offerInitScript} />
         <AnalyticsScript />
       </head>
       <body className="flex min-h-full flex-col">
