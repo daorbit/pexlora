@@ -2,6 +2,7 @@ export const brandAssets = {
   mark: "/brand/pexlora-mark.png",
   iconLight: "/brand/icon-light-512.png",
   iconDark: "/brand/icon-dark-512.png",
+  favicon: "/favicon.png",
   appleTouchIcon: "/brand/apple-touch-icon.png",
   emailMark: "/brand/email-mark-96.png",
   orbitLight: "/brand/orbit-ai-light.webp",

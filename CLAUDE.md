@@ -275,7 +275,7 @@ src/
 - Source logo: `public/Pexlora.png` (white background, drop shadow).
 - `public/brand/` holds the transparent mark, light/dark icon tiles at 64 and 512 and the apple-touch-icon. They are committed files; there is no generator script.
 - Paths live in `src/config/brand.ts`. The header uses the transparent mark.
-- Favicons use Next's file conventions only: `src/app/favicon.ico` (16/32/48, Google needs a multiple of 48px), `src/app/icon.png` (192) and `src/app/apple-icon.png` (180). Don't add `metadata.icons`, media-query icons or `public/favicon.ico` back; Google ignores media-query icons and the public file conflicts with the app one.
+- Favicons use Next's file conventions plus one stable, hash-free `public/favicon.png` (192px, `brandAssets.favicon`, linked by hand in the root layout's `<head>` for Google): `src/app/favicon.ico` (16/32/48, Google needs a multiple of 48px), `src/app/icon.png` (192) and `src/app/apple-icon.png` (180). Don't add `metadata.icons`, media-query icons or `public/favicon.ico` back; Google ignores media-query icons and the public file conflicts with the app one.
 - `public/samples/` holds an AI render with Midjourney/XMP tags and a phone photo with GPS (committed files). They power the "Try a sample" chips and the landing visuals; `src/content/landing.ts` mirrors their real tag values.
 
 ## Landing page
@@ -306,7 +306,7 @@ Hero with the metadata-remover drop area → all-tools hub grid → "Stage" band
 
 ## Environment
 
-See `.env.example`: `MONGODB_URI`, `MONGODB_DB_NAME` (default `pexlora`), `SESSION_SECRET`, `APP_URL`, `SMTP_HOST/PORT/SECURE/USER/PASS/FROM`. Never commit `.env.local`.
+All environment variables live in `.env.local` (the only local env file, gitignored; production values are set on Vercel): `MONGODB_URI`, `MONGODB_DB_NAME` (default `pexlora`), `SESSION_SECRET`, `APP_URL`, `SMTP_HOST/PORT/SECURE/USER/PASS/FROM`. Never commit `.env.local`.
 
 ## Gotchas
 

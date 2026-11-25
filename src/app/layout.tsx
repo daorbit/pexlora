@@ -9,7 +9,7 @@ import { ConnectionToasts } from "@/components/layout/ConnectionToasts";
 import { ServiceWorkerRegistrar } from "@/components/layout/ServiceWorkerRegistrar";
 import { GoogleTranslate } from "@/components/language/GoogleTranslate";
 import { adSenseConfig } from "@/config/ads";
-import { brandColors } from "@/config/brand";
+import { brandAssets, brandColors } from "@/config/brand";
 import { openGraphDefaults, seo, twitterDefaults } from "@/config/seo";
 import { siteConfig } from "@/config/site";
 import { env } from "@/lib/env";
@@ -72,6 +72,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       className={`${inter.variable} ${geistMono.variable} h-full antialiased`}
     >
       <head>
+        <link rel="icon" type="image/png" sizes="192x192" href={brandAssets.favicon} />
         <BlockingScript id="theme-init" code={themeInitScript} />
         <BlockingScript id="sidebar-init" code={sidebarInitScript} />
         <BlockingScript id="offer-init" code={offerInitScript} />
