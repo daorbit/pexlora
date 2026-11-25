@@ -2,12 +2,10 @@
 
 import Image from "next/image";
 import { routes } from "@/config/site";
-import { formatTimeLeft, offerCopy } from "@/content/offers";
-import { useOfferMinutesLeft } from "@/hooks/useOfferMinutesLeft";
-import { cn } from "@/lib/utils/cn";
+import { offerCopy } from "@/content/offers";
+import { useOfferSync } from "@/hooks/useOfferSync";
 import { ChristmasTreeIcon } from "@/components/icons/ChristmasTreeIcon";
 import { LightString } from "@/components/offer/LightString";
-import { OfferCountdown } from "@/components/offer/OfferCountdown";
 import { SnowDrift } from "@/components/offer/SnowDrift";
 import { Snowfall } from "@/components/offer/Snowfall";
 import { TreeCluster } from "@/components/offer/TreeCluster";
@@ -17,7 +15,7 @@ import { Highlight } from "@/components/ui/Highlight";
 import { ResponsiveLabel } from "@/components/ui/ResponsiveLabel";
 
 export function OfferRibbon() {
-  const minutesLeft = useOfferMinutesLeft();
+  useOfferSync();
 
   return (
     <aside aria-label={offerCopy.region} data-nosnippet className="relative z-46 hidden offer-ribbon:block">
@@ -41,20 +39,11 @@ export function OfferRibbon() {
           <div className="min-w-0 flex-1 lg:flex-none">
             <p className="text-[15px] leading-tight font-bold tracking-[-0.02em] sm:text-[21px] lg:text-[26px]">
               <ResponsiveLabel short={offerCopy.nameShort} full={offerCopy.name} /> <Highlight>{offerCopy.saving}</Highlight>{" "}
-              <span className="max-sm:sr-only">{offerCopy.scope}</span>
+              <span className="max-sm:hidden">{offerCopy.scope}</span>
             </p>
-            <p
-              className={cn(
-                "mt-1 text-[12px] leading-tight text-foreground/85 tabular-nums sm:hidden",
-                minutesLeft === null && "invisible",
-              )}
-            >
-              {offerCopy.endsIn} {formatTimeLeft(minutesLeft ?? 0)}
-            </p>
+            <p className="mt-1 text-[12px] leading-tight text-foreground/85 sm:hidden">{offerCopy.scope}</p>
             <p className="mt-1.5 text-[13px] leading-tight text-foreground/85 max-sm:hidden">{offerCopy.note}</p>
           </div>
-
-          <OfferCountdown minutesLeft={minutesLeft} className="max-lg:hidden" />
 
           <ButtonLink href={routes.pricing} arrow className="h-9 shrink-0 px-3.5 text-[13px] sm:h-10 sm:px-4.5 sm:text-sm">
             {offerCopy.cta}
