@@ -1,7 +1,6 @@
 import { AI_NAME } from "@/config/brand";
 import { AI_DAILY_LIMITS, DAILY_LIMITS } from "@/config/limits";
 import { PRO_FILES_PER_BATCH, PRO_LIMITS, REFUND_WINDOW_DAYS } from "@/config/plans";
-import { conversions } from "@/config/conversions";
 import { freeToolCount } from "@/config/tool-hub";
 import { getWorkspaceTool, toolIconSrc, type WorkspaceToolSlug } from "@/config/tools";
 import type { HandlingPath } from "@/content/file-handling";
@@ -55,7 +54,9 @@ export const useCasesCopy = {
   carouselLabel: "What people use Pexlora for",
   audienceLabel: "Made for",
   audience: ["Photographers", "Journalists", "Students", "Online sellers", "Designers", "Travellers"],
-  reviewsTitle: "What people say",
+  reviewsTitle: "What people",
+  reviewsMarker: "say.",
+  reviewsNote: "Comments people chose to share after using a tool.",
   reviewsLabel: "Reviews from people who used Pexlora",
 };
 
@@ -80,14 +81,23 @@ export const useCaseScenes = {
   altText: "Writing alt text",
 };
 
+export type StatPhrase = { lead?: string; value: string; rest?: string; marker?: boolean };
+
+type StatsFacts = { deviceTools: number; files: number | null; rating: number | null };
+
 export const statsCopy = {
   eyebrow: "Pexlora in numbers",
   liveBadge: "Live",
   liveLabel: "files processed today",
-  ratingLabel: "average rating",
-  conversions: { value: String(conversions.length), label: "image format conversions" },
-  accountFiles: { value: String(DAILY_LIMITS.user), label: "files a day with a free account" },
-  price: { value: "₹0", label: "to start, no card needed" },
+  browse: "Browse All Tools",
+  sentence: ({ deviceTools, files, rating }: StatsFacts): StatPhrase[] => [
+    { value: freeToolCount, rest: "free tools.", marker: true },
+    { value: String(deviceTools), rest: "of them never upload your file." },
+    { value: String(DAILY_LIMITS.user), rest: "files a day with a free account." },
+    ...(files === null ? [] : [{ value: formatCount(files), rest: "files processed so far." }]),
+    ...(rating === null ? [] : [{ lead: "Rated", value: rating.toFixed(1), rest: "out of 5." }]),
+    { lead: "Starting at", value: "₹0." },
+  ],
 };
 
 export const pricingProof = {

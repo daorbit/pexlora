@@ -1,4 +1,4 @@
-import { Snowflake } from "lucide-react";
+import { SnowFlake } from "@/components/offer/SnowFlake";
 import { cn } from "@/lib/utils/cn";
 
 const flakes = [
@@ -18,28 +18,13 @@ const flakes = [
   "left-[93%] [--snow-delay:-6.5s] [--snow-time:9s] [--snow-drift:-12px]",
 ];
 
-const flakeSizes = {
-  small: ["size-1", "size-0.5", "size-0.75"],
-  large: ["size-2", "size-1.5", "size-2.5"],
-};
+const sizes = ["size-1", "size-0.5", "size-0.75"];
 
-const LARGE_CRYSTAL_EVERY = 3;
-
-type SnowfallProps = { size?: keyof typeof flakeSizes; className?: string };
-
-export function Snowfall({ size = "small", className }: SnowfallProps) {
-  const sizes = flakeSizes[size];
-
+export function Snowfall({ className }: { className?: string }) {
   return (
-    <div aria-hidden className={cn("pointer-events-none absolute inset-0 overflow-hidden", className)}>
+    <div aria-hidden className={cn("pointer-events-none absolute inset-0 overflow-hidden [--snow-sway:4px]", className)}>
       {flakes.map((flake, index) => (
-        <span key={flake} className={cn("absolute inset-y-0 motion-safe:animate-snow-fall motion-reduce:hidden", flake)}>
-          {size === "large" && index % LARGE_CRYSTAL_EVERY === 0 ? (
-            <Snowflake className="size-5" strokeWidth={2} />
-          ) : (
-            <span className={cn("block rounded-full bg-current", sizes[index % sizes.length])} />
-          )}
-        </span>
+        <SnowFlake key={flake} className={flake} dotClassName={sizes[index % sizes.length]} />
       ))}
     </div>
   );

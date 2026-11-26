@@ -1,6 +1,6 @@
 import type { ComponentType, SVGProps } from "react";
 import { CalendarDays, Camera, Hash, MapPin, MessageSquareText, Smartphone, UserRound } from "lucide-react";
-import type { DifferenceTagIcon, FeedTone } from "@/content/landing";
+import { differenceCopy, type DifferenceTagData, type DifferenceTagIcon, type FeedTone } from "@/content/landing";
 import { cn } from "@/lib/utils/cn";
 import { AiTagIcon } from "@/components/icons/AiTagIcon";
 
@@ -15,22 +15,34 @@ const icons: Record<DifferenceTagIcon, ComponentType<SVGProps<SVGSVGElement>>> =
   serial: Hash,
 };
 
-const iconTones: Record<FeedTone, string> = {
+const valueTones: Record<FeedTone, string> = {
   location: "text-danger",
   ai: "text-warning",
-  plain: "text-white/70",
+  plain: "text-foreground",
 };
 
-export const photoChipClass =
-  "inline-flex max-w-full items-center gap-1.5 rounded-md bg-black/55 px-2 py-1 text-[11px] font-medium text-white backdrop-blur-sm";
+const borderTones: Record<FeedTone, string> = {
+  location: "border-danger/35",
+  ai: "border-warning/35",
+  plain: "border-separator",
+};
 
-export function DifferenceTag({ icon, value, tone }: { icon: DifferenceTagIcon; value: string; tone: FeedTone }) {
-  const Icon = icons[icon];
+export function DifferenceTag({ tag, removed }: { tag: DifferenceTagData; removed?: boolean }) {
+  const Icon = icons[tag.icon];
+
   return (
-    <li className={photoChipClass}>
-      <Icon className={cn("size-3.5 shrink-0", iconTones[tone])} aria-hidden />
-      <span className="truncate font-mono" translate="no">
-        {value}
+    <li
+      className={cn(
+        "flex items-center gap-3 rounded-xl border px-3.5 py-2.5 sm:py-3",
+        removed ? "border-dashed border-border-strong" : cn("bg-surface", borderTones[tag.tone]),
+      )}
+    >
+      <Icon className={cn("size-4 shrink-0", removed ? "text-tertiary" : valueTones[tag.tone])} aria-hidden />
+      <span className="flex min-w-0 flex-col gap-0.5 font-mono">
+        <span className={cn("text-[11.5px] text-tertiary", removed && "line-through")}>{tag.label}</span>
+        <span translate="no" className={cn("notranslate truncate text-sm", removed ? "text-secondary" : valueTones[tag.tone])}>
+          {removed ? differenceCopy.removed : tag.value}
+        </span>
       </span>
     </li>
   );

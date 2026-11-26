@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { isOfferActive } from "@/lib/offers/offer-pricing";
 
 const START_DELAY_MS = 800;
-const DURATION_MS = 12_000;
+const DURATION_MS = 6_000;
 
 let started = false;
 
