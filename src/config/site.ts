@@ -4,6 +4,7 @@ export const siteConfig = {
   tagline: "Clean your files before you share them",
   description:
     "Remove EXIF, GPS and AI metadata from photos, PDFs, Office documents, audio and video, view and edit EXIF data, and compress, resize or convert JPG, PNG, WebP and AVIF images. Free, no sign-up.",
+  googleSiteVerification: "x5mfmCb6H9n_bwTCRDWKN_WviRahTitCtiE9dZdovOo",
   bingSiteVerification: "C54D3715B23C9CA48586D0570BD67ADD",
 } as const;
 
