@@ -37,7 +37,7 @@ export function SearchEmptyState({ query, items, onSelect }: SearchEmptyStatePro
                   onClick={() => onSelect(item)}
                   className="flex w-full items-center gap-2.5 rounded-xl bg-fill px-2.5 py-2 text-left text-[13px] font-semibold transition-colors hover:bg-fill-strong focus-visible:outline-2 focus-visible:outline-ring"
                 >
-                  <NavIcon item={item} />
+                  <NavIcon item={item} className="size-7" />
                   <span className="truncate">{item.label}</span>
                 </button>
               </li>

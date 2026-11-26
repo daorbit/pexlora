@@ -65,6 +65,7 @@ export function buildLlmsText() {
     { name: llmsCopy.contact, path: routes.contact },
     { name: llmsCopy.fileHandling, path: routes.fileHandling },
     { name: llmsCopy.changelog, path: routes.changelog },
+    { name: llmsCopy.reviews, path: routes.reviews },
     { name: llmsCopy.brand, path: routes.brand },
     ...legalDocuments.map((doc) => ({ name: doc.title, path: doc.path })),
   ];

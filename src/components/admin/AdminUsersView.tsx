@@ -1,25 +1,25 @@
+import { adminUsersPath } from "@/config/admin";
 import { routes } from "@/config/site";
 import { adminCopy } from "@/content/admin";
 import { adminReviewCopy } from "@/content/reviews";
 import { requireSuperAdmin } from "@/lib/auth/dal";
+import { pageParam, single } from "@/lib/utils/search-param";
 import { getAdminStats, listAdminUsers } from "@/services/admin.service";
 import { countReviewsToCheck } from "@/services/review.service";
 import { AdminStats, AdminStatsFallback } from "@/components/admin/AdminStats";
 import { UserSearchForm } from "@/components/admin/UserSearchForm";
 import { UsersList } from "@/components/admin/UsersList";
-import { UsersPagination } from "@/components/admin/UsersPagination";
+import { AdminPagination } from "@/components/admin/AdminPagination";
 import { ButtonLink } from "@/components/ui/Button";
 import { SkeletonCard } from "@/components/ui/Skeleton";
 
 export type AdminSearchParams = Promise<{ q?: string | string[]; page?: string | string[] }>;
 
-const single = (value: string | string[] | undefined) => (Array.isArray(value) ? value[0] : value) ?? "";
-
 export async function AdminUsersView({ searchParams }: { searchParams: AdminSearchParams }) {
   const admin = await requireSuperAdmin();
   const params = await searchParams;
   const query = single(params.q).trim();
-  const page = Number.parseInt(single(params.page), 10) || 1;
+  const page = pageParam(params.page);
 
   const [stats, list, reviewsToCheck] = await Promise.all([getAdminStats(), listAdminUsers({ query, page }), countReviewsToCheck()]);
 
@@ -40,7 +40,7 @@ export async function AdminUsersView({ searchParams }: { searchParams: AdminSear
           </div>
         </div>
         <UsersList users={list.users} currentUserId={admin.id} />
-        <UsersPagination query={query} page={list.page} pageCount={list.pageCount} />
+        <AdminPagination page={list.page} pageCount={list.pageCount} hrefFor={(page) => adminUsersPath({ query, page })} />
       </section>
     </div>
   );

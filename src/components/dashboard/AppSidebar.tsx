@@ -1,13 +1,12 @@
 "use client";
 
-import type { ReactNode } from "react";
-import { useRailTooltip } from "@/hooks/useRailTooltip";
+import { useState, type ReactNode } from "react";
+import { usePathname } from "next/navigation";
+import { dashboardSections, sectionIdForPath, type DashboardSectionId } from "@/config/dashboard";
 import { useSidebarCollapsed } from "@/hooks/useSidebarCollapsed";
-import { useSidebarPeek } from "@/hooks/useSidebarPeek";
 import { cn } from "@/lib/utils/cn";
-import { RailTooltip } from "@/components/dashboard/RailTooltip";
-import { SidebarBrand } from "@/components/dashboard/SidebarBrand";
-import { SidebarNav } from "@/components/dashboard/SidebarNav";
+import { SidebarPanel } from "@/components/dashboard/SidebarPanel";
+import { SidebarRail } from "@/components/dashboard/SidebarRail";
 
 type AppSidebarProps = {
   usage: ReactNode;
@@ -18,46 +17,56 @@ type AppSidebarProps = {
 };
 
 export function AppSidebar({ usage, account, admin, collapsible = true, className }: AppSidebarProps) {
+  const pathname = usePathname();
   const { collapsed, toggle } = useSidebarCollapsed();
-  const isRail = collapsible && collapsed;
-  const { peeking, start, stop } = useSidebarPeek(isRail);
-  const { tip, tipRef, onMouseOver, onFocus, hide } = useRailTooltip(isRail && !peeking);
+  const [current, setCurrent] = useState<DashboardSectionId>(() => sectionIdForPath(pathname));
+  const [shownPath, setShownPath] = useState(pathname);
+  const [peeking, setPeeking] = useState(false);
 
-  const leave = () => {
-    stop();
-    hide();
+  if (shownPath !== pathname) {
+    setShownPath(pathname);
+    setCurrent(sectionIdForPath(pathname));
+    setPeeking(false);
+  }
+
+  const isRail = collapsible && collapsed;
+  const section = dashboardSections.find((item) => item.id === current) ?? dashboardSections[0];
+
+  const pick = (id: DashboardSectionId) => {
+    setCurrent(id);
+    if (isRail) setPeeking(id !== current || !peeking);
   };
 
   const togglePinned = () => {
-    stop();
-    hide();
+    setPeeking(false);
     toggle();
   };
 
   return (
     <aside
-      onMouseEnter={start}
-      onMouseLeave={leave}
-      onMouseOver={onMouseOver}
-      onFocus={onFocus}
-      onBlur={hide}
+      onMouseLeave={() => setPeeking(false)}
       className={cn(
-        "theme-dark flex h-full w-64 flex-col overflow-hidden rounded-[24px] bg-surface p-3 text-foreground transition-[width,box-shadow] duration-300",
+        "flex h-full w-78 overflow-hidden rounded-[24px] bg-surface text-foreground transition-[width,box-shadow] duration-300",
         collapsible && "absolute inset-y-0 left-0 z-40",
         collapsible && !peeking && "sidebar-rail rail-collapsed:w-19",
         peeking && "shadow-[0_24px_60px_-12px_rgb(0_0_0/0.45)]",
         className,
       )}
     >
-      <SidebarBrand collapsible={collapsible} peeking={peeking} onToggle={togglePinned} />
-      <div className="scrollbar-none -mx-3 min-h-0 flex-1 overflow-x-hidden overflow-y-auto px-3 pb-4">
-        <SidebarNav extra={admin} />
+      <SidebarRail current={current} collapsed={isRail && !peeking} onPick={pick} onToggle={collapsible ? togglePinned : undefined} />
+      <div className="flex min-w-0 flex-1 rail-collapsed:hidden">
+        <SidebarPanel
+          key={section.id}
+          section={section}
+          extra={admin}
+          footer={
+            <>
+              {usage}
+              {account}
+            </>
+          }
+        />
       </div>
-      <div className="flex shrink-0 flex-col gap-2 border-t border-separator pt-3">
-        {usage}
-        {account}
-      </div>
-      {collapsible && <RailTooltip tip={tip} ref={tipRef} />}
     </aside>
   );
 }

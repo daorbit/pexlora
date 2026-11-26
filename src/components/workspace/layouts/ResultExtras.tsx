@@ -6,7 +6,7 @@ import type { WorkspaceController } from "@/hooks/useWorkspaceController";
 import { HousePromoCard } from "@/components/promo/HousePromoCard";
 import { NextSteps } from "@/components/workspace/NextSteps";
 
-const RateTool = dynamic(() => import("@/components/reviews/RateTool").then((module) => module.RateTool));
+const RatePrompt = dynamic(() => import("@/components/reviews/RatePrompt").then((module) => module.RatePrompt));
 
 export function ResultExtras({ controller }: { controller: WorkspaceController }) {
   const { queue, results, tool } = controller;
@@ -14,10 +14,8 @@ export function ResultExtras({ controller }: { controller: WorkspaceController }
 
   return (
     <>
-      <div className="flex flex-col gap-3 sm:gap-4">
-        <RateTool key={tool} tool={tool} />
-        <NextSteps current={tool} results={results} />
-      </div>
+      <RatePrompt key={tool} tool={tool} />
+      <NextSteps current={tool} results={results} />
       {resultsPromoTools.includes(tool) && <HousePromoCard promo={housePromos.results} placement="results" dismissible />}
     </>
   );

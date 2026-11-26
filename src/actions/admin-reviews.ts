@@ -6,31 +6,38 @@ import { adminCopy } from "@/content/admin";
 import { adminReviewCopy } from "@/content/reviews";
 import { getSuperAdmin } from "@/lib/auth/dal";
 import type { AdminFormState } from "@/lib/validations/admin";
-import { reviewIntentSchema, type ReviewIntent } from "@/lib/validations/reviews";
-import { deleteHiddenReview, hideReview, publishReview } from "@/services/review.service";
-
-const tasks: Record<ReviewIntent, (id: string) => Promise<boolean>> = {
-  publish: publishReview,
-  hide: hideReview,
-  delete: deleteHiddenReview,
-};
+import { reviewIdsSchema, reviewIntentSchema } from "@/lib/validations/reviews";
+import { moderateReviews } from "@/services/review.service";
 
 const failure = (message: string) => ({ status: "error" as const, message });
 
-export async function moderateReview(id: string, _state: AdminFormState, formData: FormData): Promise<AdminFormState> {
+async function moderate(rawIds: unknown[], formData: FormData): Promise<AdminFormState> {
   if (!(await getSuperAdmin())) return failure(adminCopy.errors.forbidden);
 
   const intent = reviewIntentSchema.safeParse(formData.get("intent"));
-  if (!intent.success) return failure(adminCopy.errors.unavailable);
+  const ids = reviewIdsSchema.safeParse(rawIds.map(String));
+  if (!intent.success || !ids.success) return failure(adminCopy.errors.unavailable);
 
+  let changed: number;
   try {
-    if (!(await tasks[intent.data](id))) return failure(adminReviewCopy.notAllowed);
+    changed = await moderateReviews(ids.data, intent.data);
   } catch (error) {
     console.error("Review moderation failed", error);
     return failure(adminCopy.errors.unavailable);
   }
+  if (!changed) return failure(adminReviewCopy.notAllowed);
 
   updateTag(SOCIAL_PROOF_TAG);
   refresh();
-  return { status: "success", message: adminReviewCopy.done[intent.data] };
+  const skipped = ids.data.length - changed;
+  const message = ids.data.length === 1 ? adminReviewCopy.done[intent.data] : adminReviewCopy.bulkDone(intent.data, changed, skipped);
+  return { status: "success", message };
+}
+
+export async function moderateReview(id: string, _state: AdminFormState, formData: FormData) {
+  return moderate([id], formData);
+}
+
+export async function moderateSelectedReviews(_state: AdminFormState, formData: FormData) {
+  return moderate(formData.getAll("id"), formData);
 }

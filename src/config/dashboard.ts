@@ -21,7 +21,6 @@ export type DashboardNavItem = {
   iconSrc?: string;
   href: string;
   group?: string;
-  isNew?: boolean;
 };
 
 export type DashboardNavSection = {
@@ -70,8 +69,6 @@ const dashboardHrefs: Record<WorkspaceToolSlug, string> = {
 
 export const dashboardToolHref = (slug: WorkspaceToolSlug) => dashboardHrefs[slug];
 
-const newToolSlugs: string[] = ["compress-pdf", "sign-pdf", "image-watermark", "photo-signature", "excel-to-pdf", "pdf-to-excel", "word-to-pdf", "pdf-to-word", "pdf-to-text", "csv-to-excel", "excel-to-csv", "link-cleaner", "remove-personal-info", "zip-files", "unzip-files", "change-dpi", "rotate-image", "shape-image", "image-palette", "crop-image", "passport-photo", "organize-pdf", "pdf-page-numbers", "pdf-watermark"];
-
 const toolCategoryOrder: ToolCategory[] = ["metadata", "image", "pdf", "convert", "ai", "utility"];
 
 type DashboardTool = {
@@ -113,7 +110,6 @@ function toolSection(category: ToolCategory): DashboardNavSection {
       iconSrc: tool.iconSrc,
       href: tool.href,
       group: toolCategories[category],
-      isNew: newToolSlugs.includes(tool.slug),
     })),
   };
 }
@@ -133,11 +129,9 @@ export const dashboardToolGroups = toolCategoryOrder.map((category) => ({
   ),
 }));
 
-const overviewColumnLayout: ToolCategory[][] = [["metadata", "ai", "utility"], ["image"], ["pdf", "convert"]];
+export const OVERVIEW_RECENT_FILES = 4;
 
-export const overviewToolColumns = overviewColumnLayout.map((column) =>
-  column.flatMap((category) => dashboardToolGroups.filter((group) => group.category === category)),
-);
+export const overviewPopularTools: WorkspaceToolSlug[] = ["remove-metadata", "compress-image", "convert-format"];
 
 export const overviewNavItem: DashboardNavItem = {
   label: "Overview",
@@ -173,6 +167,41 @@ export const dashboardNav: DashboardNavSection[] = [
   { items: [overviewNavItem, historyNavItem] },
   ...toolCategoryOrder.map(toolSection),
 ];
+
+export type DashboardSectionId = "general" | ToolCategory;
+
+export type DashboardSection = {
+  id: DashboardSectionId;
+  title: string;
+  icon: IconComponent;
+  iconSrc?: string;
+  items: DashboardNavItem[];
+};
+
+const categoryIconSrc: Record<ToolCategory, string> = {
+  metadata: toolIconSrc("remove-metadata"),
+  image: toolIconSrc("compress-image"),
+  pdf: toolIconSrc("merge-pdf"),
+  convert: toolIconSrc("word-to-pdf"),
+  ai: toolIconSrc("image-alt-text"),
+  utility: utilityToolIconSrc("zip-files"),
+};
+
+export const dashboardSections: DashboardSection[] = [
+  { id: "general", title: "Home", icon: LayoutGrid, items: [overviewNavItem, historyNavItem, settingsNavItem] },
+  ...toolCategoryOrder.map((category) => ({
+    id: category,
+    title: toolCategories[category],
+    icon: LayoutGrid,
+    iconSrc: categoryIconSrc[category],
+    items: toolSection(category).items,
+  })),
+];
+
+export function sectionIdForPath(pathname: string): DashboardSectionId {
+  const match = dashboardSections.find((section) => section.items.some((item) => isNavItemActive(item, pathname)));
+  return match?.id ?? "general";
+}
 
 export const dashboardSearchItems: DashboardNavItem[] = [
   ...dashboardNav.flatMap((section) => section.items),

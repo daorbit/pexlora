@@ -27,7 +27,7 @@ export function MobileNav({ children, renderTrigger }: MobileNavProps) {
             className="absolute inset-0 bg-black/50 motion-safe:animate-fade-in"
             onClick={() => setOpenOn(null)}
           />
-          <div className="relative h-full w-72 max-w-[85%] p-2 motion-safe:animate-fade-in">
+          <div className="relative h-full w-80 max-w-[90%] p-2 motion-safe:animate-fade-in">
             <div className="theme-dark absolute top-5 right-5 z-10">
               <Button variant="icon" size="sm" aria-label="Close menu" onClick={() => setOpenOn(null)}>
                 <X className="size-4" aria-hidden />

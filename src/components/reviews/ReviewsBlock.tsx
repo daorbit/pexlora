@@ -1,14 +1,21 @@
+import { routes } from "@/config/site";
+import { reviewsPageCopy } from "@/content/reviews";
 import { useCasesCopy } from "@/content/social-proof";
 import { getPublishedReviews } from "@/lib/stats/social-proof";
 import { cn } from "@/lib/utils/cn";
+import { ButtonLink } from "@/components/ui/Button";
 import { Highlight } from "@/components/ui/Highlight";
 import { MobileCarousel } from "@/components/ui/MobileCarousel";
 import { ReviewCard } from "@/components/reviews/ReviewCard";
 
-const REVIEWS_SHOWN = 3;
+const spanClass = (index: number) => {
+  if (index === 0) return "lg:col-span-7 lg:row-span-2";
+  if (index < 3) return "lg:col-span-5";
+  return "lg:col-span-4";
+};
 
 export async function ReviewsBlock() {
-  const reviews = (await getPublishedReviews()).toSorted((a, b) => b.rating - a.rating).slice(0, REVIEWS_SHOWN);
+  const reviews = await getPublishedReviews();
   if (!reviews.length) return null;
 
   return (
@@ -22,17 +29,17 @@ export async function ReviewsBlock() {
       <MobileCarousel
         label={useCasesCopy.reviewsLabel}
         until="lg"
-        trackClassName="gap-3 lg:grid lg:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)] lg:grid-rows-2 lg:gap-5"
+        trackClassName="gap-3 lg:grid lg:grid-cols-12 lg:gap-5"
       >
         {reviews.map((review, index) => (
-          <li
-            key={review.id}
-            className={cn("min-w-0 shrink-0 grow-0 basis-[85%] sm:basis-[55%] lg:basis-auto", index === 0 && "lg:row-span-2")}
-          >
+          <li key={review.id} className={cn("min-w-0 shrink-0 grow-0 basis-[85%] sm:basis-[55%] lg:basis-auto", spanClass(index))}>
             <ReviewCard review={review} featured={index === 0} />
           </li>
         ))}
       </MobileCarousel>
+      <ButtonLink href={routes.reviews} variant="plain" arrow className="self-start">
+        {reviewsPageCopy.seeAll}
+      </ButtonLink>
     </div>
   );
 }

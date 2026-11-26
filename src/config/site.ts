@@ -115,6 +115,7 @@ export const routes = {
   security: "/security",
   fileHandling: "/file-handling",
   changelog: "/changelog",
+  reviews: "/reviews",
   brand: "/brand",
   googleAuth: "/api/auth/google",
   googleLink: "/api/auth/google?link=1",

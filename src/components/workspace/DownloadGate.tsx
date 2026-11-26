@@ -5,6 +5,7 @@ import { analyticsEvents } from "@/config/analytics";
 import { routes } from "@/config/site";
 import { useSignedIn } from "@/hooks/useSignedIn";
 import { track } from "@/lib/analytics/track";
+import { signalDownload } from "@/lib/downloads/download-signal";
 import { SignupPromptDialog } from "@/components/workspace/SignupPromptDialog";
 
 type Run = () => void;
@@ -28,6 +29,11 @@ function markPromptSeen() {
   } catch {}
 }
 
+function download(run: Run) {
+  run();
+  signalDownload();
+}
+
 export function useDownloadGate() {
   return useContext(DownloadGateContext);
 }
@@ -40,7 +46,7 @@ export function DownloadGateProvider({ children }: { children: ReactNode }) {
     (run: Run, count = 1) => {
       track(analyticsEvents.fileSave, { count });
       const { pathname, search } = window.location;
-      if (signedIn || pathname.startsWith(routes.dashboard) || promptSeen()) return run();
+      if (signedIn || pathname.startsWith(routes.dashboard) || promptSeen()) return download(run);
       setPending({ run, next: `${pathname}${search}`, count });
     },
     [signedIn],
@@ -52,9 +58,9 @@ export function DownloadGateProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const skip = () => {
-    const download = pending?.run;
+    const run = pending?.run;
     close();
-    download?.();
+    if (run) download(run);
   };
 
   return (

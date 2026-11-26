@@ -1,5 +1,22 @@
-import { MAX_RATING, type ReviewStatus } from "@/config/reviews";
+import { MAX_RATING, type AdminReviewFilter, type ReviewStatus } from "@/config/reviews";
+import { siteConfig } from "@/config/site";
 import type { ReviewIntent } from "@/lib/validations/reviews";
+
+export const reviewsPageCopy = {
+  metaTitle: "Reviews and Ratings",
+  description: `Real comments from people who used ${siteConfig.name} to clean, convert and compress their files, with the average star rating from every rating.`,
+  eyebrow: "Reviews / best rated first",
+  title: "What people",
+  highlight: "say.",
+  stats: { average: "Average", ratings: "Ratings", comments: "Comments" },
+  outOf: ` / ${MAX_RATING}`,
+  listLabel: "Reviews from people who used Pexlora",
+  showMore: (count: number) => `Show ${count} More`,
+  note: "Only comments people allowed us to show. Every rating counts towards the average, good or bad.",
+  empty: "Reviews show up here once enough people have shared a comment after using a tool.",
+  rateLink: "Try a Tool and Rate It",
+  seeAll: "See All Reviews",
+};
 
 export const reviewCopy = {
   title: "How did it go?",
@@ -39,4 +56,21 @@ export const adminReviewCopy = {
     string
   >,
   notAllowed: "That review can't be changed this way.",
+  bulkDone: (intent: ReviewIntent, changed: number, skipped: number) => {
+    const verb = { publish: "published", hide: "hidden", delete: "deleted" }[intent];
+    const done = `${changed} ${changed === 1 ? "review" : "reviews"} ${verb}.`;
+    return skipped ? `${done} ${skipped} skipped (${bulkSkipReasons[intent]}).` : done;
+  },
+  filters: { all: "All", pending: "To check", published: "Published", hidden: "Hidden" } satisfies Record<AdminReviewFilter, string>,
+  filterLabel: "Show reviews",
+  selectPage: "Select all on this page",
+  selectReview: (name: string) => `Select review by ${name}`,
+  selected: (count: number) => (count ? `${count} selected` : "Select reviews for bulk actions"),
+  clear: "Clear",
+};
+
+const bulkSkipReasons: Record<ReviewIntent, string> = {
+  publish: "no comment or no permission to show it",
+  hide: "not found",
+  delete: "hide a review before deleting it",
 };

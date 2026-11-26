@@ -18,6 +18,7 @@ export const llmsCopy = {
   contact: "Contact",
   fileHandling: "How your files are handled: where every tool processes files",
   changelog: "What's new: changelog of tools and fixes",
+  reviews: "Reviews: comments people chose to share and the average rating",
   brand: "Brand kit: logo, colours and naming",
   blog: "Blog: guides on photo metadata, privacy and file formats",
 };

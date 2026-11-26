@@ -28,12 +28,12 @@ export async function getFilesTotal(): Promise<number | null> {
   }
 }
 
-export async function getPublishedReviews(): Promise<ReviewItem[]> {
+export async function getPublishedReviews(limit = REVIEWS_SHOWN): Promise<ReviewItem[]> {
   "use cache";
   cacheLife("hours");
   cacheTag(SOCIAL_PROOF_TAG);
   try {
-    const reviews = await listPublishedReviews(REVIEWS_SHOWN);
+    const reviews = await listPublishedReviews(limit);
     return reviews.length >= REVIEWS_MIN ? reviews : [];
   } catch {
     return [];

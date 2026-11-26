@@ -22,6 +22,13 @@ export const changelogCopy = {
 
 export const changelog: ChangelogEntry[] = [
   {
+    date: "2026-11-26",
+    title: "All reviews in one place",
+    changes: [
+      { type: "new", text: "A reviews page with every comment people chose to share and the average rating.", href: routes.reviews },
+    ],
+  },
+  {
     date: "2026-11-24",
     title: "Unzip has its own page",
     changes: [

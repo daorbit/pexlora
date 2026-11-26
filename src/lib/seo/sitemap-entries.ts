@@ -74,6 +74,7 @@ export function sitemapEntries(): SitemapEntry[] {
       ],
     },
     { path: routes.changelog, sources: [marketingPage(routes.changelog), "src/content/changelog.ts", "src/components/changelog"] },
+    { path: routes.reviews, sources: [marketingPage(routes.reviews), "src/content/reviews.ts", "src/components/reviews"] },
     { path: routes.brand, sources: [marketingPage(routes.brand), "src/content/brand-kit.ts", "src/components/brand"] },
     { path: routes.blog, sources: [marketingPage(routes.blog), "src/content/blog.ts", "src/components/blog"] },
     { path: routes.pricing, sources: [marketingPage(routes.pricing), "src/content/pricing.ts", "src/config/plans.ts", "src/components/pricing"] },

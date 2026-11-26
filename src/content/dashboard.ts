@@ -6,6 +6,7 @@ import {
   MAX_RESIZE_DIMENSION,
   SERVER_IMAGE_SIZE_MB,
 } from "@/config/limits";
+import type { DashboardSectionId } from "@/config/dashboard";
 import type { WorkspaceToolSlug } from "@/config/tools";
 import { formatMegabytes } from "@/lib/utils/format-bytes";
 
@@ -18,7 +19,22 @@ export const overviewCopy = {
     resets: "Resets at midnight UTC",
     plan: "Free plan",
   },
-  tools: { title: "Tools", description: "Everything in your workspace." },
+  activity: {
+    title: "Your activity",
+    description: "Files finished on this device in the last 24 hours.",
+    files: "Files finished",
+    size: "Output size",
+    tools: "Tools used",
+    top: "Most used",
+    none: "None yet",
+  },
+  recentFiles: {
+    title: "Recent files",
+    viewAll: "View History",
+    empty: "Files you finish in any tool show up here for 24 hours.",
+  },
+  recentTools: { title: "Jump back in", popular: "Popular tools" },
+  tools: { title: "All tools", description: "Everything in your workspace." },
   shortcuts: { title: "Shortcuts", description: "Open a tool with the setting already chosen." },
   guides: { title: "Guides", description: "Focused tools for specific apps and file types. They open on the website." },
   compress: { title: "Compress to size", description: "For forms, exams and upload limits.", caption: "Under" },
@@ -384,8 +400,6 @@ export const shellCopy = {
   home: "Pexlora home",
   collapse: "Collapse sidebar",
   expand: "Expand sidebar",
-  keepOpen: "Keep sidebar open",
-  newBadge: "New",
   searchTools: "Search tools",
   searchShortcut: "Search tools (Ctrl+K or ⌘K)",
   searchPlaceholder: "Search tools and pages",
@@ -404,6 +418,20 @@ export const shellCopy = {
   ofToday: (limit: number) => `of ${limit} today`,
   tips: "Tips",
   limits: "Limits",
+  sectionsLabel: "Sections",
+  sectionShort: {
+    general: "Home",
+    metadata: "Metadata",
+    image: "Image",
+    pdf: "PDF",
+    convert: "Convert",
+    ai: "AI",
+    utility: "Utilities",
+  } satisfies Record<DashboardSectionId, string>,
+  toolCount: (count: number) => `${count} ${count === 1 ? "tool" : "tools"}`,
+  generalNote: "Your usage, files and account",
+  filterTools: "Filter tools",
+  noMatches: "No tools match",
 };
 
 export const sharedLimits = [

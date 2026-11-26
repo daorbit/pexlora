@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { MAX_RATING, REVIEW_TEXT_LIMITS } from "@/config/reviews";
+import { ADMIN_REVIEWS_PAGE_SIZE, MAX_RATING, REVIEW_TEXT_LIMITS } from "@/config/reviews";
 import { workspaceTools, type WorkspaceToolSlug } from "@/config/tools";
 
 const toolSlugs = workspaceTools.map((tool) => tool.slug) as [WorkspaceToolSlug, ...WorkspaceToolSlug[]];
@@ -20,6 +20,8 @@ export const reviewCommentSchema = z.object({
 });
 
 export const reviewIntentSchema = z.enum(["publish", "hide", "delete"]);
+
+export const reviewIdsSchema = z.array(z.string().regex(/^[a-f0-9]{24}$/i)).min(1).max(ADMIN_REVIEWS_PAGE_SIZE);
 
 export type RatingInput = z.infer<typeof ratingSchema>;
 export type ReviewCommentInput = z.infer<typeof reviewCommentSchema>;

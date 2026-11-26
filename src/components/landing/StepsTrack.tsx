@@ -1,7 +1,6 @@
 import { steps } from "@/content/landing";
 import { cn } from "@/lib/utils/cn";
-
-const numeral = (index: number) => String(index + 1).padStart(2, "0");
+import { numeral, outlineNumeralClass } from "@/components/ui/outline-numeral-styles";
 
 export function StepsTrack() {
   const last = steps.length - 1;
@@ -16,7 +15,7 @@ export function StepsTrack() {
               aria-hidden
               className={cn(
                 "text-[44px] leading-none font-extrabold tracking-[-0.06em] sm:text-[64px] lg:text-[112px]",
-                current ? "text-foreground" : "text-transparent [-webkit-text-stroke:1px_var(--foreground)] lg:[-webkit-text-stroke:1.5px_var(--foreground)]",
+                current ? "text-foreground" : outlineNumeralClass,
               )}
             >
               {numeral(index)}

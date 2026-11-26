@@ -1,8 +1,15 @@
 import "server-only";
 import { isValidObjectId } from "mongoose";
-import { ADMIN_REVIEWS_SHOWN, REVIEW_EDIT_MINUTES, type ReviewStatus } from "@/config/reviews";
+import {
+  ADMIN_REVIEW_FILTERS,
+  ADMIN_REVIEWS_PAGE_SIZE,
+  REVIEW_EDIT_MINUTES,
+  type AdminReviewFilter,
+  type ReviewStatus,
+} from "@/config/reviews";
 import type { WorkspaceToolSlug } from "@/config/tools";
 import { connectToDatabase } from "@/lib/db/mongoose";
+import type { ReviewIntent } from "@/lib/validations/reviews";
 import { Review, type ReviewDocument } from "@/models/Review";
 
 export type ReviewItem = {
@@ -63,38 +70,50 @@ export async function getRatingTotals(): Promise<RatingTotals> {
 
 export async function listPublishedReviews(limit: number) {
   await connectToDatabase();
-  const reviews = await Review.find(PUBLISHED).sort({ createdAt: -1 }).limit(limit).lean<ReviewDocument[]>();
+  const reviews = await Review.find(PUBLISHED).sort({ rating: -1, createdAt: -1 }).limit(limit).lean<ReviewDocument[]>();
   return reviews.map(toItem);
 }
 
-export async function listAdminReviews() {
+const filterQueries: Record<AdminReviewFilter, Record<string, unknown>> = {
+  all: {},
+  pending: { ...WITH_COMMENT, status: "pending" },
+  published: { status: "published" },
+  hidden: { status: "hidden" },
+};
+
+export async function listAdminReviews({ filter, page }: { filter: AdminReviewFilter; page: number }) {
   await connectToDatabase();
-  const reviews = await Review.find().sort({ createdAt: -1 }).limit(ADMIN_REVIEWS_SHOWN).lean<ReviewDocument[]>();
-  return reviews.map(toItem);
+  const query = filterQueries[filter];
+  const total = await Review.countDocuments(query);
+  const pageCount = Math.max(1, Math.ceil(total / ADMIN_REVIEWS_PAGE_SIZE));
+  const current = Math.min(Math.max(1, page), pageCount);
+  const reviews = await Review.find(query)
+    .sort({ createdAt: -1 })
+    .skip((current - 1) * ADMIN_REVIEWS_PAGE_SIZE)
+    .limit(ADMIN_REVIEWS_PAGE_SIZE)
+    .lean<ReviewDocument[]>();
+  return { reviews: reviews.map(toItem), total, page: current, pageCount };
+}
+
+export async function countAdminReviews(): Promise<Record<AdminReviewFilter, number>> {
+  await connectToDatabase();
+  const [all, pending, published, hidden] = await Promise.all(
+    ADMIN_REVIEW_FILTERS.map((filter) => Review.countDocuments(filterQueries[filter])),
+  );
+  return { all, pending, published, hidden };
 }
 
 export async function countReviewsToCheck() {
   await connectToDatabase();
-  return Review.countDocuments({ ...WITH_COMMENT, status: "pending" });
+  return Review.countDocuments(filterQueries.pending);
 }
 
-export async function publishReview(id: string) {
-  if (!isValidObjectId(id)) return false;
+export async function moderateReviews(ids: string[], intent: ReviewIntent) {
+  const valid = ids.filter((id) => isValidObjectId(id));
+  if (!valid.length) return 0;
   await connectToDatabase();
-  const { matchedCount } = await Review.updateOne({ _id: id, ...WITH_COMMENT, consent: true }, { $set: { status: "published" } });
-  return matchedCount > 0;
-}
-
-export async function hideReview(id: string) {
-  if (!isValidObjectId(id)) return false;
-  await connectToDatabase();
-  const { matchedCount } = await Review.updateOne({ _id: id }, { $set: { status: "hidden" } });
-  return matchedCount > 0;
-}
-
-export async function deleteHiddenReview(id: string) {
-  if (!isValidObjectId(id)) return false;
-  await connectToDatabase();
-  const { deletedCount } = await Review.deleteOne({ _id: id, status: "hidden" });
-  return deletedCount > 0;
+  const byId = { _id: { $in: valid } };
+  if (intent === "delete") return (await Review.deleteMany({ ...byId, status: "hidden" })).deletedCount;
+  if (intent === "hide") return (await Review.updateMany(byId, { $set: { status: "hidden" } })).matchedCount;
+  return (await Review.updateMany({ ...byId, ...WITH_COMMENT, consent: true }, { $set: { status: "published" } })).matchedCount;
 }

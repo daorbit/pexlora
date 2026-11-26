@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { DashboardGreeting } from "@/components/dashboard/DashboardGreeting";
-import { OverviewTools } from "@/components/dashboard/overview/OverviewTools";
+import { OverviewActivity } from "@/components/dashboard/overview/OverviewActivity";
+import { OverviewShortcuts, OverviewTools } from "@/components/dashboard/overview/OverviewTools";
 import { UsageCard, UsageCardFallback } from "@/components/dashboard/overview/UsageCard";
 import { SkeletonCard } from "@/components/ui/Skeleton";
 
@@ -18,6 +19,8 @@ export default function DashboardPage() {
           <UsageCard />
         </Suspense>
       </div>
+      <OverviewActivity />
+      <OverviewShortcuts />
       <OverviewTools />
     </div>
   );

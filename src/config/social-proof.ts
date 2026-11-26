@@ -15,3 +15,7 @@ export const RATINGS_MIN = 10;
 export const REVIEWS_MIN = 3;
 
 export const REVIEWS_SHOWN = 6;
+
+export const REVIEWS_PAGE_MAX = 300;
+
+export const REVIEWS_PAGE_STEP = 24;

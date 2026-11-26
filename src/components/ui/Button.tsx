@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { ComponentProps, ReactNode } from "react";
 import { ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
+import { Spinner } from "@/components/ui/Spinner";
 
 type Variant = "primary" | "ink" | "secondary" | "outline" | "plain" | "nav" | "icon" | "tile";
 type Size = "sm" | "md" | "lg" | "xl" | "2xl";
@@ -59,16 +60,24 @@ export function buttonClasses({
   return cn(base, variants[variant], sizing, arrow && !textOnly && "group/button", className);
 }
 
-export function ButtonContent({ children, size = "md", arrow }: StyleProps & { children?: ReactNode }) {
-  if (!arrow) return children;
+export function ButtonContent({
+  children,
+  size = "md",
+  arrow,
+  loading,
+}: StyleProps & { children?: ReactNode; loading?: boolean }) {
+  if (!arrow && !loading) return children;
   return (
     <>
+      {loading && <Spinner className={arrowSizes[size]} />}
       {children}
-      <ArrowRight
-        className={cn("shrink-0 transition-transform group-hover/button:translate-x-0.5", arrowSizes[size])}
-        strokeWidth={2.4}
-        aria-hidden
-      />
+      {arrow && (
+        <ArrowRight
+          className={cn("shrink-0 transition-transform group-hover/button:translate-x-0.5", arrowSizes[size])}
+          strokeWidth={2.4}
+          aria-hidden
+        />
+      )}
     </>
   );
 }
@@ -77,14 +86,22 @@ export function Button({
   variant,
   size,
   arrow,
+  loading,
+  disabled,
   className,
   type = "button",
   children,
   ...props
-}: ComponentProps<"button"> & StyleProps) {
+}: ComponentProps<"button"> & StyleProps & { loading?: boolean }) {
   return (
-    <button type={type} className={buttonClasses({ variant, size, arrow, className })} {...props}>
-      <ButtonContent variant={variant} size={size} arrow={arrow}>
+    <button
+      type={type}
+      className={buttonClasses({ variant, size, arrow, className })}
+      disabled={disabled || loading}
+      aria-busy={loading || undefined}
+      {...props}
+    >
+      <ButtonContent variant={variant} size={size} arrow={arrow} loading={loading}>
         {children}
       </ButtonContent>
     </button>

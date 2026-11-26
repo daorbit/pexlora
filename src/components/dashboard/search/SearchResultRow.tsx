@@ -27,7 +27,7 @@ export function SearchResultRow({ item, id, active, onHover, onSelect }: SearchR
           active ? "bg-fill" : "hover:bg-fill/60",
         )}
       >
-        <NavIcon item={item} />
+        <NavIcon item={item} className="size-7" />
         <span className="flex min-w-0 flex-1 flex-col gap-0.5">
           <span className="truncate text-[14px] leading-tight font-semibold">{item.label}</span>
           <span className="truncate text-[12.5px] leading-tight text-secondary">{item.subtitle}</span>
