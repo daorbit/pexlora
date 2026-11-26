@@ -54,7 +54,6 @@ export const metadata: Metadata = {
   openGraph: { ...openGraphDefaults, title: seo.defaultTitle, description: seo.description },
   twitter: { ...twitterDefaults, title: seo.defaultTitle, description: seo.description },
   verification: {
-    google: siteConfig.googleSiteVerification,
     other: { "msvalidate.01": siteConfig.bingSiteVerification },
   },
   other: {
