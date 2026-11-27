@@ -17,9 +17,11 @@ type UserRow = {
   plan?: { tier?: string | null; id?: string | null; expiresAt?: Date | null } | null;
   lastActiveAt?: Date | null;
   createdAt: Date;
+  avatarUrl?: string | null;
+  status?: string | null;
 };
 
-const FIELDS = "email name role plan lastActiveAt createdAt";
+const FIELDS = "email name role plan lastActiveAt createdAt avatarUrl status";
 
 function present(row: UserRow) {
   return {
@@ -27,7 +29,8 @@ function present(row: UserRow) {
     email: row.email,
     name: row.name,
     emailVerified: true,
-    status: "active" as const,
+    status: row.status === "suspended" ? ("suspended" as const) : ("active" as const),
+    avatarUrl: row.avatarUrl || null,
     role: effectiveRole({ email: row.email, role: row.role }),
     createdAt: iso(row.createdAt) as string,
     lastActiveAt: iso(row.lastActiveAt),

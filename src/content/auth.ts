@@ -12,6 +12,7 @@ export const authCopy = {
     description: "Sign in to pick up where you left off.",
     submit: "Sign In",
     invalid: "Incorrect email or password. If you signed up with Google, use Continue with Google.",
+    suspended: "This account is suspended. Contact support to restore access.",
     switchPrompt: "New here?",
     switchAction: "Create an account",
   },

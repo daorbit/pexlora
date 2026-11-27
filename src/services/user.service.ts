@@ -9,7 +9,14 @@ export async function findUserByIdWithPassword(id: string) {
   return User.findById(id).select("+passwordHash").lean();
 }
 
-const SESSION_USER_FIELDS = "name email avatarUrl googleId passwordHash createdAt role limits plan sessionVersion";
+const SESSION_USER_FIELDS = "name email avatarUrl googleId passwordHash createdAt role limits plan sessionVersion status";
+
+export async function isAccountSuspended(id: string) {
+  if (!isValidObjectId(id)) return false;
+  await connectToDatabase();
+  const user = await User.findById(id).select("status").lean();
+  return user?.status === "suspended";
+}
 
 export async function findSessionUser(id: string) {
   if (!isValidObjectId(id)) return null;

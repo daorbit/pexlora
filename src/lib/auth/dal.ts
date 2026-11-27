@@ -26,7 +26,7 @@ export const getCurrentUser = cache(async (): Promise<CurrentUser | null> => {
   if (!session) return null;
 
   const user = await findSessionUser(session.userId);
-  if (!user || (user.sessionVersion ?? 0) !== (session.version ?? 0)) return null;
+  if (!user || user.status === "suspended" || (user.sessionVersion ?? 0) !== (session.version ?? 0)) return null;
 
   return {
     id: user._id.toString(),

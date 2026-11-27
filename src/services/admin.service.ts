@@ -41,6 +41,7 @@ export type AdminUser = {
   custom: CustomLimits;
   plan: ActivePlan | null;
   lapsedPlan: boolean;
+  status: "active" | "suspended";
 };
 
 export type AdminPurchase = {
@@ -58,9 +59,10 @@ export type AdminPurchase = {
 
 type UserRow = Pick<UserDocument, "_id" | "name" | "email" | "avatarUrl" | "googleId" | "role" | "limits" | "plan" | "createdAt"> & {
   passwordHash?: string | null;
+  status?: string | null;
 };
 
-const ROW_FIELDS = "name email avatarUrl googleId role limits plan createdAt +passwordHash";
+const ROW_FIELDS = "name email avatarUrl googleId role limits plan status createdAt +passwordHash";
 
 const usageKeysFor = (id: string) => [usageKeys.user(id), aiUsageKey(usageKeys.user(id))];
 
@@ -82,6 +84,7 @@ function toAdminUser(user: UserRow, usage: Map<string, number>): AdminUser {
     custom: customLimits(user),
     plan: activePlan(user),
     lapsedPlan: user.plan?.tier === "pro" && !activePlan(user),
+    status: user.status === "suspended" ? "suspended" : "active",
   };
 }
 
@@ -194,6 +197,15 @@ export async function setUserLimits(id: string, limits: CustomLimits) {
 
 export async function resetUserUsageToday(id: string) {
   await clearUsageToday(usageKeysFor(id));
+}
+
+export type AccountStatus = "active" | "suspended";
+
+export async function setUserStatus(id: string, status: AccountStatus, reason: string) {
+  await connectToDatabase();
+  const update: Record<string, unknown> = { $set: { status, statusReason: reason.slice(0, 300), statusChangedAt: new Date() } };
+  if (status === "suspended") update.$inc = { sessionVersion: 1 };
+  await User.updateOne({ _id: id }, update);
 }
 
 export async function deleteUserAccount(id: string) {

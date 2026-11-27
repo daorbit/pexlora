@@ -78,6 +78,7 @@ export async function signIn(_state: AuthFormState, formData: FormData): Promise
     const user = await findUserByEmailWithPassword(parsed.data.email);
     const valid = await verifyPasswordSafely(parsed.data.password, user?.passwordHash);
     if (!user || !valid) return { message: authCopy.signin.invalid, values };
+    if (user.status === "suspended") return { message: authCopy.signin.suspended, values };
 
     await createSession(user._id.toString(), user.sessionVersion ?? 0);
     await setFlash("signed-in");

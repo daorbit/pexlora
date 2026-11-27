@@ -9,8 +9,17 @@ import {
   signSessionToken,
   verifySessionToken,
 } from "@/lib/auth/token";
+import { isAccountSuspended } from "@/services/user.service";
+
+export class AccountSuspendedError extends Error {
+  constructor() {
+    super("account_suspended");
+    this.name = "AccountSuspendedError";
+  }
+}
 
 export async function createSession(userId: string, version = 0) {
+  if (await isAccountSuspended(userId)) throw new AccountSuspendedError();
   const expiresAt = Date.now() + SESSION_TTL_SECONDS * 1000;
   const token = await signSessionToken({ userId, version, expiresAt }, env.sessionSecret);
   const cookieStore = await cookies();

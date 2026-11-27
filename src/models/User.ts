@@ -18,6 +18,9 @@ const userSchema = new Schema(
     avatarUrl: { type: String },
     role: { type: String, enum: USER_ROLES, default: "user" },
     sessionVersion: { type: Number, default: 0 },
+    status: { type: String, enum: ["active", "suspended"], default: "active" },
+    statusReason: { type: String, trim: true, default: "" },
+    statusChangedAt: { type: Date, default: null },
     lastActiveAt: { type: Date, default: null },
     limits: {
       files: { type: Number, default: null },
