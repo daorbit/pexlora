@@ -15,7 +15,7 @@ const cache = new Map<string, { at: number; value: Promise<Summary> }>();
 async function compute(from: Date, to: Date) {
   await connectToDatabase();
   const now = new Date();
-  const live = { "plan.tier": "pro", $or: [{ "plan.expiresAt": null }, { "plan.expiresAt": { $gt: now } }] };
+  const live = { "plan.tier": "pro" as const, $or: [{ "plan.expiresAt": null }, { "plan.expiresAt": { $gt: now } }] };
   const [total, created, active, paying, revenue, usage] = await Promise.all([
     User.estimatedDocumentCount(),
     User.countDocuments({ _id: idRange(from, to) }),

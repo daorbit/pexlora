@@ -49,7 +49,7 @@ export async function listPlatformSubscriptions(url: URL) {
   await connectToDatabase();
   const limit = pageSize(url.searchParams.get("limit"));
   const filter = {
-    "plan.tier": "pro",
+    "plan.tier": "pro" as const,
     ...cursorFilter(url.searchParams.get("cursor")),
     ...statusFilter(url.searchParams.get("status")),
   };
