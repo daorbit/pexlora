@@ -14,7 +14,7 @@ import { hasAiBudget } from "@/services/ai-budget.service";
 import { hitRateLimit } from "@/services/rate-limit.service";
 import { incrementUsage, usageKeys } from "@/services/usage.service";
 import { countProcessedFile } from "@/services/site-stats.service";
-import { findUserLimits } from "@/services/user.service";
+import { findUserLimits, touchLastActive } from "@/services/user.service";
 
 type QuotaKind = "files" | "ai";
 
@@ -78,6 +78,7 @@ async function consumeQuota(request: Request, kind: QuotaKind) {
   }
 
   if (kind === "files") after(countProcessedFile);
+  if (session) after(() => touchLastActive(session.userId).catch((error) => console.warn("Activity update failed", error)));
   return limit - used;
 }
 

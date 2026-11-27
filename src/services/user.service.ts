@@ -23,6 +23,18 @@ export async function findUserLimits(id: string) {
   return User.findById(id).select("limits plan").lean();
 }
 
+const ACTIVITY_GRANULARITY_MS = 60 * 60 * 1000;
+
+export async function touchLastActive(id: string) {
+  if (!isValidObjectId(id)) return;
+  await connectToDatabase();
+  const now = new Date();
+  await User.updateOne(
+    { _id: id, $or: [{ lastActiveAt: null }, { lastActiveAt: { $lt: new Date(now.getTime() - ACTIVITY_GRANULARITY_MS) } }] },
+    { $set: { lastActiveAt: now } },
+  );
+}
+
 export async function updateUserName(id: string, name: string) {
   await connectToDatabase();
   await User.updateOne({ _id: id }, { $set: { name } });

@@ -69,6 +69,9 @@ export const env = {
       workspaceId: process.env.CMS_WORKSPACE_ID ?? BLOG_CMS.workspaceId,
     };
   },
+  get platformPublicKeys() {
+    return process.env.PLATFORM_PUBLIC_KEYS ?? "";
+  },
   get paymentTestAmountPaise() {
     if (process.env.VERCEL_ENV === "production") return null;
     const rupees = Number(process.env.PAYMENT_TEST_PRICE_INR);
