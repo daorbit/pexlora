@@ -8,7 +8,13 @@ import { getWorkspaceTool, type WorkspaceToolSlug } from "@/config/tools";
 import { getUtilityTool, type UtilityToolSlug } from "@/config/utility-tools";
 import { utilityTitles } from "@/content/utility-tools";
 import { formPresetCopy, toolPageCopy } from "@/content/tool-pages";
-import { compressTargetLocalKeywords, formPresetLocalKeywords, toolKeywords } from "@/content/tool-keywords";
+import {
+  compressTargetLocalKeywords,
+  formPresetLocalKeywords,
+  textToolKeywords,
+  toolKeywords,
+  utilityToolKeywords,
+} from "@/content/tool-keywords";
 import { pageMetadata } from "@/lib/seo/page-metadata";
 import { seoPagePath, type SeoPage } from "@/content/seo-pages";
 
@@ -58,12 +64,16 @@ const textToolTitles: Record<TextToolSlug, string> = {
 
 export function textToolMetadata(slug: TextToolSlug): Metadata {
   const tool = getTextTool(slug);
-  return pageMetadata(textToolTitles[slug], tool.description, tool.href, undefined, { kind: "text", slug, name: tool.name });
+  return pageMetadata(textToolTitles[slug], tool.description, tool.href, textToolKeywords[slug], { kind: "text", slug, name: tool.name });
 }
 
 export function utilityToolMetadata(slug: UtilityToolSlug): Metadata {
   const tool = getUtilityTool(slug);
-  return pageMetadata(utilityTitles[slug], tool.description, tool.href, undefined, { kind: "utility", slug, name: tool.name });
+  return pageMetadata(utilityTitles[slug], tool.description, tool.href, utilityToolKeywords[slug], {
+    kind: "utility",
+    slug,
+    name: tool.name,
+  });
 }
 
 export function seoPageMetadata(page: SeoPage): Metadata {
@@ -79,7 +89,7 @@ export function conversionMetadata(conversion: Conversion): Metadata {
     toolPageCopy.conversionTitle(conversion.from, conversion.toLabel),
     toolPageCopy.conversionMetaDescription(conversion.from, conversion.toLabel),
     conversionPath(conversion.slug),
-    [`${conversion.from} to ${conversion.toLabel}`, `convert ${conversion.from} to ${conversion.toLabel}`],
+    toolPageCopy.conversionKeywords(conversion.from, conversion.toLabel, conversion.slug),
     { kind: "convert", slug: conversion.slug, name: conversion.name },
   );
 }
@@ -89,7 +99,7 @@ export function imagePdfMetadata(variant: ImagePdfVariant): Metadata {
     toolPageCopy.imagePdfTitle(variant.from),
     toolPageCopy.imagePdfMetaDescription(variant.from),
     imagePdfPath(variant.slug),
-    [`${variant.from} to PDF`, `convert ${variant.from} to PDF`],
+    toolPageCopy.imagePdfKeywords(variant.from),
     { kind: "image-pdf", slug: variant.slug, name: toolPageCopy.imagePdfName(variant.from) },
   );
 }
