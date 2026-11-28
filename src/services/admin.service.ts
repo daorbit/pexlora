@@ -1,6 +1,6 @@
 import "server-only";
 import { isValidObjectId } from "mongoose";
-import { ADMIN_USERS_PAGE_SIZE, OWNER_EMAILS, type UserRole } from "@/config/roles";
+import { ADMIN_USERS_PAGE_SIZE, type UserRole } from "@/config/roles";
 import { connectToDatabase } from "@/lib/db/mongoose";
 import {
   customLimits,
@@ -20,11 +20,8 @@ import {
   clearAllUsage,
   clearUsageToday,
   getUsageTodayByKey,
-  getUsageTotalsToday,
   usageKeys,
 } from "@/services/usage.service";
-
-const WEEK_MS = 7 * 24 * 60 * 60 * 1000;
 
 export type AdminUser = {
   id: string;
@@ -143,47 +140,6 @@ export async function listAdminPurchases(userId: string): Promise<AdminPurchase[
     refundedAt: purchase.refundedAt ? new Date(purchase.refundedAt).toISOString() : null,
   }));
 }
-
-async function getRevenueTotals() {
-  const [totals] = await Purchase.aggregate<{ revenue: number; paid: number; refunded: number }>([
-    { $match: { status: { $in: ["paid", "refunded"] } } },
-    {
-      $group: {
-        _id: null,
-        revenue: { $sum: { $cond: [{ $eq: ["$status", "paid"] }, "$amount", 0] } },
-        paid: { $sum: { $cond: [{ $eq: ["$status", "paid"] }, 1, 0] } },
-        refunded: { $sum: { $cond: [{ $eq: ["$status", "refunded"] }, 1, 0] } },
-      },
-    },
-  ]);
-  return totals ?? { revenue: 0, paid: 0, refunded: 0 };
-}
-
-export async function getAdminStats() {
-  await connectToDatabase();
-  const now = new Date();
-  const [totalUsers, newThisWeek, superAdmins, proMembers, revenue, usage] = await Promise.all([
-    User.countDocuments(),
-    User.countDocuments({ createdAt: { $gte: new Date(now.getTime() - WEEK_MS) } }),
-    User.countDocuments({ $or: [{ role: "super_admin" }, { email: { $in: OWNER_EMAILS } }] }),
-    User.countDocuments({ "plan.tier": "pro", $or: [{ "plan.expiresAt": null }, { "plan.expiresAt": { $gt: now } }] }),
-    getRevenueTotals(),
-    getUsageTotalsToday(),
-  ]);
-  return {
-    totalUsers,
-    newThisWeek,
-    superAdmins,
-    proMembers,
-    revenue: revenue.revenue,
-    paidPurchases: revenue.paid,
-    refundedPurchases: revenue.refunded,
-    filesToday: usage.files,
-    aiToday: usage.ai,
-  };
-}
-
-export type AdminStatsData = Awaited<ReturnType<typeof getAdminStats>>;
 
 export async function setUserRole(id: string, role: UserRole) {
   await connectToDatabase();

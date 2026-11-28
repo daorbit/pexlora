@@ -1,6 +1,5 @@
-import { MAX_RATING, type AdminReviewFilter, type ReviewStatus } from "@/config/reviews";
+import { MAX_RATING } from "@/config/reviews";
 import { siteConfig } from "@/config/site";
-import type { ReviewIntent } from "@/lib/validations/reviews";
 
 export const reviewsPageCopy = {
   metaTitle: "Reviews and Ratings",
@@ -35,42 +34,4 @@ export const reviewCopy = {
   failed: "That couldn't be saved. Please try again.",
   dismiss: "Hide rating",
   anonymous: "Pexlora user",
-};
-
-export const adminReviewCopy = {
-  title: "Ratings and comments",
-  open: (pending: number) => (pending ? `Reviews (${pending} to check)` : "Reviews"),
-  back: "All Users",
-  summary: (count: number, average: number) =>
-    count ? `${count.toLocaleString("en-US")} ${count === 1 ? "rating" : "ratings"}, average ${average.toFixed(1)}` : "No ratings yet",
-  rule: "Every rating counts towards the public average, good or bad. Publish real comments only, and delete a review only if it's spam. Super admin ratings are never saved.",
-  empty: "Ratings appear here once people rate a tool after using it.",
-  noComment: "Rating only",
-  noConsent: "No permission to show this comment",
-  status: { pending: "To check", published: "Published", hidden: "Hidden" } satisfies Record<ReviewStatus, string>,
-  publish: "Publish",
-  hide: "Hide",
-  delete: "Delete Spam",
-  done: { publish: "Review published.", hide: "Comment hidden. The rating still counts.", delete: "Review deleted." } satisfies Record<
-    ReviewIntent,
-    string
-  >,
-  notAllowed: "That review can't be changed this way.",
-  bulkDone: (intent: ReviewIntent, changed: number, skipped: number) => {
-    const verb = { publish: "published", hide: "hidden", delete: "deleted" }[intent];
-    const done = `${changed} ${changed === 1 ? "review" : "reviews"} ${verb}.`;
-    return skipped ? `${done} ${skipped} skipped (${bulkSkipReasons[intent]}).` : done;
-  },
-  filters: { all: "All", pending: "To check", published: "Published", hidden: "Hidden" } satisfies Record<AdminReviewFilter, string>,
-  filterLabel: "Show reviews",
-  selectPage: "Select all on this page",
-  selectReview: (name: string) => `Select review by ${name}`,
-  selected: (count: number) => (count ? `${count} selected` : "Select reviews for bulk actions"),
-  clear: "Clear",
-};
-
-const bulkSkipReasons: Record<ReviewIntent, string> = {
-  publish: "no comment or no permission to show it",
-  hide: "not found",
-  delete: "hide a review before deleting it",
 };

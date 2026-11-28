@@ -103,11 +103,6 @@ export async function countAdminReviews(): Promise<Record<AdminReviewFilter, num
   return { all, pending, published, hidden };
 }
 
-export async function countReviewsToCheck() {
-  await connectToDatabase();
-  return Review.countDocuments(filterQueries.pending);
-}
-
 export async function moderateReviews(ids: string[], intent: ReviewIntent) {
   const valid = ids.filter((id) => isValidObjectId(id));
   if (!valid.length) return 0;

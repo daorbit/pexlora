@@ -7,9 +7,9 @@ import { isNavItemActive, type DashboardSection } from "@/config/dashboard";
 import { shellCopy } from "@/content/dashboard";
 import { SidebarLink } from "@/components/dashboard/SidebarLink";
 
-type SidebarPanelProps = { section: DashboardSection; extra?: ReactNode; footer: ReactNode };
+type SidebarPanelProps = { section: DashboardSection; footer: ReactNode };
 
-export function SidebarPanel({ section, extra, footer }: SidebarPanelProps) {
+export function SidebarPanel({ section, footer }: SidebarPanelProps) {
   const pathname = usePathname();
   const [query, setQuery] = useState("");
   const general = section.id === "general";
@@ -40,7 +40,6 @@ export function SidebarPanel({ section, extra, footer }: SidebarPanelProps) {
           <SidebarLink key={item.href} item={item} active={isNavItemActive(item, pathname)} />
         ))}
         {!items.length && <p className="px-2.5 py-2 text-[13px] text-secondary">{shellCopy.noMatches}</p>}
-        {general && extra}
       </nav>
       <div className="flex shrink-0 flex-col gap-2 border-t border-separator pt-3">{footer}</div>
     </div>

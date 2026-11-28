@@ -11,12 +11,11 @@ import { SidebarRail } from "@/components/dashboard/SidebarRail";
 type AppSidebarProps = {
   usage: ReactNode;
   account: ReactNode;
-  admin?: ReactNode;
   collapsible?: boolean;
   className?: string;
 };
 
-export function AppSidebar({ usage, account, admin, collapsible = true, className }: AppSidebarProps) {
+export function AppSidebar({ usage, account, collapsible = true, className }: AppSidebarProps) {
   const pathname = usePathname();
   const { collapsed, toggle } = useSidebarCollapsed();
   const [current, setCurrent] = useState<DashboardSectionId>(() => sectionIdForPath(pathname));
@@ -58,7 +57,6 @@ export function AppSidebar({ usage, account, admin, collapsible = true, classNam
         <SidebarPanel
           key={section.id}
           section={section}
-          extra={admin}
           footer={
             <>
               {usage}

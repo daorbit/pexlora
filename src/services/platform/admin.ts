@@ -1,7 +1,9 @@
 import "server-only";
+import { revalidateTag } from "next/cache";
 import { AI_DAILY_LIMITS, DAILY_LIMITS } from "@/config/limits";
 import { PRO_LIMITS } from "@/config/plans";
 import { ADMIN_REVIEW_FILTERS, type AdminReviewFilter } from "@/config/reviews";
+import { SOCIAL_PROOF_TAG } from "@/config/social-proof";
 import { ApiError } from "@/lib/api/errors";
 import { hasProPerks } from "@/lib/auth/roles";
 import { perksFor } from "@/lib/plan/perks";
@@ -103,7 +105,7 @@ export async function removeUser(id: string) {
 }
 
 function reviewFilter(value: string | null): AdminReviewFilter {
-  return ADMIN_REVIEW_FILTERS.find((filter) => filter === value) ?? "pending";
+  return ADMIN_REVIEW_FILTERS.find((filter) => filter === value) ?? "all";
 }
 
 export async function reviewsPage(url: URL) {
@@ -116,5 +118,6 @@ export async function moderate(body: Body) {
   const intent = reviewIntentSchema.safeParse(body.intent);
   if (!ids.success || !intent.success) throw new ApiError("choose reviews and publish, hide or delete");
   const changed = await moderateReviews(ids.data, intent.data);
+  if (changed) revalidateTag(SOCIAL_PROOF_TAG, { expire: 0 });
   return { changed, intent: intent.data };
 }

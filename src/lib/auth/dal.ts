@@ -1,6 +1,6 @@
 import "server-only";
 import { cache } from "react";
-import { notFound, redirect } from "next/navigation";
+import { redirect } from "next/navigation";
 import type { UserRole } from "@/config/roles";
 import { routes } from "@/config/site";
 import { effectiveLimits, effectiveRole, type UserLimits } from "@/lib/auth/roles";
@@ -51,10 +51,4 @@ export async function requireUser(): Promise<CurrentUser> {
 export async function getSuperAdmin() {
   const user = await getCurrentUser();
   return user?.role === "super_admin" ? user : null;
-}
-
-export async function requireSuperAdmin(): Promise<CurrentUser> {
-  const user = await requireUser();
-  if (user.role !== "super_admin") notFound();
-  return user;
 }

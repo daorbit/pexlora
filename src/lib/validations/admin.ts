@@ -19,13 +19,3 @@ const optionalLimit = z
 export const roleSchema = z.object({ role: z.enum(USER_ROLES) });
 
 export const limitsSchema = z.object({ files: optionalLimit, ai: optionalLimit });
-
-export type LimitsField = "files" | "ai";
-
-export type AdminFormState =
-  | {
-      status: "success" | "error";
-      message?: string;
-      errors?: Partial<Record<LimitsField, string[]>>;
-    }
-  | undefined;
