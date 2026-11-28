@@ -1,11 +1,16 @@
 import "server-only";
+import { AI_DAILY_LIMITS, DAILY_LIMITS } from "@/config/limits";
+import { PRO_LIMITS } from "@/config/plans";
 import { ADMIN_REVIEW_FILTERS, type AdminReviewFilter } from "@/config/reviews";
 import { ApiError } from "@/lib/api/errors";
+import { hasProPerks } from "@/lib/auth/roles";
+import { perksFor } from "@/lib/plan/perks";
 import { limitsSchema, roleSchema } from "@/lib/validations/admin";
 import { reviewIdsSchema, reviewIntentSchema } from "@/lib/validations/reviews";
 import {
   deleteUserAccount,
   getAdminUser,
+  listAdminPurchases,
   listAdminUsers,
   resetUserUsageToday,
   setUserLimits,
@@ -38,6 +43,17 @@ function lockedOwner(user: AdminUser, what: string) {
 
 export async function adminUsersPage(url: URL) {
   return listAdminUsers({ query: (url.searchParams.get("q") ?? "").slice(0, 100), page: pageOf(url) });
+}
+
+export async function adminUserProfile(id: string) {
+  const user = await target(id);
+  const purchases = await listAdminPurchases(id);
+  return {
+    user,
+    purchases,
+    perks: perksFor(hasProPerks(user)),
+    defaults: { free: { files: DAILY_LIMITS.user, ai: AI_DAILY_LIMITS.user }, pro: PRO_LIMITS },
+  };
 }
 
 export async function changeUserRole(id: string, body: Body) {
